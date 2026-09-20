@@ -5,12 +5,15 @@ body {
 }
 
 #hero {
-    min-height: 55vh;
+    min-height: 50vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     text-align: center;
+
     padding: 20px;
 }
 
@@ -104,21 +107,70 @@ body {
 #story-section h2 {
     color: #0B5D1E;
     font-size: 36px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 #story-container {
     max-width: 800px;
     margin: auto;
+    position: relative;
 }
 
-.story-item {
+.timeline-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.timeline-content {
     background: white;
-    padding: 30px;
-    margin-bottom: 20px;
+
+    width: 450px;
+
+    padding: 25px;
+
     border-radius: 15px;
+
     box-shadow: 0 0 15px rgba(0,0,0,0.05);
-	transition: 0.3s;
+
+    transition: .3s;
+}
+
+.timeline-content:hover {
+    transform: translateY(-3px);
+}
+
+.timeline-dot {
+    position: absolute;
+
+    left: 50%;
+    top: -5px;
+
+    transform: translateX(-50%);
+
+    width: 16px;
+    height: 16px;
+
+    border-radius: 50%;
+
+    background: #0B5D1E;
+
+    z-index: 2;
+}
+
+.timeline-line {
+    position: absolute;
+
+    left: 50%;
+    top: 12px;
+
+    transform: translateX(-50%);
+
+    width: 3px;
+    height: 70px;
+
+    background: #0B5D1E;
 }
 
 .story-year {
@@ -128,10 +180,22 @@ body {
 }
 
 .story-title {
-    margin-top: 8px;
+    margin-top: 10px;
     font-size: 18px;
 }
 
-.story-item:hover {
-    transform: translateY(-3px);
+@media (max-width: 768px) {
+
+    #couple {
+        font-size: 2.2rem;
+    }
+
+    #countdown {
+        font-size: 22px;
+    }
+
+    .timeline-content {
+        width: 100%;
+    }
+
 }

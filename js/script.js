@@ -10,8 +10,28 @@ fetch(API_URL)
         document.getElementById("couple").innerText =
             `${data.GroomName} & ${data.BrideName}`;
 
+        const parts = data.EventDate.split("/");
+
+        const bulan = [
+            "Januari",
+            "Februari",
+            "Mac",
+            "April",
+            "Mei",
+            "Jun",
+            "Julai",
+            "Ogos",
+            "September",
+            "Oktober",
+            "November",
+            "Disember"
+        ];
+
+        const formattedDate =
+            `${parts[0]} ${bulan[parseInt(parts[1]) - 1]} ${parts[2]}`;
+
         document.getElementById("eventDate").innerText =
-            data.EventDate;
+            formattedDate;
 
         document.getElementById("venue").innerText =
             data.Venue;
@@ -51,7 +71,6 @@ fetch(API_URL)
                 `${days} Hari ${hours} Jam ${minutes} Minit ${seconds} Saat`;
 
             serverTime += 1000;
-
         }
 
         updateCountdown();
@@ -59,7 +78,7 @@ fetch(API_URL)
         setInterval(updateCountdown, 1000);
 
         document.getElementById("eventDateDetail").innerText =
-            data.EventDate;
+            formattedDate;
 
         document.getElementById("eventTime").innerText =
             data.EventTime;
@@ -82,17 +101,30 @@ fetch(API_URL + "?action=story")
         const container =
             document.getElementById("story-container");
 
-        stories.forEach(story => {
+        container.innerHTML = "";
+
+        stories.forEach((story, index) => {
 
             container.innerHTML += `
-                <div class="story-item">
+                <div class="timeline-item">
 
-                    <div class="story-year">
-                        ${story.year}
-                    </div>
+                    <div class="timeline-dot"></div>
 
-                    <div class="story-title">
-                        ${story.title}
+                    ${index !== stories.length - 1
+                        ? '<div class="timeline-line"></div>'
+                        : ''
+                    }
+
+                    <div class="timeline-content">
+
+                        <div class="story-year">
+                            ${story.year}
+                        </div>
+
+                        <div class="story-title">
+                            ${story.title}
+                        </div>
+
                     </div>
 
                 </div>
