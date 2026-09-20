@@ -100,3 +100,29 @@ const formattedDate =
     .catch(error => {
         console.error(error);
     });
+	
+fetch(API_URL + "?action=story")
+    .then(response => response.json())
+    .then(stories => {
+
+        const container =
+            document.getElementById("story-container");
+
+        stories.forEach(story => {
+
+            container.innerHTML += `
+                <div class="story-item">
+
+                    <div class="story-year">
+                        ${story.year}
+                    </div>
+
+                    <div class="story-title">
+                        ${story.title}
+                    </div>
+                </div>`;
+		});
+    })
+    .catch(error => {
+        console.error(error);
+    });

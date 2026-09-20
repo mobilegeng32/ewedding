@@ -24,7 +24,7 @@ body {
 
 #couple {
     color: #0B5D1E;
-    font-size: 60px;
+    font-size: 3rem;
     margin: 0;
 }
 
@@ -97,4 +97,41 @@ body {
 
     text-decoration: none;
     border-radius: 10px;
+}
+
+#story-section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+#story-section h2 {
+    color: #0B5D1E;
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+#story-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.story-item {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+.story-year {
+    color: #0B5D1E;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.story-title {
+    margin-top: 8px;
+    font-size: 18px;
 }
