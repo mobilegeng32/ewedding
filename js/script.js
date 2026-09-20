@@ -12,6 +12,9 @@ fetch(API_URL)
 
         document.getElementById("eventDate").innerText =
             data.EventDate;
+			
+		document.getElementById("welcome").innerText =
+		data.WelcomeText;
 
     })
     .catch(error => {
