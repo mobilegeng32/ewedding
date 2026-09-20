@@ -15,6 +15,44 @@ fetch(API_URL)
 
         document.getElementById("venue").innerText =
             data.Venue;
+			
+const targetTime = new Date(data.CountdownDate).getTime();
+
+	let serverTime = new Date(data.ServerTime).getTime();
+
+	function updateCountdown() {
+
+		const diff = targetTime - serverTime;
+
+		const days =
+			Math.floor(diff / (1000 * 60 * 60 * 24));
+
+		const hours =
+			Math.floor(
+				(diff % (1000 * 60 * 60 * 24))
+				/ (1000 * 60 * 60)
+			);
+
+		const minutes =
+			Math.floor(
+				(diff % (1000 * 60 * 60))
+				/ (1000 * 60)
+			);
+
+		const seconds =
+			Math.floor(
+				(diff % (1000 * 60))
+				/ 1000
+			);
+
+		document.getElementById("countdown").innerText = `${days} Hari ${hours} Jam ${minutes} Minit ${seconds} Saat`;
+
+		serverTime += 1000;
+	}
+
+	updateCountdown();
+
+	setInterval(updateCountdown, 1000);
 
     })
     .catch(error => {

@@ -44,3 +44,10 @@ body {
     margin-top: 10px;
     font-size: 18px;
 }
+
+#countdown {
+    margin-top: 40px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #0B5D1E;
+}
