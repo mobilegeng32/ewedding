@@ -108,13 +108,6 @@ body {
     position: relative;
 }
 
-.timeline-item {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 60px;
-}
-
 .timeline-content {
     background: white;
     width: 450px;
@@ -125,31 +118,48 @@ body {
 	text-align: center;
 }
 
-.timeline-content:hover {
-    transform: translateY(-3px);
+.timeline-item {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    padding-left: 60px;
 }
 
-.timeline-dot {
+.timeline-item::before {
+    content: "";
     position: absolute;
-    left: 50%;
-    top: -10px;
-    transform: translateX(-50%);
-    width: 16px;
-    height: 16px;
+    left: 20px;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: #0B5D1E;
+}
+
+.timeline-item:last-child::before {
+    height: 40px;
+}
+
+.timeline-item::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #0B5D1E;
-    z-index: 2;
 }
 
-.timeline-line {
-    position: absolute;
-    left: 50%;
-    top: 12px;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 100px;
-    background: #0B5D1E;
-    z-index: 1;
+.timeline-content {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,.05);
+    text-align: left;
+}
+
+.timeline-content:hover {
+    transform: translateY(-3px);
 }
 
 .story-year {
