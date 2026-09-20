@@ -109,7 +109,7 @@ fetch(API_URL + "?action=story")
             container.innerHTML += `
                 <div class="timeline-item">
                     <div class="timeline-year">${story.year}</div>
-                    <div class="timeline-center">
+                    <div class="timeline-center collapsed">
                         <div class="timeline-dot"></div>
                     </div>
                     <div class="timeline-content">
@@ -140,14 +140,19 @@ function toggleStory(index) {
     const arrow =
         document.getElementById(`arrow-${index}`);
 
+    const center =
+        document.querySelectorAll(".timeline-center")[index];
+
     if (body.classList.contains("open")) {
 
         body.classList.remove("open");
+
         arrow.innerHTML = "▼";
 
     } else {
 
         body.classList.add("open");
+
         arrow.innerHTML = "▲";
 
     }
