@@ -6,14 +6,11 @@ body {
 
 #hero {
     min-height: 50vh;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     text-align: center;
-
     padding: 20px;
 }
 
@@ -65,11 +62,9 @@ body {
 .event-card {
     max-width: 800px;
     margin: auto;
-
     background: white;
     padding: 40px;
     border-radius: 20px;
-
     box-shadow: 0 0 20px rgba(0,0,0,0.08);
 }
 
@@ -88,13 +83,10 @@ body {
 
 #mapsButton {
     display: inline-block;
-
     margin-top: 20px;
     padding: 12px 24px;
-
     background: #0B5D1E;
     color: white;
-
     text-decoration: none;
     border-radius: 10px;
 }
@@ -120,21 +112,17 @@ body {
     position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
 }
 
 .timeline-content {
     background: white;
-
     width: 450px;
-
     padding: 25px;
-
     border-radius: 15px;
-
     box-shadow: 0 0 15px rgba(0,0,0,0.05);
-
     transition: .3s;
+	text-align: center;
 }
 
 .timeline-content:hover {
@@ -143,34 +131,25 @@ body {
 
 .timeline-dot {
     position: absolute;
-
     left: 50%;
-    top: -5px;
-
+    top: -10px;
     transform: translateX(-50%);
-
     width: 16px;
     height: 16px;
-
     border-radius: 50%;
-
     background: #0B5D1E;
-
     z-index: 2;
 }
 
 .timeline-line {
     position: absolute;
-
     left: 50%;
     top: 12px;
-
     transform: translateX(-50%);
-
     width: 3px;
-    height: 70px;
-
+    height: 100px;
     background: #0B5D1E;
+    z-index: 1;
 }
 
 .story-year {
