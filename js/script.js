@@ -71,6 +71,7 @@ fetch(API_URL)
                 `${days} Hari ${hours} Jam ${minutes} Minit ${seconds} Saat`;
 
             serverTime += 1000;
+
         }
 
         updateCountdown();
@@ -103,7 +104,7 @@ fetch(API_URL + "?action=story")
 
         container.innerHTML = "";
 
-        stories.forEach(story => {
+        stories.forEach((story, index) => {
 
             container.innerHTML += `
                 <div class="timeline-item">
@@ -118,12 +119,29 @@ fetch(API_URL + "?action=story")
 
                     <div class="timeline-content">
 
-                        <div class="story-year">
-                            ${story.title}
+                        <div class="story-header"
+                             onclick="toggleStory(${index})">
+
+                            <div class="story-year">
+                                ${story.title}
+                            </div>
+
+                            <div class="story-arrow"
+                                 id="arrow-${index}">
+                                ▼
+                            </div>
+
                         </div>
 
-                        <div class="story-description">
-                            ${story.description}
+                        <div class="story-body"
+                             id="story-${index}">
+
+                            <div class="story-description">
+                                ${story.description}
+                            </div>
+
+                            ${story.imageUrl}
+
                         </div>
 
                     </div>
@@ -137,3 +155,25 @@ fetch(API_URL + "?action=story")
     .catch(error => {
         console.error(error);
     });
+
+function toggleStory(index) {
+
+    const body =
+        document.getElementById(`story-${index}`);
+
+    const arrow =
+        document.getElementById(`arrow-${index}`);
+
+    if (body.classList.contains("open")) {
+
+        body.classList.remove("open");
+        arrow.innerHTML = "▼";
+
+    } else {
+
+        body.classList.add("open");
+        arrow.innerHTML = "▲";
+
+    }
+
+}
