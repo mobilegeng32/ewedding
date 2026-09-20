@@ -108,46 +108,22 @@ fetch(API_URL + "?action=story")
 
             container.innerHTML += `
                 <div class="timeline-item">
-
-                    <div class="timeline-year">
-                        ${story.year}
-                    </div>
-
+                    <div class="timeline-year">${story.year}</div>
                     <div class="timeline-center">
                         <div class="timeline-dot"></div>
                     </div>
-
                     <div class="timeline-content">
-
-                        <div class="story-header"
-                             onclick="toggleStory(${index})">
-
-                            <div class="story-year">
-                                ${story.title}
-                            </div>
-
-                            <div class="story-arrow"
-                                 id="arrow-${index}">
-                                ▼
-                            </div>
-
+                        <div class="story-header" onclick="toggleStory(${index})">
+                            <div class="story-year">${story.title}</div>
+                            <div class="story-arrow" id="arrow-${index}">▼</div>
                         </div>
 
-                        <div class="story-body"
-                             id="story-${index}">
-
-                            <div class="story-description">
-                                ${story.description}
-                            </div>
-
-                            ${story.imageUrl}
-
+                        <div class="story-body" id="story-${index}">
+                            <div class="story-description">${story.description}</div>
+                            <img src="${story.imageUrl}" alt="${story.title}" class="story-image">
                         </div>
-
                     </div>
-
-                </div>
-            `;
+                </div>`;
 
         });
 
