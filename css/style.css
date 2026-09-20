@@ -110,7 +110,7 @@ body {
 .timeline-item {
     display: grid;
     grid-template-columns: 120px 80px 1fr;
-    align-items: center;
+    align-items: start;
     margin-bottom: 40px;
 }
 
@@ -127,6 +127,8 @@ body {
     height: 100%;
     display: flex;
     justify-content: center;
+	align-items: flex-start;
+	padding-top: 8px;
 }
 
 .timeline-center::after {
