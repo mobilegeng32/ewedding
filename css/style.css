@@ -199,10 +199,10 @@ body {
 
 .story-image {
     width: 100%;
-    height: 350px;
-    object-fit: cover;
+    height: auto;
     margin-top: 20px;
     border-radius: 15px;
+    display: block;
 }
 
 @media (max-width: 768px) {
