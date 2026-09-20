@@ -15,92 +15,66 @@ fetch(API_URL)
 
         document.getElementById("venue").innerText =
             data.Venue;
-			
-const targetTime = new Date(data.CountdownDate).getTime();
 
-	let serverTime = new Date(data.ServerTime).getTime();
+        const targetTime =
+            new Date(data.CountdownDate).getTime();
 
-	function updateCountdown() {
+        let serverTime =
+            new Date(data.ServerTime).getTime();
 
-		const diff = targetTime - serverTime;
+        function updateCountdown() {
 
-		const days =
-			Math.floor(diff / (1000 * 60 * 60 * 24));
+            const diff = targetTime - serverTime;
 
-		const hours =
-			Math.floor(
-				(diff % (1000 * 60 * 60 * 24))
-				/ (1000 * 60 * 60)
-			);
+            const days =
+                Math.floor(diff / (1000 * 60 * 60 * 24));
 
-		const minutes =
-			Math.floor(
-				(diff % (1000 * 60 * 60))
-				/ (1000 * 60)
-			);
+            const hours =
+                Math.floor(
+                    (diff % (1000 * 60 * 60 * 24))
+                    / (1000 * 60 * 60)
+                );
 
-		const seconds =
-			Math.floor(
-				(diff % (1000 * 60))
-				/ 1000
-			);
+            const minutes =
+                Math.floor(
+                    (diff % (1000 * 60 * 60))
+                    / (1000 * 60)
+                );
 
-		document.getElementById("countdown").innerText = `${days} Hari ${hours} Jam ${minutes} Minit ${seconds} Saat`;
+            const seconds =
+                Math.floor(
+                    (diff % (1000 * 60))
+                    / 1000
+                );
 
-		serverTime += 1000;
-	}
+            document.getElementById("countdown").innerText =
+                `${days} Hari ${hours} Jam ${minutes} Minit ${seconds} Saat`;
 
-	updateCountdown();
+            serverTime += 1000;
 
-	setInterval(updateCountdown, 1000);
-
-
-		document.getElementById("eventDateDetail").innerText =
-			data.EventDate;
-
-		document.getElementById("eventTime").innerText =
-			data.EventTime;
-
-		document.getElementById("eventVenue").innerText =
-			data.Venue;
-
-		document.getElementById("mapsButton").href =
-			data.MapsLink;
-			
-const eventDate = new Date(data.EventDate);
-
-	document.getElementById("eventDate").innerText =
-		eventDate.toLocaleDateString(
-			"en-GB",
-			{
-				day: "numeric",
-				month: "long",
-				year: "numeric"
-			}
-		);
-	
-const formattedDate =
-    new Date(data.EventDate)
-    .toLocaleDateString(
-        "en-GB",
-        {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
         }
-    );
 
-	document.getElementById("eventDate").innerText =
-		formattedDate;
+        updateCountdown();
 
-	document.getElementById("eventDateDetail").innerText =
-		formattedDate;	
+        setInterval(updateCountdown, 1000);
+
+        document.getElementById("eventDateDetail").innerText =
+            data.EventDate;
+
+        document.getElementById("eventTime").innerText =
+            data.EventTime;
+
+        document.getElementById("eventVenue").innerText =
+            data.Venue;
+
+        document.getElementById("mapsButton").href =
+            data.MapsLink;
 
     })
     .catch(error => {
         console.error(error);
     });
-	
+
 fetch(API_URL + "?action=story")
     .then(response => response.json())
     .then(stories => {
@@ -120,8 +94,12 @@ fetch(API_URL + "?action=story")
                     <div class="story-title">
                         ${story.title}
                     </div>
-                </div>`;
-		});
+
+                </div>
+            `;
+
+        });
+
     })
     .catch(error => {
         console.error(error);
