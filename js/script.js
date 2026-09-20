@@ -154,4 +154,15 @@ function toggleStory(index) {
     });
 
     allArrows.forEach(arrow => {
-  
+        arrow.innerHTML = "▼";
+    });
+
+    if (!isOpen) {
+
+        currentBody.classList.add("open");
+
+        currentArrow.innerHTML = "▲";
+
+    }
+
+}
