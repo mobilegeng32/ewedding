@@ -79,6 +79,23 @@ const eventDate = new Date(data.EventDate);
 			}
 		);
 	
+const formattedDate =
+    new Date(data.EventDate)
+    .toLocaleDateString(
+        "en-GB",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+	document.getElementById("eventDate").innerText =
+		formattedDate;
+
+	document.getElementById("eventDateDetail").innerText =
+		formattedDate;	
+
     })
     .catch(error => {
         console.error(error);
