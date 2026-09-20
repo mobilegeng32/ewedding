@@ -5,15 +5,12 @@ body {
 }
 
 #hero {
-    min-height: 70vh;
-
+    min-height: 55vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     text-align: center;
-
     padding: 20px;
 }
 
@@ -46,7 +43,7 @@ body {
 }
 
 #countdown {
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 28px;
     font-weight: bold;
     color: #0B5D1E;
@@ -117,12 +114,11 @@ body {
 
 .story-item {
     background: white;
-    padding: 25px;
+    padding: 30px;
     margin-bottom: 20px;
-
     border-radius: 15px;
-
     box-shadow: 0 0 15px rgba(0,0,0,0.05);
+	transition: 0.3s;
 }
 
 .story-year {
@@ -134,4 +130,8 @@ body {
 .story-title {
     margin-top: 8px;
     font-size: 18px;
+}
+
+.story-item:hover {
+    transform: translateY(-3px);
 }
