@@ -134,27 +134,24 @@ fetch(API_URL + "?action=story")
 
 function toggleStory(index) {
 
-    const body =
+    const allBodies =
+        document.querySelectorAll(".story-body");
+
+    const allArrows =
+        document.querySelectorAll(".story-arrow");
+
+    const currentBody =
         document.getElementById(`story-${index}`);
 
-    const arrow =
+    const currentArrow =
         document.getElementById(`arrow-${index}`);
 
-    const center =
-        document.querySelectorAll(".timeline-center")[index];
+    const isOpen =
+        currentBody.classList.contains("open");
 
-    if (body.classList.contains("open")) {
-
+    allBodies.forEach(body => {
         body.classList.remove("open");
+    });
 
-        arrow.innerHTML = "▼";
-
-    } else {
-
-        body.classList.add("open");
-
-        arrow.innerHTML = "▲";
-
-    }
-
-}
+    allArrows.forEach(arrow => {
+  
