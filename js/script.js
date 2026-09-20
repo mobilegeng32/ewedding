@@ -4,17 +4,17 @@ fetch(API_URL)
     .then(response => response.json())
     .then(data => {
 
+        document.getElementById("welcome").innerText =
+            data.WelcomeText;
+
         document.getElementById("couple").innerText =
             `${data.GroomName} & ${data.BrideName}`;
 
-        document.getElementById("venue").innerText =
-            data.Venue;
-
         document.getElementById("eventDate").innerText =
             data.EventDate;
-			
-		document.getElementById("welcome").innerText =
-		data.WelcomeText;
+
+        document.getElementById("venue").innerText =
+            data.Venue;
 
     })
     .catch(error => {
