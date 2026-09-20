@@ -103,15 +103,36 @@ fetch(API_URL + "?action=story")
 
         container.innerHTML = "";
 
-        stories.forEach((story, index) => {
+        stories.forEach(story => {
 
             container.innerHTML += `
-			<div class="timeline-item">
-			<div class="timeline-content">
-            <div class="story-year">
-			${story.year}
-            </div>`;
+                <div class="timeline-item">
+
+                    <div class="timeline-year">
+                        ${story.year}
+                    </div>
+
+                    <div class="timeline-center">
+                        <div class="timeline-dot"></div>
+                    </div>
+
+                    <div class="timeline-content">
+
+                        <div class="story-year">
+                            ${story.title}
+                        </div>
+
+                        <div class="story-description">
+                            ${story.description}
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
         });
+
     })
     .catch(error => {
         console.error(error);
