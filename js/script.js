@@ -66,6 +66,19 @@ const targetTime = new Date(data.CountdownDate).getTime();
 
 		document.getElementById("mapsButton").href =
 			data.MapsLink;
+			
+const eventDate = new Date(data.EventDate);
+
+	document.getElementById("eventDate").innerText =
+		eventDate.toLocaleDateString(
+			"en-GB",
+			{
+				day: "numeric",
+				month: "long",
+				year: "numeric"
+			}
+		);
+	
     })
     .catch(error => {
         console.error(error);
