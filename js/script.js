@@ -54,6 +54,18 @@ const targetTime = new Date(data.CountdownDate).getTime();
 
 	setInterval(updateCountdown, 1000);
 
+
+		document.getElementById("eventDateDetail").innerText =
+			data.EventDate;
+
+		document.getElementById("eventTime").innerText =
+			data.EventTime;
+
+		document.getElementById("eventVenue").innerText =
+			data.Venue;
+
+		document.getElementById("mapsButton").href =
+			data.MapsLink;
     })
     .catch(error => {
         console.error(error);
