@@ -263,7 +263,6 @@ END:VCALENDAR`;
       slideImg.style.opacity = '1';
     }, 200);
 
-    // Transisi automatik setiap 10 saat
     slideTimer = setTimeout(() => {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
       renderSlide();
@@ -296,14 +295,12 @@ END:VCALENDAR`;
           const img = new Image();
           img.src = e.target.result;
           img.onload = function() {
-            // Mengambil ukuran piksel asal sepenuhnya tanpa had maksimum atau pengecilan
             const canvas = document.createElement('canvas');
             canvas.width = img.width;
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0);
 
-            // Kualiti imej ditetapkan kepada 100% (1.0)
             const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);
             const base64String = originalDataUrl.split(',')[1];
 
@@ -342,9 +339,9 @@ END:VCALENDAR`;
 
 
   /* -------------------------------------------------------------
-     7. Wish Board / Buku Hajat (Local UI Simulation)
+     7. Wish Board / Buku Hajat (Real-Time Google Sheets Integration)
   ------------------------------------------------------------- */
-  const wishesList = [
+  let defaultWishes = [
     {
       name: "Farhan & Amira",
       message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
@@ -352,10 +349,12 @@ END:VCALENDAR`;
     }
   ];
 
+  let isUsingWishFallback = false;
+
   function renderWishes() {
     const container = document.getElementById('wishes-container');
     if (!container) return;
-    container.innerHTML = wishesList.map(w => `
+    container.innerHTML = defaultWishes.map(w => `
       <div class="glass-card rounded-2xl p-5 border border-purpleTheme-100 shadow-sm space-y-2">
         <div class="flex items-center justify-between">
           <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
@@ -366,27 +365,86 @@ END:VCALENDAR`;
     `).join('');
   }
 
+  function fetchWishes(isBackgroundCheck = false) {
+    if (!SCRIPT_URL.includes('http')) return;
+
+    fetch(`${SCRIPT_URL}?action=wishes`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          const newWishes = data.map(item => ({
+            name: item.name,
+            message: item.message,
+            time: "Baru sahaja"
+          })).reverse(); // Paparkan ucapan terkini di atas
+
+          if (JSON.stringify(newWishes) !== JSON.stringify(defaultWishes)) {
+            defaultWishes = newWishes;
+            isUsingWishFallback = false;
+            if (!isBackgroundCheck) {
+              renderWishes();
+            }
+          }
+        } else {
+          if (!isUsingWishFallback) {
+            isUsingWishFallback = true;
+            renderWishes();
+          }
+        }
+      })
+      .catch(err => console.log("Gagal memuat ucapan:", err));
+  }
+
   const wishForm = document.getElementById('wish-form');
   if (wishForm) {
     wishForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const nameInput = document.getElementById('wish-name');
       const msgInput = document.getElementById('wish-message');
+      const submitBtn = wishForm.querySelector('button[type="submit"]');
 
       if (nameInput.value && msgInput.value) {
-        wishesList.unshift({
-          name: nameInput.value,
-          message: msgInput.value,
-          time: "Baru sahaja"
+        if (submitBtn) {
+          submitBtn.innerText = "Sedang Hantar...";
+          submitBtn.disabled = true;
+        }
+
+        const formData = new URLSearchParams();
+        formData.append('action', 'wishes');
+        formData.append('name', nameInput.value);
+        formData.append('message', msgInput.value);
+
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          nameInput.value = '';
+          msgInput.value = '';
+          if (submitBtn) {
+            submitBtn.innerText = "Hantar Ucapan";
+            submitBtn.disabled = false;
+          }
+          fetchWishes(); // Terus tarik senarai ucapan terkini
+        })
+        .catch(error => {
+          console.error('Wish Error:', error);
+          alert('Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.');
+          if (submitBtn) {
+            submitBtn.innerText = "Hantar Ucapan";
+            submitBtn.disabled = false;
+          }
         });
-        renderWishes();
-        nameInput.value = '';
-        msgInput.value = '';
       }
     });
   }
 
-  renderWishes();
+  // Muat turun data awal ucapan & semak latar belakang setiap 10 saat
+  fetchWishes();
+  setInterval(() => {
+    fetchWishes(true);
+  }, 10000);
   
 
   /* -------------------------------------------------------------
@@ -414,7 +472,6 @@ END:VCALENDAR`;
       if (slideImg && slideImg.src) {
         let rawUrl = slideImg.src;
 
-        // Memaksa Google Drive memaparkan saiz penuh asal (=s0) ketika preview
         if (rawUrl.includes('googleusercontent.com')) {
           rawUrl = rawUrl.split('=')[0] + '=s0';
         }
