@@ -339,7 +339,7 @@ END:VCALENDAR`;
 
 
 	/* -------------------------------------------------------------
-		 7. Wish Board / Buku Hajat (Real-Time Immediate Google Sheets Integration)
+		 7. Wish Board / Buku Hajat (Single Card Real-Time Integration)
 	  ------------------------------------------------------------- */
 	  let defaultWishes = [
 		{
@@ -354,13 +354,14 @@ END:VCALENDAR`;
 	  function renderWishes() {
 		const container = document.getElementById('wishes-container');
 		if (!container) return;
+		
 		container.innerHTML = defaultWishes.map(w => `
-		  <div class="glass-card rounded-2xl p-5 border border-purpleTheme-100 shadow-sm space-y-2">
-			<div class="flex items-center justify-between">
-			  <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
+		  <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-purpleTheme-100 shadow-sm space-y-1.5 transition-all">
+			<div class="flex items-center justify-between border-b border-purpleTheme-50 pb-1.5">
+			  <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${w.name}</h4>
 			  <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
 			</div>
-			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light whitespace-pre-line break-all">${w.message}</p>
+			<p class="text-xs sm:text-sm text-purpleTheme-800/90 leading-relaxed font-light whitespace-pre-line break-all">${w.message}</p>
 		  </div>
 		`).join('');
 	  }
@@ -384,7 +385,7 @@ END:VCALENDAR`;
 			  if (JSON.stringify(newWishesSimple) !== JSON.stringify(oldWishesSimple)) {
 				defaultWishes = newWishes;
 				isUsingWishFallback = false;
-				renderWishes(); // Kemas kini paparan serta-merta apabila ada perubahan dikesan
+				renderWishes();
 			  }
 			} else {
 			  if (!isUsingWishFallback && !isBackgroundCheck) {
@@ -430,7 +431,6 @@ END:VCALENDAR`;
 			  
 			  alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");
 			  
-			  // Terus tarik data baharu dengan serta-merta selepas hantar
 			  fetchWishes();
 			})
 			.catch(error => {
@@ -445,12 +445,11 @@ END:VCALENDAR`;
 		});
 	  }
 
-	  // Tarik data awal & semak latar belakang setiap 3 saat untuk kesan real-time yang pantas merentas peranti
 	  fetchWishes();
 	  setInterval(() => {
 		fetchWishes(true);
 	  }, 3000);
-
+  
   /* -------------------------------------------------------------
      8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
   ------------------------------------------------------------- */

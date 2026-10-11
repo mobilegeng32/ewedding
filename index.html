@@ -331,32 +331,43 @@
     </div>
   </section>
 
-  <!-- BUKU HAJAT / UCAPAN -->
-  <section class="py-16 px-6 max-w-4xl mx-auto space-y-10">
-    <div class="text-center space-y-2">
-      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Buku Hajat</span>
-      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Ucapan &amp; Doa Restu</h2>
-      <div class="w-12 h-[1px] bg-butter-400 mx-auto"></div>
-    </div>
+	<!-- SECTION BUKU HAJAT (KAD TUNGGAL / SINGLE CARD) -->
+	<section id="wishes-section" class="py-12 px-4 max-w-2xl mx-auto">
+	  <div class="text-center mb-6">
+		<span class="text-xs font-semibold tracking-widest text-purpleTheme-700 uppercase">BUKU HAJAT</span>
+		<h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 mt-1">Ucapan & Doa Restu</h2>
+		<div class="w-12 h-0.5 bg-purpleTheme-300 mx-auto mt-2"></div>
+	  </div>
 
-    <div class="glass-card rounded-3xl p-6 sm:p-8 custom-shadow border border-purpleTheme-100">
-      <form id="wish-form" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Anda</label>
-          <input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" class="w-full px-4 py-2.5 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Titipkan Ucapan &amp; Doa</label>
-          <textarea id="wish-message" required rows="3" placeholder="Tuliskan ucapan tahniah dan doa buat pengantin..." class="w-full px-4 py-2.5 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30"></textarea>
-        </div>
-        <button type="submit" class="bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 px-6 py-3 rounded-xl text-xs uppercase tracking-wider font-semibold smooth-transition shadow">
-          Hantar Ucapan
-        </button>
-      </form>
-    </div>
+	  <!-- KAD UTAMA TUNGGAL (MENAMPUNG BORANG + SENARAI UCAPAN) -->
+	  <div class="glass-card rounded-3xl p-6 sm:p-8 border border-purpleTheme-100 shadow-xl space-y-6">
+		
+		<!-- BAHAGIAN 1: BORANG HANTAR UCAPAN -->
+		<form id="wish-form" class="space-y-4 pb-6 border-b border-purpleTheme-100">
+		  <div>
+			<label for="wish-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Nama Anda</label>
+			<input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" 
+				   class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/70">
+		  </div>
 
-    <div id="wishes-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
-  </section>
+		  <div>
+			<label for="wish-message" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Titipkan Ucapan & Doa</label>
+			<textarea id="wish-message" required rows="3" placeholder="Tuliskan ucapan tahniah dan doa buat pengantin..." 
+					  class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/70 resize-y"></textarea>
+		  </div>
+
+		  <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-purpleTheme-900 text-white font-medium rounded-xl text-sm shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">
+			HANTAR UCAPAN
+		  </button>
+		</form>
+
+		<!-- BAHAGIAN 2: SENARAI UCAPAN TETAMU (BOLEH SCROLL DALAM KAD YANG SAMA) -->
+		<div id="wishes-container" class="max-h-[350px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
+		  <!-- Ucapan real-time akan dimasukkan ke sini secara dinamik -->
+		</div>
+
+	  </div>
+	</section>
 
   <!-- FOOTER -->
   <footer class="py-12 px-6 text-center border-t border-purpleTheme-100 bg-butter-50">
@@ -366,7 +377,7 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v1.0.10
+        Officially Made By Arejim's &copy; 2026 v1.0.11
       </p>
     </div>
   </footer>
