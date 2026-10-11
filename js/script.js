@@ -339,17 +339,41 @@ END:VCALENDAR`;
 
 
 	/* -------------------------------------------------------------
-		 7. Wish Board / Buku Hajat (Single Card Real-Time Integration)
+		 7. Wish Board / Buku Hajat (Real-Time Live Timestamp Calculation)
 	  ------------------------------------------------------------- */
 	  let defaultWishes = [
 		{
 		  name: "Farhan & Amira",
 		  message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
-		  time: "Baru sahaja"
+		  timestamp: new Date().toISOString()
 		}
 	  ];
 
 	  let isUsingWishFallback = false;
+
+	  // Fungsi pengiraan masa hidup (live relative time) berdasarkan timestamp sebenar
+	  function getRelativeTime(timestamp) {
+		if (!timestamp) return "Baru sahaja";
+		const date = new Date(timestamp);
+		if (isNaN(date.getTime())) return "Baru sahaja";
+
+		const now = new Date();
+		const diffInSeconds = Math.floor((now - date) / 1000);
+
+		if (diffInSeconds < 10) return "Baru sahaja";
+		if (diffInSeconds < 60) return `${diffInSeconds} saat lalu`;
+		
+		const minutes = Math.floor(diffInSeconds / 60);
+		if (minutes < 60) return `${minutes} minit lalu`;
+		
+		const hours = Math.floor(minutes / 60);
+		if (hours < 24) return `${hours} jam lalu`;
+		
+		const days = Math.floor(hours / 24);
+		if (days < 7) return `${days} hari lalu`;
+
+		return date.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+	  }
 
 	  function renderWishes() {
 		const container = document.getElementById('wishes-container');
@@ -359,11 +383,23 @@ END:VCALENDAR`;
 		  <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-purpleTheme-100 shadow-sm space-y-1.5 transition-all">
 			<div class="flex items-center justify-between border-b border-purpleTheme-50 pb-1.5">
 			  <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${w.name}</h4>
-			  <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
+			  <!-- Masa dinamik yang dikira terus dari timestamp sebenar -->
+			  <span class="text-[10px] text-purpleTheme-700/60 font-light wish-time" data-timestamp="${w.timestamp || ''}">${getRelativeTime(w.timestamp)}</span>
 			</div>
 			<p class="text-xs sm:text-sm text-purpleTheme-800/90 leading-relaxed font-light whitespace-pre-line break-all">${w.message}</p>
 		  </div>
 		`).join('');
+	  }
+
+	  // Fungsi untuk mengemaskini paparan masa secara langsung setiap minit/saat tanpa ganggu data
+	  function updateLiveTimestamps() {
+		const timeElements = document.querySelectorAll('.wish-time');
+		timeElements.forEach(el => {
+		  const timestamp = el.getAttribute('data-timestamp');
+		  if (timestamp) {
+			el.innerText = getRelativeTime(timestamp);
+		  }
+		});
 	  }
 
 	  function fetchWishes(isBackgroundCheck = false) {
@@ -376,7 +412,7 @@ END:VCALENDAR`;
 			  const newWishes = data.map(item => ({
 				name: item.name,
 				message: item.message,
-				time: "Baru sahaja"
+				timestamp: item.timestamp // Ambil terus timestamp asal dari Sheets
 			  })).reverse();
 
 			  const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
@@ -445,10 +481,16 @@ END:VCALENDAR`;
 		});
 	  }
 
+	  // Tarik data awal & semak latar belakang setiap 3 saat
 	  fetchWishes();
 	  setInterval(() => {
 		fetchWishes(true);
 	  }, 3000);
+
+	  // Kemaskini paparan teks masa (Live Countdown/Ago) setiap 30 saat secara automatik
+	  setInterval(() => {
+		updateLiveTimestamps();
+	  }, 30000);
   
   /* -------------------------------------------------------------
      8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
