@@ -194,8 +194,8 @@ END:VCALENDAR`;
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
-      url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
-      caption: "Detik Manis Bersama (Default)"
+      url: "https://www.beauandbelladesign.co.uk/large-wedding-signs",
+      caption: "Detik Manis Bersama"
     }
   ];
 
