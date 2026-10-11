@@ -288,7 +288,12 @@ END:VCALENDAR`;
         const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
         const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
 
-        alert("Sedang memproses dan memuat naik saiz piksel asal penuh ke server... Sila tunggu sebentar.");
+        // Ganti alert prompt status muat naik dengan elemen teks status jika perlu, atau kekalkan notifikasi lembut
+        const galleryAlert = document.getElementById('gallery-alert');
+        if (galleryAlert) {
+          galleryAlert.innerText = "Sedang memproses dan memuat naik gambar resolusi penuh...";
+          galleryAlert.classList.remove('hidden');
+        }
 
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -318,12 +323,17 @@ END:VCALENDAR`;
             })
             .then(response => response.json())
             .then(data => {
-              alert("Berjaya! Gambar resolusi penuh asal anda telah disimpan.");
+              if (galleryAlert) {
+                galleryAlert.innerText = "Berjaya! Gambar resolusi penuh anda telah disimpan.";
+                setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
+              }
               fetchGalleryImages();
             })
             .catch(error => {
               console.error('Upload error:', error);
-              alert('Gagal memuat naik gambar. Sila cuba lagi.');
+              if (galleryAlert) {
+                galleryAlert.innerText = "Gagal memuat naik gambar. Sila cuba lagi.";
+              }
             });
           };
         };
@@ -339,7 +349,7 @@ END:VCALENDAR`;
 
 
   /* -------------------------------------------------------------
-     7. Wish Board / Buku Hajat (Auto Live Real-Time Timestamp Sync)
+     7. Wish Board / Buku Hajat (Optimized Real-Time Sync)
   ------------------------------------------------------------- */
   let defaultWishes = [
     {
@@ -469,13 +479,27 @@ END:VCALENDAR`;
             submitBtn.disabled = false;
           }
           
-          alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");
+          // Paparkan kotak notifikasi inline yang seragam seperti RSVP
+          const wishAlert = document.getElementById('wish-alert');
+          if (wishAlert) {
+            wishAlert.classList.remove('hidden');
+            setTimeout(() => {
+              wishAlert.classList.add('hidden');
+            }, 5000);
+          }
           
           fetchWishes();
         })
         .catch(error => {
           console.error('Wish Error:', error);
-          alert('Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.');
+          const wishAlert = document.getElementById('wish-alert');
+          if (wishAlert) {
+            wishAlert.innerText = "Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.";
+            wishAlert.classList.remove('hidden');
+            setTimeout(() => {
+              wishAlert.classList.add('hidden');
+            }, 5000);
+          }
           if (submitBtn) {
             submitBtn.innerText = "Hantar Ucapan";
             submitBtn.disabled = false;
@@ -488,11 +512,11 @@ END:VCALENDAR`;
   fetchWishes();
   setInterval(() => {
     fetchWishes(true);
-  }, 3000);
+  }, 5000);
 
   setInterval(() => {
     updateLiveTimestamps();
-  }, 1000);
+  }, 30000);
   
   
   /* -------------------------------------------------------------
