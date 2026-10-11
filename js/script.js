@@ -137,7 +137,7 @@ END:VCALENDAR`;
   }
 
 /* -------------------------------------------------------------
-   5. RSVP Submission Logic (Google Sheets)
+   5. RSVP Submission Logic (Google Sheets JSON Integration)
 ------------------------------------------------------------- */
 const rsvpForm = document.getElementById('rsvp-form');
 if (rsvpForm) {
@@ -149,21 +149,25 @@ if (rsvpForm) {
     submitBtn.innerText = "Sedang Hantar...";
     submitBtn.disabled = true;
 
-    // LEKATKAN URL WEB APP ANDA DI DALAM TANDA PETIK DI BAWAH:
+    // MASUKKAN URL WEB APP ANDA DI SINI
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
 
-    const formData = new FormData();
-    formData.append('name', document.getElementById('rsvp-name').value);
-    formData.append('phone', document.getElementById('rsvp-phone').value);
-    formData.append('status', document.getElementById('rsvp-status').value);
-    formData.append('pax', document.getElementById('rsvp-pax').value);
+    const formData = {
+      name: document.getElementById('rsvp-name').value,
+      phone: document.getElementById('rsvp-phone').value,
+      status: document.getElementById('rsvp-status').value,
+      pax: document.getElementById('rsvp-pax').value
+    };
 
     fetch(scriptURL, {
       method: 'POST',
-      body: formData
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
     })
-    .then(response => {
-      console.log('Success!', response);
+    .then(() => {
       const alertBox = document.getElementById('rsvp-alert');
       if (alertBox) {
         alertBox.classList.remove('hidden');
@@ -176,7 +180,7 @@ if (rsvpForm) {
       submitBtn.disabled = false;
     })
     .catch(error => {
-      console.error('Error!', error.message);
+      console.error('Error!', error);
       alert('Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.');
       submitBtn.innerText = originalBtnText;
       submitBtn.disabled = false;
