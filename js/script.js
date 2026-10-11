@@ -360,8 +360,8 @@ END:VCALENDAR`;
 			  <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
 			  <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
 			</div>
-			<!-- whitespace-pre-line mengekalkan enter/perenggan & break-words mengelakkan teks melimpah keluar -->
-			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light whitespace-pre-line break-words">${w.message}</p>
+			<!-- whitespace-pre-line untuk kekalkan 'Enter', break-all untuk elak teks panjang keluar kotak -->
+			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light whitespace-pre-line break-all">${w.message}</p>
 		  </div>
 		`).join('');
 	  }
@@ -428,7 +428,7 @@ END:VCALENDAR`;
 				submitBtn.disabled = false;
 			  }
 			  
-			  // Pop-up mesej terima kasih selepas berjaya hantar
+			  // Pop-up mesej terima kasih selepas berjaya hantar ke Google Sheets
 			  alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");
 			  
 			  fetchWishes();
