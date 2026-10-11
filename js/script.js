@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -------------------------------------------------------------
      0. CONFIGURATION: URL Google Apps Script Anda
   ------------------------------------------------------------- */
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';[cite: 6]
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
 
 
   /* -------------------------------------------------------------
