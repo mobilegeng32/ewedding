@@ -318,7 +318,7 @@
         </button>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+	<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
         <p class="text-xs text-purpleTheme-800/70 font-light text-center sm:text-left">
           <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
         </p>
@@ -327,6 +327,11 @@
           <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar
           <input type="file" id="photo-upload" accept="image/*" class="hidden">
         </label>
+      </div>
+
+      <!-- Kotak Amaran Galeri (Seragam dengan RSVP & Buku Hajat) -->
+      <div id="gallery-alert" class="hidden p-4 rounded-xl bg-butter-100 border border-butter-300 text-purpleTheme-900 text-center text-sm font-medium transition-all">
+        <i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih Kerana Sudi Berkongsi Kenangan Bersama Kami.
       </div>
     </div>
   </section>
@@ -361,6 +366,11 @@
 		  </button>
 		</form>
 
+		<!-- Kotak Amaran Ucapan (Seragam dengan RSVP) -->
+		<div id="wish-alert" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center font-medium transition-all">
+		  Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
+		</div>
+		
 		<!-- BAHAGIAN 2: SENARAI UCAPAN TETAMU (BOLEH SCROLL DALAM KAD YANG SAMA) -->
 		<div id="wishes-container" class="max-h-[350px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
 		  <!-- Ucapan real-time akan dimasukkan ke sini secara dinamik -->

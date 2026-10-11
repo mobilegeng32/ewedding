@@ -181,7 +181,14 @@ END:VCALENDAR`;
       })
       .catch(error => {
         console.error('RSVP Error:', error);
-        alert('Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.');
+        const alertBox = document.getElementById('rsvp-alert');
+        if (alertBox) {
+          alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.`;
+          alertBox.classList.remove('hidden');
+          setTimeout(() => {
+            alertBox.classList.add('hidden');
+          }, 5000);
+        }
         submitBtn.innerText = originalBtnText;
         submitBtn.disabled = false;
       });
@@ -288,10 +295,9 @@ END:VCALENDAR`;
         const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
         const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
 
-        // Ganti alert prompt status muat naik dengan elemen teks status jika perlu, atau kekalkan notifikasi lembut
         const galleryAlert = document.getElementById('gallery-alert');
         if (galleryAlert) {
-          galleryAlert.innerText = "Sedang memproses dan memuat naik gambar resolusi penuh...";
+          galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses dan memuat naik gambar resolusi penuh...`;
           galleryAlert.classList.remove('hidden');
         }
 
@@ -324,15 +330,17 @@ END:VCALENDAR`;
             .then(response => response.json())
             .then(data => {
               if (galleryAlert) {
-                galleryAlert.innerText = "Berjaya! Gambar resolusi penuh anda telah disimpan.";
+                galleryAlert.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Gambar resolusi penuh anda telah disimpan.`;
                 setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
               }
+              photoUpload.value = '';
               fetchGalleryImages();
             })
             .catch(error => {
               console.error('Upload error:', error);
               if (galleryAlert) {
-                galleryAlert.innerText = "Gagal memuat naik gambar. Sila cuba lagi.";
+                galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Gagal memuat naik gambar. Sila cuba lagi.`;
+                setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
               }
             });
           };
@@ -479,7 +487,6 @@ END:VCALENDAR`;
             submitBtn.disabled = false;
           }
           
-          // Paparkan kotak notifikasi inline yang seragam seperti RSVP
           const wishAlert = document.getElementById('wish-alert');
           if (wishAlert) {
             wishAlert.classList.remove('hidden');
@@ -494,7 +501,7 @@ END:VCALENDAR`;
           console.error('Wish Error:', error);
           const wishAlert = document.getElementById('wish-alert');
           if (wishAlert) {
-            wishAlert.innerText = "Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.";
+            wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.`;
             wishAlert.classList.remove('hidden');
             setTimeout(() => {
               wishAlert.classList.add('hidden');
