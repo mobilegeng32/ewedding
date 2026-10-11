@@ -1,168 +1,101 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzR8xQhsXVK-QhG17-E_8ffvvhTvYWcNyfqfU-xilsKxItcHA5Uwdr4WOq7jQ8Lj8XgJw/exec";
+// Target Wedding Date: 22 May 2027, 12:00:00
+const weddingDate = new Date("May 22, 2027 12:00:00").getTime();
 
-fetch(API_URL)
-    .then(response => response.json())
-    .then(data => {
+// Countdown Timer Logic
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
 
-        document.getElementById("welcome").innerText =
-            data.WelcomeText;
+  if (distance > 0) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("couple").innerText =
-            `${data.GroomName} & ${data.BrideName}`;
+    document.getElementById("days").innerText = String(days).padStart(2, '0');
+    document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+    document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+    document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+  } else {
+    document.getElementById("countdown").innerHTML = 
+      "<div class='col-span-4 font-bold text-center text-yellow-300'>MAJLIS SEDANG BERLANGSUNG!</div>";
+  }
+}
 
-        const parts = data.EventDate.split("/");
+// Update timer every second
+setInterval(updateCountdown, 1000);
+updateCountdown();
 
-        const bulan = [
-            "Januari",
-            "Februari",
-            "Mac",
-            "April",
-            "Mei",
-            "Jun",
-            "Julai",
-            "Ogos",
-            "September",
-            "Oktober",
-            "November",
-            "Disember"
-        ];
+// Audio Player Control
+const bgMusic = document.getElementById("bgMusic");
+const musicToggle = document.getElementById("musicToggle");
+let isPlaying = false;
 
-        const formattedDate =
-            `${parts[0]} ${bulan[parseInt(parts[1]) - 1]} ${parts[2]}`;
-
-        document.getElementById("eventDate").innerText =
-            formattedDate;
-
-        document.getElementById("venue").innerText =
-            data.Venue;
-
-        const targetTime =
-            new Date(data.CountdownDate).getTime();
-
-        let serverTime =
-            new Date(data.ServerTime).getTime();
-
-        function updateCountdown() {
-
-            const diff = targetTime - serverTime;
-
-            const days =
-                Math.floor(diff / (1000 * 60 * 60 * 24));
-
-            const hours =
-                Math.floor(
-                    (diff % (1000 * 60 * 60 * 24))
-                    / (1000 * 60 * 60)
-                );
-
-            const minutes =
-                Math.floor(
-                    (diff % (1000 * 60 * 60))
-                    / (1000 * 60)
-                );
-
-            const seconds =
-                Math.floor(
-                    (diff % (1000 * 60))
-                    / 1000
-                );
-
-            document.getElementById("countdown").innerText =
-                `${days} Hari ${hours} Jam ${minutes} Minit ${seconds} Saat`;
-
-            serverTime += 1000;
-
-        }
-
-        updateCountdown();
-
-        setInterval(updateCountdown, 1000);
-
-        document.getElementById("eventDateDetail").innerText =
-            formattedDate;
-
-        document.getElementById("eventTime").innerText =
-            data.EventTime;
-
-        document.getElementById("eventVenue").innerText =
-            data.Venue;
-
-        document.getElementById("mapsButton").href =
-            data.MapsLink;
-
-    })
-    .catch(error => {
-        console.error(error);
-    });
-
-fetch(API_URL + "?action=story")
-    .then(response => response.json())
-    .then(stories => {
-
-        const container =
-            document.getElementById("story-container");
-
-        container.innerHTML = "";
-
-        stories.forEach((story, index) => {
-
-            container.innerHTML += `
-                <div class="timeline-item">
-                    <div class="timeline-year">${story.year}</div>
-                    <div class="timeline-center collapsed">
-                        <div class="timeline-dot"></div>
-                    </div>
-                    <div class="timeline-content">
-                        <div class="story-header" onclick="toggleStory(${index})">
-                            <div class="story-year">${story.title}</div>
-                            <div class="story-arrow" id="arrow-${index}">▼</div>
-                        </div>
-
-                        <div class="story-body" id="story-${index}">
-                            <div class="story-description">${story.description}</div>
-                            <img src="${story.imageUrl}" alt="${story.title}" class="story-image">
-                        </div>
-                    </div>
-                </div>`;
-
-        });
-
-    })
-    .catch(error => {
-        console.error(error);
-    });
-
-function toggleStory(index) {
-
-    const allBodies =
-        document.querySelectorAll(".story-body");
-
-    const allArrows =
-        document.querySelectorAll(".story-arrow");
-
-    const currentBody =
-        document.getElementById(`story-${index}`);
-
-    const currentArrow =
-        document.getElementById(`arrow-${index}`);
-
-    const isOpen =
-        currentBody.classList.contains("open");
-
-    allBodies.forEach(body => {
-        body.classList.remove("open");
-    });
-
-    allArrows.forEach(arrow => {
-        arrow.innerHTML = "▼";
-    });
-
-    if (!isOpen) {
-
-        currentBody.classList.add("open");
-
-        currentArrow.innerHTML = "▲";
-
+if (musicToggle) {
+  musicToggle.addEventListener("click", (e) => {
+    // Hentikan penularan event supaya tidak bertembung dengan event click global
+    e.stopPropagation();
+    
+    if (isPlaying) {
+      bgMusic.pause();
+      musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
+    } else {
+      bgMusic.play().then(() => {
+        musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      }).catch(err => console.log("Ralat memainkan audio:", err));
     }
+    isPlaying = !isPlaying;
+  });
+}
 
+// Auto-play Muzik pada Interaksi Pertama (Klik/Sentuh Mana-mana Bahagian Skrin)
+document.addEventListener('click', function musicAutoplayOnce() {
+  if (bgMusic && bgMusic.paused && !isPlaying) {
+    bgMusic.play().then(() => {
+      isPlaying = true;
+      if (musicToggle) {
+        musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      }
+    }).catch(error => {
+      console.log("Autoplay disekat oleh pelayar sehingga interaksi fizikal seterusnya:", error);
+    });
+  }
+}, { once: true });
+
+// Modal Dialog Controls
+function openModal(id) {
+  document.getElementById(id).classList.add("active");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("active");
+}
+
+// RSVP Form Handler
+function handleRSVP(e) {
+  e.preventDefault();
+  alert("Terima kasih! Pengesahan kehadiran anda telah berjaya dihantar.");
+  closeModal('modal-rsvp');
+}
+
+// Wishes Form Handler
+function handleWish(e) {
+  e.preventDefault();
+  const name = document.getElementById("wishName").value;
+  const text = document.getElementById("wishText").value;
+  
+  const wishesList = document.getElementById("wishesList");
+  const newWish = document.createElement("div");
+  newWish.className = "bg-purple-900/5 p-2.5 rounded-lg text-xs animate-fadeIn";
+  newWish.innerHTML = `<p class="font-bold text-purple-900">${name}</p><p class="text-purple-800 italic">"${text}"</p>`;
+  
+  wishesList.prepend(newWish);
+  document.getElementById("wishName").value = "";
+  document.getElementById("wishText").value = "";
+  alert("Terima kasih atas ucapan & doa anda!");
+}
+
+// Calendar Export Action
+function addToCalendar(type) {
+  alert(`Menambah ke ${type.toUpperCase()} Calendar...`);
 }

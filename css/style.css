@@ -1,259 +1,111 @@
+/* Import Google Fonts & Barcode Font */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Amiri:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap');
+
 body {
-    margin: 0;
-    background: #f5f5f5;
-    font-family: Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  /* Tukar warna latar belakang utama di sini */
+  background-color: #f7e8a4; /* Soft Gold / Butter Yellow */
+  background-image: radial-gradient(#d8c273 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
-#hero {
-    min-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
+/* Custom Font Family Utilities */
+.font-serif {
+  font-family: 'Cinzel', serif;
 }
 
-#welcome {
-    font-size: 20px;
-    margin-bottom: 30px;
+.font-vibes {
+  font-family: 'Great Vibes', cursive;
 }
 
-#couple {
-    color: #0B5D1E;
-    font-size: 3rem;
-    margin: 0;
+.font-arabic {
+  font-family: 'Amiri', serif;
 }
 
-.subtitle {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #666;
+.font-barcode {
+  font-family: 'Libre Barcode 128', cursive;
 }
 
-#eventDate {
-    margin-top: 30px;
-    font-size: 28px;
-    font-weight: bold;
+/* Custom Color Themes: Butter Yellow & Purple */
+.bg-cream {
+  background-color: #fffde6; /* Butter Yellow Light */
 }
 
-#venue {
-    margin-top: 10px;
-    font-size: 18px;
+.bg-card-pattern {
+  background-color: #fffde6; /* Butter Yellow Card Background */
+  background-image: radial-gradient(#e6dfb8 0.7px, transparent 0);
+  background-size: 16px 16px;
 }
 
-#countdown {
-    margin-top: 30px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #0B5D1E;
+.text-gold {
+  color: #fae168; /* Butter Yellow Accent */
 }
 
-#event-section {
-    padding: 80px 20px;
-    text-align: center;
+.border-gold {
+  border-color: #fae168;
 }
 
-#event-section h2 {
-    color: #0B5D1E;
-    font-size: 36px;
+.navbar-bg {
+  background: linear-gradient(180deg, #3d2256 0%, #241433 100%);
 }
 
-.event-card {
-    max-width: 800px;
-    margin: auto;
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+/* Tukar warna lubang lengkung tiket supaya sama dengan background baru */
+.ticket-notch-top {
+  position: absolute;
+  top: -16px;
+  right: 33.333%;
+  width: 32px;
+  height: 32px;
+  background-color: #eee098; /* Butter Yellow / Soft Gold sama macam bingkai luar */
+  border-radius: 50%;
+  transform: translateX(50%);
+  z-index: 20;
 }
 
-.event-item {
-    margin-bottom: 30px;
+.ticket-notch-bottom {
+  position: absolute;
+  bottom: -16px;
+  right: 33.333%;
+  width: 32px;
+  height: 32px;
+  background-color: #eee098; /* Butter Yellow / Soft Gold sama macam bingkai luar */
+  border-radius: 50%;
+  transform: translateX(50%);
+  z-index: 20;
 }
 
-.event-item h3 {
-    margin-bottom: 10px;
-    color: #0B5D1E;
+/* Ribbon Badge Style */
+.ribbon-badge {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: #361f4d;
+  color: #fae168;
+  width: 65px;
+  padding: 12px 4px 16px 4px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 1.1;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border-left: 1px solid #fae168;
+  border-right: 1px solid #fae168;
+  border-top: 1px solid #fae168;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+  z-index: 10;
 }
 
-.event-item p {
-    margin: 0;
+/* Modal Popup Styles */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
 }
 
-#mapsButton {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 24px;
-    background: #0B5D1E;
-    color: white;
-    text-decoration: none;
-    border-radius: 10px;
-}
-
-.story-description {
-    border-top: 1px solid #e5e5e5;
-    padding-top: 20px;
-    margin-top: 20px;
-
-    color: #666;
-    line-height: 1.7;
-    font-size: 15px;
-}
-
-#story-section {
-    padding: 80px 20px;
-    text-align: center;
-}
-
-#story-section h2 {
-    color: #0B5D1E;
-    font-size: 36px;
-    margin-bottom: 60px;
-}
-
-#story-container {
-    max-width: 1100px;
-    margin: auto;
-}
-
-.timeline-item {
-    display: grid;
-    grid-template-columns: 140px 60px 1fr;
-    align-items: center;
-    margin-bottom: 40px;
-}
-
-.timeline-year {
-    font-size: 28px;
-    font-weight: bold;
-    color: #0B5D1E;
-    text-align: right;
-    padding-right: 20px;
-	opacity: .8;
-	letter-spacing: 1px;
-}
-
-.timeline-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.timeline-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #0B5D1E;
-}
-
-.timeline-content {
-    background: white;
-    border-radius: 20px;
-    padding: 35px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.06);
-    text-align: left;
-    transition: .3s;
-}
-
-.timeline-content:hover {
-    transform: translateY(-3px);
-	box-shadow: 0 12px 24px rgba(0,0,0,.08);
-}
-
-.story-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.story-year {
-    color: #0B5D1E;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.story-arrow {
-    color: #0B5D1E;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.story-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: all .4s ease;
-}
-
-.story-body.open {
-    max-height: 1200px;
-    margin-top: 20px;
-}
-
-.story-description {
-    color: #666;
-    line-height: 1.7;
-    font-size: 15px;
-}
-
-.story-image {
-    width: 100%;
-    height: auto;
-    margin-top: 20px;
-    border-radius: 15px;
-    display: block;
-}
-
-@media (max-width: 768px) {
-
-    #couple {
-        font-size: 2.2rem;
-    }
-
-    #countdown {
-        font-size: 22px;
-    }
-
-    .timeline-item {
-        display: block;
-        margin-bottom: 35px;
-    }
-
-    .timeline-year {
-        text-align: left;
-        font-size: 24px;
-        padding: 0;
-        padding-left: 16px;
-        margin-bottom: 10px;
-    }
-
-    .timeline-center {
-        display: none;
-    }
-
-    .timeline-content {
-        padding: 25px;
-        text-align: left;
-    }
-
-    .story-header {
-        align-items: center;
-    }
-
-    .story-year {
-        font-size: 20px;
-    }
-
-    .story-description {
-        font-size: 14px;
-        line-height: 1.7;
-    }
-
-    .story-image {
-        width: 100%;
-        margin-top: 16px;
-        border-radius: 12px;
-    }
-
+.modal.active {
+  display: flex;
 }
