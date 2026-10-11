@@ -136,21 +136,53 @@ END:VCALENDAR`;
     });
   }
 
-  /* -------------------------------------------------------------
-     5. RSVP Submission Logic
+/* -------------------------------------------------------------
+     5. RSVP Submission Logic (Connected to Google Sheets)
   ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const alertBox = document.getElementById('rsvp-alert');
-      if (alertBox) {
-        alertBox.classList.remove('hidden');
-        rsvpForm.reset();
-        setTimeout(() => {
-          alertBox.classList.add('hidden');
-        }, 5000);
-      }
+      
+      const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerText;
+      submitBtn.innerText = "Sedang Hantar...";
+      submitBtn.disabled = true;
+
+      const formData = {
+        name: document.getElementById('rsvp-name').value,
+        phone: document.getElementById('rsvp-phone').value,
+        status: document.getElementById('rsvp-status').value,
+        pax: document.getElementById('rsvp-pax').value
+      };
+
+      // TAMPAL URL GOOGLE APPS SCRIPT ANDA DI SINI
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
+
+      fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors', // Diperlukan untuk Google Apps Script
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      .then(() => {
+        const alertBox = document.getElementById('rsvp-alert');
+        if (alertBox) {
+          alertBox.classList.remove('hidden');
+          rsvpForm.reset();
+          setTimeout(() => {
+            alertBox.classList.add('hidden');
+          }, 6000);
+        }
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+      })
+      .catch(error => {
+        console.error('Error!', error);
+        alert('Maaf, penghantaran gagal. Sila cuba lagi.');
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+      });
     });
   }
 
