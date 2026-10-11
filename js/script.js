@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -------------------------------------------------------------
      0. CONFIGURATION: URL Google Apps Script Anda
   ------------------------------------------------------------- */
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec'; // <--- LETAK URL DI SINI
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec'; // <--- LETAK URL WEB APP TERKINI DI SINI
 
 
   /* -------------------------------------------------------------
@@ -143,7 +143,7 @@ END:VCALENDAR`;
 
 
   /* -------------------------------------------------------------
-     5. RSVP Submission Logic (Connected to Google Sheets)
+     5. RSVP Submission Logic (Google Sheets via URLSearchParams)
   ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -155,21 +155,19 @@ END:VCALENDAR`;
       submitBtn.innerText = "Sedang Hantar...";
       submitBtn.disabled = true;
 
-      const formData = {
-        action: "rsvp",
-        name: document.getElementById('rsvp-name').value,
-        phone: document.getElementById('rsvp-phone').value,
-        status: document.getElementById('rsvp-status').value,
-        pax: document.getElementById('rsvp-pax').value
-      };
+      const formData = new URLSearchParams();
+      formData.append('action', 'rsvp');
+      formData.append('name', document.getElementById('rsvp-name').value);
+      formData.append('phone', document.getElementById('rsvp-phone').value);
+      formData.append('status', document.getElementById('rsvp-status').value);
+      formData.append('pax', document.getElementById('rsvp-pax').value);
 
       fetch(SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: formData
       })
-      .then(() => {
+      .then(response => response.json())
+      .then(data => {
         const alertBox = document.getElementById('rsvp-alert');
         if (alertBox) {
           alertBox.classList.remove('hidden');
@@ -256,7 +254,7 @@ END:VCALENDAR`;
     }
   }, 5000);
 
-  // Proses Muat Naik Gambar ke Google Drive/Sheets
+  // Proses Muat Naik Gambar & Pemampatan (Compression) ke Google Drive/Sheets
   if (photoUpload) {
     photoUpload.addEventListener('change', (event) => {
       const file = event.target.files[0];
@@ -264,40 +262,55 @@ END:VCALENDAR`;
         const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
         const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
 
+        alert("Sedang memproses dan memuat naik gambar ke server... Sila tunggu sebentar.");
+
         const reader = new FileReader();
         reader.onload = function(e) {
-          const base64String = e.target.result.split(',')[1];
-          
-          const payload = {
-            action: "gallery",
-            fileName: file.name,
-            mimeType: file.type,
-            fileData: base64String,
-            name: uploaderName,
-            caption: imageCaption
-          };
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 800;
+            let width = img.width;
+            let height = img.height;
 
-          alert("Sedang memuat naik gambar ke server... Sila tunggu sebentar.");
+            if (width > height) {
+              if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+            } else {
+              if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+            }
 
-          fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          })
-          .then(() => {
-            alert("Berjaya! Gambar anda telah dimuat naik dan disimpan dalam sistem.");
-            defaultGallery.unshift({
-              url: e.target.result,
-              caption: `${imageCaption} (Oleh: ${uploaderName})`
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            const base64String = compressedDataUrl.split(',')[1];
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'gallery');
+            formData.append('fileName', file.name.replace(/\.[^/.]+$/, "") + ".jpg");
+            formData.append('mimeType', 'image/jpeg');
+            formData.append('fileData', base64String);
+            formData.append('name', uploaderName);
+            formData.append('caption', imageCaption);
+
+            fetch(SCRIPT_URL, {
+              method: 'POST',
+              body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+              alert("Berjaya! Gambar anda telah disimpan ke dalam sistem Google Drive.");
+              fetchGalleryImages();
+            })
+            .catch(error => {
+              console.error('Upload error:', error);
+              alert('Gagal memuat naik gambar. Sila cuba lagi.');
             });
-            currentSlide = 0;
-            renderSlide();
-          })
-          .catch(error => {
-            console.error('Upload error:', error);
-            alert('Gagal memuat naik gambar. Sila cuba lagi.');
-          });
+          };
         };
         reader.readAsDataURL(file);
       }
