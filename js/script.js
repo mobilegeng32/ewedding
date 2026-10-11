@@ -1,149 +1,208 @@
-// Target Wedding Date: 22 May 2027, 12:00:00
-const weddingDate = new Date("May 22, 2027 12:00:00").getTime();
+/* -------------------------------------------------------------
+   1. Background Music Controller
+------------------------------------------------------------- */
+const bgMusic = document.getElementById('bg-music');
+const musicBtn = document.getElementById('music-toggle');
+const musicIcon = document.getElementById('music-icon');
+let isPlaying = false;
 
-// Countdown Timer Logic
+musicBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    bgMusic.pause();
+    musicIcon.className = 'fas fa-music text-lg';
+  } else {
+    bgMusic.play().then(() => {
+      musicIcon.className = 'fas fa-pause text-lg';
+    }).catch(() => {
+      console.log("Autoplay failed or interaction needed.");
+    });
+  }
+  isPlaying = !isPlaying;
+});
+
+/* -------------------------------------------------------------
+   2. Live Countdown Timer Logic
+------------------------------------------------------------- */
+const weddingDate = new Date('May 27, 2027 12:00:00').getTime();
+
 function updateCountdown() {
   const now = new Date().getTime();
   const distance = weddingDate - now;
 
-  if (distance > 0) {
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    const daysEl = document.getElementById("days");
-    const hoursEl = document.getElementById("hours");
-    const minutesEl = document.getElementById("minutes");
-    const secondsEl = document.getElementById("seconds");
-
-    if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
-    if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
-    if (minutesEl) minutesEl.innerText = String(minutes).padStart(2, '0');
-    if (secondsEl) secondsEl.innerText = String(seconds).padStart(2, '0');
-  } else {
-    const countdownEl = document.getElementById("countdown");
-    if (countdownEl) {
-      countdownEl.innerHTML = "<div class='col-span-4 font-bold text-center text-yellow-300'>MAJLIS SEDANG BERLANGSUNG!</div>";
-    }
+  if (distance < 0) {
+    document.getElementById('cd-days').innerText = "00";
+    document.getElementById('cd-hours').innerText = "00";
+    document.getElementById('cd-minutes').innerText = "00";
+    document.getElementById('cd-seconds').innerText = "00";
+    return;
   }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById('cd-days').innerText = days < 10 ? '0' + days : days;
+  document.getElementById('cd-hours').innerText = hours < 10 ? '0' + hours : hours;
+  document.getElementById('cd-minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+  document.getElementById('cd-seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
 }
 
-// Update timer every second
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// Audio Player Control
-const bgMusic = document.getElementById("bgMusic");
-const musicToggle = document.getElementById("musicToggle");
-const musicToggleMobile = document.getElementById("musicToggleMobile");
-let isPlaying = false;
+/* -------------------------------------------------------------
+   3. Add to Calendar ICS Generator
+------------------------------------------------------------- */
+function addToCalendar() {
+  const icsData = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Digital Wedding Invitation//EN
+BEGIN:VEVENT
+SUMMARY:Majlis Nikah Utrias & Hazim
+DESCRIPTION:Undangan Majlis Akad Nikah Utrias & Hazim
+LOCATION:Dewan Serbaguna Cyberjaya, Persiaran APEC, 63000 Cyberjaya, Selangor
+DTSTART:20261128T020000Z
+DTEND:20261128T060000Z
+END:VEVENT
+END:VCALENDAR`;
 
-function toggleAudio() {
-  if (!bgMusic) return;
+  const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.setAttribute('download', 'Majlis_Nikah_Utrias_Hazim.ics');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
-  if (isPlaying) {
-    bgMusic.pause();
-    if (musicToggle) musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
-    if (musicToggleMobile) musicToggleMobile.innerHTML = '<i class="fa-solid fa-music"></i>';
-    isPlaying = false;
-  } else {
-    bgMusic.play().then(() => {
-      if (musicToggle) musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      if (musicToggleMobile) musicToggleMobile.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      isPlaying = true;
-    }).catch(err => console.log("Ralat memainkan audio:", err));
+/* -------------------------------------------------------------
+   4. RSVP Submission Logic
+------------------------------------------------------------- */
+function submitRSVP(e) {
+  e.preventDefault();
+  const alertBox = document.getElementById('rsvp-alert');
+  alertBox.classList.remove('hidden');
+  document.getElementById('rsvp-form').reset();
+
+  setTimeout(() => {
+    alertBox.classList.add('hidden');
+  }, 5000);
+}
+
+/* -------------------------------------------------------------
+   5. Gallery Slideshow & Guest Photo Upload
+------------------------------------------------------------- */
+const defaultGallery = [
+  {
+    url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    caption: "Detik Manis Bersama"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80",
+    caption: "Semangat Bersama Merentas Sempadan"
+  },
+  {
+    url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80",
+    caption: "Persiapan Hari Bahagia"
+  }
+];
+
+let currentSlide = 0;
+
+function renderSlide() {
+  const imgEl = document.getElementById('slideshow-img');
+  const captionEl = document.getElementById('slideshow-caption');
+  
+  imgEl.style.opacity = '0.3';
+  setTimeout(() => {
+    imgEl.src = defaultGallery[currentSlide].url;
+    captionEl.innerText = defaultGallery[currentSlide].caption;
+    imgEl.style.opacity = '1';
+  }, 200);
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % defaultGallery.length;
+  renderSlide();
+}
+
+function prevSlide() {
+  currentSlide = (currentSlide - 1 + defaultGallery.length) % defaultGallery.length;
+  renderSlide();
+}
+
+// Auto Advance Slideshow
+setInterval(nextSlide, 5000);
+
+// Guest Upload Feature (Dynamic Local Preview)
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      defaultGallery.unshift({
+        url: e.target.result,
+        caption: "Gambar Dimuat Naik Oleh Tetamu"
+      });
+      currentSlide = 0;
+      renderSlide();
+    };
+    reader.readAsDataURL(file);
   }
 }
 
-if (musicToggle) {
-  musicToggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleAudio();
-  });
+/* -------------------------------------------------------------
+   6. Wish Board Logic (Pre-populated sample wishes)
+------------------------------------------------------------- */
+const wishesList = [
+  {
+    name: "Farhan & Amira",
+    message: "Selamat pengantin baru Aiman & Sofia! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah walaupun berbeza negara.",
+    time: "Baru sahaja"
+  },
+  {
+    name: "Mak Cik Salmah",
+    message: "Tahniah buat kedua-dua anakanda. Moga dipermudahkan segala urusan majlis nikah nanti.",
+    time: "2 jam yang lalu"
+  },
+  {
+    name: "Dr. Daniel",
+    message: "Barakallahulakuma! So happy for both of you across borders. Wishing you a lifetime of happiness!",
+    time: "1 hari yang lalu"
+  }
+];
+
+function renderWishes() {
+  const container = document.getElementById('wishes-container');
+  container.innerHTML = wishesList.map(w => `
+    <div class="glass-card rounded-2xl p-5 border border-purpleTheme-100 shadow-sm space-y-2">
+      <div class="flex items-center justify-between">
+        <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
+        <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
+      </div>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light">${w.message}</p>
+    </div>
+  `).join('');
 }
 
-if (musicToggleMobile) {
-  musicToggleMobile.addEventListener("click", (e) => {
-    e.stopPropagation();
-    toggleAudio();
-  });
-}
+function submitWish(e) {
+  e.preventDefault();
+  const nameInput = document.getElementById('wish-name');
+  const msgInput = document.getElementById('wish-message');
 
-// Auto-play Muzik pada Interaksi Pertama (Klik/Sentuh Mana-mana Bahagian Skrin)
-document.addEventListener('click', function musicAutoplayOnce() {
-  if (bgMusic && bgMusic.paused && !isPlaying) {
-    bgMusic.play().then(() => {
-      isPlaying = true;
-      if (musicToggle) musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      if (musicToggleMobile) musicToggleMobile.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-    }).catch(error => {
-      console.log("Autoplay disekat oleh pelayar sehingga interaksi fizikal seterusnya:", error);
+  if (nameInput.value && msgInput.value) {
+    wishesList.unshift({
+      name: nameInput.value,
+      message: msgInput.value,
+      time: "Baru sahaja"
     });
-  }
-}, { once: true });
-
-// Modal Dialog Controls
-function openModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.add("active");
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.remove("active");
-}
-
-// RSVP Form Handler
-function handleRSVP(e) {
-  e.preventDefault();
-  alert("Terima kasih! Pengesahan kehadiran anda telah berjaya dihantar.");
-  closeModal('modal-rsvp');
-}
-
-// Wishes Form Handler
-function handleWish(e) {
-  e.preventDefault();
-  const nameEl = document.getElementById("wishName");
-  const textEl = document.getElementById("wishText");
-  
-  if (!nameEl || !textEl) return;
-
-  const name = nameEl.value;
-  const text = textEl.value;
-  
-  const wishesList = document.getElementById("wishesList");
-  if (wishesList) {
-    const newWish = document.createElement("div");
-    newWish.className = "bg-purple-900/5 p-2.5 rounded-lg text-xs animate-fadeIn";
-    newWish.innerHTML = `<p class="font-bold text-purple-900">${name}</p><p class="text-purple-800 italic">"${text}"</p>`;
-    wishesList.prepend(newWish);
-  }
-
-  nameEl.value = "";
-  textEl.value = "";
-  alert("Terima kasih atas ucapan & doa anda!");
-}
-
-// Calendar Export Action
-function addToCalendar(type) {
-  alert(`Menambah ke ${type.toUpperCase()} Calendar...`);
-}
-
-// Fungsi untuk buka/tutup menu dropdown mudah alih (Mobile Hamburger Menu)
-function toggleMobileMenu() {
-  const dropdown = document.getElementById("mobileDropdown");
-  const menuIcon = document.getElementById("menuIcon");
-  
-  if (!dropdown || !menuIcon) return;
-
-  if (dropdown.classList.contains("hidden")) {
-    dropdown.classList.remove("hidden");
-    dropdown.classList.add("flex");
-    menuIcon.className = "fa-solid fa-xmark"; // Tukar jadi ikon pangkah (X)
-  } else {
-    dropdown.classList.add("hidden");
-    dropdown.classList.remove("flex");
-    menuIcon.className = "fa-solid fa-bars"; // Tukar balik jadi ikon garis 3
+    renderWishes();
+    nameInput.value = '';
+    msgInput.value = '';
   }
 }
+
+// Initial load
+renderWishes();
