@@ -143,7 +143,7 @@ END:VCALENDAR`;
 
 
   /* -------------------------------------------------------------
-     Utility: Custom Confirmation Dialog Handler
+     Utility: Custom Confirmation Dialog Handler (Fix Event Listener)
   ------------------------------------------------------------- */
   const confirmModal = document.getElementById('confirm-modal');
   const confirmTitle = document.getElementById('confirm-title');
@@ -161,23 +161,20 @@ END:VCALENDAR`;
     confirmDesc.innerText = desc;
     confirmModal.classList.remove('hidden');
 
-    const handleYes = () => {
-      cleanup();
-      onConfirm();
-    };
+    // Buang event listener lama untuk elakkan fungsi bertindih
+    const newYesBtn = dialogYesBtn.cloneNode(true);
+    const newCancelBtn = dialogCancelBtn.cloneNode(true);
+    dialogYesBtn.parentNode.replaceChild(newYesBtn, dialogYesBtn);
+    dialogCancelBtn.parentNode.replaceChild(newCancelBtn, dialogCancelBtn);
 
-    const handleCancel = () => {
-      cleanup();
-    };
-
-    function cleanup() {
+    newYesBtn.addEventListener('click', () => {
       confirmModal.classList.add('hidden');
-      dialogYesBtn.removeEventListener('click', handleYes);
-      dialogCancelBtn.removeEventListener('click', handleCancel);
-    }
+      onConfirm();
+    });
 
-    dialogYesBtn.addEventListener('click', handleYes);
-    dialogCancelBtn.addEventListener('click', handleCancel);
+    newCancelBtn.addEventListener('click', () => {
+      confirmModal.classList.add('hidden');
+    });
   }
 
 
@@ -491,7 +488,6 @@ END:VCALENDAR`;
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${w.name}</h4>
           <span class="text-[10px] text-purpleTheme-700/60 font-light wish-time" data-timestamp="${w.timestamp || ''}">${getRelativeTime(w.timestamp)}</span>
         </div>
-        <!-- Menggunakan break-words untuk mengelakkan perkataan terpotong -->
         <p class="text-xs sm:text-sm text-purpleTheme-800/90 leading-relaxed font-light whitespace-pre-line break-words">${w.message}</p>
       </div>
     `).join('');
