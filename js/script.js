@@ -398,5 +398,40 @@ END:VCALENDAR`;
   }
 
   renderWishes();
+  
+  /* -------------------------------------------------------------
+     8. Gallery Lightbox / Preview Feature
+  ------------------------------------------------------------- */
+  if (slideImg) {
+    // Cipta elemen modal untuk preview secara dinamik
+    const modal = document.createElement('div');
+    modal.id = 'gallery-modal';
+    modal.className = 'fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden p-4 cursor-pointer';
+    modal.innerHTML = `
+      <div class="relative max-w-4xl max-h-full flex flex-col items-center">
+        <span class="absolute -top-10 right-0 text-white text-2xl font-bold cursor-pointer">&times;</span>
+        <img id="modal-img" class="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl" src="" alt="Preview">
+        <p id="modal-caption" class="text-white text-sm mt-3 italic text-center"></p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalImg = document.getElementById('modal-img');
+    const modalCaption = document.getElementById('modal-caption');
+
+    // Bila gambar slideshow ditekan, buka preview
+    slideImg.addEventListener('click', () => {
+      if (slideImg.src) {
+        modalImg.src = slideImg.src;
+        modalCaption.innerText = slideCaption ? slideCaption.innerText : '';
+        modal.classList.remove('hidden');
+      }
+    });
+
+    // Bila klik mana-mana bahagian modal, tutup semula
+    modal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+  }
 
 });
