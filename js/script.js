@@ -343,9 +343,9 @@ END:VCALENDAR`;
 	  ------------------------------------------------------------- */
 	  let defaultWishes = [
 		{
-		  name: "Systems",
-		  message: "Tinggalkan Doa & Hajat anda disini, akan kami ingat dan hayati sampai akhir hayat..",
-		  time: ""
+		  name: "Farhan & Amira",
+		  message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
+		  time: "Baru sahaja"
 		}
 	  ];
 
@@ -360,8 +360,8 @@ END:VCALENDAR`;
 			  <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
 			  <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
 			</div>
-			<!-- Tambah break-all & overflow-hidden supaya teks panjang turun ke bawah -->
-			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light break-all overflow-hidden">${w.message}</p>
+			<!-- whitespace-pre-line mengekalkan enter/perenggan & break-words mengelakkan teks melimpah keluar -->
+			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light whitespace-pre-line break-words">${w.message}</p>
 		  </div>
 		`).join('');
 	  }
@@ -427,6 +427,10 @@ END:VCALENDAR`;
 				submitBtn.innerText = "Hantar Ucapan";
 				submitBtn.disabled = false;
 			  }
+			  
+			  // Pop-up mesej terima kasih selepas berjaya hantar
+			  alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");
+			  
 			  fetchWishes();
 			})
 			.catch(error => {
@@ -445,7 +449,6 @@ END:VCALENDAR`;
 	  setInterval(() => {
 		fetchWishes(true);
 	  }, 10000);
-  
 
   /* -------------------------------------------------------------
      8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
