@@ -188,9 +188,8 @@ END:VCALENDAR`;
     });
   }
 
-
-  /* -------------------------------------------------------------
-     6. Dynamic Gallery & Google Drive/Sheets Integration (Real-Time & Blur Bg)
+/* -------------------------------------------------------------
+     6. Dynamic Gallery & Google Drive/Sheets Integration (HD & Real-Time)
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
@@ -304,8 +303,10 @@ END:VCALENDAR`;
           img.src = e.target.result;
           img.onload = function() {
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 800;
-            const MAX_HEIGHT = 800;
+            
+            // Ditingkatkan ke resolusi HD penuh (1920px)
+            const MAX_WIDTH = 1920;
+            const MAX_HEIGHT = 1920;
             let width = img.width;
             let height = img.height;
 
@@ -320,7 +321,8 @@ END:VCALENDAR`;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
 
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            // Kualiti dinaikkan ke 0.9 (90%) untuk kekalkan ketajaman asal
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
             const base64String = compressedDataUrl.split(',')[1];
 
             const formData = new URLSearchParams();
@@ -351,12 +353,11 @@ END:VCALENDAR`;
     });
   }
 
-  // Muat turun data awal & tetapkan sync latar belakang setiap 10 saat
+  // Muat turun data awal & semak latar belakang setiap 10 saat
   fetchGalleryImages();
   setInterval(() => {
     fetchGalleryImages(true);
   }, 10000);
-
 
   /* -------------------------------------------------------------
      7. Wish Board / Buku Hajat (Local UI Simulation)
