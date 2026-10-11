@@ -20,26 +20,52 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* -------------------------------------------------------------
-     2. Background Music Controller (Fix Music Play)
+     1. Background Music Controller & Auto-play on First Interaction
   ------------------------------------------------------------- */
   const bgMusic = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
   const musicIcon = document.getElementById('music-icon');
   let isPlaying = false;
+  let hasInteracted = false;
 
+  // Fungsi untuk mainkan audio apabila interaksi pertama berlaku
+  function triggerAudioPlay() {
+    if (!hasInteracted && bgMusic) {
+      bgMusic.play().then(() => {
+        if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
+        isPlaying = true;
+        hasInteracted = true;
+        // Padam event listener selepas audio mula dimainkan
+        window.removeEventListener('click', triggerAudioPlay);
+        window.removeEventListener('scroll', triggerAudioPlay);
+        window.removeEventListener('touchstart', triggerAudioPlay);
+      }).catch((error) => {
+        console.log("Autoplay disekat oleh pelayar:", error);
+      });
+    }
+  }
+
+  // Aktifkan pencetus apabila tetamu mula klik, skrol atau sentuh skrin
+  window.addEventListener('click', triggerAudioPlay);
+  window.addEventListener('scroll', triggerAudioPlay);
+  window.addEventListener('touchstart', triggerAudioPlay);
+
+  // Kawalan manual butang muzik di skrin
   if (musicBtn && bgMusic) {
-    musicBtn.addEventListener('click', () => {
+    musicBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Elak bertembung dengan event window click
       if (isPlaying) {
         bgMusic.pause();
-        musicIcon.className = 'fas fa-music text-lg';
+        if (musicIcon) musicIcon.className = 'fas fa-music text-lg';
       } else {
         bgMusic.play().then(() => {
-          musicIcon.className = 'fas fa-pause text-lg';
+          if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
         }).catch((err) => {
           console.log("Audio play error:", err);
         });
       }
       isPlaying = !isPlaying;
+      hasInteracted = true; // Anggap pengguna sudah berinteraksi
     });
   }
 
