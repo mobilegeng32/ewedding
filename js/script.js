@@ -194,7 +194,7 @@ END:VCALENDAR`;
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
-      url: "https://www.beauandbelladesign.co.uk/large-wedding-signs",
+      url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942",
       caption: "Detik Manis Bersama"
     }
   ];
