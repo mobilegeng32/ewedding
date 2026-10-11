@@ -338,113 +338,113 @@ END:VCALENDAR`;
   }, 10000);
 
 
-  /* -------------------------------------------------------------
-     7. Wish Board / Buku Hajat (Real-Time Google Sheets Integration)
-  ------------------------------------------------------------- */
-  let defaultWishes = [
-    {
-      name: "Farhan & Amira",
-      message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
-      time: "Baru sahaja"
-    }
-  ];
+	/* -------------------------------------------------------------
+		 7. Wish Board / Buku Hajat (Real-Time Google Sheets Integration)
+	  ------------------------------------------------------------- */
+	  let defaultWishes = [
+		{
+		  name: "Systems",
+		  message: "Tinggalkan Doa & Hajat anda disini, akan kami ingat dan hayati sampai akhir hayat..",
+		  time: ""
+		}
+	  ];
 
-  let isUsingWishFallback = false;
+	  let isUsingWishFallback = false;
 
-  function renderWishes() {
-    const container = document.getElementById('wishes-container');
-    if (!container) return;
-    container.innerHTML = defaultWishes.map(w => `
-      <div class="glass-card rounded-2xl p-5 border border-purpleTheme-100 shadow-sm space-y-2">
-        <div class="flex items-center justify-between">
-          <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
-          <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
-        </div>
-        <p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light">${w.message}</p>
-      </div>
-    `).join('');
-  }
+	  function renderWishes() {
+		const container = document.getElementById('wishes-container');
+		if (!container) return;
+		container.innerHTML = defaultWishes.map(w => `
+		  <div class="glass-card rounded-2xl p-5 border border-purpleTheme-100 shadow-sm space-y-2">
+			<div class="flex items-center justify-between">
+			  <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
+			  <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
+			</div>
+			<!-- Tambah break-all & overflow-hidden supaya teks panjang turun ke bawah -->
+			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light break-all overflow-hidden">${w.message}</p>
+		  </div>
+		`).join('');
+	  }
 
-  function fetchWishes(isBackgroundCheck = false) {
-    if (!SCRIPT_URL.includes('http')) return;
+	  function fetchWishes(isBackgroundCheck = false) {
+		if (!SCRIPT_URL.includes('http')) return;
 
-    fetch(`${SCRIPT_URL}?action=wishes`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.length > 0) {
-          const newWishes = data.map(item => ({
-            name: item.name,
-            message: item.message,
-            time: "Baru sahaja"
-          })).reverse(); // Paparkan ucapan terkini di atas
+		fetch(`${SCRIPT_URL}?action=wishes`)
+		  .then(res => res.json())
+		  .then(data => {
+			if (data && data.length > 0) {
+			  const newWishes = data.map(item => ({
+				name: item.name,
+				message: item.message,
+				time: "Baru sahaja"
+			  })).reverse();
 
-          if (JSON.stringify(newWishes) !== JSON.stringify(defaultWishes)) {
-            defaultWishes = newWishes;
-            isUsingWishFallback = false;
-            if (!isBackgroundCheck) {
-              renderWishes();
-            }
-          }
-        } else {
-          if (!isUsingWishFallback) {
-            isUsingWishFallback = true;
-            renderWishes();
-          }
-        }
-      })
-      .catch(err => console.log("Gagal memuat ucapan:", err));
-  }
+			  if (JSON.stringify(newWishes) !== JSON.stringify(defaultWishes)) {
+				defaultWishes = newWishes;
+				isUsingWishFallback = false;
+				if (!isBackgroundCheck) {
+				  renderWishes();
+				}
+			  }
+			} else {
+			  if (!isUsingWishFallback) {
+				isUsingWishFallback = true;
+				renderWishes();
+			  }
+			}
+		  })
+		  .catch(err => console.log("Gagal memuat ucapan:", err));
+	  }
 
-  const wishForm = document.getElementById('wish-form');
-  if (wishForm) {
-    wishForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const nameInput = document.getElementById('wish-name');
-      const msgInput = document.getElementById('wish-message');
-      const submitBtn = wishForm.querySelector('button[type="submit"]');
+	  const wishForm = document.getElementById('wish-form');
+	  if (wishForm) {
+		wishForm.addEventListener('submit', (e) => {
+		  e.preventDefault();
+		  const nameInput = document.getElementById('wish-name');
+		  const msgInput = document.getElementById('wish-message');
+		  const submitBtn = wishForm.querySelector('button[type="submit"]');
 
-      if (nameInput.value && msgInput.value) {
-        if (submitBtn) {
-          submitBtn.innerText = "Sedang Hantar...";
-          submitBtn.disabled = true;
-        }
+		  if (nameInput.value && msgInput.value) {
+			if (submitBtn) {
+			  submitBtn.innerText = "Sedang Hantar...";
+			  submitBtn.disabled = true;
+			}
 
-        const formData = new URLSearchParams();
-        formData.append('action', 'wishes');
-        formData.append('name', nameInput.value);
-        formData.append('message', msgInput.value);
+			const formData = new URLSearchParams();
+			formData.append('action', 'wishes');
+			formData.append('name', nameInput.value);
+			formData.append('message', msgInput.value);
 
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          nameInput.value = '';
-          msgInput.value = '';
-          if (submitBtn) {
-            submitBtn.innerText = "Hantar Ucapan";
-            submitBtn.disabled = false;
-          }
-          fetchWishes(); // Terus tarik senarai ucapan terkini
-        })
-        .catch(error => {
-          console.error('Wish Error:', error);
-          alert('Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.');
-          if (submitBtn) {
-            submitBtn.innerText = "Hantar Ucapan";
-            submitBtn.disabled = false;
-          }
-        });
-      }
-    });
-  }
+			fetch(SCRIPT_URL, {
+			  method: 'POST',
+			  body: formData
+			})
+			.then(response => response.json())
+			.then(data => {
+			  nameInput.value = '';
+			  msgInput.value = '';
+			  if (submitBtn) {
+				submitBtn.innerText = "Hantar Ucapan";
+				submitBtn.disabled = false;
+			  }
+			  fetchWishes();
+			})
+			.catch(error => {
+			  console.error('Wish Error:', error);
+			  alert('Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.');
+			  if (submitBtn) {
+				submitBtn.innerText = "Hantar Ucapan";
+				submitBtn.disabled = false;
+			  }
+			});
+		  }
+		});
+	  }
 
-  // Muat turun data awal ucapan & semak latar belakang setiap 10 saat
-  fetchWishes();
-  setInterval(() => {
-    fetchWishes(true);
-  }, 10000);
+	  fetchWishes();
+	  setInterval(() => {
+		fetchWishes(true);
+	  }, 10000);
   
 
   /* -------------------------------------------------------------
