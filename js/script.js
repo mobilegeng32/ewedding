@@ -197,7 +197,7 @@ END:VCALENDAR`;
 
 
   /* -------------------------------------------------------------
-     6. Dynamic Gallery & Google Drive/Sheets Integration (Original Size Full Resolution)
+     6. Dynamic Gallery & Google Drive/Sheets Integration (Custom Modal UI)
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
@@ -210,6 +210,7 @@ END:VCALENDAR`;
   let currentSlide = 0;
   let slideTimer = null;
   let isUsingFallback = false;
+  let selectedFileForUpload = null;
   
   const slideImg = document.getElementById('slideshow-img');
   const slideCaption = document.getElementById('slideshow-caption');
@@ -217,6 +218,13 @@ END:VCALENDAR`;
   const prevBtn = document.getElementById('prev-slide');
   const nextBtn = document.getElementById('next-slide');
   const photoUpload = document.getElementById('photo-upload');
+
+  const uploadModal = document.getElementById('upload-modal');
+  const closeUploadModalBtn = document.getElementById('close-upload-modal');
+  const cancelUploadBtn = document.getElementById('cancel-upload-btn');
+  const confirmUploadBtn = document.getElementById('confirm-upload-btn');
+  const uploaderNameInput = document.getElementById('modal-uploader-name');
+  const imageCaptionInput = document.getElementById('modal-image-caption');
 
   function fetchGalleryImages(isBackgroundCheck = false) {
     if (!SCRIPT_URL.includes('http')) return;
@@ -288,65 +296,88 @@ END:VCALENDAR`;
     });
   }
 
+  function closeUploadModal() {
+    if (uploadModal) uploadModal.classList.add('hidden');
+    selectedFileForUpload = null;
+    if (photoUpload) photoUpload.value = '';
+  }
+
+  if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModal);
+  if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
+
   if (photoUpload) {
     photoUpload.addEventListener('change', (event) => {
       const file = event.target.files[0];
       if (file) {
-        const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
-        const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
-
-        const galleryAlert = document.getElementById('gallery-alert');
-        if (galleryAlert) {
-          galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses dan memuat naik gambar resolusi penuh...`;
-          galleryAlert.classList.remove('hidden');
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = new Image();
-          img.src = e.target.result;
-          img.onload = function() {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-
-            const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);
-            const base64String = originalDataUrl.split(',')[1];
-
-            const formData = new URLSearchParams();
-            formData.append('action', 'gallery');
-            formData.append('fileName', file.name.replace(/\.[^/.]+$/, "") + ".jpg");
-            formData.append('mimeType', 'image/jpeg');
-            formData.append('fileData', base64String);
-            formData.append('name', uploaderName);
-            formData.append('caption', imageCaption);
-
-            fetch(SCRIPT_URL, {
-              method: 'POST',
-              body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (galleryAlert) {
-                galleryAlert.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Gambar resolusi penuh anda telah disimpan.`;
-                setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
-              }
-              photoUpload.value = '';
-              fetchGalleryImages();
-            })
-            .catch(error => {
-              console.error('Upload error:', error);
-              if (galleryAlert) {
-                galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Gagal memuat naik gambar. Sila cuba lagi.`;
-                setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
-              }
-            });
-          };
-        };
-        reader.readAsDataURL(file);
+        selectedFileForUpload = file;
+        if (uploaderNameInput) uploaderNameInput.value = '';
+        if (imageCaptionInput) imageCaptionInput.value = '';
+        if (uploadModal) uploadModal.classList.remove('hidden');
       }
+    });
+  }
+
+  if (confirmUploadBtn) {
+    confirmUploadBtn.addEventListener('click', () => {
+      if (!selectedFileForUpload) return;
+
+      const uploaderName = uploaderNameInput.value.trim() || "Tetamu Undangan";
+      const imageCaption = imageCaptionInput.value.trim() || "Kenangan Majlis";
+      const galleryAlert = document.getElementById('gallery-alert');
+
+      if (uploadModal) uploadModal.classList.add('hidden');
+
+      if (galleryAlert) {
+        galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses dan memuat naik gambar resolusi penuh...`;
+        galleryAlert.classList.remove('hidden');
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+
+          const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);
+          const base64String = originalDataUrl.split(',')[1];
+
+          const formData = new URLSearchParams();
+          formData.append('action', 'gallery');
+          formData.append('fileName', selectedFileForUpload.name.replace(/\.[^/.]+$/, "") + ".jpg");
+          formData.append('mimeType', 'image/jpeg');
+          formData.append('fileData', base64String);
+          formData.append('name', uploaderName);
+          formData.append('caption', imageCaption);
+
+          fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (galleryAlert) {
+              galleryAlert.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih Kerana Sudi Berkongsi Kenangan Bersama Kami.`;
+              setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
+            }
+            closeUploadModal();
+            fetchGalleryImages();
+          })
+          .catch(error => {
+            console.error('Upload error:', error);
+            if (galleryAlert) {
+              galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Gagal memuat naik gambar. Sila cuba lagi.`;
+              setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
+            }
+            closeUploadModal();
+          });
+        };
+      };
+      reader.readAsDataURL(selectedFileForUpload);
     });
   }
 

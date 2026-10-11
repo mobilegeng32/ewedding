@@ -392,6 +392,45 @@
     </div>
   </footer>
 
+
+	<!-- MODAL CUSTOM UNTUK MUAT NAIK GAMBAR GALERI -->
+  <div id="upload-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md w-full border border-purpleTheme-100 shadow-2xl space-y-5 relative animate-fade-in">
+      <button id="close-upload-modal" type="button" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">
+        &times;
+      </button>
+
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-2">
+          <i class="fas fa-camera"></i>
+        </div>
+        <h3 class="font-serif text-2xl font-semibold text-purpleTheme-900">Maklumat Kenangan</h3>
+        <p class="text-xs text-purpleTheme-800/70 font-light">Sila isi nama dan kapsyen ringkas sebelum muat naik gambar anda</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label for="modal-uploader-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-1.5">Nama Anda</label>
+          <input type="text" id="modal-uploader-name" placeholder="Contoh: Tetamu Undangan" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/80 text-purpleTheme-900">
+        </div>
+
+        <div>
+          <label for="modal-image-caption" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-1.5">Kapsyen Gambar</label>
+          <input type="text" id="modal-image-caption" placeholder="Contoh: Kenangan Bersama Pengantin" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/80 text-purpleTheme-900">
+        </div>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button id="cancel-upload-btn" type="button" class="w-1/2 py-3 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-medium hover:bg-purpleTheme-50 transition-all cursor-pointer">
+          BATAL
+        </button>
+        <button id="confirm-upload-btn" type="button" class="w-1/2 py-3 rounded-xl bg-purpleTheme-900 text-white text-xs font-medium shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">
+          TERUSKAN
+        </button>
+      </div>
+    </div>
+  </div>
+  
   <!-- Script JS (Pastikan dipanggil di akhir body) -->
   <script src="js/script.js"></script>
 </body>
