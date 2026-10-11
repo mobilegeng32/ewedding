@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* -------------------------------------------------------------
-     1. Smooth Scroll Handler (Fix Smooth Scroll)
+     0. CONFIGURATION: URL Google Apps Script Anda
+  ------------------------------------------------------------- */
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec'; // <--- LETAK URL DI SINI
+
+
+  /* -------------------------------------------------------------
+     1. Smooth Scroll Handler
   ------------------------------------------------------------- */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -19,8 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+
   /* -------------------------------------------------------------
-     1. Background Music Controller & Auto-play on First Interaction
+     2. Background Music Controller & Auto-play on First Interaction
   ------------------------------------------------------------- */
   const bgMusic = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
@@ -28,14 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let isPlaying = false;
   let hasInteracted = false;
 
-  // Fungsi untuk mainkan audio apabila interaksi pertama berlaku
   function triggerAudioPlay() {
     if (!hasInteracted && bgMusic) {
       bgMusic.play().then(() => {
         if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
         isPlaying = true;
         hasInteracted = true;
-        // Padam event listener selepas audio mula dimainkan
         window.removeEventListener('click', triggerAudioPlay);
         window.removeEventListener('scroll', triggerAudioPlay);
         window.removeEventListener('touchstart', triggerAudioPlay);
@@ -45,15 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Aktifkan pencetus apabila tetamu mula klik, skrol atau sentuh skrin
   window.addEventListener('click', triggerAudioPlay);
   window.addEventListener('scroll', triggerAudioPlay);
   window.addEventListener('touchstart', triggerAudioPlay);
 
-  // Kawalan manual butang muzik di skrin
   if (musicBtn && bgMusic) {
     musicBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Elak bertembung dengan event window click
+      e.stopPropagation();
       if (isPlaying) {
         bgMusic.pause();
         if (musicIcon) musicIcon.className = 'fas fa-music text-lg';
@@ -65,12 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       isPlaying = !isPlaying;
-      hasInteracted = true; // Anggap pengguna sudah berinteraksi
+      hasInteracted = true;
     });
   }
 
+
   /* -------------------------------------------------------------
-     3. Live Countdown Timer (Fix Timer)
+     3. Live Countdown Timer
   ------------------------------------------------------------- */
   const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
 
@@ -107,8 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
+
   /* -------------------------------------------------------------
-     4. Add to Calendar ICS Generator (Fix Download ICS)
+     4. Add to Calendar ICS Generator
   ------------------------------------------------------------- */
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
@@ -136,73 +141,63 @@ END:VCALENDAR`;
     });
   }
 
-/* -------------------------------------------------------------
-   5. RSVP Submission Logic (Google Sheets JSON Integration)
-------------------------------------------------------------- */
-const rsvpForm = document.getElementById('rsvp-form');
-if (rsvpForm) {
-  rsvpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const submitBtn = rsvpForm.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn.innerText;
-    submitBtn.innerText = "Sedang Hantar...";
-    submitBtn.disabled = true;
-
-    // MASUKKAN URL WEB APP ANDA DI SINI
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
-
-    const formData = {
-      name: document.getElementById('rsvp-name').value,
-      phone: document.getElementById('rsvp-phone').value,
-      status: document.getElementById('rsvp-status').value,
-      pax: document.getElementById('rsvp-pax').value
-    };
-
-    fetch(scriptURL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(() => {
-      const alertBox = document.getElementById('rsvp-alert');
-      if (alertBox) {
-        alertBox.classList.remove('hidden');
-        rsvpForm.reset();
-        setTimeout(() => {
-          alertBox.classList.add('hidden');
-        }, 5000);
-      }
-      submitBtn.innerText = originalBtnText;
-      submitBtn.disabled = false;
-    })
-    .catch(error => {
-      console.error('Error!', error);
-      alert('Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.');
-      submitBtn.innerText = originalBtnText;
-      submitBtn.disabled = false;
-    });
-  });
-}
 
   /* -------------------------------------------------------------
-     6. Gallery Slideshow & Guest Photo Upload
+     5. RSVP Submission Logic (Connected to Google Sheets)
   ------------------------------------------------------------- */
-  const defaultGallery = [
+  const rsvpForm = document.getElementById('rsvp-form');
+  if (rsvpForm) {
+    rsvpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerText;
+      submitBtn.innerText = "Sedang Hantar...";
+      submitBtn.disabled = true;
+
+      const formData = {
+        action: "rsvp",
+        name: document.getElementById('rsvp-name').value,
+        phone: document.getElementById('rsvp-phone').value,
+        status: document.getElementById('rsvp-status').value,
+        pax: document.getElementById('rsvp-pax').value
+      };
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+      .then(() => {
+        const alertBox = document.getElementById('rsvp-alert');
+        if (alertBox) {
+          alertBox.classList.remove('hidden');
+          rsvpForm.reset();
+          setTimeout(() => {
+            alertBox.classList.add('hidden');
+          }, 5000);
+        }
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+      })
+      .catch(error => {
+        console.error('RSVP Error:', error);
+        alert('Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.');
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+      });
+    });
+  }
+
+
+  /* -------------------------------------------------------------
+     6. Dynamic Gallery & Google Drive/Sheets Integration
+  ------------------------------------------------------------- */
+  let defaultGallery = [
     {
       url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
       caption: "Detik Manis Bersama"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80",
-      caption: "Semangat Bersama Merentas Sempadan"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80",
-      caption: "Persiapan Hari Bahagia"
     }
   ];
 
@@ -213,8 +208,27 @@ if (rsvpForm) {
   const nextBtn = document.getElementById('next-slide');
   const photoUpload = document.getElementById('photo-upload');
 
+  // Tarik senarai gambar dari Google Sheets & Drive
+  function fetchGalleryImages() {
+    if (!SCRIPT_URL.includes('http')) return;
+    
+    fetch(SCRIPT_URL)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          const fetchedImages = data.reverse().map(item => ({
+            url: item.url,
+            caption: `${item.caption} (Oleh: ${item.name})`
+          }));
+          defaultGallery = fetchedImages.concat(defaultGallery);
+          renderSlide();
+        }
+      })
+      .catch(err => console.log("Gagal memuat galeri:", err));
+  }
+
   function renderSlide() {
-    if (!slideImg || !slideCaption) return;
+    if (!slideImg || !slideCaption || defaultGallery.length === 0) return;
     slideImg.style.opacity = '0.3';
     setTimeout(() => {
       slideImg.src = defaultGallery[currentSlide].url;
@@ -236,43 +250,72 @@ if (rsvpForm) {
   }
 
   setInterval(() => {
-    if (slideImg) {
+    if (slideImg && defaultGallery.length > 0) {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
       renderSlide();
     }
   }, 5000);
 
+  // Proses Muat Naik Gambar ke Google Drive/Sheets
   if (photoUpload) {
     photoUpload.addEventListener('change', (event) => {
       const file = event.target.files[0];
       if (file) {
+        const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
+        const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
+
         const reader = new FileReader();
         reader.onload = function(e) {
-          defaultGallery.unshift({
-            url: e.target.result,
-            caption: "Gambar Dimuat Naik Oleh Tetamu"
+          const base64String = e.target.result.split(',')[1];
+          
+          const payload = {
+            action: "gallery",
+            fileName: file.name,
+            mimeType: file.type,
+            fileData: base64String,
+            name: uploaderName,
+            caption: imageCaption
+          };
+
+          alert("Sedang memuat naik gambar ke server... Sila tunggu sebentar.");
+
+          fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
+          .then(() => {
+            alert("Berjaya! Gambar anda telah dimuat naik dan disimpan dalam sistem.");
+            defaultGallery.unshift({
+              url: e.target.result,
+              caption: `${imageCaption} (Oleh: ${uploaderName})`
+            });
+            currentSlide = 0;
+            renderSlide();
+          })
+          .catch(error => {
+            console.error('Upload error:', error);
+            alert('Gagal memuat naik gambar. Sila cuba lagi.');
           });
-          currentSlide = 0;
-          renderSlide();
         };
         reader.readAsDataURL(file);
       }
     });
   }
 
+  fetchGalleryImages();
+  renderSlide();
+
+
   /* -------------------------------------------------------------
-     7. Wish Board Logic
+     7. Wish Board / Buku Hajat (Local UI Simulation)
   ------------------------------------------------------------- */
   const wishesList = [
     {
       name: "Farhan & Amira",
       message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
       time: "Baru sahaja"
-    },
-    {
-      name: "Mak Cik Salmah",
-      message: "Tahniah buat kedua-dua anakanda. Moga dipermudahkan segala urusan majlis nikah nanti.",
-      time: "2 jam yang lalu"
     }
   ];
 
