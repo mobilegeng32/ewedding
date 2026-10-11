@@ -343,9 +343,9 @@ END:VCALENDAR`;
 	  ------------------------------------------------------------- */
 	  let defaultWishes = [
 		{
-		  name: "Farhan & Amira",
-		  message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
-		  time: "Baru sahaja"
+		  name: "Systems",
+		  message: "'Titipkan sepotong doa, pesanan, atau hajat buat mengiringi mahligai cinta pasangan.'",
+		  time: ""
 		}
 	  ];
 
