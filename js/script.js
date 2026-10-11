@@ -12,13 +12,20 @@ function updateCountdown() {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById("days").innerText = String(days).padStart(2, '0');
-    document.getElementById("hours").innerText = String(hours).padStart(2, '0');
-    document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
-    document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
+    if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+    if (minutesEl) minutesEl.innerText = String(minutes).padStart(2, '0');
+    if (secondsEl) secondsEl.innerText = String(seconds).padStart(2, '0');
   } else {
-    document.getElementById("countdown").innerHTML = 
-      "<div class='col-span-4 font-bold text-center text-yellow-300'>MAJLIS SEDANG BERLANGSUNG!</div>";
+    const countdownEl = document.getElementById("countdown");
+    if (countdownEl) {
+      countdownEl.innerHTML = "<div class='col-span-4 font-bold text-center text-yellow-300'>MAJLIS SEDANG BERLANGSUNG!</div>";
+    }
   }
 }
 
@@ -29,22 +36,37 @@ updateCountdown();
 // Audio Player Control
 const bgMusic = document.getElementById("bgMusic");
 const musicToggle = document.getElementById("musicToggle");
+const musicToggleMobile = document.getElementById("musicToggleMobile");
 let isPlaying = false;
+
+function toggleAudio() {
+  if (!bgMusic) return;
+
+  if (isPlaying) {
+    bgMusic.pause();
+    if (musicToggle) musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
+    if (musicToggleMobile) musicToggleMobile.innerHTML = '<i class="fa-solid fa-music"></i>';
+    isPlaying = false;
+  } else {
+    bgMusic.play().then(() => {
+      if (musicToggle) musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      if (musicToggleMobile) musicToggleMobile.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      isPlaying = true;
+    }).catch(err => console.log("Ralat memainkan audio:", err));
+  }
+}
 
 if (musicToggle) {
   musicToggle.addEventListener("click", (e) => {
-    // Hentikan penularan event supaya tidak bertembung dengan event click global
     e.stopPropagation();
-    
-    if (isPlaying) {
-      bgMusic.pause();
-      musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
-    } else {
-      bgMusic.play().then(() => {
-        musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      }).catch(err => console.log("Ralat memainkan audio:", err));
-    }
-    isPlaying = !isPlaying;
+    toggleAudio();
+  });
+}
+
+if (musicToggleMobile) {
+  musicToggleMobile.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleAudio();
   });
 }
 
@@ -53,9 +75,8 @@ document.addEventListener('click', function musicAutoplayOnce() {
   if (bgMusic && bgMusic.paused && !isPlaying) {
     bgMusic.play().then(() => {
       isPlaying = true;
-      if (musicToggle) {
-        musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-      }
+      if (musicToggle) musicToggle.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      if (musicToggleMobile) musicToggleMobile.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
     }).catch(error => {
       console.log("Autoplay disekat oleh pelayar sehingga interaksi fizikal seterusnya:", error);
     });
@@ -64,11 +85,13 @@ document.addEventListener('click', function musicAutoplayOnce() {
 
 // Modal Dialog Controls
 function openModal(id) {
-  document.getElementById(id).classList.add("active");
+  const modal = document.getElementById(id);
+  if (modal) modal.classList.add("active");
 }
 
 function closeModal(id) {
-  document.getElementById(id).classList.remove("active");
+  const modal = document.getElementById(id);
+  if (modal) modal.classList.remove("active");
 }
 
 // RSVP Form Handler
@@ -81,17 +104,24 @@ function handleRSVP(e) {
 // Wishes Form Handler
 function handleWish(e) {
   e.preventDefault();
-  const name = document.getElementById("wishName").value;
-  const text = document.getElementById("wishText").value;
+  const nameEl = document.getElementById("wishName");
+  const textEl = document.getElementById("wishText");
+  
+  if (!nameEl || !textEl) return;
+
+  const name = nameEl.value;
+  const text = textEl.value;
   
   const wishesList = document.getElementById("wishesList");
-  const newWish = document.createElement("div");
-  newWish.className = "bg-purple-900/5 p-2.5 rounded-lg text-xs animate-fadeIn";
-  newWish.innerHTML = `<p class="font-bold text-purple-900">${name}</p><p class="text-purple-800 italic">"${text}"</p>`;
-  
-  wishesList.prepend(newWish);
-  document.getElementById("wishName").value = "";
-  document.getElementById("wishText").value = "";
+  if (wishesList) {
+    const newWish = document.createElement("div");
+    newWish.className = "bg-purple-900/5 p-2.5 rounded-lg text-xs animate-fadeIn";
+    newWish.innerHTML = `<p class="font-bold text-purple-900">${name}</p><p class="text-purple-800 italic">"${text}"</p>`;
+    wishesList.prepend(newWish);
+  }
+
+  nameEl.value = "";
+  textEl.value = "";
   alert("Terima kasih atas ucapan & doa anda!");
 }
 
@@ -105,6 +135,8 @@ function toggleMobileMenu() {
   const dropdown = document.getElementById("mobileDropdown");
   const menuIcon = document.getElementById("menuIcon");
   
+  if (!dropdown || !menuIcon) return;
+
   if (dropdown.classList.contains("hidden")) {
     dropdown.classList.remove("hidden");
     dropdown.classList.add("flex");
@@ -114,13 +146,4 @@ function toggleMobileMenu() {
     dropdown.classList.remove("flex");
     menuIcon.className = "fa-solid fa-bars"; // Tukar balik jadi ikon garis 3
   }
-}
-
-// Sinkronisasi butang muzik mudah alih dengan butang desktop
-const musicToggleMobile = document.getElementById("musicToggleMobile");
-if (musicToggleMobile && musicToggle) {
-  musicToggleMobile.addEventListener("click", (e) => {
-    e.stopPropagation();
-    musicToggle.click(); // Cetuskan fungsi klik butang muzik utama
-  });
 }
