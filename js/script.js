@@ -237,11 +237,11 @@ END:VCALENDAR`;
       slideImg.style.opacity = '1';
     }, 200);
 
-    // Tetapan masa transisi automatik 7 saat (7000ms)
+    // Tetapan masa transisi automatik 10 saat (10000ms)
     slideTimer = setTimeout(() => {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
       renderSlide();
-    }, 7000);
+    }, 10000);
   }
 
   if (prevBtn && nextBtn) {
