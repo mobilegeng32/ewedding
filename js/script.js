@@ -188,8 +188,9 @@ END:VCALENDAR`;
     });
   }
 
-/* -------------------------------------------------------------
-     6. Dynamic Gallery & Google Drive/Sheets Integration (HD & Real-Time)
+
+  /* -------------------------------------------------------------
+     6. Dynamic Gallery & Google Drive/Sheets Integration (Original Size Full Resolution)
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
@@ -262,6 +263,7 @@ END:VCALENDAR`;
       slideImg.style.opacity = '1';
     }, 200);
 
+    // Transisi automatik setiap 10 saat
     slideTimer = setTimeout(() => {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
       renderSlide();
@@ -287,37 +289,23 @@ END:VCALENDAR`;
         const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
         const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
 
-        alert("Sedang memproses dan memuat naik gambar ke server... Sila tunggu sebentar.");
+        alert("Sedang memproses dan memuat naik saiz piksel asal penuh ke server... Sila tunggu sebentar.");
 
         const reader = new FileReader();
         reader.onload = function(e) {
           const img = new Image();
           img.src = e.target.result;
           img.onload = function() {
+            // Mengambil ukuran piksel asal sepenuhnya tanpa had maksimum atau pengecilan
             const canvas = document.createElement('canvas');
-            
-            const MAX_WIDTH = 2560;
-            const MAX_HEIGHT = 2560;
-            let width = img.width;
-            let height = img.height;
-
-            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
-              if (width > height) {
-                height *= MAX_WIDTH / width;
-                width = MAX_WIDTH;
-              } else {
-                width *= MAX_HEIGHT / height;
-                height = MAX_HEIGHT;
-              }
-            }
-
-            canvas.width = width;
-            canvas.height = height;
+            canvas.width = img.width;
+            canvas.height = img.height;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, width, height);
+            ctx.drawImage(img, 0, 0);
 
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
-            const base64String = compressedDataUrl.split(',')[1];
+            // Kualiti imej ditetapkan kepada 100% (1.0)
+            const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);
+            const base64String = originalDataUrl.split(',')[1];
 
             const formData = new URLSearchParams();
             formData.append('action', 'gallery');
@@ -333,7 +321,7 @@ END:VCALENDAR`;
             })
             .then(response => response.json())
             .then(data => {
-              alert("Berjaya! Gambar anda telah disimpan di dalam Google Drive.");
+              alert("Berjaya! Gambar resolusi penuh asal anda telah disimpan.");
               fetchGalleryImages();
             })
             .catch(error => {
@@ -351,6 +339,7 @@ END:VCALENDAR`;
   setInterval(() => {
     fetchGalleryImages(true);
   }, 10000);
+
 
   /* -------------------------------------------------------------
      7. Wish Board / Buku Hajat (Local UI Simulation)
@@ -401,7 +390,7 @@ END:VCALENDAR`;
   
 
   /* -------------------------------------------------------------
-     8. Gallery Lightbox / Preview Feature (HD Resolution Fix)
+     8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
   ------------------------------------------------------------- */
   if (slideshowContainer) {
     const modal = document.createElement('div');
@@ -425,6 +414,7 @@ END:VCALENDAR`;
       if (slideImg && slideImg.src) {
         let rawUrl = slideImg.src;
 
+        // Memaksa Google Drive memaparkan saiz penuh asal (=s0) ketika preview
         if (rawUrl.includes('googleusercontent.com')) {
           rawUrl = rawUrl.split('=')[0] + '=s0';
         }
