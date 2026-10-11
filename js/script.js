@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      const targetId = this.getAttribute('href');[cite: 6]
+      const targetId = this.getAttribute('href');
       if (targetId === '#') return;
       
       const targetElement = document.querySelector(targetId);
@@ -29,46 +29,46 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -------------------------------------------------------------
      2. Background Music Controller & Auto-play on First Interaction
   ------------------------------------------------------------- */
-  const bgMusic = document.getElementById('bg-music');[cite: 6]
-  const musicBtn = document.getElementById('music-toggle');[cite: 6]
-  const musicIcon = document.getElementById('music-icon');[cite: 6]
-  let isPlaying = false;[cite: 6]
-  let hasInteracted = false;[cite: 6]
+  const bgMusic = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-toggle');
+  const musicIcon = document.getElementById('music-icon');
+  let isPlaying = false;
+  let hasInteracted = false;
 
   function triggerAudioPlay() {
     if (!hasInteracted && bgMusic) {
       bgMusic.play().then(() => {
-        if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';[cite: 6]
-        isPlaying = true;[cite: 6]
-        hasInteracted = true;[cite: 6]
-        window.removeEventListener('click', triggerAudioPlay);[cite: 6]
-        window.removeEventListener('scroll', triggerAudioPlay);[cite: 6]
-        window.removeEventListener('touchstart', triggerAudioPlay);[cite: 6]
+        if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
+        isPlaying = true;
+        hasInteracted = true;
+        window.removeEventListener('click', triggerAudioPlay);
+        window.removeEventListener('scroll', triggerAudioPlay);
+        window.removeEventListener('touchstart', triggerAudioPlay);
       }).catch((error) => {
-        console.log("Autoplay disekat oleh pelayar:", error);[cite: 6]
+        console.log("Autoplay disekat oleh pelayar:", error);
       });
     }
   }
 
-  window.addEventListener('click', triggerAudioPlay);[cite: 6]
-  window.addEventListener('scroll', triggerAudioPlay);[cite: 6]
-  window.addEventListener('touchstart', triggerAudioPlay);[cite: 6]
+  window.addEventListener('click', triggerAudioPlay);
+  window.addEventListener('scroll', triggerAudioPlay);
+  window.addEventListener('touchstart', triggerAudioPlay);
 
   if (musicBtn && bgMusic) {
     musicBtn.addEventListener('click', (e) => {
-      e.stopPropagation();[cite: 6]
+      e.stopPropagation();
       if (isPlaying) {
-        bgMusic.pause();[cite: 6]
-        if (musicIcon) musicIcon.className = 'fas fa-music text-lg';[cite: 6]
+        bgMusic.pause();
+        if (musicIcon) musicIcon.className = 'fas fa-music text-lg';
       } else {
         bgMusic.play().then(() => {
-          if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';[cite: 6]
+          if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
         }).catch((err) => {
-          console.log("Audio play error:", err);[cite: 6]
+          console.log("Audio play error:", err);
         });
       }
-      isPlaying = !isPlaying;[cite: 6]
-      hasInteracted = true;[cite: 6]
+      isPlaying = !isPlaying;
+      hasInteracted = true;
     });
   }
 
@@ -76,46 +76,46 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -------------------------------------------------------------
      3. Live Countdown Timer
   ------------------------------------------------------------- */
-  const weddingDate = new Date('May 22, 2027 10:00:00').getTime();[cite: 6]
+  const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
 
   function updateCountdown() {
-    const now = new Date().getTime();[cite: 6]
-    const distance = weddingDate - now;[cite: 6]
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
 
-    const daysEl = document.getElementById('cd-days');[cite: 6]
-    const hoursEl = document.getElementById('cd-hours');[cite: 6]
-    const minutesEl = document.getElementById('cd-minutes');[cite: 6]
-    const secondsEl = document.getElementById('cd-seconds');[cite: 6]
+    const daysEl = document.getElementById('cd-days');
+    const hoursEl = document.getElementById('cd-hours');
+    const minutesEl = document.getElementById('cd-minutes');
+    const secondsEl = document.getElementById('cd-seconds');
 
-    if (!daysEl) return;[cite: 6]
+    if (!daysEl) return;
 
     if (distance < 0) {
-      daysEl.innerText = "00";[cite: 6]
-      hoursEl.innerText = "00";[cite: 6]
-      minutesEl.innerText = "00";[cite: 6]
-      secondsEl.innerText = "00";[cite: 6]
+      daysEl.innerText = "00";
+      hoursEl.innerText = "00";
+      minutesEl.innerText = "00";
+      secondsEl.innerText = "00";
       return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));[cite: 6]
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));[cite: 6]
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));[cite: 6]
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);[cite: 6]
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    daysEl.innerText = days < 10 ? '0' + days : days;[cite: 6]
-    hoursEl.innerText = hours < 10 ? '0' + hours : hours;[cite: 6]
-    minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;[cite: 6]
-    secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;[cite: 6]
+    daysEl.innerText = days < 10 ? '0' + days : days;
+    hoursEl.innerText = hours < 10 ? '0' + hours : hours;
+    minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
+    secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
   }
 
-  setInterval(updateCountdown, 1000);[cite: 6]
-  updateCountdown();[cite: 6]
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
 
 
   /* -------------------------------------------------------------
      4. Add to Calendar ICS Generator
   ------------------------------------------------------------- */
-  const calBtn = document.getElementById('add-calendar-btn');[cite: 6]
+  const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', () => {
       const icsData = 
@@ -129,15 +129,15 @@ LOCATION:Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency
 DTSTART:20270522T030000Z
 DTEND:20270522T070000Z
 END:VEVENT
-END:VCALENDAR`;[cite: 6]
+END:VCALENDAR`;
 
-      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });[cite: 6]
-      const link = document.createElement('a');[cite: 6]
-      link.href = window.URL.createObjectURL(blob);[cite: 6]
-      link.setAttribute('download', 'Majlis_Nikah_Utrias_Hazim.ics');[cite: 6]
-      document.body.appendChild(link);[cite: 6]
-      link.click();[cite: 6]
-      document.body.removeChild(link);[cite: 6]
+      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute('download', 'Majlis_Nikah_Utrias_Hazim.ics');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
   }
 
@@ -145,22 +145,22 @@ END:VCALENDAR`;[cite: 6]
   /* -------------------------------------------------------------
      5. RSVP Submission Logic (Google Sheets via URLSearchParams)
   ------------------------------------------------------------- */
-  const rsvpForm = document.getElementById('rsvp-form');[cite: 6]
+  const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
-      e.preventDefault();[cite: 6]
+      e.preventDefault();
       
-      const submitBtn = rsvpForm.querySelector('button[type="submit"]');[cite: 6]
-      const originalBtnText = submitBtn.innerText;[cite: 6]
-      submitBtn.innerText = "Sedang Hantar...";[cite: 6]
-      submitBtn.disabled = true;[cite: 6]
+      const submitBtn = rsvpForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerText;
+      submitBtn.innerText = "Sedang Hantar...";
+      submitBtn.disabled = true;
 
-      const formData = new URLSearchParams();[cite: 6]
-      formData.append('action', 'rsvp');[cite: 6]
-      formData.append('name', document.getElementById('rsvp-name').value);[cite: 6]
-      formData.append('phone', document.getElementById('rsvp-phone').value);[cite: 6]
-      formData.append('status', document.getElementById('rsvp-status').value);[cite: 6]
-      formData.append('pax', document.getElementById('rsvp-pax').value);[cite: 6]
+      const formData = new URLSearchParams();
+      formData.append('action', 'rsvp');
+      formData.append('name', document.getElementById('rsvp-name').value);
+      formData.append('phone', document.getElementById('rsvp-phone').value);
+      formData.append('status', document.getElementById('rsvp-status').value);
+      formData.append('pax', document.getElementById('rsvp-pax').value);
 
       fetch(SCRIPT_URL, {
         method: 'POST',
@@ -168,22 +168,22 @@ END:VCALENDAR`;[cite: 6]
       })
       .then(response => response.json())
       .then(data => {
-        const alertBox = document.getElementById('rsvp-alert');[cite: 6]
+        const alertBox = document.getElementById('rsvp-alert');
         if (alertBox) {
-          alertBox.classList.remove('hidden');[cite: 6]
-          rsvpForm.reset();[cite: 6]
+          alertBox.classList.remove('hidden');
+          rsvpForm.reset();
           setTimeout(() => {
-            alertBox.classList.add('hidden');[cite: 6]
+            alertBox.classList.add('hidden');
           }, 5000);
         }
-        submitBtn.innerText = originalBtnText;[cite: 6]
-        submitBtn.disabled = false;[cite: 6]
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
       })
       .catch(error => {
-        console.error('RSVP Error:', error);[cite: 6]
-        alert('Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.');[cite: 6]
-        submitBtn.innerText = originalBtnText;[cite: 6]
-        submitBtn.disabled = false;[cite: 6]
+        console.error('RSVP Error:', error);
+        alert('Terdapat masalah semasa menghantar RSVP. Sila cuba lagi.');
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
       });
     });
   }
@@ -197,22 +197,22 @@ END:VCALENDAR`;[cite: 6]
       url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942",
       caption: "Detik Manis Bersama"
     }
-  ];[cite: 6]
+  ];
 
-  let defaultGallery = [];[cite: 6]
-  let currentSlide = 0;[cite: 6]
-  let slideTimer = null;[cite: 6]
-  let isUsingFallback = false;[cite: 6]
+  let defaultGallery = [];
+  let currentSlide = 0;
+  let slideTimer = null;
+  let isUsingFallback = false;
   
-  const slideImg = document.getElementById('slideshow-img');[cite: 6]
-  const slideCaption = document.getElementById('slideshow-caption');[cite: 6]
-  const slideshowContainer = document.getElementById('slideshow-container');[cite: 6]
-  const prevBtn = document.getElementById('prev-slide');[cite: 6]
-  const nextBtn = document.getElementById('next-slide');[cite: 6]
-  const photoUpload = document.getElementById('photo-upload');[cite: 6]
+  const slideImg = document.getElementById('slideshow-img');
+  const slideCaption = document.getElementById('slideshow-caption');
+  const slideshowContainer = document.getElementById('slideshow-container');
+  const prevBtn = document.getElementById('prev-slide');
+  const nextBtn = document.getElementById('next-slide');
+  const photoUpload = document.getElementById('photo-upload');
 
   function fetchGalleryImages(isBackgroundCheck = false) {
-    if (!SCRIPT_URL.includes('http')) return;[cite: 6]
+    if (!SCRIPT_URL.includes('http')) return;
     
     fetch(SCRIPT_URL)
       .then(res => res.json())
@@ -221,96 +221,96 @@ END:VCALENDAR`;[cite: 6]
           const newGallery = data.map(item => ({
             url: item.url,
             caption: `${item.caption} (Oleh: ${item.name})`
-          }));[cite: 6]
+          }));
 
           if (JSON.stringify(newGallery) !== JSON.stringify(defaultGallery)) {
-            defaultGallery = newGallery;[cite: 6]
-            isUsingFallback = false;[cite: 6]
+            defaultGallery = newGallery;
+            isUsingFallback = false;
             if (!isBackgroundCheck) {
-              currentSlide = 0;[cite: 6]
-              renderSlide();[cite: 6]
+              currentSlide = 0;
+              renderSlide();
             }
           }
         } else {
           if (!isUsingFallback) {
-            defaultGallery = [...fallbackGallery];[cite: 6]
-            isUsingFallback = true;[cite: 6]
-            currentSlide = 0;[cite: 6]
-            renderSlide();[cite: 6]
+            defaultGallery = [...fallbackGallery];
+            isUsingFallback = true;
+            currentSlide = 0;
+            renderSlide();
           }
         }
       })
-      .catch(err => console.log("Gagal memuat galeri:", err));[cite: 6]
+      .catch(err => console.log("Gagal memuat galeri:", err));
   }
 
   function renderSlide() {
-    if (!slideImg || !slideCaption || defaultGallery.length === 0) return;[cite: 6]
+    if (!slideImg || !slideCaption || defaultGallery.length === 0) return;
     
-    if (slideTimer) clearTimeout(slideTimer);[cite: 6]
+    if (slideTimer) clearTimeout(slideTimer);
 
     if (currentSlide >= defaultGallery.length) {
-      currentSlide = 0;[cite: 6]
+      currentSlide = 0;
     }
 
-    const currentImageUrl = defaultGallery[currentSlide].url;[cite: 6]
-    const currentText = defaultGallery[currentSlide].caption;[cite: 6]
+    const currentImageUrl = defaultGallery[currentSlide].url;
+    const currentText = defaultGallery[currentSlide].caption;
 
-    slideImg.style.opacity = '0.3';[cite: 6]
+    slideImg.style.opacity = '0.3';
 
     setTimeout(() => {
-      slideImg.src = currentImageUrl;[cite: 6]
-      slideCaption.innerText = currentText;[cite: 6]
-      slideImg.style.opacity = '1';[cite: 6]
+      slideImg.src = currentImageUrl;
+      slideCaption.innerText = currentText;
+      slideImg.style.opacity = '1';
     }, 200);
 
     slideTimer = setTimeout(() => {
-      currentSlide = (currentSlide + 1) % defaultGallery.length;[cite: 6]
-      renderSlide();[cite: 6]
+      currentSlide = (currentSlide + 1) % defaultGallery.length;
+      renderSlide();
     }, 10000);
   }
 
   if (prevBtn && nextBtn) {
     prevBtn.addEventListener('click', () => {
-      currentSlide = (currentSlide - 1 + defaultGallery.length) % defaultGallery.length;[cite: 6]
-      renderSlide();[cite: 6] 
+      currentSlide = (currentSlide - 1 + defaultGallery.length) % defaultGallery.length;
+      renderSlide(); 
     });
 
     nextBtn.addEventListener('click', () => {
-      currentSlide = (currentSlide + 1) % defaultGallery.length;[cite: 6]
-      renderSlide();[cite: 6] 
+      currentSlide = (currentSlide + 1) % defaultGallery.length;
+      renderSlide(); 
     });
   }
 
   if (photoUpload) {
     photoUpload.addEventListener('change', (event) => {
-      const file = event.target.files[0];[cite: 6]
+      const file = event.target.files[0];
       if (file) {
-        const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";[cite: 6]
-        const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";[cite: 6]
+        const uploaderName = prompt("Sila masukkan nama anda:", "Tetamu Undangan") || "Tetamu";
+        const imageCaption = prompt("Tuliskan kapsyen ringkas untuk gambar ini:", "Kenangan Majlis") || "Kenangan Majlis";
 
-        alert("Sedang memproses dan memuat naik saiz piksel asal penuh ke server... Sila tunggu sebentar.");[cite: 6]
+        alert("Sedang memproses dan memuat naik saiz piksel asal penuh ke server... Sila tunggu sebentar.");
 
-        const reader = new FileReader();[cite: 6]
+        const reader = new FileReader();
         reader.onload = function(e) {
-          const img = new Image();[cite: 6]
-          img.src = e.target.result;[cite: 6]
+          const img = new Image();
+          img.src = e.target.result;
           img.onload = function() {
-            const canvas = document.createElement('canvas');[cite: 6]
-            canvas.width = img.width;[cite: 6]
-            canvas.height = img.height;[cite: 6]
-            const ctx = canvas.getContext('2d');[cite: 6]
-            ctx.drawImage(img, 0, 0);[cite: 6]
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
 
-            const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);[cite: 6]
-            const base64String = originalDataUrl.split(',')[1];[cite: 6]
+            const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);
+            const base64String = originalDataUrl.split(',')[1];
 
-            const formData = new URLSearchParams();[cite: 6]
-            formData.append('action', 'gallery');[cite: 6]
-            formData.append('fileName', file.name.replace(/\.[^/.]+$/, "") + ".jpg");[cite: 6]
-            formData.append('mimeType', 'image/jpeg');[cite: 6]
-            formData.append('fileData', base64String);[cite: 6]
-            formData.append('name', uploaderName);[cite: 6]
-            formData.append('caption', imageCaption);[cite: 6]
+            const formData = new URLSearchParams();
+            formData.append('action', 'gallery');
+            formData.append('fileName', file.name.replace(/\.[^/.]+$/, "") + ".jpg");
+            formData.append('mimeType', 'image/jpeg');
+            formData.append('fileData', base64String);
+            formData.append('name', uploaderName);
+            formData.append('caption', imageCaption);
 
             fetch(SCRIPT_URL, {
               method: 'POST',
@@ -318,12 +318,12 @@ END:VCALENDAR`;[cite: 6]
             })
             .then(response => response.json())
             .then(data => {
-              alert("Berjaya! Gambar resolusi penuh asal anda telah disimpan.");[cite: 6]
-              fetchGalleryImages();[cite: 6]
+              alert("Berjaya! Gambar resolusi penuh asal anda telah disimpan.");
+              fetchGalleryImages();
             })
             .catch(error => {
-              console.error('Upload error:', error);[cite: 6]
-              alert('Gagal memuat naik gambar. Sila cuba lagi.');[cite: 6]
+              console.error('Upload error:', error);
+              alert('Gagal memuat naik gambar. Sila cuba lagi.');
             });
           };
         };
@@ -332,9 +332,9 @@ END:VCALENDAR`;[cite: 6]
     });
   }
 
-  fetchGalleryImages();[cite: 6]
+  fetchGalleryImages();
   setInterval(() => {
-    fetchGalleryImages(true);[cite: 6]
+    fetchGalleryImages(true);
   }, 10000);
 
 
@@ -347,11 +347,10 @@ END:VCALENDAR`;[cite: 6]
       message: "Titipkan sepotong doa, pesanan, atau hajat buat mengiringi mahligai cinta pasangan.",
       timestamp: new Date().toISOString()
     }
-  ];[cite: 6]
+  ];
 
-  let isUsingWishFallback = false;[cite: 6]
+  let isUsingWishFallback = false;
 
-  // Fungsi mengira beza masa secara automatik merentas pelayar
   function getRelativeTime(timestamp) {
     if (!timestamp) return "Baru sahaja";
     
@@ -383,14 +382,13 @@ END:VCALENDAR`;[cite: 6]
   }
 
   function renderWishes() {
-    const container = document.getElementById('wishes-container');[cite: 6]
-    if (!container) return;[cite: 6]
+    const container = document.getElementById('wishes-container');
+    if (!container) return;
     
     container.innerHTML = defaultWishes.map(w => `
       <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-purpleTheme-100 shadow-sm space-y-1.5 transition-all">
         <div class="flex items-center justify-between border-b border-purpleTheme-50 pb-1.5">
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${w.name}</h4>
-          <!-- Menyimpan timestamp asal untuk pengiraan automatik setiap saat -->
           <span class="text-[10px] text-purpleTheme-700/60 font-light wish-time" data-timestamp="${w.timestamp || ''}">${getRelativeTime(w.timestamp)}</span>
         </div>
         <p class="text-xs sm:text-sm text-purpleTheme-800/90 leading-relaxed font-light whitespace-pre-line break-all">${w.message}</p>
@@ -398,19 +396,18 @@ END:VCALENDAR`;[cite: 6]
     `).join('');
   }
 
-  // Fungsi pengemaskinian teks masa secara langsung di skrin setiap 1 saat
   function updateLiveTimestamps() {
-    const timeElements = document.querySelectorAll('.wish-time');[cite: 6]
+    const timeElements = document.querySelectorAll('.wish-time');
     timeElements.forEach(el => {
-      const timestamp = el.getAttribute('data-timestamp');[cite: 6]
+      const timestamp = el.getAttribute('data-timestamp');
       if (timestamp) {
-        el.innerText = getRelativeTime(timestamp);[cite: 6]
+        el.innerText = getRelativeTime(timestamp);
       }
     });
   }
 
   function fetchWishes(isBackgroundCheck = false) {
-    if (!SCRIPT_URL.includes('http')) return;[cite: 6]
+    if (!SCRIPT_URL.includes('http')) return;
 
     fetch(`${SCRIPT_URL}?action=wishes`)
       .then(res => res.json())
@@ -420,44 +417,44 @@ END:VCALENDAR`;[cite: 6]
             name: item.name,
             message: item.message,
             timestamp: item.timestamp
-          })).reverse();[cite: 6]
+          })).reverse();
 
-          const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));[cite: 6]
-          const newWishesSimple = newWishes.map(w => ({ name: w.name, message: w.message }));[cite: 6]
+          const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
+          const newWishesSimple = newWishes.map(w => ({ name: w.name, message: w.message }));
 
           if (JSON.stringify(newWishesSimple) !== JSON.stringify(oldWishesSimple)) {
-            defaultWishes = newWishes;[cite: 6]
-            isUsingWishFallback = false;[cite: 6]
-            renderWishes();[cite: 6]
+            defaultWishes = newWishes;
+            isUsingWishFallback = false;
+            renderWishes();
           }
         } else {
           if (!isUsingWishFallback && !isBackgroundCheck) {
-            isUsingWishFallback = true;[cite: 6]
-            renderWishes();[cite: 6]
+            isUsingWishFallback = true;
+            renderWishes();
           }
         }
       })
-      .catch(err => console.log("Gagal memuat ucapan:", err));[cite: 6]
+      .catch(err => console.log("Gagal memuat ucapan:", err));
   }
 
-  const wishForm = document.getElementById('wish-form');[cite: 6]
+  const wishForm = document.getElementById('wish-form');
   if (wishForm) {
     wishForm.addEventListener('submit', (e) => {
-      e.preventDefault();[cite: 6]
-      const nameInput = document.getElementById('wish-name');[cite: 6]
-      const msgInput = document.getElementById('wish-message');[cite: 6]
-      const submitBtn = wishForm.querySelector('button[type="submit"]');[cite: 6]
+      e.preventDefault();
+      const nameInput = document.getElementById('wish-name');
+      const msgInput = document.getElementById('wish-message');
+      const submitBtn = wishForm.querySelector('button[type="submit"]');
 
       if (nameInput.value && msgInput.value) {
         if (submitBtn) {
-          submitBtn.innerText = "Sedang Hantar...";[cite: 6]
-          submitBtn.disabled = true;[cite: 6]
+          submitBtn.innerText = "Sedang Hantar...";
+          submitBtn.disabled = true;
         }
 
-        const formData = new URLSearchParams();[cite: 6]
-        formData.append('action', 'wishes');[cite: 6]
-        formData.append('name', nameInput.value);[cite: 6]
-        formData.append('message', msgInput.value);[cite: 6]
+        const formData = new URLSearchParams();
+        formData.append('action', 'wishes');
+        formData.append('name', nameInput.value);
+        formData.append('message', msgInput.value);
 
         fetch(SCRIPT_URL, {
           method: 'POST',
@@ -465,38 +462,36 @@ END:VCALENDAR`;[cite: 6]
         })
         .then(response => response.json())
         .then(data => {
-          nameInput.value = '';[cite: 6]
-          msgInput.value = '';[cite: 6]
+          nameInput.value = '';
+          msgInput.value = '';
           if (submitBtn) {
-            submitBtn.innerText = "Hantar Ucapan";[cite: 6]
-            submitBtn.disabled = false;[cite: 6]
+            submitBtn.innerText = "Hantar Ucapan";
+            submitBtn.disabled = false;
           }
           
-          alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");[cite: 6]
+          alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");
           
-          fetchWishes();[cite: 6]
+          fetchWishes();
         })
         .catch(error => {
-          console.error('Wish Error:', error);[cite: 6]
-          alert('Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.');[cite: 6]
+          console.error('Wish Error:', error);
+          alert('Terdapat masalah semasa menghantar ucapan. Sila cuba lagi.');
           if (submitBtn) {
-            submitBtn.innerText = "Hantar Ucapan";[cite: 6]
-            submitBtn.disabled = false;[cite: 6]
+            submitBtn.innerText = "Hantar Ucapan";
+            submitBtn.disabled = false;
           }
         });
       }
     });
   }
 
-  // 1. Tarik data awal & semak kemas kini latar belakang setiap 3 saat merentas peranti
-  fetchWishes();[cite: 6]
+  fetchWishes();
   setInterval(() => {
-    fetchWishes(true);[cite: 6]
+    fetchWishes(true);
   }, 3000);
 
-  // 2. Kemas kini paparan teks masa secara automatik di skrin SETIAP 1 SAAT
   setInterval(() => {
-    updateLiveTimestamps();[cite: 6]
+    updateLiveTimestamps();
   }, 1000);
   
   
@@ -504,39 +499,39 @@ END:VCALENDAR`;[cite: 6]
      8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
   ------------------------------------------------------------- */
   if (slideshowContainer) {
-    const modal = document.createElement('div');[cite: 6]
-    modal.id = 'gallery-modal';[cite: 6]
-    modal.className = 'fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden p-4 cursor-pointer';[cite: 6]
+    const modal = document.createElement('div');
+    modal.id = 'gallery-modal';
+    modal.className = 'fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden p-4 cursor-pointer';
     modal.innerHTML = `
       <div class="relative max-w-5xl max-h-full flex flex-col items-center">
         <span class="absolute -top-10 right-0 text-white text-3xl font-bold cursor-pointer">&times;</span>
         <img id="modal-img" class="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl" src="" alt="Preview">
         <p id="modal-caption" class="text-white text-sm mt-3 italic text-center"></p>
       </div>
-    `;[cite: 6]
-    document.body.appendChild(modal);[cite: 6]
+    `;
+    document.body.appendChild(modal);
 
-    const modalImg = document.getElementById('modal-img');[cite: 6]
-    const modalCaption = document.getElementById('modal-caption');[cite: 6]
+    const modalImg = document.getElementById('modal-img');
+    const modalCaption = document.getElementById('modal-caption');
 
     slideshowContainer.addEventListener('click', (e) => {
-      if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;[cite: 6]
+      if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;
       
       if (slideImg && slideImg.src) {
-        let rawUrl = slideImg.src;[cite: 6]
+        let rawUrl = slideImg.src;
 
         if (rawUrl.includes('googleusercontent.com')) {
-          rawUrl = rawUrl.split('=')[0] + '=s0';[cite: 6]
+          rawUrl = rawUrl.split('=')[0] + '=s0';
         }
 
-        modalImg.src = rawUrl;[cite: 6]
-        modalCaption.innerText = slideCaption ? slideCaption.innerText : '';[cite: 6]
-        modal.classList.remove('hidden');[cite: 6]
+        modalImg.src = rawUrl;
+        modalCaption.innerText = slideCaption ? slideCaption.innerText : '';
+        modal.classList.remove('hidden');
       }
     });
 
     modal.addEventListener('click', () => {
-      modal.classList.add('hidden');[cite: 6]
+      modal.classList.add('hidden');
     });
   }
 
