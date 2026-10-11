@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Walimatulurus | Utrias & Hazim</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -11,8 +12,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <!-- <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">-->
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -39,35 +39,32 @@
           fontFamily: {
             serif: ['Cormorant Garamond', 'serif'],
             sans: ['Montserrat', 'sans-serif'],
-			arabic: ['Amiri', 'serif'],
+            arabic: ['Amiri', 'serif'],
           }
         }
       }
     }
   </script>
 
-  <!-- Link ke Fail CSS Luar -->
+  <!-- Link ke CSS Luar -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
 
-  <!-- Audio Player (Background Music) -->
-  <audio id="bg-music" loop>
-  <source src="music/background-sound.mp3" type="audio/mpeg">
+  <!-- Audio Player (Gunakan link direct mp3 yang terpercaya) -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-acoustic-guitar-113524.mp3" type="audio/mpeg">
   </audio>
 
+  <!-- Music Button -->
   <div class="fixed bottom-6 right-6 z-50">
-    <button id="music-toggle" class="bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 p-3.5 rounded-full shadow-lg flex items-center justify-center smooth-transition hover:scale-105 border-2 border-butter-200" title="Pasang/Hentikan Lagu Background">
+    <button id="music-toggle" type="button" class="bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 p-3.5 rounded-full shadow-lg flex items-center justify-center smooth-transition hover:scale-105 border-2 border-butter-200" title="Pasang/Hentikan Lagu Background">
       <i id="music-icon" class="fas fa-music text-lg"></i>
     </button>
   </div>
 
   <!-- HERO SECTION -->
-  <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-gradient-to-b from-butter-100/60 via-[#FAF8F5] to-[#FAF8F5]">
-    <!-- Decorative background elements -->
-    <div class="absolute -top-24 -left-24 w-96 h-96 bg-butter-200/50 rounded-full filter blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-purpleTheme-100/50 rounded-full filter blur-3xl pointer-events-none"></div>
-
+  <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
     <div class="max-w-3xl mx-auto z-10 space-y-6">
       <span class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-4 py-1.5 rounded-full border border-butter-300">
         Walimatulurus / Undangan Majlis Nikah
@@ -84,7 +81,7 @@
       <div class="w-16 h-[1px] bg-purpleTheme-700/30 mx-auto my-4"></div>
 
       <p class="text-sm sm:text-base font-medium tracking-widest uppercase text-purpleTheme-700">
-        Sabtu, 28 May 2027
+        Sabtu, 22 May 2027
       </p>
 
       <div class="pt-8">
@@ -94,33 +91,29 @@
       </div>
     </div>
 
-    <!-- Scroll down indicator -->
     <a href="#invitation-section" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-purpleTheme-700/60 hover:text-purpleTheme-700 animate-bounce">
       <i class="fas fa-chevron-down text-xl"></i>
     </a>
   </section>
 
-	<!-- RUANGAN UCAPAN JEMPUTAN (NAMA IBU BAPA & PENGANTIN) -->
-	<section id="invitation-section" class="py-16 px-6 max-w-3xl mx-auto text-center">
-	  <div class="glass-card rounded-3xl p-8 sm:p-14 custom-shadow border border-purpleTheme-100 space-y-8">
-		
-		<!-- Bismillah Khat Minimalist -->
-		<div class="text-purpleTheme-800 font-arabic text-2xl sm:text-3xl font-medium tracking-wide">
-		  بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-		</div>
+  <!-- INVITATION SECTION -->
+  <section id="invitation-section" class="py-16 px-6 max-w-3xl mx-auto text-center">
+    <div class="glass-card rounded-3xl p-8 sm:p-14 custom-shadow border border-purpleTheme-100 space-y-8">
+      
+      <div class="text-purpleTheme-800 font-arabic text-2xl sm:text-3xl font-medium tracking-wide">
+        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+      </div>
 
-      <!-- Nama Ibu Bapa / Tuan Rumah -->
       <div class="space-y-1">
         <h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 leading-snug font-normal">
-          (NAMA KELUARGA PASANGAN)
+          Sakiman Hadi Sutrisno & Sumiarsih
         </h2>
         <p class="font-serif text-xl text-purpleTheme-700 italic">&amp;</p>
         <h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 leading-snug font-normal">
-          (NAMA KELUARGA PASANGAN)
+          M. Luttfi & Rohana
         </h2>
       </div>
 
-      <!-- Ayat Jemputan -->
       <div class="space-y-3 text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light max-w-lg mx-auto">
         <p>Dengan segala rasa syukur mempersilakan</p>
         <p class="font-medium text-purpleTheme-900">Dato' / Datin / Tuan / Puan / Encik / Cik</p>
@@ -129,21 +122,19 @@
 
       <div class="w-12 h-[1px] bg-butter-400 mx-auto"></div>
 
-		<!-- Nama Pengantin -->
-		<div class="space-y-1">
-		  <h3 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 leading-snug font-normal">
-			Utrias Nur Baiti Sakiman Hadi Sutrisno
-		  </h3>
-		  
-		  <!-- Simbol Love -->
-		  <p class="text-purpleTheme-700 text-lg sm:text-xl py-1">
-			<i class="fa-solid fa-heart text-purpleTheme-500 animate-pulse"></i>
-		  </p>
+      <div class="space-y-1">
+        <h3 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 leading-snug font-normal">
+          Utrias Nur Baiti Sakiman Hadi Sutrisno
+        </h3>
+        
+        <p class="text-purpleTheme-700 text-lg sm:text-xl py-1">
+          <i class="fa-solid fa-heart text-purpleTheme-500 animate-pulse"></i>
+        </p>
 
-		  <h3 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 leading-snug font-normal">
-			Muhammad Hazim Bin M.Luttfi
-		  </h3>
-		</div>
+        <h3 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 leading-snug font-normal">
+          Muhammad Hazim Bin M.Luttfi
+        </h3>
+      </div>
 
     </div>
   </section>
@@ -177,7 +168,7 @@
     </div>
   </section>
 
-  <!-- BUTIRAN MAJLIS -->
+  <!-- DETAILS & MAJLIS -->
   <section class="py-16 px-6 max-w-5xl mx-auto space-y-16">
     <div class="text-center space-y-3">
       <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Butiran Majlis</span>
@@ -185,7 +176,6 @@
       <div class="w-12 h-[1px] bg-butter-400 mx-auto"></div>
     </div>
 
-    <!-- Event Detail Cards -->
     <div class="grid md:grid-cols-2 gap-8">
       <!-- Venue Card -->
       <div class="glass-card rounded-3xl p-8 custom-shadow border border-purpleTheme-100 flex flex-col justify-between space-y-6">
@@ -206,17 +196,18 @@
             <a href="https://maps.app.goo.gl/Dqr76Qek21e529Cp8" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-2.5 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 smooth-transition">
               <i class="fas fa-map-marked-alt text-purpleTheme-700"></i> Google Maps
             </a>
-            <a href="https://ul.waze.com/ul?place=EnZKbC4gTGFsYW5nIEJ1YXlhIFJlbW9qaW5nIEJpbmFuZ3VuLCBLZW1vamluZyBLdWxvbiwgS2Vtb2ppbmcsIEtlYy4gQmluYW5ndW4sIEthYnVwYXRlbiBDaWxhY2FwLCBKYXdhIFRlbmdhaCwgSW5kb25lc2lhIi4qLAoUChIJD7h4mjhHZS4Rod4fLJ6YS8MSFAoSCXmqUYM4R2UuEZZaMUoSHFAl&ll=-7.66110420%2C109.29897740&navigate=yes&utm_campaign=live_map&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-2.5 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 smooth-transition">
+            <a href="https://ul.waze.com/ul?place=EnZKbC4gTGFsYW5nIEJ1YXlhIFJlbW9qaW5nIEJpbmFuZ3VuLCBLZW1vamluZyBLdWxvbiwgS2Vtb2ppbmcsIEtlYy4gQmluYW5ndW4sIEthYnVwYXRlbiBDaWxhY2FwLCBKYXdhIFRlbmdhaCwgSW5kb25lc2lhIi4qLAoUChIJD7h4mjhHZS4Rod4fLJ6YS8MSFAoSCXmqUYM4R2UuEZZaMUoSHFAl&ll=-7.66110420%2C109.29897740&navigate=yes" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-2.5 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 smooth-transition">
               <i class="fas fa-location-arrow text-purpleTheme-700"></i> Waze
             </a>
           </div>
-          <button onclick="addToCalendar()" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2.5 px-4 rounded-xl font-medium flex items-center justify-center gap-2 smooth-transition border border-butter-300">
+          <!-- Butang Simpan Kalendar -->
+          <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2.5 px-4 rounded-xl font-medium flex items-center justify-center gap-2 smooth-transition border border-butter-300">
             <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
           </button>
         </div>
       </div>
 
-      <!-- Tentative Timeline -->
+      <!-- Timeline Card -->
       <div class="glass-card rounded-3xl p-8 custom-shadow border border-purpleTheme-100 space-y-6">
         <div class="w-12 h-12 rounded-full bg-butter-200 flex items-center justify-center text-purpleTheme-700 text-xl">
           <i class="fas fa-list-ul"></i>
@@ -258,7 +249,7 @@
         <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Sila sahkan kehadiran anda sebelum 22 May 2027</p>
       </div>
 
-      <form id="rsvp-form" onsubmit="submitRSVP(event)" class="space-y-4 pt-4">
+      <form id="rsvp-form" class="space-y-4 pt-4">
         <div>
           <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Penuh *</label>
           <input type="text" id="rsvp-name" required placeholder="Contoh: Ahmad Razak" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
@@ -286,7 +277,7 @@
             <option value="2 Pax">2 Orang</option>
             <option value="3 Pax">3 Orang</option>
             <option value="4 Pax">4 Orang</option>
-			<option value="5 Pax">5 Orang</option>
+            <option value="5 Pax">5 Orang</option>
           </select>
         </div>
 
@@ -295,8 +286,7 @@
         </button>
       </form>
 
-      <!-- Confirmation Box -->
-      <div id="rsvp-alert" class="hidden bg-butter-100 border border-butter-300 text-purpleTheme-900 p-4 rounded-xl text-center text-sm font-medium animate-fade-in">
+      <div id="rsvp-alert" class="hidden bg-butter-100 border border-butter-300 text-purpleTheme-900 p-4 rounded-xl text-center text-sm font-medium">
         <i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.
       </div>
     </div>
@@ -310,26 +300,22 @@
       <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Tetamu dialu-alukan muat naik gambar Kenangan bersama pengantin</p>
     </div>
 
-    <!-- Slideshow Main Display -->
     <div class="glass-card rounded-3xl p-4 sm:p-6 custom-shadow border border-purpleTheme-100 space-y-6">
       <div class="relative w-full h-80 sm:h-[450px] rounded-2xl overflow-hidden bg-purpleTheme-900/10 group">
         <img id="slideshow-img" src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80" alt="Wedding Moment" class="w-full h-full object-cover smooth-transition duration-500">
 
-        <!-- Overlay caption -->
         <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-purpleTheme-900/80 via-purpleTheme-900/30 to-transparent p-6 text-white">
           <p id="slideshow-caption" class="text-sm sm:text-base font-light italic">Momen Bahagia Bersama</p>
         </div>
 
-        <!-- Carousel Buttons -->
-        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
+        <button id="prev-slide" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
           <i class="fas fa-chevron-left text-sm"></i>
         </button>
-        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
+        <button id="next-slide" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
           <i class="fas fa-chevron-right text-sm"></i>
         </button>
       </div>
 
-      <!-- Upload Photo Button Container -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
         <p class="text-xs text-purpleTheme-800/70 font-light text-center sm:text-left">
           <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
@@ -337,7 +323,7 @@
 
         <label class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 smooth-transition border border-butter-300 shrink-0">
           <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar
-          <input type="file" id="photo-upload" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+          <input type="file" id="photo-upload" accept="image/*" class="hidden">
         </label>
       </div>
     </div>
@@ -351,9 +337,8 @@
       <div class="w-12 h-[1px] bg-butter-400 mx-auto"></div>
     </div>
 
-    <!-- Submit Wish Form -->
     <div class="glass-card rounded-3xl p-6 sm:p-8 custom-shadow border border-purpleTheme-100">
-      <form onsubmit="submitWish(event)" class="space-y-4">
+      <form id="wish-form" class="space-y-4">
         <div>
           <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Anda</label>
           <input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" class="w-full px-4 py-2.5 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
@@ -368,10 +353,7 @@
       </form>
     </div>
 
-    <!-- Live Wishes Display Stream -->
-    <div id="wishes-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-      <!-- Dynamic Wish Cards Inserted Here via JS -->
-    </div>
+    <div id="wishes-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2"></div>
   </section>
 
   <!-- FOOTER -->
@@ -387,7 +369,7 @@
     </div>
   </footer>
 
-  <!-- Link ke Fail JavaScript Luar -->
+  <!-- Script JS (Pastikan dipanggil di akhir body) -->
   <script src="js/script.js"></script>
 </body>
 </html>
