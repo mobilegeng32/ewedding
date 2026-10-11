@@ -339,13 +339,13 @@ END:VCALENDAR`;
 
 
 	/* -------------------------------------------------------------
-		 7. Wish Board / Buku Hajat (Real-Time Google Sheets Integration)
+		 7. Wish Board / Buku Hajat (Real-Time Immediate Google Sheets Integration)
 	  ------------------------------------------------------------- */
 	  let defaultWishes = [
 		{
-		  name: "Systems",
-		  message: "'Titipkan sepotong doa, pesanan, atau hajat buat mengiringi mahligai cinta pasangan.'",
-		  time: ""
+		  name: "Farhan & Amira",
+		  message: "Selamat pengantin baru Utrias & Hazim! Semoga ikatan perkahwinan ini berkekalan hingga ke jannah.",
+		  time: "Baru sahaja"
 		}
 	  ];
 
@@ -360,7 +360,6 @@ END:VCALENDAR`;
 			  <h4 class="font-serif font-semibold text-purpleTheme-900">${w.name}</h4>
 			  <span class="text-[10px] text-purpleTheme-700/60 font-light">${w.time}</span>
 			</div>
-			<!-- whitespace-pre-line untuk kekalkan 'Enter', break-all untuk elak teks panjang keluar kotak -->
 			<p class="text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light whitespace-pre-line break-all">${w.message}</p>
 		  </div>
 		`).join('');
@@ -379,15 +378,16 @@ END:VCALENDAR`;
 				time: "Baru sahaja"
 			  })).reverse();
 
-			  if (JSON.stringify(newWishes) !== JSON.stringify(defaultWishes)) {
+			  const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
+			  const newWishesSimple = newWishes.map(w => ({ name: w.name, message: w.message }));
+
+			  if (JSON.stringify(newWishesSimple) !== JSON.stringify(oldWishesSimple)) {
 				defaultWishes = newWishes;
 				isUsingWishFallback = false;
-				if (!isBackgroundCheck) {
-				  renderWishes();
-				}
+				renderWishes(); // Kemas kini paparan serta-merta apabila ada perubahan dikesan
 			  }
 			} else {
-			  if (!isUsingWishFallback) {
+			  if (!isUsingWishFallback && !isBackgroundCheck) {
 				isUsingWishFallback = true;
 				renderWishes();
 			  }
@@ -428,9 +428,9 @@ END:VCALENDAR`;
 				submitBtn.disabled = false;
 			  }
 			  
-			  // Pop-up mesej terima kasih selepas berjaya hantar ke Google Sheets
 			  alert("Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍");
 			  
+			  // Terus tarik data baharu dengan serta-merta selepas hantar
 			  fetchWishes();
 			})
 			.catch(error => {
@@ -445,10 +445,11 @@ END:VCALENDAR`;
 		});
 	  }
 
+	  // Tarik data awal & semak latar belakang setiap 3 saat untuk kesan real-time yang pantas merentas peranti
 	  fetchWishes();
 	  setInterval(() => {
 		fetchWishes(true);
-	  }, 10000);
+	  }, 3000);
 
   /* -------------------------------------------------------------
      8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
