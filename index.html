@@ -303,20 +303,17 @@
 
     <div class="glass-card rounded-3xl p-4 sm:p-6 custom-shadow border border-purpleTheme-100 space-y-6">
       <div class="relative w-full h-80 sm:h-[450px] rounded-2xl overflow-hidden bg-purpleTheme-900/10 group cursor-pointer" id="slideshow-container">
-        <!-- Lapisan Belakang Kabur (Blurred Background untuk Portrait) -->
-        <div id="slideshow-blur-bg" class="absolute inset-0 bg-cover bg-center filter blur-xl scale-110 opacity-40 smooth-transition duration-500"></div>
+        <!-- Gambar Utama (Penuh & Full Cover) -->
+        <img id="slideshow-img" src="" alt="Wedding Moment" class="w-full h-full object-cover smooth-transition duration-500">
 
-        <!-- Gambar Utama -->
-        <img id="slideshow-img" src="" alt="Wedding Moment" class="relative z-10 w-full h-full object-contain smooth-transition duration-500">
-
-        <div class="absolute bottom-0 inset-x-0 z-20 bg-gradient-to-t from-purpleTheme-900/80 via-purpleTheme-900/30 to-transparent p-6 text-white">
+        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-purpleTheme-900/80 via-purpleTheme-900/30 to-transparent p-6 text-white">
           <p id="slideshow-caption" class="text-sm sm:text-base font-light italic">Buat Tetamu Undangan: Moment Bahagia Bersama</p>
         </div>
 
-        <button id="prev-slide" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
+        <button id="prev-slide" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
           <i class="fas fa-chevron-left text-sm"></i>
         </button>
-        <button id="next-slide" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
+        <button id="next-slide" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
           <i class="fas fa-chevron-right text-sm"></i>
         </button>
       </div>
@@ -369,7 +366,7 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v1.0.4
+        Officially Made By Arejim's &copy; 2026 v1.0.5
       </p>
     </div>
   </footer>

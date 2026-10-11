@@ -205,13 +205,11 @@ END:VCALENDAR`;
   
   const slideImg = document.getElementById('slideshow-img');
   const slideCaption = document.getElementById('slideshow-caption');
-  const blurBg = document.getElementById('slideshow-blur-bg');
   const slideshowContainer = document.getElementById('slideshow-container');
   const prevBtn = document.getElementById('prev-slide');
   const nextBtn = document.getElementById('next-slide');
   const photoUpload = document.getElementById('photo-upload');
 
-  // Tarik senarai gambar dari Google Sheets & Drive secara real-time
   function fetchGalleryImages(isBackgroundCheck = false) {
     if (!SCRIPT_URL.includes('http')) return;
     
@@ -257,19 +255,13 @@ END:VCALENDAR`;
     const currentText = defaultGallery[currentSlide].caption;
 
     slideImg.style.opacity = '0.3';
-    if (blurBg) blurBg.style.opacity = '0';
 
     setTimeout(() => {
       slideImg.src = currentImageUrl;
-      if (blurBg) blurBg.style.backgroundImage = `url('${currentImageUrl}')`;
-      
       slideCaption.innerText = currentText;
-      
       slideImg.style.opacity = '1';
-      if (blurBg) blurBg.style.opacity = '0.4';
     }, 200);
 
-    // Transisi automatik setiap 10 saat (10000ms)
     slideTimer = setTimeout(() => {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
       renderSlide();
@@ -304,16 +296,19 @@ END:VCALENDAR`;
           img.onload = function() {
             const canvas = document.createElement('canvas');
             
-            // Ditingkatkan ke resolusi HD penuh (1920px)
-            const MAX_WIDTH = 1920;
-            const MAX_HEIGHT = 1920;
+            const MAX_WIDTH = 2560;
+            const MAX_HEIGHT = 2560;
             let width = img.width;
             let height = img.height;
 
-            if (width > height) {
-              if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-            } else {
-              if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+              if (width > height) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              } else {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
             }
 
             canvas.width = width;
@@ -321,8 +316,7 @@ END:VCALENDAR`;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
 
-            // Kualiti dinaikkan ke 0.9 (90%) untuk kekalkan ketajaman asal
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
             const base64String = compressedDataUrl.split(',')[1];
 
             const formData = new URLSearchParams();
@@ -353,7 +347,6 @@ END:VCALENDAR`;
     });
   }
 
-  // Muat turun data awal & semak latar belakang setiap 10 saat
   fetchGalleryImages();
   setInterval(() => {
     fetchGalleryImages(true);
@@ -408,14 +401,14 @@ END:VCALENDAR`;
   
 
   /* -------------------------------------------------------------
-     8. Gallery Lightbox / Preview Feature
+     8. Gallery Lightbox / Preview Feature (HD Resolution Fix)
   ------------------------------------------------------------- */
   if (slideshowContainer) {
     const modal = document.createElement('div');
     modal.id = 'gallery-modal';
     modal.className = 'fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden p-4 cursor-pointer';
     modal.innerHTML = `
-      <div class="relative max-w-4xl max-h-full flex flex-col items-center">
+      <div class="relative max-w-5xl max-h-full flex flex-col items-center">
         <span class="absolute -top-10 right-0 text-white text-3xl font-bold cursor-pointer">&times;</span>
         <img id="modal-img" class="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl" src="" alt="Preview">
         <p id="modal-caption" class="text-white text-sm mt-3 italic text-center"></p>
@@ -430,7 +423,13 @@ END:VCALENDAR`;
       if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;
       
       if (slideImg && slideImg.src) {
-        modalImg.src = slideImg.src;
+        let rawUrl = slideImg.src;
+
+        if (rawUrl.includes('googleusercontent.com')) {
+          rawUrl = rawUrl.split('=')[0] + '=s0';
+        }
+
+        modalImg.src = rawUrl;
         modalCaption.innerText = slideCaption ? slideCaption.innerText : '';
         modal.classList.remove('hidden');
       }
