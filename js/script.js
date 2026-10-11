@@ -189,8 +189,8 @@ END:VCALENDAR`;
   }
 
 
-/* -------------------------------------------------------------
-     6. Dynamic Gallery & Google Drive/Sheets Integration (Real-Time & Clean Logic)
+  /* -------------------------------------------------------------
+     6. Dynamic Gallery & Google Drive/Sheets Integration (Real-Time & Blur Bg)
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
@@ -202,10 +202,12 @@ END:VCALENDAR`;
   let defaultGallery = [];
   let currentSlide = 0;
   let slideTimer = null;
-  let isUsingFallback = false; // Penanda untuk tentukan sama ada guna gambar default atau tidak
+  let isUsingFallback = false;
   
   const slideImg = document.getElementById('slideshow-img');
   const slideCaption = document.getElementById('slideshow-caption');
+  const blurBg = document.getElementById('slideshow-blur-bg');
+  const slideshowContainer = document.getElementById('slideshow-container');
   const prevBtn = document.getElementById('prev-slide');
   const nextBtn = document.getElementById('next-slide');
   const photoUpload = document.getElementById('photo-upload');
@@ -218,13 +220,11 @@ END:VCALENDAR`;
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
-          // Jika ada gambar dalam Sheets, GUNAKAN DATA SHEETS SEPENUHNYA (Default image dibuang)
           const newGallery = data.map(item => ({
             url: item.url,
             caption: `${item.caption} (Oleh: ${item.name})`
           }));
 
-          // Semak sama ada senarai berubah atau baru pertama kali muat
           if (JSON.stringify(newGallery) !== JSON.stringify(defaultGallery)) {
             defaultGallery = newGallery;
             isUsingFallback = false;
@@ -234,7 +234,6 @@ END:VCALENDAR`;
             }
           }
         } else {
-          // Jika Google Sheet KOSONG, baru guna gambar fallback/default
           if (!isUsingFallback) {
             defaultGallery = [...fallbackGallery];
             isUsingFallback = true;
@@ -251,16 +250,24 @@ END:VCALENDAR`;
     
     if (slideTimer) clearTimeout(slideTimer);
 
-    // Pastikan index currentSlide tidak terkeluar dari had array
     if (currentSlide >= defaultGallery.length) {
       currentSlide = 0;
     }
 
+    const currentImageUrl = defaultGallery[currentSlide].url;
+    const currentText = defaultGallery[currentSlide].caption;
+
     slideImg.style.opacity = '0.3';
+    if (blurBg) blurBg.style.opacity = '0';
+
     setTimeout(() => {
-      slideImg.src = defaultGallery[currentSlide].url;
-      slideCaption.innerText = defaultGallery[currentSlide].caption;
+      slideImg.src = currentImageUrl;
+      if (blurBg) blurBg.style.backgroundImage = `url('${currentImageUrl}')`;
+      
+      slideCaption.innerText = currentText;
+      
       slideImg.style.opacity = '1';
+      if (blurBg) blurBg.style.opacity = '0.4';
     }, 200);
 
     // Transisi automatik setiap 10 saat (10000ms)
@@ -331,7 +338,7 @@ END:VCALENDAR`;
             .then(response => response.json())
             .then(data => {
               alert("Berjaya! Gambar anda telah disimpan di dalam Google Drive.");
-              fetchGalleryImages(); // Terus tarik data terkini
+              fetchGalleryImages();
             })
             .catch(error => {
               console.error('Upload error:', error);
@@ -344,13 +351,12 @@ END:VCALENDAR`;
     });
   }
 
-  // Muat turun data awal semasa laman web dibuka
+  // Muat turun data awal & tetapkan sync latar belakang setiap 10 saat
   fetchGalleryImages();
-
-  // Real-time background sync: Semak perubahan / pemadaman dalam Google Sheet setiap 10 saat secara automatik
   setInterval(() => {
     fetchGalleryImages(true);
   }, 10000);
+
 
   /* -------------------------------------------------------------
      7. Wish Board / Buku Hajat (Local UI Simulation)
@@ -399,17 +405,17 @@ END:VCALENDAR`;
 
   renderWishes();
   
+
   /* -------------------------------------------------------------
      8. Gallery Lightbox / Preview Feature
   ------------------------------------------------------------- */
-  if (slideImg) {
-    // Cipta elemen modal untuk preview secara dinamik
+  if (slideshowContainer) {
     const modal = document.createElement('div');
     modal.id = 'gallery-modal';
     modal.className = 'fixed inset-0 z-50 bg-black/90 flex items-center justify-center hidden p-4 cursor-pointer';
     modal.innerHTML = `
       <div class="relative max-w-4xl max-h-full flex flex-col items-center">
-        <span class="absolute -top-10 right-0 text-white text-2xl font-bold cursor-pointer">&times;</span>
+        <span class="absolute -top-10 right-0 text-white text-3xl font-bold cursor-pointer">&times;</span>
         <img id="modal-img" class="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl" src="" alt="Preview">
         <p id="modal-caption" class="text-white text-sm mt-3 italic text-center"></p>
       </div>
@@ -419,16 +425,16 @@ END:VCALENDAR`;
     const modalImg = document.getElementById('modal-img');
     const modalCaption = document.getElementById('modal-caption');
 
-    // Bila gambar slideshow ditekan, buka preview
-    slideImg.addEventListener('click', () => {
-      if (slideImg.src) {
+    slideshowContainer.addEventListener('click', (e) => {
+      if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;
+      
+      if (slideImg && slideImg.src) {
         modalImg.src = slideImg.src;
         modalCaption.innerText = slideCaption ? slideCaption.innerText : '';
         modal.classList.remove('hidden');
       }
     });
 
-    // Bila klik mana-mana bahagian modal, tutup semula
     modal.addEventListener('click', () => {
       modal.classList.add('hidden');
     });
