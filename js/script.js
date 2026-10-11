@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -------------------------------------------------------------
      0. CONFIGURATION: URL Google Apps Script Anda
   ------------------------------------------------------------- */
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec'; // <--- LETAK URL WEB APP TERKINI DI SINI
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
 
 
   /* -------------------------------------------------------------
@@ -304,7 +304,16 @@ END:VCALENDAR`;
             .then(response => response.json())
             .then(data => {
               alert("Berjaya! Gambar anda telah disimpan ke dalam sistem Google Drive.");
+              
+              // Dikemaskini: Kosongkan cache gallery sementara & tarik terus data terkini
+              defaultGallery = [
+                {
+                  url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+                  caption: "Detik Manis Bersama"
+                }
+              ];
               fetchGalleryImages();
+              
             })
             .catch(error => {
               console.error('Upload error:', error);
