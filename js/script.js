@@ -189,8 +189,8 @@ END:VCALENDAR`;
   }
 
 
-  /* -------------------------------------------------------------
-     6. Dynamic Gallery & Google Drive/Sheets Integration
+/* -------------------------------------------------------------
+     6. Dynamic Gallery & Google Drive/Sheets Integration (7s & Smooth)
   ------------------------------------------------------------- */
   let defaultGallery = [
     {
@@ -200,13 +200,13 @@ END:VCALENDAR`;
   ];
 
   let currentSlide = 0;
+  let slideTimer = null;
   const slideImg = document.getElementById('slideshow-img');
   const slideCaption = document.getElementById('slideshow-caption');
   const prevBtn = document.getElementById('prev-slide');
   const nextBtn = document.getElementById('next-slide');
   const photoUpload = document.getElementById('photo-upload');
 
-  // Tarik senarai gambar dari Google Sheets & Drive
   function fetchGalleryImages() {
     if (!SCRIPT_URL.includes('http')) return;
     
@@ -214,7 +214,7 @@ END:VCALENDAR`;
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
-          const fetchedImages = data.reverse().map(item => ({
+          const fetchedImages = data.map(item => ({
             url: item.url,
             caption: `${item.caption} (Oleh: ${item.name})`
           }));
@@ -227,34 +227,35 @@ END:VCALENDAR`;
 
   function renderSlide() {
     if (!slideImg || !slideCaption || defaultGallery.length === 0) return;
+    
+    if (slideTimer) clearTimeout(slideTimer);
+
     slideImg.style.opacity = '0.3';
     setTimeout(() => {
       slideImg.src = defaultGallery[currentSlide].url;
       slideCaption.innerText = defaultGallery[currentSlide].caption;
       slideImg.style.opacity = '1';
     }, 200);
+
+    // Tetapan masa transisi automatik 7 saat (7000ms)
+    slideTimer = setTimeout(() => {
+      currentSlide = (currentSlide + 1) % defaultGallery.length;
+      renderSlide();
+    }, 7000);
   }
 
   if (prevBtn && nextBtn) {
     prevBtn.addEventListener('click', () => {
       currentSlide = (currentSlide - 1 + defaultGallery.length) % defaultGallery.length;
-      renderSlide();
+      renderSlide(); 
     });
 
     nextBtn.addEventListener('click', () => {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
-      renderSlide();
+      renderSlide(); 
     });
   }
 
-  setInterval(() => {
-    if (slideImg && defaultGallery.length > 0) {
-      currentSlide = (currentSlide + 1) % defaultGallery.length;
-      renderSlide();
-    }
-  }, 5000);
-
-  // Proses Muat Naik Gambar & Pemampatan (Compression) ke Google Drive/Sheets
   if (photoUpload) {
     photoUpload.addEventListener('change', (event) => {
       const file = event.target.files[0];
@@ -303,9 +304,8 @@ END:VCALENDAR`;
             })
             .then(response => response.json())
             .then(data => {
-              alert("Berjaya! Gambar anda telah disimpan ke dalam sistem Google Drive.");
+              alert("Berjaya! Gambar anda telah disimpan di dalam Google Drive.");
               
-              // Dikemaskini: Kosongkan cache gallery sementara & tarik terus data terkini
               defaultGallery = [
                 {
                   url: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
@@ -313,7 +313,6 @@ END:VCALENDAR`;
                 }
               ];
               fetchGalleryImages();
-              
             })
             .catch(error => {
               console.error('Upload error:', error);
@@ -327,8 +326,6 @@ END:VCALENDAR`;
   }
 
   fetchGalleryImages();
-  renderSlide();
-
 
   /* -------------------------------------------------------------
      7. Wish Board / Buku Hajat (Local UI Simulation)
