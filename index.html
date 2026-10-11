@@ -19,27 +19,54 @@
 </head>
 <body class="p-2 sm:p-6 md:p-10 flex flex-col items-center justify-center min-h-screen relative text-purple-950">
 
-	<!-- Navigation Bar -->
-  <nav class="w-full max-w-6xl navbar-bg rounded-t-xl py-3 px-4 sm:px-8 flex items-center justify-between text-gold text-xs sm:text-sm font-semibold tracking-wider border-b border-yellow-300/30">
-    <div class="flex items-center space-x-1 flex-shrink-0">
-      <i class="fa-solid font-bold text-lg text-gold">🕌</i>
-    </div>
+<!-- Navigation Bar -->
+  <nav class="w-full max-w-6xl navbar-bg rounded-t-xl py-3 px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between text-gold text-xs sm:text-sm font-semibold tracking-wider border-b border-yellow-300/30 relative">
     
-    <!-- Menu Pautan yang Boleh Scroll di Skrin Telefon -->
-    <div class="flex space-x-4 sm:space-x-6 items-center uppercase overflow-x-auto whitespace-nowrap mx-2 py-1 no-scrollbar text-[11px] sm:text-sm">
-      <a href="#home" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="#story" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-heart"></i> Story</a>
-      <a href="#event" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-calendar-days"></i> Event</a>
-      <a href="#gallery" onclick="openModal('modal-gallery')" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-image"></i> Gallery</a>
-      <a href="#rsvp" onclick="openModal('modal-rsvp')" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-clipboard-user"></i> RSVP</a>
-      <a href="#wishes" onclick="openModal('modal-wishes')" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-heart-circle-check"></i> Wishes</a>
-      <a href="#contact" onclick="openModal('modal-contact')" class="hover:text-yellow-100 transition flex items-center gap-1"><i class="fa-solid fa-phone"></i> Contact</a>
+    <!-- Top Row for Mobile: Logo, Mobile Menu Toggle, & Music Button -->
+    <div class="w-full flex items-center justify-between md:w-auto">
+      <div class="flex items-center space-x-1">
+        <i class="fa-solid font-bold text-lg text-gold">🕌</i>
+      </div>
+      
+      <div class="flex items-center gap-2 md:hidden">
+        <!-- Music Toggle Mobile -->
+        <button id="musicToggleMobile" class="text-gold hover:text-yellow-100 text-sm focus:outline-none flex items-center gap-1 bg-purple-900/60 px-2.5 py-1 rounded-full border border-yellow-300/40">
+          <i class="fa-solid fa-music"></i>
+        </button>
+        <!-- Hamburger Menu Button -->
+        <button onclick="toggleMobileMenu()" class="text-gold hover:text-yellow-100 text-lg focus:outline-none p-1.5 bg-purple-900/60 rounded-lg border border-yellow-300/40">
+          <i class="fa-solid fa-bars" id="menuIcon"></i>
+        </button>
+      </div>
     </div>
 
-    <div class="flex-shrink-0">
-      <button id="musicToggle" class="text-gold hover:text-yellow-100 text-sm sm:text-lg focus:outline-none flex items-center gap-1 bg-purple-900/60 px-2.5 py-1 rounded-full border border-yellow-300/40">
+    <!-- Desktop Menu Links (Hidden on small screens) -->
+    <div class="hidden md:flex space-x-6 items-center uppercase">
+      <a href="#home" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#story" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-heart"></i> Our Story</a>
+      <a href="#event" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-calendar-days"></i> Event</a>
+      <a href="#gallery" onclick="openModal('modal-gallery')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-image"></i> Gallery</a>
+      <a href="#rsvp" onclick="openModal('modal-rsvp')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-clipboard-user"></i> RSVP</a>
+      <a href="#wishes" onclick="openModal('modal-wishes')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-heart-circle-check"></i> Wishes</a>
+      <a href="#contact" onclick="openModal('modal-contact')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-phone"></i> Contact</a>
+    </div>
+
+    <!-- Desktop Music Toggle (Hidden on small screens) -->
+    <div class="hidden md:block">
+      <button id="musicToggle" class="text-gold hover:text-yellow-100 text-base sm:text-lg focus:outline-none flex items-center gap-1 bg-purple-900/60 px-3 py-1 rounded-full border border-yellow-300/40">
         <i class="fa-solid fa-music"></i>
       </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu (Hidden by default, toggled via JS) -->
+    <div id="mobileDropdown" class="hidden w-full flex-col space-y-2 pt-3 pb-2 mt-2 border-t border-yellow-300/20 md:hidden uppercase text-center text-xs">
+      <a href="#home" onclick="toggleMobileMenu()" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#story" onclick="toggleMobileMenu()" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-heart"></i> Our Story</a>
+      <a href="#event" onclick="toggleMobileMenu()" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-calendar-days"></i> Event</a>
+      <a href="#gallery" onclick="openModal('modal-gallery'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-image"></i> Gallery</a>
+      <a href="#rsvp" onclick="openModal('modal-rsvp'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-clipboard-user"></i> RSVP</a>
+      <a href="#wishes" onclick="openModal('modal-wishes'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-heart-circle-check"></i> Wishes</a>
+      <a href="#contact" onclick="openModal('modal-contact'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-phone"></i> Contact</a>
     </div>
   </nav>
 

@@ -99,3 +99,28 @@ function handleWish(e) {
 function addToCalendar(type) {
   alert(`Menambah ke ${type.toUpperCase()} Calendar...`);
 }
+
+// Fungsi untuk buka/tutup menu dropdown mudah alih (Mobile Hamburger Menu)
+function toggleMobileMenu() {
+  const dropdown = document.getElementById("mobileDropdown");
+  const menuIcon = document.getElementById("menuIcon");
+  
+  if (dropdown.classList.contains("hidden")) {
+    dropdown.classList.remove("hidden");
+    dropdown.classList.add("flex");
+    menuIcon.className = "fa-solid fa-xmark"; // Tukar jadi ikon pangkah (X)
+  } else {
+    dropdown.classList.add("hidden");
+    dropdown.classList.remove("flex");
+    menuIcon.className = "fa-solid fa-bars"; // Tukar balik jadi ikon garis 3
+  }
+}
+
+// Sinkronisasi butang muzik mudah alih dengan butang desktop
+const musicToggleMobile = document.getElementById("musicToggleMobile");
+if (musicToggleMobile && musicToggle) {
+  musicToggleMobile.addEventListener("click", (e) => {
+    e.stopPropagation();
+    musicToggle.click(); // Cetuskan fungsi klik butang muzik utama
+  });
+}
