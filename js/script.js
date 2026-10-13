@@ -648,107 +648,106 @@ END:VCALENDAR`;
     });
   }
   
-	/* -------------------------------------------------------------
-		 9. Floating Quick Action Bar & Mobile Idle Auto-Hide
-	  ------------------------------------------------------------- */
-	  const quickActionBar = document.getElementById('quick-action-bar');
-	  
-	  if (quickActionBar) {
-		let idleTimer = null;
-		const isMobile = window.innerWidth < 768; // Mengesan peranti mudah alih (mobile view)
+  /* -------------------------------------------------------------
+     9. Floating Quick Action Bar & Mobile Idle Auto-Hide (Fixed)
+  ------------------------------------------------------------- */
+  const quickActionBar = document.getElementById('quick-action-bar');
+  
+  if (quickActionBar) {
+    let idleTimer = null;
+    const isMobileDevice = () => window.innerWidth < 768;
 
-		function showBar() {
-		  if (window.scrollY > 300) {
-			quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-			quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-		  }
-		}
+    function showBar() {
+      if (window.scrollY > 300) {
+        quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+    }
 
-		function hideBar() {
-		  // Hanya sembunyikan automatik jika di mobile view
-		  if (isMobile && window.scrollY > 300) {
-			quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-			quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-		  }
-		}
+    function hideBar() {
+      // Hanya auto-hide jika saiz skrin adalah peranti mudah alih (mobile)
+      if (isMobileDevice() && window.scrollY > 300) {
+        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+    }
 
-		// Pantau pergerakan scroll atau sentuhan pada skrin
-		window.addEventListener('scroll', () => {
-		  if (window.scrollY > 300) {
-			showBar();
-			
-			// Tetapkan masa terbiar (idle) selama 3 saat (3000ms) sebelum ia hilang di mobile
-			if (isMobile) {
-			  clearTimeout(idleTimer);
-			  idleTimer = setTimeout(hideBar, 3000);
-			}
-		  } else {
-			quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-			quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-		  }
-		});
+    // Pantau pergerakan scroll
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        showBar();
+        
+        if (isMobileDevice()) {
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(hideBar, 3000); // Hilang selepas 3 saat terbiar di mobile
+        }
+      } else {
+        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+    });
 
-		// Jika pengguna sentuh skrin telefon, bar akan muncul semula serta-merta
-		if (isMobile) {
-		  window.addEventListener('touchstart', () => {
-			showBar();
-			clearTimeout(idleTimer);
-			idleTimer = setTimeout(hideBar, 3000);
-		  });
-		}
+    // Sentuhan pada skrin di mobile akan memunculkan semula bar dan reset pemasa
+    window.addEventListener('touchstart', () => {
+      if (isMobileDevice() && window.scrollY > 300) {
+        showBar();
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(hideBar, 3000);
+      }
+    });
 
-		// Active Section Highlight (Kekal seperti biasa)
-		const sectionIds = ['invitation-section', 'details-section', 'rsvp-section', 'gallery-section', 'wishes-section'];
-		const navItems = document.querySelectorAll('.nav-item');
+    // Active Section Highlight
+    const sectionIds = ['invitation-section', 'details-section', 'rsvp-section', 'gallery-section', 'wishes-section'];
+    const navItems = document.querySelectorAll('.nav-item');
 
-		function setActiveNav(activeId) {
-		  navItems.forEach(item => {
-			const iconBox = item.querySelector('.icon-box');
-			const navLabel = item.querySelector('.nav-label');
-			
-			if (item.id === `nav-${activeId}`) {
-			  iconBox.classList.remove('bg-butter-200/90', 'text-purpleTheme-900');
-			  iconBox.classList.add('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
-			  if (navLabel) {
-				navLabel.classList.remove('text-purpleTheme-800');
-				navLabel.classList.add('text-purpleTheme-900', 'font-bold');
-			  }
-			} else {
-			  iconBox.classList.remove('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
-			  iconBox.classList.add('bg-butter-200/90', 'text-purpleTheme-900');
-			  if (navLabel) {
-				navLabel.classList.remove('text-purpleTheme-900', 'font-bold');
-				navLabel.classList.add('text-purpleTheme-800');
-			  }
-			}
-		  });
-		}
+    function setActiveNav(activeId) {
+      navItems.forEach(item => {
+        const iconBox = item.querySelector('.icon-box');
+        const navLabel = item.querySelector('.nav-label');
+        
+        if (item.id === `nav-${activeId}`) {
+          iconBox.classList.remove('bg-butter-200/90', 'text-purpleTheme-900');
+          iconBox.classList.add('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
+          if (navLabel) {
+            navLabel.classList.remove('text-purpleTheme-800');
+            navLabel.classList.add('text-purpleTheme-900', 'font-bold');
+          }
+        } else {
+          iconBox.classList.remove('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
+          iconBox.classList.add('bg-butter-200/90', 'text-purpleTheme-900');
+          if (navLabel) {
+            navLabel.classList.remove('text-purpleTheme-900', 'font-bold');
+            navLabel.classList.add('text-purpleTheme-800');
+          }
+        }
+      });
+    }
 
-		navItems.forEach(item => {
-		  item.addEventListener('click', () => {
-			const targetSectionId = item.getAttribute('href').substring(1);
-			setActiveNav(targetSectionId);
-		  });
-		});
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const targetSectionId = item.getAttribute('href').substring(1);
+        setActiveNav(targetSectionId);
+      });
+    });
 
-		const observerOptions = {
-		  root: null,
-		  rootMargin: '-30% 0px -40% 0px',
-		  threshold: 0.15
-		};
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -40% 0px',
+      threshold: 0.15
+    };
 
-		const observer = new IntersectionObserver((entries) => {
-		  entries.forEach(entry => {
-			if (entry.isIntersecting) {
-			  setActiveNav(entry.target.id);
-			}
-		  });
-		}, observerOptions);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveNav(entry.target.id);
+        }
+      });
+    }, observerOptions);
 
-		sectionIds.forEach(id => {
-		  const sectionEl = document.getElementById(id);
-		  if (sectionEl) observer.observe(sectionEl);
-		});
-	  }
+    sectionIds.forEach(id => {
+      const sectionEl = document.getElementById(id);
+      if (sectionEl) observer.observe(sectionEl);
+    });
+  }
 
 });
