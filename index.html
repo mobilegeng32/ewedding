@@ -56,9 +56,9 @@
     <source src="music/background-sound.mp3" type="audio/mpeg">
     Pelayar anda tidak menyokong elemen audio.
   </audio>
-
-  <!-- Music Button (Dinaikkan sedikit supaya tidak bertindih dengan floating bar di mobile) -->
-  <div class="fixed bottom-20 right-5 z-50">
+  
+  <!-- Music Button (Bermula tersembunyi & sentiasa seirama dengan floating bar) -->
+  <div id="music-container" class="fixed bottom-20 right-5 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
     <button id="music-toggle" type="button" class="bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 p-3.5 rounded-full shadow-lg flex items-center justify-center smooth-transition hover:scale-105 border-2 border-butter-200" title="Pasang/Hentikan Lagu Background">
       <i id="music-icon" class="fas fa-music text-lg"></i>
     </button>
@@ -427,7 +427,7 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v1.0.26
+        Officially Made By Arejim's &copy; 2026 v1.0.27
       </p>
     </div>
   </footer>

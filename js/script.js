@@ -648,126 +648,124 @@ END:VCALENDAR`;
     });
   }
   
-  /* -------------------------------------------------------------
-     9. Floating Quick Action Bar & Music Button Mobile Auto-Hide
-  ------------------------------------------------------------- */
-  const quickActionBar = document.getElementById('quick-action-bar');
-  const musicContainer = document.querySelector('.fixed.bottom-20.right-5.z-50'); // Container butang muzik
-  
-  if (quickActionBar) {
-    let idleTimer = null;
-    const isMobileDevice = () => window.innerWidth < 768;
+	/* -------------------------------------------------------------
+		 9. Floating Quick Action Bar & Music Button Synchronized Auto-Hide
+	  ------------------------------------------------------------- */
+	  const quickActionBar = document.getElementById('quick-action-bar');
+	  const musicContainer = document.getElementById('music-container');
+	  
+	  if (quickActionBar) {
+		let idleTimer = null;
+		const isMobileDevice = () => window.innerWidth < 768;
 
-    function showElements() {
-      if (window.scrollY > 300) {
-        quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-        quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+		function showElements() {
+		  // Hanya muncul jika skrol melebihi 300px (melepasi Hero Section)
+		  if (window.scrollY > 300) {
+			quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+			quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
 
-        if (musicContainer) {
-          musicContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-          musicContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        }
-      }
-    }
+			if (musicContainer) {
+			  musicContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+			  musicContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+			}
+		  }
+		}
 
-    function hideElements() {
-      if (isMobileDevice() && window.scrollY > 300) {
-        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+		function hideElements() {
+		  // Auto-hide khusus untuk mobile jika terbiar
+		  if (isMobileDevice() && window.scrollY > 300) {
+			quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+			quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
 
-        if (musicContainer) {
-          musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-          musicContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        }
-      }
-    }
+			if (musicContainer) {
+			  musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+			  musicContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+			}
+		  }
+		}
 
-    // Tambah kelas transisi pada music container untuk kesan animasi yang lancar
-    if (musicContainer) {
-      musicContainer.classList.add('transition-all', 'duration-500');
-    }
+		// Pantau pergerakan scroll
+		window.addEventListener('scroll', () => {
+		  if (window.scrollY > 300) {
+			showElements();
+			
+			if (isMobileDevice()) {
+			  clearTimeout(idleTimer);
+			  idleTimer = setTimeout(hideElements, 3000); // Hilang bersama-sama selepas 3 saat terbiar di mobile
+			}
+		  } else {
+			// Jika berada di Hero Section (scrollY <= 300), pastikan kedua-duanya tersembunyi sepenuhnya
+			quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+			quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
 
-    // Pantau pergerakan scroll
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        showElements();
-        
-        if (isMobileDevice()) {
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(hideElements, 3000); // Hilang selepas 3 saat terbiar
-        }
-      } else {
-        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+			if (musicContainer) {
+			  musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+			  musicContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+			}
+		  }
+		});
 
-        if (musicContainer) {
-          musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-          musicContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        }
-      }
-    });
+		// Sentuhan pada skrin di mobile memunculkan semula kedua-dua butang secara serentak
+		window.addEventListener('touchstart', () => {
+		  if (isMobileDevice() && window.scrollY > 300) {
+			showElements();
+			clearTimeout(idleTimer);
+			idleTimer = setTimeout(hideElements, 3000);
+		  }
+		});
 
-    // Sentuhan pada skrin di mobile memunculkan semula kedua-dua butang
-    window.addEventListener('touchstart', () => {
-      if (isMobileDevice() && window.scrollY > 300) {
-        showElements();
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(hideElements, 3000);
-      }
-    });
+		// Active Section Highlight
+		const sectionIds = ['invitation-section', 'details-section', 'rsvp-section', 'gallery-section', 'wishes-section'];
+		const navItems = document.querySelectorAll('.nav-item');
 
-    // Active Section Highlight
-    const sectionIds = ['invitation-section', 'details-section', 'rsvp-section', 'gallery-section', 'wishes-section'];
-    const navItems = document.querySelectorAll('.nav-item');
+		function setActiveNav(activeId) {
+		  navItems.forEach(item => {
+			const iconBox = item.querySelector('.icon-box');
+			const navLabel = item.querySelector('.nav-label');
+			
+			if (item.id === `nav-${activeId}`) {
+			  iconBox.classList.remove('bg-butter-200/90', 'text-purpleTheme-900');
+			  iconBox.classList.add('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
+			  if (navLabel) {
+				navLabel.classList.remove('text-purpleTheme-800');
+				navLabel.classList.add('text-purpleTheme-900', 'font-bold');
+			  }
+			} else {
+			  iconBox.classList.remove('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
+			  iconBox.classList.add('bg-butter-200/90', 'text-purpleTheme-900');
+			  if (navLabel) {
+				navLabel.classList.remove('text-purpleTheme-900', 'font-bold');
+				navLabel.classList.add('text-purpleTheme-800');
+			  }
+			}
+		  });
+		}
 
-    function setActiveNav(activeId) {
-      navItems.forEach(item => {
-        const iconBox = item.querySelector('.icon-box');
-        const navLabel = item.querySelector('.nav-label');
-        
-        if (item.id === `nav-${activeId}`) {
-          iconBox.classList.remove('bg-butter-200/90', 'text-purpleTheme-900');
-          iconBox.classList.add('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
-          if (navLabel) {
-            navLabel.classList.remove('text-purpleTheme-800');
-            navLabel.classList.add('text-purpleTheme-900', 'font-bold');
-          }
-        } else {
-          iconBox.classList.remove('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
-          iconBox.classList.add('bg-butter-200/90', 'text-purpleTheme-900');
-          if (navLabel) {
-            navLabel.classList.remove('text-purpleTheme-900', 'font-bold');
-            navLabel.classList.add('text-purpleTheme-800');
-          }
-        }
-      });
-    }
+		navItems.forEach(item => {
+		  item.addEventListener('click', () => {
+			const targetSectionId = item.getAttribute('href').substring(1);
+			setActiveNav(targetSectionId);
+		  });
+		});
 
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const targetSectionId = item.getAttribute('href').substring(1);
-        setActiveNav(targetSectionId);
-      });
-    });
+		const observerOptions = {
+		  root: null,
+		  rootMargin: '-30% 0px -40% 0px',
+		  threshold: 0.15
+		};
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '-30% 0px -40% 0px',
-      threshold: 0.15
-    };
+		const observer = new IntersectionObserver((entries) => {
+		  entries.forEach(entry => {
+			if (entry.isIntersecting) {
+			  setActiveNav(entry.target.id);
+			}
+		  });
+		}, observerOptions);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveNav(entry.target.id);
-        }
-      });
-    }, observerOptions);
-
-    sectionIds.forEach(id => {
-      const sectionEl = document.getElementById(id);
-      if (sectionEl) observer.observe(sectionEl);
-    });
-  }
+		sectionIds.forEach(id => {
+		  const sectionEl = document.getElementById(id);
+		  if (sectionEl) observer.observe(sectionEl);
+		});
+	  }
 
 });
