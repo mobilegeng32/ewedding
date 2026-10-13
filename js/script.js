@@ -30,49 +30,91 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
+  
   /* -------------------------------------------------------------
-     2. Background Music Controller & Auto-play on First Interaction
+     2. Background Music Controller & Interactive Open Invitation
   ------------------------------------------------------------- */
   const bgMusic = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
   const musicIcon = document.getElementById('music-icon');
+  const musicLabel = document.getElementById('music-label');
+  const heroOpenBtn = document.getElementById('hero-open-btn');
+  
   let isPlaying = false;
   let hasInteracted = false;
 
-  function triggerAudioPlay() {
-    if (!hasInteracted && bgMusic) {
+  function updateMusicUI() {
+    if (isPlaying) {
+      if (musicIcon) musicIcon.className = 'fas fa-volume-high fa-beat text-purpleTheme-700';
+      if (musicLabel) musicLabel.innerText = "Muzik: ON";
+    } else {
+      if (musicIcon) musicIcon.className = 'fas fa-volume-xmark text-purpleTheme-700/60';
+      if (musicLabel) musicLabel.innerText = "Muzik: OFF";
+    }
+  }
+
+  function playAudioTrack() {
+    if (bgMusic) {
       bgMusic.play().then(() => {
-        if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
         isPlaying = true;
         hasInteracted = true;
-        window.removeEventListener('click', triggerAudioPlay);
-        window.removeEventListener('scroll', triggerAudioPlay);
-        window.removeEventListener('touchstart', triggerAudioPlay);
+        updateMusicUI();
       }).catch((error) => {
         console.log("Autoplay disekat oleh pelayar:", error);
       });
     }
   }
 
-  window.addEventListener('click', triggerAudioPlay);
-  window.addEventListener('scroll', triggerAudioPlay);
-  window.addEventListener('touchstart', triggerAudioPlay);
+  // Interaksi apabila tetamu menekan butang "Buka Undangan" di Hero Section
+  if (heroOpenBtn) {
+    heroOpenBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // Pasang lagu serta-merta apabila butang dibuka
+      if (!isPlaying) {
+        playAudioTrack();
+      }
 
+      // Skrol lancar ke bahagian kad undangan
+      const target = document.querySelector('#invitation-section');
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  }
+
+  // Auto-play sokongan pada sentuhan pertama skrin (jika tetamu skrol terus tanpa tekan butang)
+  function triggerAudioOnFirstInteraction() {
+    if (!hasInteracted && bgMusic) {
+      playAudioTrack();
+      window.removeEventListener('click', triggerAudioOnFirstInteraction);
+      window.removeEventListener('scroll', triggerAudioOnFirstInteraction);
+      window.removeEventListener('touchstart', triggerAudioOnFirstInteraction);
+    }
+  }
+
+  window.addEventListener('click', triggerAudioOnFirstInteraction);
+  window.addEventListener('scroll', triggerAudioOnFirstInteraction);
+  window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
+
+  // Kawalan butang kapsul muzik di bawah
   if (musicBtn && bgMusic) {
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (isPlaying) {
         bgMusic.pause();
-        if (musicIcon) musicIcon.className = 'fas fa-music text-lg';
+        isPlaying = false;
       } else {
         bgMusic.play().then(() => {
-          if (musicIcon) musicIcon.className = 'fas fa-pause text-lg';
+          isPlaying = true;
         }).catch((err) => {
           console.log("Audio play error:", err);
         });
       }
-      isPlaying = !isPlaying;
+      updateMusicUI();
       hasInteracted = true;
     });
   }
