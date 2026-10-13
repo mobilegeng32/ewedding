@@ -57,8 +57,8 @@
     Pelayar anda tidak menyokong elemen audio.
   </audio>
 
-  <!-- Music Button -->
-  <div class="fixed bottom-6 right-6 z-50">
+  <!-- Music Button (Dinaikkan sedikit supaya tidak bertindih dengan floating bar di mobile) -->
+  <div class="fixed bottom-20 right-5 z-50">
     <button id="music-toggle" type="button" class="bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 p-3.5 rounded-full shadow-lg flex items-center justify-center smooth-transition hover:scale-105 border-2 border-butter-200" title="Pasang/Hentikan Lagu Background">
       <i id="music-icon" class="fas fa-music text-lg"></i>
     </button>
@@ -178,18 +178,18 @@
             <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
           </button>
 
-          <!-- SEKSYEN HUBUNGI KAMI -->
-          <div class="pt-3 border-t border-purpleTheme-100/60 space-y-2">
+          <!-- SEKSYEN HUBUNGI KAMI (Diperkemas susunan menegak/stack supaya nama tidak terpotong) -->
+          <div class="pt-3 border-t border-purpleTheme-100/60 space-y-2.5">
             <span class="text-[10px] uppercase tracking-widest text-purpleTheme-700 font-semibold block text-center">Hubungi Untuk Pertanyaan</span>
             
-            <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               <!-- Contact 1 -->
-              <div class="bg-white/80 p-2.5 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
-                <div class="truncate pr-1">
-                  <p class="font-semibold text-purpleTheme-900 truncate">En. M.Luttfi</p>
-                  <p class="text-[9px] text-purpleTheme-700/70">Bapa Pengantin</p>
+              <div class="bg-white/80 p-3 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
+                <div>
+                  <p class="font-semibold text-purpleTheme-900 text-xs">En. M. Luttfi</p>
+                  <p class="text-[10px] text-purpleTheme-700/70">Bapa Pengantin</p>
                 </div>
-                <div class="flex gap-1 shrink-0">
+                <div class="flex gap-1.5 shrink-0">
                   <a href="tel:0123456789" class="w-7 h-7 rounded-lg bg-butter-200 text-purpleTheme-800 flex items-center justify-center hover:bg-butter-300 transition-all text-xs" title="Telefon">
                     <i class="fas fa-phone"></i>
                   </a>
@@ -200,12 +200,12 @@
               </div>
 
               <!-- Contact 2 -->
-              <div class="bg-white/80 p-2.5 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
-                <div class="truncate pr-1">
-                  <p class="font-semibold text-purpleTheme-900 truncate">Pn. Sumiarsih</p>
-                  <p class="text-[9px] text-purpleTheme-700/70">Ibu Pengantin</p>
+              <div class="bg-white/80 p-3 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
+                <div>
+                  <p class="font-semibold text-purpleTheme-900 text-xs">Pn. Sumiarsih</p>
+                  <p class="text-[10px] text-purpleTheme-700/70">Ibu Pengantin</p>
                 </div>
-                <div class="flex gap-1 shrink-0">
+                <div class="flex gap-1.5 shrink-0">
                   <a href="tel:0123456789" class="w-7 h-7 rounded-lg bg-butter-200 text-purpleTheme-800 flex items-center justify-center hover:bg-butter-300 transition-all text-xs" title="Telefon">
                     <i class="fas fa-phone"></i>
                   </a>
@@ -470,7 +470,7 @@
     </div>
   </div>
 
-  <!-- MODAL: PENGESAHAN UMUM (CONFIRMATION DIALOG) -->
+  <!-- MODAL: PENGESAHAN UMUM -->
   <div id="confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in">
       <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1">
@@ -493,66 +493,66 @@
     </div>
   </div>
   
-  <!-- FLOATING QUICK ACTION BAR (DENGAN 5 SEKSYEN + BUTANG UTAMA) -->
-  <div id="quick-action-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
-    <div class="glass-card bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-full shadow-2xl border border-purpleTheme-100 flex items-center gap-2 sm:gap-3">
+  <!-- FLOATING QUICK ACTION BAR (Diarahkan supaya saiz padding lebih selesa & padat untuk skrin mobile) -->
+  <div id="quick-action-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none max-w-[95vw]">
+    <div class="glass-card bg-white/95 backdrop-blur-md px-2.5 py-2 rounded-full shadow-2xl border border-purpleTheme-100 flex items-center gap-1.5 sm:gap-3">
       
       <!-- 1. Undangan -->
-      <a href="#invitation-section" id="nav-invitation-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Kad Undangan">
-        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+      <a href="#invitation-section" id="nav-invitation-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Kad Undangan">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-envelope-open-text"></i>
         </div>
-        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Undangan</span>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Undangan</span>
       </a>
 
-      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
       <!-- 2. Lokasi -->
-      <a href="#details-section" id="nav-details-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Lokasi Majlis">
-        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+      <a href="#details-section" id="nav-details-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Lokasi Majlis">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-map-marker-alt"></i>
         </div>
-        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Lokasi</span>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Lokasi</span>
       </a>
 
-      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
       <!-- 3. RSVP -->
-      <a href="#rsvp-section" id="nav-rsvp-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="RSVP Kehadiran">
-        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+      <a href="#rsvp-section" id="nav-rsvp-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="RSVP Kehadiran">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-clipboard-check"></i>
         </div>
-        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">RSVP</span>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">RSVP</span>
       </a>
 
-      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
       <!-- 4. Galeri -->
-      <a href="#gallery-section" id="nav-gallery-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Galeri Gambar">
-        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+      <a href="#gallery-section" id="nav-gallery-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Galeri Gambar">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-images"></i>
         </div>
-        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Galeri</span>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Galeri</span>
       </a>
 
-      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
       <!-- 5. Ucapan -->
-      <a href="#wishes-section" id="nav-wishes-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Buku Hajat">
-        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+      <a href="#wishes-section" id="nav-wishes-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Buku Hajat">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-heart"></i>
         </div>
-        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Ucapan</span>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Ucapan</span>
       </a>
 
-      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
-      <!-- 6. Utama (Kembali ke Hero Section) -->
-      <a href="#hero-section" id="nav-home-btn" class="flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Muka Depan">
-        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-purpleTheme-900 text-butter-100 group-hover:bg-purpleTheme-800 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+      <!-- 6. Utama -->
+      <a href="#hero-section" id="nav-home-btn" class="flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Muka Depan">
+        <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-purpleTheme-900 text-butter-100 group-hover:bg-purpleTheme-800 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-home"></i>
         </div>
-        <span class="text-[9px] font-medium mt-1 text-purpleTheme-900">Utama</span>
+        <span class="text-[8px] sm:text-[9px] font-medium mt-0.5 text-purpleTheme-900">Utama</span>
       </a>
 
     </div>
