@@ -24,6 +24,15 @@ body {
   background: #583083;
 }
 
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Untuk Chrome, Safari, Opera */
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* Untuk IE dan Edge */
+  scrollbar-width: none;  /* Untuk Firefox */
+}
+
 /* Glass Card Style */
 .glass-card {
   background: rgba(255, 255, 255, 0.9) !important;
