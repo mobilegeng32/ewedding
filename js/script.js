@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
      0. CONFIGURATION: URL Google Apps Script Anda
   ------------------------------------------------------------- */
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
-
+  
   /* -------------------------------------------------------------
-     Fetch Dynamic Config dari Google Sheets (Tab Config)
+     Fetch Dynamic Config dari Google Sheets (Tab Config - Indo Style)
   ------------------------------------------------------------- */
   function fetchSiteConfig() {
     if (!SCRIPT_URL.includes('http')) return;
@@ -16,18 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(config => {
         if (!config) return;
 
-        // Populate Teks Utama & Nama
-        if (config.bride_parents && document.getElementById('dyn-bride-parents')) {
-          document.getElementById('dyn-bride-parents').innerText = config.bride_parents;
+        // Populate Info Pengantin (Indo Style)
+        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
+          document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
         }
-        if (config.groom_parents && document.getElementById('dyn-groom-parents')) {
-          document.getElementById('dyn-groom-parents').innerText = config.groom_parents;
+        if (config.bride_desc && document.getElementById('dyn-bride-desc')) {
+          document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
         }
-        if (config.bride_name && document.getElementById('dyn-bride-name')) {
-          document.getElementById('dyn-bride-name').innerText = config.bride_name;
+        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) {
+          document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
         }
-        if (config.groom_name && document.getElementById('dyn-groom-name')) {
-          document.getElementById('dyn-groom-name').innerText = config.groom_name;
+        if (config.groom_desc && document.getElementById('dyn-groom-desc')) {
+          document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
         }
 
         // Masa & Lokasi
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.log("Gagal memuatkan konfigurasi dari sheet:", err));
   }
 
-  // Panggil fungsi ketika mula load
+  // Panggil fungsi semasa halaman dimuatkan
   fetchSiteConfig();
 
   /* -------------------------------------------------------------
