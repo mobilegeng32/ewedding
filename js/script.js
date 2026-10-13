@@ -1,9 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* -------------------------------------------------------------
+	
+	/* -------------------------------------------------------------
      0. CONFIGURATION: URL Google Apps Script Anda
   ------------------------------------------------------------- */
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
+
+  /* -------------------------------------------------------------
+     Fetch Dynamic Config dari Google Sheets (Tab Config)
+  ------------------------------------------------------------- */
+  function fetchSiteConfig() {
+    if (!SCRIPT_URL.includes('http')) return;
+
+    fetch(`${SCRIPT_URL}?action=config`)
+      .then(res => res.json())
+      .then(config => {
+        if (!config) return;
+
+        // Populate Teks Utama & Nama
+        if (config.bride_parents && document.getElementById('dyn-bride-parents')) {
+          document.getElementById('dyn-bride-parents').innerText = config.bride_parents;
+        }
+        if (config.groom_parents && document.getElementById('dyn-groom-parents')) {
+          document.getElementById('dyn-groom-parents').innerText = config.groom_parents;
+        }
+        if (config.bride_name && document.getElementById('dyn-bride-name')) {
+          document.getElementById('dyn-bride-name').innerText = config.bride_name;
+        }
+        if (config.groom_name && document.getElementById('dyn-groom-name')) {
+          document.getElementById('dyn-groom-name').innerText = config.groom_name;
+        }
+
+        // Masa & Lokasi
+        if (config.event_date && document.getElementById('dyn-event-date')) {
+          document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
+        }
+        if (config.event_time && document.getElementById('dyn-event-time')) {
+          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
+        }
+        if (config.event_location && document.getElementById('dyn-event-location')) {
+          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
+        }
+
+        // Pautan Maps & Waze
+        if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
+          document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
+        }
+        if (config.waze_url && document.getElementById('dyn-waze-link')) {
+          document.getElementById('dyn-waze-link').href = config.waze_url;
+        }
+
+        // Hubungi (Contact 1 & 2)
+        if (config.contact1_name && document.getElementById('dyn-c1-name')) {
+          document.getElementById('dyn-c1-name').innerText = config.contact1_name;
+          document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
+          document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone}`;
+          document.getElementById('dyn-c1-wa').href = `https://wa.me/${config.contact1_phone}?text=Assalamualaikum`;
+        }
+        if (config.contact2_name && document.getElementById('dyn-c2-name')) {
+          document.getElementById('dyn-c2-name').innerText = config.contact2_name;
+          document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
+          document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone}`;
+          document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
+        }
+      })
+      .catch(err => console.log("Gagal memuatkan konfigurasi dari sheet:", err));
+  }
+
+  // Panggil fungsi ketika mula load
+  fetchSiteConfig();
 
   /* -------------------------------------------------------------
      1. Universal Smooth Scroll Handler (Termasuk Hero Section)
