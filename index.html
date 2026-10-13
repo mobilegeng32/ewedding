@@ -51,11 +51,11 @@
 </head>
 <body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
 
-	<!-- Audio Player (Background Music) -->
-	<audio id="bg-music" loop preload="auto">
-	  <source src="music/background-sound.mp3" type="audio/mpeg">
-	  Pelayar anda tidak menyokong elemen audio.
-	</audio>
+  <!-- Audio Player (Background Music) -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="music/background-sound.mp3" type="audio/mpeg">
+    Pelayar anda tidak menyokong elemen audio.
+  </audio>
 
   <!-- Music Button -->
   <div class="fixed bottom-6 right-6 z-50">
@@ -64,8 +64,8 @@
     </button>
   </div>
 
-  <!-- HERO SECTION -->
-  <section class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
+  <!-- 1. HERO SECTION -->
+  <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
     <div class="max-w-3xl mx-auto z-10 space-y-6">
       <span class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-4 py-1.5 rounded-full border border-butter-300">
         Walimatulurus / Undangan Majlis Nikah
@@ -97,7 +97,7 @@
     </a>
   </section>
 
-  <!-- INVITATION SECTION -->
+  <!-- 2. INVITATION SECTION -->
   <section id="invitation-section" class="py-16 px-6 max-w-3xl mx-auto text-center">
     <div class="glass-card rounded-3xl p-8 sm:p-14 custom-shadow border border-purpleTheme-100 space-y-8">
       
@@ -140,37 +140,8 @@
     </div>
   </section>
 
-  <!-- COUNTDOWN SECTION -->
-  <section id="countdown-section" class="py-16 px-6 max-w-4xl mx-auto">
-    <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow text-center relative overflow-hidden border border-purpleTheme-100">
-      <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-butter-200 via-purpleTheme-500 to-butter-200"></div>
-
-      <h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 mb-2">Menghitung Hari</h2>
-      <p class="text-xs sm:text-sm text-purpleTheme-800/70 mb-8 font-light">Menuju ikatan suci pernikahan kami</p>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
-        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
-          <span id="cd-days" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
-          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Hari</span>
-        </div>
-        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
-          <span id="cd-hours" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
-          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Jam</span>
-        </div>
-        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
-          <span id="cd-minutes" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
-          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Minit</span>
-        </div>
-        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
-          <span id="cd-seconds" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
-          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Saat</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DETAILS & MAJLIS -->
-  <section class="py-16 px-6 max-w-5xl mx-auto space-y-16">
+  <!-- 3. DETAILS & MAJLIS SECTION -->
+  <section id="details-section" class="py-16 px-6 max-w-5xl mx-auto space-y-16">
     <div class="text-center space-y-3">
       <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Butiran Majlis</span>
       <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Maklumat Akad Nikah</h2>
@@ -201,10 +172,50 @@
               <i class="fas fa-location-arrow text-purpleTheme-700"></i> Waze
             </a>
           </div>
+
           <!-- Butang Simpan Kalendar -->
           <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2.5 px-4 rounded-xl font-medium flex items-center justify-center gap-2 smooth-transition border border-butter-300">
             <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
           </button>
+
+          <!-- SEKSYEN HUBUNGI KAMI -->
+          <div class="pt-3 border-t border-purpleTheme-100/60 space-y-2">
+            <span class="text-[10px] uppercase tracking-widest text-purpleTheme-700 font-semibold block text-center">Hubungi Untuk Pertanyaan</span>
+            
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <!-- Contact 1 -->
+              <div class="bg-white/80 p-2.5 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
+                <div class="truncate pr-1">
+                  <p class="font-semibold text-purpleTheme-900 truncate">En. M.Luttfi</p>
+                  <p class="text-[9px] text-purpleTheme-700/70">Bapa Pengantin</p>
+                </div>
+                <div class="flex gap-1 shrink-0">
+                  <a href="tel:0123456789" class="w-7 h-7 rounded-lg bg-butter-200 text-purpleTheme-800 flex items-center justify-center hover:bg-butter-300 transition-all text-xs" title="Telefon">
+                    <i class="fas fa-phone"></i>
+                  </a>
+                  <a href="https://wa.me/60123456789?text=Assalamualaikum" target="_blank" rel="noopener noreferrer" class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center hover:bg-emerald-600 transition-all text-xs" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Contact 2 -->
+              <div class="bg-white/80 p-2.5 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
+                <div class="truncate pr-1">
+                  <p class="font-semibold text-purpleTheme-900 truncate">Pn. Sumiarsih</p>
+                  <p class="text-[9px] text-purpleTheme-700/70">Ibu Pengantin</p>
+                </div>
+                <div class="flex gap-1 shrink-0">
+                  <a href="tel:0123456789" class="w-7 h-7 rounded-lg bg-butter-200 text-purpleTheme-800 flex items-center justify-center hover:bg-butter-300 transition-all text-xs" title="Telefon">
+                    <i class="fas fa-phone"></i>
+                  </a>
+                  <a href="https://wa.me/60123456789?text=Assalamualaikum" target="_blank" rel="noopener noreferrer" class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center hover:bg-emerald-600 transition-all text-xs" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -241,7 +252,7 @@
     </div>
   </section>
 
-  <!-- RSVP SECTION -->
+  <!-- 4. RSVP SECTION -->
   <section id="rsvp-section" class="py-16 px-6 max-w-3xl mx-auto">
     <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-6">
       <div class="text-center space-y-2">
@@ -293,8 +304,8 @@
     </div>
   </section>
   
-  <!-- GALERI & SLIDESHOW -->
-  <section class="py-16 px-6 max-w-5xl mx-auto space-y-8">
+  <!-- 5. GALERI & SLIDESHOW SECTION -->
+  <section id="gallery-section" class="py-16 px-6 max-w-5xl mx-auto space-y-8">
     <div class="text-center space-y-2">
       <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Memori Indah</span>
       <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Galeri Gambar &amp; Slideshow</h2>
@@ -318,7 +329,7 @@
         </button>
       </div>
 
-	<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
         <p class="text-xs text-purpleTheme-800/70 font-light text-center sm:text-left">
           <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
         </p>
@@ -329,57 +340,86 @@
         </label>
       </div>
 
-      <!-- Kotak Amaran Galeri (Seragam dengan RSVP & Buku Hajat) -->
+      <!-- Kotak Amaran Galeri -->
       <div id="gallery-alert" class="hidden p-4 rounded-xl bg-butter-100 border border-butter-300 text-purpleTheme-900 text-center text-sm font-medium transition-all">
         <i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih Kerana Sudi Berkongsi Kenangan Bersama Kami.
       </div>
     </div>
   </section>
 
-	<!-- SECTION BUKU HAJAT (KAD TUNGGAL / SINGLE CARD) -->
-	<section id="wishes-section" class="py-12 px-4 max-w-2xl mx-auto">
-	  <div class="text-center mb-6">
-		<span class="text-xs font-semibold tracking-widest text-purpleTheme-700 uppercase">BUKU HAJAT</span>
-		<h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 mt-1">Ucapan & Doa Restu</h2>
-		<div class="w-12 h-0.5 bg-purpleTheme-300 mx-auto mt-2"></div>
-	  </div>
+  <!-- 6. BUKU HAJAT SECTION -->
+  <section id="wishes-section" class="py-12 px-4 max-w-2xl mx-auto">
+    <div class="text-center mb-6">
+      <span class="text-xs font-semibold tracking-widest text-purpleTheme-700 uppercase">BUKU HAJAT</span>
+      <h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 mt-1">Ucapan & Doa Restu</h2>
+      <div class="w-12 h-0.5 bg-purpleTheme-300 mx-auto mt-2"></div>
+    </div>
 
-	  <!-- KAD UTAMA TUNGGAL (MENAMPUNG BORANG + SENARAI UCAPAN) -->
-	  <div class="glass-card rounded-3xl p-6 sm:p-8 border border-purpleTheme-100 shadow-xl space-y-6">
-		
-		<!-- BAHAGIAN 1: BORANG HANTAR UCAPAN -->
-		<form id="wish-form" class="space-y-4 pb-6 border-b border-purpleTheme-100">
-		  <div>
-			<label for="wish-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Nama Anda</label>
-			<input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" 
-				   class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/70">
-		  </div>
+    <!-- KAD UTAMA TUNGGAL (BORANG + SENARAI UCAPAN) -->
+    <div class="glass-card rounded-3xl p-6 sm:p-8 border border-purpleTheme-100 shadow-xl space-y-6">
+      
+      <!-- BAHAGIAN 1: BORANG HANTAR UCAPAN -->
+      <form id="wish-form" class="space-y-4 pb-6 border-b border-purpleTheme-100">
+        <div>
+          <label for="wish-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Nama Anda</label>
+          <input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" 
+                 class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/70">
+        </div>
 
-		  <div>
-			<label for="wish-message" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Titipkan Ucapan & Doa</label>
-			<textarea id="wish-message" required rows="3" placeholder="Tuliskan ucapan tahniah dan doa buat pengantin..." 
-					  class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/70 resize-y"></textarea>
-		  </div>
+        <div>
+          <label for="wish-message" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Titipkan Ucapan & Doa</label>
+          <textarea id="wish-message" required rows="3" placeholder="Tuliskan ucapan tahniah dan doa buat pengantin..." 
+                    class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/70 resize-y"></textarea>
+        </div>
 
-		  <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-purpleTheme-900 text-white font-medium rounded-xl text-sm shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">
-			HANTAR UCAPAN
-		  </button>
-		</form>
+        <button type="submit" class="w-full sm:w-auto px-6 py-3 bg-purpleTheme-900 text-white font-medium rounded-xl text-sm shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">
+          HANTAR UCAPAN
+        </button>
+      </form>
 
-		<!-- Kotak Amaran Ucapan (Seragam dengan RSVP) -->
-		<div id="wish-alert" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center font-medium transition-all">
-		  Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
-		</div>
-		
-		<!-- BAHAGIAN 2: SENARAI UCAPAN TETAMU (BOLEH SCROLL DALAM KAD YANG SAMA) -->
-		<div id="wishes-container" class="max-h-[350px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
-		  <!-- Ucapan real-time akan dimasukkan ke sini secara dinamik -->
-		</div>
+      <!-- Kotak Amaran Ucapan -->
+      <div id="wish-alert" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center font-medium transition-all">
+        Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
+      </div>
+      
+      <!-- BAHAGIAN 2: SENARAI UCAPAN TETAMU -->
+      <div id="wishes-container" class="max-h-[350px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
+        <!-- Ucapan real-time -->
+      </div>
 
-	  </div>
-	</section>
+    </div>
+  </section>
 
-  <!-- FOOTER -->
+  <!-- 7. COUNTDOWN SECTION -->
+  <section id="countdown-section" class="py-12 px-6 max-w-4xl mx-auto">
+    <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow text-center relative overflow-hidden border border-purpleTheme-100">
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-butter-200 via-purpleTheme-500 to-butter-200"></div>
+
+      <h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 mb-2">Menghitung Hari</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 mb-8 font-light">Menuju ikatan suci pernikahan kami</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-days" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Hari</span>
+        </div>
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-hours" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Jam</span>
+        </div>
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-minutes" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Minit</span>
+        </div>
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-seconds" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Saat</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FOOTER -->
   <footer class="py-12 px-6 text-center border-t border-purpleTheme-100 bg-butter-50">
     <div class="max-w-xl mx-auto space-y-4">
       <h3 class="font-serif text-2xl text-purpleTheme-900">Utrias &amp; Hazim</h3>
@@ -387,12 +427,12 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v1.0.19
+        Officially Made By Arejim's &copy; 2026 v1.0.21
       </p>
     </div>
   </footer>
 
-  <!-- MODAL CUSTOM UNTUK MUAT NAIK GAMBAR GALERI -->
+  <!-- MODAL: UPLOAD GAMBAR GALERI -->
   <div id="upload-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md w-full border border-purpleTheme-100 shadow-2xl space-y-5 relative animate-fade-in">
       <button id="close-upload-modal" type="button" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">
@@ -430,7 +470,7 @@
     </div>
   </div>
 
-  <!-- MODAL PENGESAHAN UMUM (CONFIRMATION DIALOG) -->
+  <!-- MODAL: PENGESAHAN UMUM (CONFIRMATION DIALOG) -->
   <div id="confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in">
       <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1">
@@ -452,8 +492,73 @@
       </div>
     </div>
   </div>
+  
+  <!-- FLOATING QUICK ACTION BAR (DENGAN 5 SEKSYEN + BUTANG UTAMA) -->
+  <div id="quick-action-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
+    <div class="glass-card bg-white/95 backdrop-blur-md px-3.5 py-2.5 rounded-full shadow-2xl border border-purpleTheme-100 flex items-center gap-2 sm:gap-3">
+      
+      <!-- 1. Undangan -->
+      <a href="#invitation-section" id="nav-invitation-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Kad Undangan">
+        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+          <i class="fas fa-envelope-open-text"></i>
+        </div>
+        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Undangan</span>
+      </a>
 
-  <!-- Script JS (Pastikan dipanggil di akhir body) -->
+      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+
+      <!-- 2. Lokasi -->
+      <a href="#details-section" id="nav-details-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Lokasi Majlis">
+        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Lokasi</span>
+      </a>
+
+      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+
+      <!-- 3. RSVP -->
+      <a href="#rsvp-section" id="nav-rsvp-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="RSVP Kehadiran">
+        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+          <i class="fas fa-clipboard-check"></i>
+        </div>
+        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">RSVP</span>
+      </a>
+
+      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+
+      <!-- 4. Galeri -->
+      <a href="#gallery-section" id="nav-gallery-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Galeri Gambar">
+        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+          <i class="fas fa-images"></i>
+        </div>
+        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Galeri</span>
+      </a>
+
+      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+
+      <!-- 5. Ucapan -->
+      <a href="#wishes-section" id="nav-wishes-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Buku Hajat">
+        <div class="icon-box w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+          <i class="fas fa-heart"></i>
+        </div>
+        <span class="nav-label text-[9px] font-medium mt-1 transition-colors duration-300">Ucapan</span>
+      </a>
+
+      <div class="w-[1px] h-6 bg-purpleTheme-100/80"></div>
+
+      <!-- 6. Utama (Kembali ke Hero Section) -->
+      <a href="#hero-section" id="nav-home-btn" class="flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group" title="Muka Depan">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-purpleTheme-900 text-butter-100 group-hover:bg-purpleTheme-800 flex items-center justify-center text-xs transition-all duration-300 shadow-sm">
+          <i class="fas fa-home"></i>
+        </div>
+        <span class="text-[9px] font-medium mt-1 text-purpleTheme-900">Utama</span>
+      </a>
+
+    </div>
+  </div>
+  
+  <!-- Script JS -->
   <script src="js/script.js"></script>
 </body>
 </html>

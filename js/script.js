@@ -5,15 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
   ------------------------------------------------------------- */
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
 
-
   /* -------------------------------------------------------------
-     1. Smooth Scroll Handler
+     1. Universal Smooth Scroll Handler (Termasuk Hero Section)
   ------------------------------------------------------------- */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
+      
+      if (targetId === '#' || targetId === '#hero-section') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        return;
+      }
       
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
@@ -24,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
 
   /* -------------------------------------------------------------
      2. Background Music Controller & Auto-play on First Interaction
@@ -72,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-
   /* -------------------------------------------------------------
      3. Live Countdown Timer
   ------------------------------------------------------------- */
@@ -111,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-
   /* -------------------------------------------------------------
      4. Add to Calendar ICS Generator
   ------------------------------------------------------------- */
@@ -141,9 +144,8 @@ END:VCALENDAR`;
     });
   }
 
-
   /* -------------------------------------------------------------
-     Utility: Custom Confirmation Dialog Handler (Fix Event Listener)
+     Utility: Custom Confirmation Dialog Handler
   ------------------------------------------------------------- */
   const confirmModal = document.getElementById('confirm-modal');
   const confirmTitle = document.getElementById('confirm-title');
@@ -161,7 +163,6 @@ END:VCALENDAR`;
     confirmDesc.innerText = desc;
     confirmModal.classList.remove('hidden');
 
-    // Buang event listener lama untuk elakkan fungsi bertindih
     const newYesBtn = dialogYesBtn.cloneNode(true);
     const newCancelBtn = dialogCancelBtn.cloneNode(true);
     dialogYesBtn.parentNode.replaceChild(newYesBtn, dialogYesBtn);
@@ -176,7 +177,6 @@ END:VCALENDAR`;
       confirmModal.classList.add('hidden');
     });
   }
-
 
   /* -------------------------------------------------------------
      5. RSVP Submission Logic (Dengan Confirmation Dialog)
@@ -237,9 +237,8 @@ END:VCALENDAR`;
     });
   }
 
-
   /* -------------------------------------------------------------
-     6. Dynamic Gallery & Google Drive/Sheets Integration (Custom Modal UI)
+     6. Dynamic Gallery & Google Drive/Sheets Integration
   ------------------------------------------------------------- */
   const fallbackGallery = [
     {
@@ -434,9 +433,8 @@ END:VCALENDAR`;
     fetchGalleryImages(true);
   }, 10000);
 
-
   /* -------------------------------------------------------------
-     7. Wish Board / Buku Hajat (Optimized Real-Time Sync & Break Words)
+     7. Wish Board / Buku Hajat
   ------------------------------------------------------------- */
   let defaultWishes = [
     {
@@ -609,10 +607,9 @@ END:VCALENDAR`;
   setInterval(() => {
     updateLiveTimestamps();
   }, 30000);
-  
-  
+
   /* -------------------------------------------------------------
-     8. Gallery Lightbox / Preview Feature (Original Resolution Pull)
+     8. Gallery Lightbox
   ------------------------------------------------------------- */
   if (slideshowContainer) {
     const modal = document.createElement('div');
@@ -648,6 +645,75 @@ END:VCALENDAR`;
 
     modal.addEventListener('click', () => {
       modal.classList.add('hidden');
+    });
+  }
+  
+  /* -------------------------------------------------------------
+     9. Floating Action Bar Active Observer & Instant Click Highlight
+  ------------------------------------------------------------- */
+  const quickActionBar = document.getElementById('quick-action-bar');
+  
+  if (quickActionBar) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      } else {
+        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+    });
+
+    const sectionIds = ['invitation-section', 'details-section', 'rsvp-section', 'gallery-section', 'wishes-section'];
+    const navItems = document.querySelectorAll('.nav-item');
+
+    function setActiveNav(activeId) {
+      navItems.forEach(item => {
+        const iconBox = item.querySelector('.icon-box');
+        const navLabel = item.querySelector('.nav-label');
+        
+        if (item.id === `nav-${activeId}`) {
+          iconBox.classList.remove('bg-butter-200/90', 'text-purpleTheme-900');
+          iconBox.classList.add('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
+          if (navLabel) {
+            navLabel.classList.remove('text-purpleTheme-800');
+            navLabel.classList.add('text-purpleTheme-900', 'font-bold');
+          }
+        } else {
+          iconBox.classList.remove('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
+          iconBox.classList.add('bg-butter-200/90', 'text-purpleTheme-900');
+          if (navLabel) {
+            navLabel.classList.remove('text-purpleTheme-900', 'font-bold');
+            navLabel.classList.add('text-purpleTheme-800');
+          }
+        }
+      });
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const targetSectionId = item.getAttribute('href').substring(1);
+        setActiveNav(targetSectionId);
+      });
+    });
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -40% 0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveNav(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    sectionIds.forEach(id => {
+      const sectionEl = document.getElementById(id);
+      if (sectionEl) observer.observe(sectionEl);
     });
   }
 
