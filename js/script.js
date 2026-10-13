@@ -649,50 +649,70 @@ END:VCALENDAR`;
   }
   
   /* -------------------------------------------------------------
-     9. Floating Quick Action Bar & Mobile Idle Auto-Hide (Fixed)
+     9. Floating Quick Action Bar & Music Button Mobile Auto-Hide
   ------------------------------------------------------------- */
   const quickActionBar = document.getElementById('quick-action-bar');
+  const musicContainer = document.querySelector('.fixed.bottom-20.right-5.z-50'); // Container butang muzik
   
   if (quickActionBar) {
     let idleTimer = null;
     const isMobileDevice = () => window.innerWidth < 768;
 
-    function showBar() {
+    function showElements() {
       if (window.scrollY > 300) {
         quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
         quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+        if (musicContainer) {
+          musicContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+          musicContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }
       }
     }
 
-    function hideBar() {
-      // Hanya auto-hide jika saiz skrin adalah peranti mudah alih (mobile)
+    function hideElements() {
       if (isMobileDevice() && window.scrollY > 300) {
         quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
         quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+        if (musicContainer) {
+          musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+          musicContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }
       }
+    }
+
+    // Tambah kelas transisi pada music container untuk kesan animasi yang lancar
+    if (musicContainer) {
+      musicContainer.classList.add('transition-all', 'duration-500');
     }
 
     // Pantau pergerakan scroll
     window.addEventListener('scroll', () => {
       if (window.scrollY > 300) {
-        showBar();
+        showElements();
         
         if (isMobileDevice()) {
           clearTimeout(idleTimer);
-          idleTimer = setTimeout(hideBar, 3000); // Hilang selepas 3 saat terbiar di mobile
+          idleTimer = setTimeout(hideElements, 3000); // Hilang selepas 3 saat terbiar
         }
       } else {
         quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
         quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+
+        if (musicContainer) {
+          musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+          musicContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }
       }
     });
 
-    // Sentuhan pada skrin di mobile akan memunculkan semula bar dan reset pemasa
+    // Sentuhan pada skrin di mobile memunculkan semula kedua-dua butang
     window.addEventListener('touchstart', () => {
       if (isMobileDevice() && window.scrollY > 300) {
-        showBar();
+        showElements();
         clearTimeout(idleTimer);
-        idleTimer = setTimeout(hideBar, 3000);
+        idleTimer = setTimeout(hideElements, 3000);
       }
     });
 
