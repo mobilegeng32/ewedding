@@ -56,18 +56,21 @@
     <source src="music/background-sound.mp3" type="audio/mpeg">
     Pelayar anda tidak menyokong elemen audio.
   </audio>
-  
-  <!-- Music Button (Bermula tersembunyi & sentiasa seirama dengan floating bar) -->
+
+  <!-- REVISED MUSIC BUTTON (Re-designed: Eksklusif, senada tema butter & purple, tersembunyi di Hero Section) -->
   <div id="music-container" class="fixed bottom-20 right-5 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
-    <button id="music-toggle" type="button" class="bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 p-3.5 rounded-full shadow-lg flex items-center justify-center smooth-transition hover:scale-105 border-2 border-butter-200" title="Pasang/Hentikan Lagu Background">
-      <i id="music-icon" class="fas fa-music text-lg"></i>
+    <button id="music-toggle" type="button" class="relative group bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-purpleTheme-700/20 active:scale-95" title="Pasang/Hentikan Lagu Background">
+      <!-- Kesan Gelombang/Pulsing Ring apabila aktif -->
+      <span class="absolute inset-0 rounded-full bg-butter-300 animate-ping opacity-30 pointer-events-none"></span>
+      <i id="music-icon" class="fas fa-music text-base transition-transform duration-300 group-hover:rotate-12"></i>
     </button>
   </div>
 
-  <!-- 1. HERO SECTION -->
+  <!-- 1. HERO SECTION (Clean, Modern & Interactive Revamp) -->
   <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
     <div class="max-w-3xl mx-auto z-10 space-y-6">
-      <span class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-4 py-1.5 rounded-full border border-butter-300">
+      
+      <span class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-5 py-2 rounded-full border border-butter-300 shadow-sm animate-fade-in">
         Walimatulurus / Undangan Majlis Nikah
       </span>
 
@@ -85,15 +88,21 @@
         Sabtu, 22 May 2027
       </p>
 
+      <!-- REVISED HERO INTERACTIVE BUTTON -->
       <div class="pt-8">
-        <a href="#invitation-section" class="inline-block bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 px-8 py-3.5 rounded-full text-sm tracking-wider font-medium uppercase smooth-transition shadow-md hover:shadow-lg border border-purpleTheme-700">
-          Lanjut Ke Bawah
+        <a href="#invitation-section" class="group relative inline-flex items-center gap-3 bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 px-8 py-4 rounded-full text-xs sm:text-sm tracking-widest font-semibold uppercase transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1 border border-purpleTheme-700/50">
+          <span>Buka Undangan</span>
+          <span class="w-7 h-7 rounded-full bg-butter-200 text-purpleTheme-900 flex items-center justify-center transition-transform duration-300 group-hover:translate-y-1">
+            <i class="fas fa-chevron-down text-xs"></i>
+          </span>
         </a>
       </div>
+
     </div>
 
-    <a href="#invitation-section" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-purpleTheme-700/60 hover:text-purpleTheme-700 animate-bounce">
-      <i class="fas fa-chevron-down text-xl"></i>
+    <!-- Minimalist Floating Scroll Indicator -->
+    <a href="#invitation-section" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
+      <i class="fas fa-chevron-down text-lg"></i>
     </a>
   </section>
 
@@ -178,7 +187,7 @@
             <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
           </button>
 
-          <!-- SEKSYEN HUBUNGI KAMI (Diperkemas susunan menegak/stack supaya nama tidak terpotong) -->
+          <!-- SEKSYEN HUBUNGI KAMI -->
           <div class="pt-3 border-t border-purpleTheme-100/60 space-y-2.5">
             <span class="text-[10px] uppercase tracking-widest text-purpleTheme-700 font-semibold block text-center">Hubungi Untuk Pertanyaan</span>
             
@@ -314,7 +323,7 @@
 
     <div class="glass-card rounded-3xl p-4 sm:p-6 custom-shadow border border-purpleTheme-100 space-y-6">
       <div class="relative w-full h-80 sm:h-[450px] rounded-2xl overflow-hidden bg-purpleTheme-900/10 group cursor-pointer" id="slideshow-container">
-        <!-- Gambar Utama (Penuh & Full Cover) -->
+        <!-- Gambar Utama -->
         <img id="slideshow-img" src="" alt="Wedding Moment" class="w-full h-full object-cover smooth-transition duration-500">
 
         <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-purpleTheme-900/80 via-purpleTheme-900/30 to-transparent p-6 text-white">
@@ -355,10 +364,7 @@
       <div class="w-12 h-0.5 bg-purpleTheme-300 mx-auto mt-2"></div>
     </div>
 
-    <!-- KAD UTAMA TUNGGAL (BORANG + SENARAI UCAPAN) -->
     <div class="glass-card rounded-3xl p-6 sm:p-8 border border-purpleTheme-100 shadow-xl space-y-6">
-      
-      <!-- BAHAGIAN 1: BORANG HANTAR UCAPAN -->
       <form id="wish-form" class="space-y-4 pb-6 border-b border-purpleTheme-100">
         <div>
           <label for="wish-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-2">Nama Anda</label>
@@ -377,16 +383,11 @@
         </button>
       </form>
 
-      <!-- Kotak Amaran Ucapan -->
       <div id="wish-alert" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center font-medium transition-all">
         Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
       </div>
       
-      <!-- BAHAGIAN 2: SENARAI UCAPAN TETAMU -->
-      <div id="wishes-container" class="max-h-[350px] overflow-y-auto space-y-3 pr-1 custom-scrollbar">
-        <!-- Ucapan real-time -->
-      </div>
-
+      <div id="wishes-container" class="max-h-[350px] overflow-y-auto space-y-3 pr-1 custom-scrollbar"></div>
     </div>
   </section>
 
@@ -427,7 +428,7 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v1.0.27
+        Officially Made By Arejim's &copy; 2026 v1.0.29
       </p>
     </div>
   </footer>
@@ -493,11 +494,10 @@
     </div>
   </div>
   
-  <!-- FLOATING QUICK ACTION BAR (Diarahkan supaya saiz padding lebih selesa & padat untuk skrin mobile) -->
+  <!-- FLOATING QUICK ACTION BAR -->
   <div id="quick-action-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none max-w-[95vw]">
     <div class="glass-card bg-white/95 backdrop-blur-md px-2.5 py-2 rounded-full shadow-2xl border border-purpleTheme-100 flex items-center gap-1.5 sm:gap-3">
       
-      <!-- 1. Undangan -->
       <a href="#invitation-section" id="nav-invitation-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Kad Undangan">
         <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-envelope-open-text"></i>
@@ -507,7 +507,6 @@
 
       <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
-      <!-- 2. Lokasi -->
       <a href="#details-section" id="nav-details-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Lokasi Majlis">
         <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-map-marker-alt"></i>
@@ -517,7 +516,6 @@
 
       <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
-      <!-- 3. RSVP -->
       <a href="#rsvp-section" id="nav-rsvp-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="RSVP Kehadiran">
         <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-clipboard-check"></i>
@@ -527,7 +525,6 @@
 
       <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
-      <!-- 4. Galeri -->
       <a href="#gallery-section" id="nav-gallery-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Galeri Gambar">
         <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-images"></i>
@@ -537,7 +534,6 @@
 
       <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
-      <!-- 5. Ucapan -->
       <a href="#wishes-section" id="nav-wishes-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Buku Hajat">
         <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-heart"></i>
@@ -547,7 +543,6 @@
 
       <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
 
-      <!-- 6. Utama -->
       <a href="#hero-section" id="nav-home-btn" class="flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Muka Depan">
         <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-purpleTheme-900 text-butter-100 group-hover:bg-purpleTheme-800 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm">
           <i class="fas fa-home"></i>
