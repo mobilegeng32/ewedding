@@ -1,10 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
-  
-  // Paksa laman web kembali ke atas (Home/Hero) setiap kali laman web di-refresh
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
+// Letak di baris paling atas sekali (di luar DOMContentLoaded)
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+// Pastikan skrol dipaksa ke atas sebaik sahaja laman web selesai muat (terutama untuk phone)
+window.addEventListener('load', () => {
   window.scrollTo(0, 0);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
   
