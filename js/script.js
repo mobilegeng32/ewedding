@@ -85,11 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonEl.disabled = false;
         buttonEl.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
         buttonEl.innerHTML = buttonEl.getAttribute('data-original-html');
+        
+        // PEMBETULAN UTAMA: Pasang semula listener input file galeri apabila cooldown tamat
+        if (buttonEl.id === 'btn-upload-gallery') {
+          bindPhotoUploadListener();
+        }
       }
     }, 1000);
   }
 
-  // Semak semula cooldown yang aktif serta-merta semasa laman web dimuatkan (menghalang bypass via refresh)
+  // Semak semula cooldown yang aktif serta-merta semasa laman web dimuatkan
   setTimeout(() => {
     ['rsvp-submit', 'btn-upload-gallery', 'btn-submit-wish', 'refresh-wishes-btn'].forEach(id => {
       const btn = document.getElementById(id);
