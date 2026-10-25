@@ -47,3 +47,17 @@ body {
 .custom-shadow {
   box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
 }
+
+/* Hanya bergerak ke atas pada skrin telefon (mobile) apabila dock dibuka */
+@media (max-width: 520px) {
+  #fab-container.dock-active {
+    transform: translateY(-85px);
+  }
+}
+
+/* Pada skrin tablet/laptop (768px ke atas), butang kekal statik tanpa bergerak */
+@media (min-width: 521px) {
+  #fab-container.dock-active {
+    transform: translateY(0);
+  }
+}
