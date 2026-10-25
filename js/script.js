@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ID Google Sheets anda untuk proses Baca (Read: GViz)
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
   
-  // --- FUNGSI BANTUAN GVIZ (DIKEMASKINI UTAMAKAN .f UNTUK FORMAT MASA/TARIKH) ---
+  // --- FUNGSI BANTUAN GVIZ ---
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  // --- FUNGSI BANTUAN COOLDOWN 10 SAAT (ANTI-SPAM) ---
+  // --- FUNGSI BANTUAN COOLDOWN 10 SAAT ---
   function setButtonCooldown(buttonEl, durationInSeconds = 10, customText = "Sila tunggu") {
     if (!buttonEl) return;
     
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  // --- 1. FETCH CONFIG KHAS (MENYOKONG PELBAGAI JADUAL DALAM 1 TAB CONFIG) ---
+  // --- 1. FETCH CONFIG KHAS ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -141,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
         }
 		
-		    // Pautan Google Maps (Dengan onclick terus untuk jamin responsif)
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink) {
           const gmapsUrl = config.gmaps_url ? String(config.gmaps_url).trim() : '#';
@@ -155,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
           };
         }
 
-        // Pautan Waze (Dengan onclick terus untuk jamin responsif)
         const wazeLink = document.getElementById('dyn-waze-link');
         if (wazeLink) {
           const wazeUrl = config.waze_url ? String(config.waze_url).trim() : '#';
@@ -169,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
           };
         }
 
-        // Kontak 1 (Panggilan & WhatsApp dengan onclick terus)
+        // Kontak 1
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
           document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
@@ -198,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Kontak 2 (Panggilan & WhatsApp dengan onclick terus)
+        // Kontak 2
         if (config.contact2_name && document.getElementById('dyn-c2-name')) {
           document.getElementById('dyn-c2-name').innerText = config.contact2_name;
           document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
@@ -320,13 +318,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error("Gagal ambil Config:", err));
   }
   
-  // --- MUAT BERPERINGKAT (STAGGERED INITIAL LOAD) ---
+  // --- MUAT BERPERINGKAT ---
   setTimeout(() => { fetchSiteConfig(); }, 200);
   setTimeout(() => { fetchTentative(); }, 600);
   setTimeout(() => { fetchGalleryImages(); }, 1000);
   setTimeout(() => { fetchWishes(); }, 1400);
   
-  // --- 2. FETCH TENTATIVE DENGAN REGEX PARSER KEBAL ---
+  // --- 2. FETCH TENTATIVE ---
   function fetchTentative() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
@@ -666,7 +664,7 @@ END:VCALENDAR`;
     confirmModal.classList.remove('hidden');
   }
 
-  // --- RSVP SUBMIT (DOPOST) DENGAN COOLDOWN 10 SAAT ---
+  // --- RSVP SUBMIT ---
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -769,7 +767,7 @@ END:VCALENDAR`;
     }
   }
 
-  // --- 3. FETCH GALLERY VIA GVIZ ---
+  // --- 3. FETCH GALLERY ---
   function fetchGalleryImages() {
     fetchSheetDataViaGViz('Gallery', function(data) {
       if (data && data.length > 0) {
@@ -845,7 +843,7 @@ END:VCALENDAR`;
 
   bindPhotoUploadListener();
 
-  // --- GALLERY UPLOAD (DOPOST) DENGAN COOLDOWN 10 SAAT ---
+  // --- GALLERY UPLOAD ---
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
@@ -956,7 +954,7 @@ END:VCALENDAR`;
     `).join('');
   }
 
-  // --- 4. FETCH WISHES VIA GVIZ ---
+  // --- 4. FETCH WISHES ---
   function fetchWishes() {
     fetchSheetDataViaGViz('Wishes', function(data) {
       if (data && data.length > 0) {
@@ -991,7 +989,7 @@ END:VCALENDAR`;
     });
   }
 
-  // --- WISH SUBMIT (DOPOST) DENGAN COOLDOWN 10 SAAT ---
+  // --- WISH SUBMIT ---
   const wishForm = document.getElementById('wish-form');
   if (wishForm) {
     wishForm.addEventListener('submit', (e) => {
@@ -1301,15 +1299,15 @@ END:VCALENDAR`;
         document.getElementById('bank-account').innerText = config.bank_account || '';
       }
     }
-	
-	const qrSection = document.getElementById('qr-section');
+
+    const qrSection = document.getElementById('qr-section');
     const qrControl = config.control_qr;
     if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
       if (qrSection) qrSection.style.display = 'none';
     } else {
       if (qrSection) {
         qrSection.style.display = 'block';
-        const qrImg = document.getElementById('dyn-qr-image');
+        const qrImg = document.getElementById('dyn-qr-image') || document.getElementById('qr-image');
         if (qrImg) {
           const rawInput = config.qr_image_url ? String(config.qr_image_url).trim() : '';
           let fileId = rawInput;
@@ -1321,8 +1319,13 @@ END:VCALENDAR`;
             else if (match2 && match2[1]) fileId = match2[1];
           }
 
-          // Gunakan API Thumbnail rasmi Google Drive (Sangat stabil untuk paparan imej saiz sederhana di web)
-          qrImg.src = fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : '';
+          if (fileId) {
+            // Lalukan melalui proksi wsrv.nl yang melepasi sekatan pelayar 100%
+            const targetUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            qrImg.src = `https://wsrv.nl/?url=${encodeURIComponent(targetUrl)}`;
+          } else {
+            qrImg.src = '';
+          }
         }
       }
     }
@@ -1338,4 +1341,5 @@ END:VCALENDAR`;
       }
     }
   }
+
 });
