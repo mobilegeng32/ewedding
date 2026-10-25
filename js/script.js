@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
   
   /* -------------------------------------------------------------
-     1. SISTEM CONFIG & DINAMIK DATA (TERMASUK URL PARAMETER NAMA)
+     1. SISTEM CONFIG & DINAMIK DATA
   ------------------------------------------------------------- */
   function parseGuestNameFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(config => {
         if (!config) return;
 
-        // Paparan Teks Pengantin & Lokasi
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
         if (config.bride_desc && document.getElementById('dyn-bride-desc')) document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
         if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
@@ -40,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
         if (config.waze_url && document.getElementById('dyn-waze-link')) document.getElementById('dyn-waze-link').href = config.waze_url;
 
-        // Info Hubungi
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
           document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
@@ -54,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
         }
 
-        // Dropdown Pax RSVP
         const maxPax = parseInt(config.max_pax) || 5;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
@@ -67,14 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Kawalan Suis (Kill-Switch dari Config Sheet)
         applyFeatureToggles(config);
       })
       .catch(err => console.log("Gagal memuatkan config:", err));
   }
 
   function applyFeatureToggles(config) {
-    // 1. RSVP Toggle
     const rsvpBtn = document.querySelector('#rsvp-form button[type="submit"]');
     if (config.control_RSVP !== undefined && rsvpBtn) {
       if (String(config.control_RSVP).toUpperCase() === 'FALSE') {
@@ -83,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         rsvpBtn.innerText = "RSVP DITUTUP";
       }
     }
-    // 2. Gallery Toggle
     const uploadBtn = document.getElementById('btn-upload-gallery');
     if (config.control_gallery !== undefined && uploadBtn) {
       if (String(config.control_gallery).toUpperCase() === 'FALSE') {
@@ -91,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadBtn.innerHTML = `<i class="fas fa-lock"></i> Muat Naik Ditutup`;
       }
     }
-    // 3. Wishes Toggle
     const wishBtn = document.getElementById('btn-submit-wish');
     if (config.control_wish !== undefined && wishBtn) {
       if (String(config.control_wish).toUpperCase() === 'FALSE') {
@@ -105,57 +98,74 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchSiteConfig();
 
   /* -------------------------------------------------------------
-     2. PENGURUSAN CUSTOM MODAL PENGESAHAN (BERASINGAN)
+     2. PENGURUSAN CUSTOM MODAL PENGESAHAN (100% CUSTOM HTML)
   ------------------------------------------------------------- */
-  const customModal = document.getElementById('custom-confirm-modal');
-  const modalTitle = document.getElementById('custom-modal-title');
-  const modalDesc = document.getElementById('custom-modal-desc');
-  const modalBtnYes = document.getElementById('modal-btn-yes');
-  const modalBtnNo = document.getElementById('modal-btn-no');
-  const modalIconClass = document.getElementById('modal-icon-class');
+  const confirmModal = document.getElementById('confirm-modal');
+  const confirmTitle = document.getElementById('confirm-title');
+  const confirmDesc = document.getElementById('confirm-desc');
+  const dialogYesBtn = document.getElementById('dialog-yes-btn');
+  const dialogCancelBtn = document.getElementById('dialog-cancel-btn');
 
-  function openCustomModal(title, desc, iconClass, onYesCallback) {
-    if (!customModal) {
-      if (confirm(desc)) onYesCallback();
+  function showConfirmDialog(title, desc, onConfirm) {
+    if (!confirmModal) {
+      onConfirm();
       return;
     }
-    modalTitle.innerText = title;
-    modalDesc.innerText = desc;
-    modalIconClass.className = iconClass || "fas fa-question-circle";
-    customModal.classList.remove('hidden');
 
-    // Buang event listener lama dengan clone node untuk elak pertindihan
-    const newYes = modalBtnYes.cloneNode(true);
-    const newNo = modalBtnNo.cloneNode(true);
-    modalBtnYes.parentNode.replaceChild(newYes, modalBtnYes);
-    modalBtnNo.parentNode.replaceChild(newNo, modalBtnNo);
+    if (confirmTitle) confirmTitle.innerText = title;
+    if (confirmDesc) confirmDesc.innerText = desc;
+    confirmModal.classList.remove('hidden');
 
-    newYes.addEventListener('click', () => {
-      customModal.classList.add('hidden');
-      onYesCallback();
+    const newYesBtn = dialogYesBtn.cloneNode(true);
+    const newCancelBtn = dialogCancelBtn.cloneNode(true);
+    dialogYesBtn.parentNode.replaceChild(newYesBtn, dialogYesBtn);
+    dialogCancelBtn.parentNode.replaceChild(newCancelBtn, dialogCancelBtn);
+
+    newYesBtn.addEventListener('click', () => {
+      confirmModal.classList.add('hidden');
+      onConfirm();
     });
 
-    newNo.addEventListener('click', () => {
-      customModal.classList.add('hidden');
+    newCancelBtn.addEventListener('click', () => {
+      confirmModal.classList.add('hidden');
     });
   }
 
 
   /* -------------------------------------------------------------
-     3. FUNGSI UTAMA 1: RSVP SUBMISSION & MODAL
+     3. FUNGSI RSVP & KAWALAN PAX
   ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
+  const rsvpStatus = document.getElementById('rsvp-status');
+  const paxContainer = document.getElementById('pax-container');
+  const rsvpPax = document.getElementById('rsvp-pax');
+
+  function updatePaxVisibility() {
+    if (rsvpStatus && paxContainer) {
+      if (rsvpStatus.value === 'Hadir') {
+        paxContainer.classList.remove('hidden');
+        if (rsvpPax && !rsvpPax.value) rsvpPax.value = "1";
+      } else {
+        paxContainer.classList.add('hidden');
+        if (rsvpPax) rsvpPax.value = "0";
+      }
+    }
+  }
+
+  if (rsvpStatus) {
+    rsvpStatus.addEventListener('change', updatePaxVisibility);
+  }
+
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      openCustomModal(
-        "Sahkan Kehadiran (RSVP)?",
-        "Adakah anda pasti maklumat kehadiran dan bilangan tetamu yang dimasukkan sudah tepat?",
-        "fas fa-clipboard-check",
+      showConfirmDialog(
+        "Hantar Pengesahan RSVP?",
+        "Adakah anda pasti maklumat kehadiran yang dimasukkan sudah betul?",
         () => {
           const submitBtn = rsvpForm.querySelector('button[type="submit"]');
-          const originalText = submitBtn.innerText;
+          const originalBtnText = submitBtn.innerText;
           submitBtn.innerText = "Sedang Hantar...";
           submitBtn.disabled = true;
 
@@ -165,29 +175,36 @@ document.addEventListener('DOMContentLoaded', () => {
           formData.append('phone', document.getElementById('rsvp-phone').value);
           formData.append('status', document.getElementById('rsvp-status').value);
           formData.append('pax', document.getElementById('rsvp-pax').value);
-
-          fetch(SCRIPT_URL, {
-            method: 'POST',
+          
+          fetch(`${SCRIPT_URL}?action=rsvp`, { 
+            method: 'POST', 
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: formData
+            body: formData 
           })
-          .then(res => res.json())
+          .then(response => response.json())
           .then(data => {
             const alertBox = document.getElementById('rsvp-alert');
             if (data.status === "error") {
-              alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 mr-2"></i> ${data.message}`;
+              if (alertBox) {
+                alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}`;
+                alertBox.classList.remove('hidden');
+                setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
+              }
             } else {
-              alertBox.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 mr-2"></i> Terima kasih! RSVP anda berjaya direkodkan.`;
-              rsvpForm.reset();
+              if (alertBox) {
+                alertBox.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.`;
+                alertBox.classList.remove('hidden');
+                rsvpForm.reset();
+                updatePaxVisibility(); // Pastikan state pax dikemaskini semula selepas reset
+                setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
+              }
             }
-            alertBox.classList.remove('hidden');
-            setTimeout(() => alertBox.classList.add('hidden'), 5000);
-            submitBtn.innerText = originalText;
+            submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
           })
-          .catch(err => {
-            console.error("RSVP Error:", err);
-            submitBtn.innerText = originalText;
+          .catch(error => {
+            console.error('RSVP Error:', error);
+            submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
           });
         }
@@ -195,65 +212,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle Pax dropdown mengikut status hadir
-  const rsvpStatus = document.getElementById('rsvp-status');
-  const paxContainer = document.getElementById('pax-container');
-  if (rsvpStatus && paxContainer) {
-    rsvpStatus.addEventListener('change', () => {
-      if (rsvpStatus.value === 'Hadir') {
-        paxContainer.classList.remove('hidden');
-      } else {
-        paxContainer.classList.add('hidden');
-      }
-    });
-  }
-
 
   /* -------------------------------------------------------------
-     4. FUNGSI UTAMA 2: GALLERY UPLOAD & MODAL
+     4. FUNGSI GALLERY & UPLOAD MODAL
   ------------------------------------------------------------- */
   let selectedFileForUpload = null;
-  const photoUploadInput = document.getElementById('photo-upload');
+  const photoUpload = document.getElementById('photo-upload');
   const uploadModal = document.getElementById('upload-modal');
-  const confirmUploadBtn = document.getElementById('confirm-upload-btn');
-  const cancelUploadBtn = document.getElementById('cancel-upload-btn');
   const closeUploadModalBtn = document.getElementById('close-upload-modal');
+  const cancelUploadBtn = document.getElementById('cancel-upload-btn');
+  const confirmUploadBtn = document.getElementById('confirm-upload-btn');
+  const uploaderNameInput = document.getElementById('modal-uploader-name');
+  const imageCaptionInput = document.getElementById('modal-image-caption');
 
-  if (photoUploadInput) {
-    photoUploadInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
+  if (photoUpload) {
+    photoUpload.addEventListener('change', (event) => {
+      const file = event.target.files[0];
       if (file) {
         selectedFileForUpload = file;
-        document.getElementById('modal-uploader-name').value = '';
-        document.getElementById('modal-image-caption').value = '';
-        uploadModal.classList.remove('hidden');
+        if (uploaderNameInput) uploaderNameInput.value = '';
+        if (imageCaptionInput) imageCaptionInput.value = '';
+        if (uploadModal) uploadModal.classList.remove('hidden');
       }
     });
   }
 
-  function closeUploadModalFunc() {
+  function closeUploadModal() {
     if (uploadModal) uploadModal.classList.add('hidden');
     selectedFileForUpload = null;
-    if (photoUploadInput) photoUploadInput.value = '';
+    if (photoUpload) photoUpload.value = '';
   }
 
-  if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModalFunc);
-  if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModalFunc);
+  if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModal);
+  if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
 
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
-
-      // Custom modal untuk pengesahan akhir upload gambar
-      openCustomModal(
+      showConfirmDialog(
         "Muat Naik Gambar?",
-        "Adakah anda pasti mahu berkongsi kenangan gambar ini ke galeri majlis?",
-        "fas fa-camera",
+        "Adakah anda pasti mahu memuat naik gambar ini ke galeri majlis?",
         () => {
-          uploadModal.classList.add('hidden');
+          const uploaderName = uploaderNameInput.value.trim() || "Tetamu Undangan";
+          const imageCaption = imageCaptionInput.value.trim() || "Kenangan Majlis";
           const galleryAlert = document.getElementById('gallery-alert');
-          galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 mr-2"></i> Sedang memproses & memuat naik...`;
-          galleryAlert.classList.remove('hidden');
+
+          if (uploadModal) uploadModal.classList.add('hidden');
+          if (galleryAlert) {
+            galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses dan memuat naik gambar...`;
+            galleryAlert.classList.remove('hidden');
+          }
 
           const reader = new FileReader();
           reader.onload = function(e) {
@@ -266,34 +274,39 @@ document.addEventListener('DOMContentLoaded', () => {
               ctx.drawImage(img, 0, 0);
 
               const base64String = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+
               const formData = new URLSearchParams();
               formData.append('action', 'gallery');
               formData.append('fileName', selectedFileForUpload.name.replace(/\.[^/.]+$/, "") + ".jpg");
               formData.append('mimeType', 'image/jpeg');
               formData.append('fileData', base64String);
-              formData.append('name', document.getElementById('modal-uploader-name').value.trim() || "Tetamu");
-              formData.append('caption', document.getElementById('modal-image-caption').value.trim() || "Kenangan Majlis");
-
-              fetch(SCRIPT_URL, {
-                method: 'POST',
+              formData.append('name', uploaderName);
+              formData.append('caption', imageCaption);
+              
+              fetch(`${SCRIPT_URL}?action=gallery`, { 
+                method: 'POST', 
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData
+                body: formData 
               })
-              .then(res => res.json())
+              .then(response => response.json())
               .then(data => {
                 if (data.status === "error") {
-                  galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 mr-2"></i> ${data.message}`;
+                  if (galleryAlert) {
+                    galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}`;
+                    setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
+                  }
                 } else {
-                  galleryAlert.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 mr-2"></i> Berjaya! Terima kasih sudi berkongsi kenangan.`;
+                  if (galleryAlert) {
+                    galleryAlert.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih.`;
+                    setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
+                  }
+                  closeUploadModal();
                   fetchGalleryImages();
                 }
-                setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
-                closeUploadModalFunc();
               })
-              .catch(err => {
-                console.error("Gallery Error:", err);
-                galleryAlert.classList.add('hidden');
-                closeUploadModalFunc();
+              .catch(error => {
+                console.error('Upload error:', error);
+                closeUploadModal();
               });
             };
           };
@@ -303,33 +316,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Fetch Galeri Slideshow
+  // Slideshow Gallery
   let defaultGallery = [{ url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama" }];
   let currentSlide = 0;
   let slideTimer = null;
+  const slideImg = document.getElementById('slideshow-img');
+  const slideCaption = document.getElementById('slideshow-caption');
 
-  function fetchGalleryImages(isBackground = false) {
+  function fetchGalleryImages(isBackgroundCheck = false) {
     if (!SCRIPT_URL.includes('http')) return;
     fetch(SCRIPT_URL)
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
           defaultGallery = data.map(item => ({ url: item.url, caption: `${item.caption} (Oleh: ${item.name})` }));
-          if (!isBackground) { currentSlide = 0; renderSlide(); }
+          if (!isBackgroundCheck) { currentSlide = 0; renderSlide(); }
         }
       })
       .catch(err => console.log("Gagal memuat galeri:", err));
   }
 
   function renderSlide() {
-    const imgEl = document.getElementById('slideshow-img');
-    const capEl = document.getElementById('slideshow-caption');
-    if (!imgEl || defaultGallery.length === 0) return;
+    if (!slideImg || !slideCaption || defaultGallery.length === 0) return;
     if (slideTimer) clearTimeout(slideTimer);
     if (currentSlide >= defaultGallery.length) currentSlide = 0;
 
-    imgEl.src = defaultGallery[currentSlide].url;
-    capEl.innerText = defaultGallery[currentSlide].caption;
+    slideImg.src = defaultGallery[currentSlide].url;
+    slideCaption.innerText = defaultGallery[currentSlide].caption;
 
     slideTimer = setTimeout(() => {
       currentSlide = (currentSlide + 1) % defaultGallery.length;
@@ -341,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* -------------------------------------------------------------
-     5. FUNGSI UTAMA 3: WISHES (BUKU HAJAT) & MODAL
+     5. FUNGSI WISHES (BUKU HAJAT)
   ------------------------------------------------------------- */
   const wishForm = document.getElementById('wish-form');
   if (wishForm) {
@@ -351,10 +364,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const msgInput = document.getElementById('wish-message');
 
       if (nameInput.value && msgInput.value) {
-        openCustomModal(
+        showConfirmDialog(
           "Hantar Ucapan & Doa?",
-          "Adakah anda pasti mahu menghantar ucapan dan doa restu ini kepada pengantin?",
-          "fas fa-heart",
+          "Adakah anda pasti mahu menghantar ucapan ini kepada pengantin?",
           () => {
             const submitBtn = wishForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
@@ -365,29 +377,35 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('action', 'wishes');
             formData.append('name', nameInput.value);
             formData.append('message', msgInput.value);
-
-            fetch(SCRIPT_URL, {
-              method: 'POST',
+            
+            fetch(`${SCRIPT_URL}?action=wishes`, { 
+              method: 'POST', 
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: formData
+              body: formData 
             })
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
-              const alertBox = document.getElementById('wish-alert');
+              const wishAlert = document.getElementById('wish-alert');
               if (data.status === "error") {
-                alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 mr-2"></i> ${data.message}`;
+                if (wishAlert) {
+                  wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}`;
+                  wishAlert.classList.remove('hidden');
+                  setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+                }
               } else {
-                alertBox.innerHTML = `Terima kasih! Ucapan anda berjaya direkodkan. 🤍`;
-                wishForm.reset();
+                nameInput.value = ''; msgInput.value = '';
+                if (wishAlert) {
+                  wishAlert.innerHTML = `Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍`;
+                  wishAlert.classList.remove('hidden');
+                  setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+                }
                 fetchWishes();
               }
-              alertBox.classList.remove('hidden');
-              setTimeout(() => alertBox.classList.add('hidden'), 5000);
               submitBtn.innerText = originalText;
               submitBtn.disabled = false;
             })
-            .catch(err => {
-              console.error("Wish Error:", err);
+            .catch(error => {
+              console.error('Wish Error:', error);
               submitBtn.innerText = originalText;
               submitBtn.disabled = false;
             });
@@ -421,9 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* -------------------------------------------------------------
-     6. LAIN-LAIN: AUDIO, TENTATIVE, COUNTDOWN & FLOATING BAR
+     6. LAIN-LAIN: TENTATIVE, COUNTDOWN, AUDIO & FLOATING BAR
   ------------------------------------------------------------- */
-  // Atur Cara Majlis (Tentative)
   function fetchTentative() {
     if (!SCRIPT_URL.includes('http')) return;
     fetch(`${SCRIPT_URL}?action=tentative`)
@@ -443,7 +460,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   fetchTentative();
 
-  // Muzik & Interaksi
   const bgMusic = document.getElementById('bg-music');
   const musicBtn = document.getElementById('music-toggle');
   const musicIcon = document.getElementById('music-icon');
@@ -456,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Countdown
   const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
   setInterval(() => {
     const now = new Date().getTime();
@@ -469,7 +484,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 1000);
 
-  // Floating Action Bar & Intersection Observer
   const quickBar = document.getElementById('quick-action-bar');
   const musicContainer = document.getElementById('music-container');
   window.addEventListener('scroll', () => {
