@@ -928,7 +928,7 @@ END:VCALENDAR`;
     if (isOpen) {
       closeTimer = setTimeout(() => {
         closeDock();
-      }, 6000); // Tukar nombor ini kepada 6000 atau 8000 = 6 @ 8 Second
+      }, 3500); // Timer FAB Menu hide : 3.5 Second
     }
   }
 
@@ -942,7 +942,7 @@ END:VCALENDAR`;
             fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
           }
         }
-      }, 3500); // Timer Menu button hide :- 3500= 3.5 Second
+      }, 4000); // Timer Menu button hide : 4 Second
     }
   }
 
