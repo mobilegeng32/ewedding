@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchSiteConfig();
 
   /* -------------------------------------------------------------
-     2. PENGURUSAN CUSTOM MODAL PENGESAHAN (100% CUSTOM HTML)
+     2. PENGURUSAN CUSTOM MODAL PENGESAHAN (ID: confirm-modal)
   ------------------------------------------------------------- */
   const confirmModal = document.getElementById('confirm-modal');
   const confirmTitle = document.getElementById('confirm-title');
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alertBox.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.`;
                 alertBox.classList.remove('hidden');
                 rsvpForm.reset();
-                updatePaxVisibility(); // Pastikan state pax dikemaskini semula selepas reset
+                updatePaxVisibility(); // Kembalikan paparan pax ikut default selepas reset
                 setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
               }
             }
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   /* -------------------------------------------------------------
-     4. FUNGSI GALLERY & UPLOAD MODAL
+     4. FUNGSI GALLERY & UPLOAD MODAL (BERTINGKAT)
   ------------------------------------------------------------- */
   let selectedFileForUpload = null;
   const photoUpload = document.getElementById('photo-upload');
@@ -249,6 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
+      
+      // Tutup modal isi nama/kapsyen dulu, kemudian buka Custom Confirmation Modal
+      if (uploadModal) uploadModal.classList.add('hidden');
+
       showConfirmDialog(
         "Muat Naik Gambar?",
         "Adakah anda pasti mahu memuat naik gambar ini ke galeri majlis?",
@@ -257,7 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const imageCaption = imageCaptionInput.value.trim() || "Kenangan Majlis";
           const galleryAlert = document.getElementById('gallery-alert');
 
-          if (uploadModal) uploadModal.classList.add('hidden');
           if (galleryAlert) {
             galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses dan memuat naik gambar...`;
             galleryAlert.classList.remove('hidden');
