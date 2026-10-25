@@ -288,17 +288,22 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('click', triggerAudioOnFirstInteraction);
   window.addEventListener('scroll', triggerAudioOnFirstInteraction);
   window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
-
+  
   if (musicBtn && bgMusic) {
     musicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (isPlaying) {
         bgMusic.pause();
         isPlaying = false;
+        updateMusicUI(); // Kemas kini terus apabila dipause
       } else {
-        bgMusic.play().then(() => { isPlaying = true; }).catch((err) => { console.log("Audio play error:", err); });
+        bgMusic.play().then(() => { 
+          isPlaying = true; 
+          updateMusicUI(); // Kemas kini DALAM .then() selepas muzik berjaya dimainkan
+        }).catch((err) => { 
+          console.log("Audio play error:", err); 
+        });
       }
-      updateMusicUI();
       hasInteracted = true;
     });
   }
