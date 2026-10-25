@@ -155,6 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
         window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 5;
+        
+        // Menangkap nilai sistem wish info dari sheet (menyokong kedua-dua nama key)
+        window.systemWishInfoMsg = config.system_wish_info || config.wish_system_info || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
 
         // Pemetaan Pengantin
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
@@ -760,10 +763,8 @@ END:VCALENDAR`;
       );
     });
   }
-
-  const fallbackGallery = [
-    { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama Bermula Disini..." }
-  ];
+  
+  const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
 
   let defaultGallery = [];
   let currentSlide = 0;
@@ -980,9 +981,7 @@ END:VCALENDAR`;
     });
   }
 
-  let defaultWishes = [
-    { name: "Systems", message: "Titipkan sepotong doa, pesanan, atau hajat buat pengantin.", timestamp: new Date().toISOString() }
-  ];
+  let defaultWishes = [];
 
   let isUsingWishFallback = false;
   
@@ -1003,6 +1002,20 @@ END:VCALENDAR`;
   function renderWishes() {
     const container = document.getElementById('wishes-container');
     if (!container) return;
+
+    if (!defaultWishes || defaultWishes.length === 0) {
+      container.innerHTML = `
+        <div class="bg-white/85 backdrop-blur-sm rounded-2xl p-6 text-center border border-purpleTheme-100 shadow-sm space-y-2">
+          <div class="w-10 h-10 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">Belum Ada Ucapan</h4>
+          <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!"}</p>
+        </div>
+      `;
+      return;
+    }
+
     container.innerHTML = defaultWishes.map(w => `
       <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-purpleTheme-100 shadow-sm space-y-1.5 transition-all">
         <div class="flex items-center justify-between border-b border-purpleTheme-50 pb-1.5">
@@ -1019,24 +1032,22 @@ END:VCALENDAR`;
     fetchSheetDataViaGViz('Wishes', function(data) {
       if (data && data.length > 0) {
         const newWishes = data.map(item => ({ 
-          name: item.name || item.nama || '', 
-          message: item.message || item.ucapan || '', 
+          name: (item.name || item.nama || '').trim(), 
+          message: (item.message || item.ucapan || '').trim(), 
           timestamp: item.timestamp || item.masa || '' 
-        })).reverse();
+        })).filter(w => w.name !== '' && w.message !== '').reverse();
 
-        const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
-        const newWishesSimple = newWishes.map(w => ({ name: w.name, message: w.message }));
-
-        if (JSON.stringify(newWishesSimple) !== JSON.stringify(oldWishesSimple)) {
+        if (newWishes.length > 0) {
           defaultWishes = newWishes;
           isUsingWishFallback = false;
           renderWishes();
-        }
-      } else {
-        if (!isUsingWishFallback) {
-          isUsingWishFallback = true;
+        } else {
+          defaultWishes = [];
           renderWishes();
         }
+      } else {
+        defaultWishes = [];
+        renderWishes();
       }
     });
   }
