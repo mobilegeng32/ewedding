@@ -1,3 +1,10 @@
+/**
+ * =================================================================<br>
+ * DIGITAL WEDDING INVITATION - MAIN SCRIPT<br>
+ * =================================================================
+ */
+
+// Tetapan awal tetingkap (Elak auto-scroll pelayar ke posisi asal semasa muat semula)
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
@@ -8,13 +15,14 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // --- 1. KONFIGURASI UTAMA API & GOOGLE SHEETS ---
   // URL Google Apps Script HANYA untuk proses Tulis (Write: doPost)
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
   
   // ID Google Sheets anda untuk proses Baca (Read: GViz)
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
   
-  // --- FUNGSI BANTUAN GVIZ ---
+  // --- 2. FUNGSI BANTUAN GVIZ (BACA DATA DARI SHEET) ---
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
@@ -49,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  // --- FUNGSI BANTUAN COOLDOWN DENGAN LOCALSTORAGE ---
+  // --- 3. FUNGSI BANTUAN COOLDOWN BUTANG (ELAK SPAM KLIK) ---
   function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
     if (!buttonEl) return;
     
@@ -93,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  // Semak semula cooldown yang aktif serta-merta semasa laman web dimuatkan
+  // Semak semula cooldown yang aktif semasa pelayar dimuatkan
   setTimeout(() => {
     ['rsvp-submit', 'btn-upload-gallery', 'btn-submit-wish', 'refresh-wishes-btn'].forEach(id => {
       const btn = document.getElementById(id);
@@ -108,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
 
-  // --- 1. FETCH CONFIG KHAS ---
+  // --- 4. FETCH SITE CONFIG (TETAPAN UTAMA LAMAN WEB) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -151,15 +159,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log("Config Berjaya Diparse:", config);
 
+        // Ambil tempoh cooldown dari config
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
         window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 5;
         
-        // Menangkap nilai sistem wish info dari sheet (menyokong kedua-dua nama key)
+        // Mesej sistem ucapan kosong (menyokong system_wish_info / wish_system_info)
         window.systemWishInfoMsg = config.system_wish_info || config.wish_system_info || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
 
-        // Pemetaan Pengantin
+        // Paparkan senarai ucapan awal selepas config ditarik
+        renderWishes();
+
+        // Pemetaan Maklumat Pengantin
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
           document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
         }
@@ -184,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
         }
 		
+        // Pautan Google Maps
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink) {
           const gmapsUrl = config.gmaps_url ? String(config.gmaps_url).trim() : '#';
@@ -191,12 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
           gmapsLink.onclick = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            if (gmapsUrl && gmapsUrl !== '#') {
-              window.open(gmapsUrl, '_blank');
-            }
+            if (gmapsUrl && gmapsUrl !== '#') window.open(gmapsUrl, '_blank');
           };
         }
 
+        // Pautan Waze
         const wazeLink = document.getElementById('dyn-waze-link');
         if (wazeLink) {
           const wazeUrl = config.waze_url ? String(config.waze_url).trim() : '#';
@@ -204,13 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
           wazeLink.onclick = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            if (wazeUrl && wazeUrl !== '#') {
-              window.open(wazeUrl, '_blank');
-            }
+            if (wazeUrl && wazeUrl !== '#') window.open(wazeUrl, '_blank');
           };
         }
 
-        // Kontak 1
+        // Pemetaan Kontak 1
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
           document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
@@ -220,26 +230,17 @@ document.addEventListener('DOMContentLoaded', () => {
           const waBtn1 = document.getElementById('dyn-c1-wa');
           
           if (telBtn1) {
-            const telUrl = phone1 ? `tel:${phone1}` : '#';
-            telBtn1.href = telUrl;
-            telBtn1.onclick = (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (phone1) window.location.href = telUrl;
-            };
+            telBtn1.href = phone1 ? `tel:${phone1}` : '#';
+            telBtn1.onclick = (e) => { e.preventDefault(); e.stopPropagation(); if (phone1) window.location.href = telBtn1.href; };
           }
           if (waBtn1) {
             const waUrl = phone1 ? `https://wa.me/${phone1}?text=Assalamualaikum` : '#';
             waBtn1.href = waUrl;
-            waBtn1.onclick = (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (phone1) window.open(waUrl, '_blank');
-            };
+            waBtn1.onclick = (e) => { e.preventDefault(); e.stopPropagation(); if (phone1) window.open(waUrl, '_blank'); };
           }
         }
 
-        // Kontak 2
+        // Pemetaan Kontak 2
         if (config.contact2_name && document.getElementById('dyn-c2-name')) {
           document.getElementById('dyn-c2-name').innerText = config.contact2_name;
           document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
@@ -249,26 +250,17 @@ document.addEventListener('DOMContentLoaded', () => {
           const waBtn2 = document.getElementById('dyn-c2-wa');
           
           if (telBtn2) {
-            const telUrl2 = phone2 ? `tel:${phone2}` : '#';
-            telBtn2.href = telUrl2;
-            telBtn2.onclick = (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (phone2) window.location.href = telUrl2;
-            };
+            telBtn2.href = phone2 ? `tel:${phone2}` : '#';
+            telBtn2.onclick = (e) => { e.preventDefault(); e.stopPropagation(); if (phone2) window.location.href = telBtn2.href; };
           }
           if (waBtn2) {
             const waUrl2 = phone2 ? `https://wa.me/${phone2}?text=Assalamualaikum` : '#';
             waBtn2.href = waUrl2;
-            waBtn2.onclick = (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (phone2) window.open(waUrl2, '_blank');
-            };
+            waBtn2.onclick = (e) => { e.preventDefault(); e.stopPropagation(); if (phone2) window.open(waUrl2, '_blank'); };
           }
         }
 
-        // Maksimum Pax RSVP
+        // Maksimum Bilangan Pax RSVP
         const maxPax = parseInt(config.max_pax) || 5;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
@@ -281,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Master Switch: RSVP
+        // Kawalan Master Switch: RSVP
         const rsvpFormEl = document.getElementById('rsvp-form');
         const rsvpNameInput = document.getElementById('rsvp-name');
         const rsvpPhoneInput = document.getElementById('rsvp-phone');
@@ -300,20 +292,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
             if (rsvpStatusInput) rsvpStatusInput.disabled = true;
             if (paxSelect) paxSelect.disabled = true;
-          } else {
-            if (rsvpSubmitBtn) {
-              rsvpSubmitBtn.disabled = false;
-              rsvpSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-              rsvpSubmitBtn.innerText = "Hantar Pengesahan";
-            }
-            if (rsvpNameInput) rsvpNameInput.disabled = false;
-            if (rsvpPhoneInput) rsvpPhoneInput.disabled = false;
-            if (rsvpStatusInput) rsvpStatusInput.disabled = false;
-            if (paxSelect) paxSelect.disabled = false;
           }
         }
 
-        // Master Switch: Galeri
+        // Kawalan Master Switch: Galeri
         const uploadBtn = document.getElementById('btn-upload-gallery');
         if (uploadBtn && config.control_gallery !== undefined) {
           const isGalleryActive = config.control_gallery === true || String(config.control_gallery).trim().toUpperCase() === 'TRUE';
@@ -330,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Master Switch: Ucapan
+        // Kawalan Master Switch: Ucapan (Wishes)
         const wishSubmitBtn = document.getElementById('btn-submit-wish');
         const wishNameInput = document.getElementById('wish-name');
         const wishMsgInput = document.getElementById('wish-message');
@@ -345,14 +327,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (wishNameInput) wishNameInput.disabled = true;
             if (wishMsgInput) wishMsgInput.disabled = true;
-          } else {
-            if (wishSubmitBtn) {
-              wishSubmitBtn.disabled = false;
-              wishSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-              wishSubmitBtn.innerText = "Hantar Ucapan";
-            }
-            if (wishNameInput) wishNameInput.disabled = false;
-            if (wishMsgInput) wishMsgInput.disabled = false;
           }
         }
 
@@ -361,13 +335,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error("Gagal ambil Config:", err));
   }
   
-  // --- MUAT BERPERINGKAT ---
+  // Pelaksanaan fungsi secara berperingkat apabila laman dibuka
   setTimeout(() => { fetchSiteConfig(); }, 200);
   setTimeout(() => { fetchTentative(); }, 600);
   setTimeout(() => { fetchGalleryImages(); }, 1000);
   setTimeout(() => { fetchWishes(); }, 1400);
   
-  // --- 2. FETCH TENTATIVE ---
+  // --- 5. TENTATIVE MAJLIS ---
   function fetchTentative() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
@@ -401,25 +375,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             let displayTime = rawTime;
-
             if (rawTime.startsWith('Date(')) {
               const nums = rawTime.match(/\d+/g);
               if (nums && nums.length >= 5) {
                 let hour = parseInt(nums[3], 10);
                 let minute = parseInt(nums[4], 10);
                 let ampm = hour >= 12 ? 'PM' : 'AM';
-                hour = hour % 12;
-                hour = hour ? hour : 12;
+                hour = hour % 12 || 12;
                 let minStr = minute < 10 ? '0' + minute : minute;
                 displayTime = `${hour}:${minStr} ${ampm}`;
               }
             }
 
-            let description = '';
-            if (cellDesc && cellDesc.v !== undefined && cellDesc.v !== null) {
-              description = String(cellDesc.v);
-            }
-
+            let description = cellDesc && cellDesc.v !== undefined && cellDesc.v !== null ? String(cellDesc.v) : '';
             if (!displayTime && !description) return '';
 
             return `
@@ -432,18 +400,9 @@ document.addEventListener('DOMContentLoaded', () => {
           }).join('');
 
           if (scrollBox && scrollIndicator) {
-            if (scrollBox.scrollHeight <= scrollBox.clientHeight) {
-              scrollIndicator.classList.add('hidden');
-            } else {
-              scrollIndicator.classList.remove('hidden');
-            }
-
+            scrollIndicator.classList.toggle('hidden', scrollBox.scrollHeight <= scrollBox.clientHeight);
             scrollBox.addEventListener('scroll', () => {
-              if (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) {
-                scrollIndicator.style.opacity = '0';
-              } else {
-                scrollIndicator.style.opacity = '1';
-              }
+              scrollIndicator.style.opacity = (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) ? '0' : '1';
             });
           }
         } else {
@@ -454,6 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error("Gagal ambil Tentative:", err));
   }
 
+  // --- 6. RSVP STATUS & PAX TOGGLE ---
   const rsvpStatus = document.getElementById('rsvp-status');
   const paxContainer = document.getElementById('pax-container');
   const rsvpPax = document.getElementById('rsvp-pax');
@@ -470,11 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
+  // --- 7. SMOOTH SCROLL UNTUK PAUTAN TEMPATAN ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
-      
-      // ABAIKAN jika ia bukan pautan hashtag tempatan (elak ralat URL luar)
       if (!targetId || !targetId.startsWith('#')) return;
 
       e.preventDefault();
@@ -489,42 +448,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+  // --- 8. AUDIO & MUZIK LATAR BELAKANG ---
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
-  
   let isPlaying = false;
   let hasInteracted = false;
 
-  const fabContainer = document.getElementById('fab-container');
-  const fabTrigger = document.getElementById('fab-trigger');
-  const fabDock = document.getElementById('fab-dock');
-  const fabLinks = document.querySelectorAll('.fab-link');
-  
   const dockMusicBtn = document.getElementById('dock-music-btn');
   const dockMusicIcon = document.getElementById('dock-music-icon');
   const dockMusicText = document.getElementById('dock-music-text');
-
-  const moreMenuBtn = document.getElementById('more-menu-btn');
-  const morePopover = document.getElementById('more-popover');
-
-  let isOpen = false;
-  let lastScrollY = window.scrollY;
-  let closeTimer = null;
-  let scrollTimeout = null;
-
-  const sections = document.querySelectorAll('section[id]');
 
   function updateDockMusicUI() {
     if (isPlaying) {
       if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-high text-purpleTheme-700 group-hover:scale-110 transition-transform';
       if (dockMusicText) dockMusicText.textContent = 'Musik';
-      if (dockMusicBtn) dockMusicBtn.classList.remove('text-purpleTheme-900/60');
-      if (dockMusicBtn) dockMusicBtn.classList.add('text-purpleTheme-900');
+      if (dockMusicBtn) {
+        dockMusicBtn.classList.remove('text-purpleTheme-900/60');
+        dockMusicBtn.classList.add('text-purpleTheme-900');
+      }
     } else {
       if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-xmark text-purpleTheme-900/60 group-hover:scale-110 transition-transform';
       if (dockMusicText) dockMusicText.textContent = 'Musik';
-      if (dockMusicBtn) dockMusicBtn.classList.remove('text-purpleTheme-900');
-      if (dockMusicBtn) dockMusicBtn.classList.add('text-purpleTheme-900/60');
+      if (dockMusicBtn) {
+        dockMusicBtn.classList.remove('text-purpleTheme-900');
+        dockMusicBtn.classList.add('text-purpleTheme-900/60');
+      }
     }
   }
 
@@ -553,11 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (!isPlaying) {
-        playAudioTrack();
-      } else {
-        pauseAudioTrack();
-      }
+      isPlaying ? pauseAudioTrack() : playAudioTrack();
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
@@ -579,16 +523,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (dockMusicBtn && bgMusic) {
     dockMusicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (isPlaying) {
-        pauseAudioTrack();
-      } else {
-        playAudioTrack();
-      }
+      isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
-      resetCloseTimer();
     });
   }
 
+  // --- 9. COUNTDOWN TIMER ---
   const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
 
   function updateCountdown() {
@@ -621,6 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
+  // --- 10. IMPORT KE KALENDAR (.ICS) ---
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', () => {
@@ -647,6 +588,7 @@ END:VCALENDAR`;
     });
   }
   
+  // --- 11. SISTEM MODAL PENGESAHAN KUSTOM (CUSTOM CONFIRM DIALOG) ---
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -654,7 +596,6 @@ END:VCALENDAR`;
   const dialogCancelBtn = document.getElementById('modal-btn-no');
   const modalIconBox = document.getElementById('modal-icon-box');
   const modalIconClass = document.getElementById('modal-icon-class');
-
   let currentConfirmCallback = null;
 
   if (dialogYesBtn) {
@@ -711,7 +652,7 @@ END:VCALENDAR`;
     confirmModal.classList.remove('hidden');
   }
 
-  // --- RSVP SUBMIT ---
+  // --- 12. BORANG PENGESAHAN KEHADIRAN (RSVP SUBMIT) ---
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -739,33 +680,27 @@ END:VCALENDAR`;
           .then(response => response.json())
           .then(data => {
             const alertBox = document.getElementById('rsvp-alert');
-            if (data.status === "error") {
-              if (alertBox) {
+            if (alertBox) {
+              if (data.status === "error") {
                 alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}`;
-                alertBox.classList.remove('hidden');
-                setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
-              }
-            } else {
-              if (alertBox) {
+              } else {
                 alertBox.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.`;
-                alertBox.classList.remove('hidden');
                 rsvpForm.reset();
                 if (paxContainer) paxContainer.classList.remove('hidden');
                 if (rsvpPax) rsvpPax.value = "1";
-                setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
               }
+              alertBox.classList.remove('hidden');
+              setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
             }
           })
-          .catch(error => {
-            console.error('RSVP Error:', error);
-          });
+          .catch(error => console.error('RSVP Error:', error));
         }
       );
     });
   }
   
+  // --- 13. GALERI & SLIDESHOW GAMBAR ---
   const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
-
   let defaultGallery = [];
   let currentSlide = 0;
   let slideTimer = null;
@@ -798,16 +733,9 @@ END:VCALENDAR`;
     if (file) {
       if (!file.type.startsWith('image/')) {
         event.target.value = '';
-        showConfirmDialog(
-          "Format Tidak Sah",
-          "Hanya fail gambar (foto) sahaja dibenarkan untuk dimuat naik! Sila pilih fail gambar yang sah.",
-          () => {}, 
-          true,
-          'error'
-        );
+        showConfirmDialog("Format Tidak Sah", "Hanya fail gambar sahaja dibenarkan!", () => {}, true, 'error');
         return;
       }
-
       selectedFileForUpload = file;
       if (uploaderNameInput) uploaderNameInput.value = '';
       if (imageCaptionInput) imageCaptionInput.value = '';
@@ -815,7 +743,6 @@ END:VCALENDAR`;
     }
   }
 
-  // --- 3. FETCH GALLERY ---
   function fetchGalleryImages() {
     fetchSheetDataViaGViz('Gallery', function(data) {
       if (data && data.length > 0) {
@@ -852,13 +779,10 @@ END:VCALENDAR`;
     if (currentSlide >= defaultGallery.length) currentSlide = 0;
     if (currentSlide < 0) currentSlide = defaultGallery.length - 1;
 
-    const currentImageUrl = defaultGallery[currentSlide].url;
-    const currentText = defaultGallery[currentSlide].caption;
-
     slideImg.style.opacity = '0.3';
     setTimeout(() => {
-      slideImg.src = currentImageUrl;
-      slideCaption.innerText = currentText;
+      slideImg.src = defaultGallery[currentSlide].url;
+      slideCaption.innerText = defaultGallery[currentSlide].caption;
       slideImg.style.opacity = '1';
     }, 200);
 
@@ -869,14 +793,8 @@ END:VCALENDAR`;
   }
 
   if (prevBtn && nextBtn) {
-    prevBtn.addEventListener('click', () => {
-      currentSlide = (currentSlide - 1 + defaultGallery.length) % defaultGallery.length;
-      renderSlide(); 
-    });
-    nextBtn.addEventListener('click', () => {
-      currentSlide = (currentSlide + 1) % defaultGallery.length;
-      renderSlide(); 
-    });
+    prevBtn.addEventListener('click', () => { currentSlide = (currentSlide - 1 + defaultGallery.length) % defaultGallery.length; renderSlide(); });
+    nextBtn.addEventListener('click', () => { currentSlide = (currentSlide + 1) % defaultGallery.length; renderSlide(); });
   }
 
   function closeUploadModal() {
@@ -889,10 +807,8 @@ END:VCALENDAR`;
 
   if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModal);
   if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
-
   bindPhotoUploadListener();
-  
-  // --- GALLERY UPLOAD (MANDATORY NAME & CAPTION CHECK) ---
+
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
@@ -901,13 +817,7 @@ END:VCALENDAR`;
       const imageCaption = imageCaptionInput.value.trim();
 
       if (!uploaderName || !imageCaption) {
-        showConfirmDialog(
-          "Maklumat Tidak Lengkap",
-          "Sila masukkan Nama Anda dan Kapsyen Gambar terlebih dahulu sebelum meneruskan muat naik!",
-          () => {},
-          true,
-          'error'
-        );
+        showConfirmDialog("Maklumat Tidak Lengkap", "Sila masukkan Nama Anda dan Kapsyen Gambar!", () => {}, true, 'error');
         return;
       }
 
@@ -915,11 +825,10 @@ END:VCALENDAR`;
 
       showConfirmDialog(
         "Muat Naik Gambar?",
-        "Adakah anda pasti mahu memuat naik gambar ini ke galeri majlis?",
+        "Adakah anda pasti mahu memuat naik gambar ini?",
         () => {
           const uploadBtnMain = document.getElementById('btn-upload-gallery');
           setButtonCooldown(uploadBtnMain, window.galleryCd || 5, "Memuat Naik");
-
           const galleryAlert = document.getElementById('gallery-alert');
 
           if (galleryAlert) {
@@ -937,9 +846,7 @@ END:VCALENDAR`;
               const ctx = canvas.getContext('2d');
               ctx.drawImage(img, 0, 0);
 
-              const originalDataUrl = canvas.toDataURL('image/jpeg', 1.0);
-              const base64String = originalDataUrl.split(',')[1];
-
+              const base64String = canvas.toDataURL('image/jpeg', 1.0).split(',')[1];
               const formData = new URLSearchParams();
               formData.append('action', 'gallery');
               formData.append('fileName', selectedFileForUpload.name.replace(/\.[^/.]+$/, "") + ".jpg");
@@ -948,31 +855,17 @@ END:VCALENDAR`;
               formData.append('name', uploaderName);
               formData.append('caption', imageCaption);
               
-              fetch(SCRIPT_URL, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: formData 
-              })
-              .then(response => response.json())
+              fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+              .then(res => res.json())
               .then(data => {
-                if (data.status === "error") {
-                  if (galleryAlert) {
-                    galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}`;
-                    setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
-                  }
-                } else {
-                  if (galleryAlert) {
-                    galleryAlert.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih.`;
-                    setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
-                  }
-                  closeUploadModal();
-                  fetchGalleryImages();
+                if (galleryAlert) {
+                  galleryAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih.`;
+                  setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
                 }
-              })
-              .catch(error => {
-                console.error('Upload error:', error);
                 closeUploadModal();
-              });
+                fetchGalleryImages();
+              })
+              .catch(err => { console.error('Upload error:', err); closeUploadModal(); });
             };
           };
           reader.readAsDataURL(selectedFileForUpload);
@@ -981,22 +874,16 @@ END:VCALENDAR`;
     });
   }
 
+  // --- 14. BUKU HAJAT & UCAPAN (WISHES SYSTEM) ---
   let defaultWishes = [];
+  window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
 
-  let isUsingWishFallback = false;
-  
   function formatSubmitTime(timestamp) {
     if (!timestamp) return "";
     let date = typeof timestamp === 'string' ? new Date(timestamp.replace(/-/g, "/")) : new Date(timestamp);
     if (isNaN(date.getTime())) return timestamp; 
 
-    return date.toLocaleDateString('ms-MY', { 
-      day: 'numeric', 
-      month: 'short', 
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return date.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
   function renderWishes() {
@@ -1010,7 +897,7 @@ END:VCALENDAR`;
             <i class="fas fa-heart"></i>
           </div>
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">Belum Ada Ucapan</h4>
-          <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!"}</p>
+          <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg}</p>
         </div>
       `;
       return;
@@ -1027,28 +914,20 @@ END:VCALENDAR`;
     `).join('');
   }
 
-  // --- 4. FETCH WISHES ---
+  renderWishes(); // Papar mesej kosong awal
+
   function fetchWishes() {
     fetchSheetDataViaGViz('Wishes', function(data) {
       if (data && data.length > 0) {
-        const newWishes = data.map(item => ({ 
+        defaultWishes = data.map(item => ({ 
           name: (item.name || item.nama || '').trim(), 
           message: (item.message || item.ucapan || '').trim(), 
           timestamp: item.timestamp || item.masa || '' 
         })).filter(w => w.name !== '' && w.message !== '').reverse();
-
-        if (newWishes.length > 0) {
-          defaultWishes = newWishes;
-          isUsingWishFallback = false;
-          renderWishes();
-        } else {
-          defaultWishes = [];
-          renderWishes();
-        }
       } else {
         defaultWishes = [];
-        renderWishes();
       }
+      renderWishes();
     });
   }
 
@@ -1060,7 +939,6 @@ END:VCALENDAR`;
     });
   }
 
-  // --- WISH SUBMIT ---
   const wishForm = document.getElementById('wish-form');
   if (wishForm) {
     wishForm.addEventListener('submit', (e) => {
@@ -1071,7 +949,7 @@ END:VCALENDAR`;
       if (nameInput.value && msgInput.value) {
         showConfirmDialog(
           "Hantar Ucapan & Doa?",
-          "Adakah anda pasti mahu menghantar ucapan ini kepada pengantin?",
+          "Adakah anda pasti mahu menghantar ucapan ini?",
           () => {
             const submitBtn = document.getElementById('btn-submit-wish');
             setButtonCooldown(submitBtn, window.wishCd || 5, "Sila tunggu");
@@ -1081,39 +959,29 @@ END:VCALENDAR`;
             formData.append('name', nameInput.value);
             formData.append('message', msgInput.value);
             
-            fetch(SCRIPT_URL, { 
-              method: 'POST', 
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: formData 
-            })
-            .then(response => response.json())
+            fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+            .then(res => res.json())
             .then(data => {
               const wishAlert = document.getElementById('wish-alert');
-              if (data.status === "error") {
-                if (wishAlert) {
-                  wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}`;
-                  wishAlert.classList.remove('hidden');
-                  setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
-                }
-              } else {
-                nameInput.value = ''; msgInput.value = '';
-                if (wishAlert) {
-                  wishAlert.innerHTML = `Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍`;
-                  wishAlert.classList.remove('hidden');
-                  setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
-                }
+              if (wishAlert) {
+                wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan. 🤍`;
+                wishAlert.classList.remove('hidden');
+                setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+              }
+              if (data.status !== "error") {
+                nameInput.value = ''; 
+                msgInput.value = '';
                 fetchWishes();
               }
             })
-            .catch(error => {
-              console.error('Wish Error:', error);
-            });
+            .catch(err => console.error('Wish Error:', err));
           }
         );
       }
     });
   }
 
+  // --- 15. LIGHTBOX MODAL UNTUK GAMBAR GALERI ---
   if (slideContainer) {
     const modal = document.createElement('div');
     modal.id = 'gallery-modal';
@@ -1140,9 +1008,22 @@ END:VCALENDAR`;
         modal.classList.remove('hidden');
       }
     });
-
     modal.addEventListener('click', () => { modal.classList.add('hidden'); });
   }
+
+  // --- 16. FLOATING ACTION BUTTON (FAB) & NAVIGASI ---
+  const fabContainer = document.getElementById('fab-container');
+  const fabTrigger = document.getElementById('fab-trigger');
+  const fabDock = document.getElementById('fab-dock');
+  const fabLinks = document.querySelectorAll('.fab-link');
+  const moreMenuBtn = document.getElementById('more-menu-btn');
+  const morePopover = document.getElementById('more-popover');
+  const sections = document.querySelectorAll('section[id]');
+  
+  let isOpen = false;
+  let lastScrollY = window.scrollY;
+  let closeTimer = null;
+  let scrollTimeout = null;
 
   function updateActiveSection() {
     let scrollPosition = window.scrollY + window.innerHeight / 3;
@@ -1167,22 +1048,16 @@ END:VCALENDAR`;
 
   function resetCloseTimer() {
     if (closeTimer) clearTimeout(closeTimer);
-    if (isOpen) {
-      closeTimer = setTimeout(() => {
-        closeDock();
-      }, 5000);
-    }
+    if (isOpen) closeTimer = setTimeout(closeDock, 5000);
   }
 
   function resetScrollTimeout() {
     clearTimeout(scrollTimeout);
     if (!isOpen && window.scrollY > 300) {
       scrollTimeout = setTimeout(() => {
-        if (!isOpen && window.scrollY > 300) {
-          if (fabContainer) {
-            fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-            fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-          }
+        if (!isOpen && window.scrollY > 300 && fabContainer) {
+          fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
         }
       }, 3500);
     }
@@ -1197,17 +1072,12 @@ END:VCALENDAR`;
         fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
         fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
       }
-      
-      if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) {
-        closeDock();
-      }
-
+      if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) closeDock();
       resetScrollTimeout();
-
     } else {
       if (fabContainer) {
-        fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
         fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
       }
       closeDock();
     }
@@ -1216,51 +1086,37 @@ END:VCALENDAR`;
   
   function openDock() {
     isOpen = true;
-    
     if (fabContainer) {
       fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
       fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
     }
-    
     if (fabDock) {
       fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
     }
-    
     resetCloseTimer();
   }
 	
   function closeDock() {
     isOpen = false;
     if (closeTimer) clearTimeout(closeTimer);
-    
     if (fabDock) {
       fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
     }
-
     if (window.scrollY > 300 && fabContainer) {
       fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
       fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
     }
-
     if (morePopover) {
       morePopover.classList.add('hidden');
       morePopover.classList.remove('flex');
     }
-
     resetScrollTimeout();
   }
 
   if (fabTrigger) {
-    fabTrigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (isOpen) {
-        closeDock();
-      } else {
-        openDock();
-      }
-    });
+    fabTrigger.addEventListener('click', (e) => { e.stopPropagation(); isOpen ? closeDock() : openDock(); });
   }
 
   if (moreMenuBtn && morePopover) {
@@ -1277,48 +1133,25 @@ END:VCALENDAR`;
       morePopover.classList.add('hidden');
       morePopover.classList.remove('flex');
     }
-
-    if (isOpen) {
-      if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
-        closeDock();
-      } else {
-        resetCloseTimer();
-      }
-    }
-  });
-
-  window.addEventListener('touchstart', (e) => {
-    if (isOpen) {
-      if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
-        closeDock();
-      } else {
-        resetCloseTimer();
-      }
-    }
-  });
-
-  fabLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    if (isOpen && fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
       closeDock();
-    });
+    } else if (isOpen) {
+      resetCloseTimer();
+    }
   });
 
+  fabLinks.forEach(link => { link.addEventListener('click', closeDock); });
   updateActiveSection();
   
+  // --- 17. MODAL HADIAH / SALAM KASIH & COPY CLIPBOARD ---
   const giftModal = document.getElementById('gift-modal');
   const dockGiftBtn = document.getElementById('dock-gift-btn');
   const popoverGiftBtn = document.getElementById('popover-gift-btn');
   const closeGiftModalBtn = document.getElementById('close-gift-modal');
   const btnCloseGift = document.getElementById('btn-close-gift');
 
-  function openGiftModal() {
-    if (giftModal) giftModal.classList.remove('hidden');
-    closeDock(); 
-  }
-
-  function closeGiftModal() {
-    if (giftModal) giftModal.classList.add('hidden');
-  }
+  function openGiftModal() { if (giftModal) giftModal.classList.remove('hidden'); closeDock(); }
+  function closeGiftModal() { if (giftModal) giftModal.classList.add('hidden'); }
 
   if (dockGiftBtn) dockGiftBtn.addEventListener('click', (e) => { e.stopPropagation(); openGiftModal(); });
   if (popoverGiftBtn) popoverGiftBtn.addEventListener('click', (e) => { e.stopPropagation(); openGiftModal(); });
@@ -1326,9 +1159,7 @@ END:VCALENDAR`;
   if (btnCloseGift) btnCloseGift.addEventListener('click', closeGiftModal);
 
   if (giftModal) {
-    giftModal.addEventListener('click', (e) => {
-      if (e.target === giftModal) closeGiftModal();
-    });
+    giftModal.addEventListener('click', (e) => { if (e.target === giftModal) closeGiftModal(); });
   }
 
   window.copyToClipboard = function(text, btnElement) {
@@ -1343,27 +1174,25 @@ END:VCALENDAR`;
         btnElement.classList.remove('bg-emerald-500', 'text-white');
         btnElement.classList.add('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900');
       }, 2000);
-    }).catch(err => {
-      console.error('Gagal menyalin teks:', err);
-    });
+    }).catch(err => console.error('Gagal menyalin teks:', err));
   };
   
+  // --- 18. APLIKASI CONFIG TAMBAHAN (BANK, QR, ALAMAT, HADIAH) ---
   function applySiteConfig(config) {
+    // Kawalan Hadiah / Salam Kasih
     const giftControl = config.control_gift;
-    const dockGiftBtn = document.getElementById('dock-gift-btn');
-    
-    if (giftControl === false || String(giftControl).trim().toUpperCase() === "FALSE") {
-      if (dockGiftBtn) dockGiftBtn.style.display = 'none'; 
-    } else {
-      if (dockGiftBtn) dockGiftBtn.style.display = 'flex';
+    const dockGiftBtnEl = document.getElementById('dock-gift-btn');
+    if (dockGiftBtnEl) {
+      dockGiftBtnEl.style.display = (giftControl === false || String(giftControl).trim().toUpperCase() === "FALSE") ? 'none' : 'flex';
     }
 
+    // Kawalan Bank
     const bankSection = document.getElementById('bank-section');
     const bankControl = config.control_bank;
-    if (bankControl === false || String(bankControl).trim().toUpperCase() === "FALSE") {
-      if (bankSection) bankSection.style.display = 'none';
-    } else {
-      if (bankSection) {
+    if (bankSection) {
+      if (bankControl === false || String(bankControl).trim().toUpperCase() === "FALSE") {
+        bankSection.style.display = 'none';
+      } else {
         bankSection.style.display = 'block';
         document.getElementById('bank-name').innerText = config.bank_name || '';
         document.getElementById('bank-holder').innerText = config.bank_holder || '';
@@ -1371,12 +1200,13 @@ END:VCALENDAR`;
       }
     }
 
+    // Kawalan QR Code
     const qrSection = document.getElementById('qr-section');
     const qrControl = config.control_qr;
-    if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
-      if (qrSection) qrSection.style.display = 'none';
-    } else {
-      if (qrSection) {
+    if (qrSection) {
+      if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
+        qrSection.style.display = 'none';
+      } else {
         qrSection.style.display = 'block';
         const qrImg = document.getElementById('dyn-qr-image') || document.getElementById('qr-image');
         if (qrImg) {
@@ -1400,12 +1230,13 @@ END:VCALENDAR`;
       }
     }
 
+    // Kawalan Alamat Fizikal
     const addressSection = document.getElementById('address-section');
     const addressControl = config.control_address;
-    if (addressControl === false || String(addressControl).trim().toUpperCase() === "FALSE") {
-      if (addressSection) addressSection.style.display = 'none';
-    } else {
-      if (addressSection) {
+    if (addressSection) {
+      if (addressControl === false || String(addressControl).trim().toUpperCase() === "FALSE") {
+        addressSection.style.display = 'none';
+      } else {
         addressSection.style.display = 'block';
         document.getElementById('gift-address').innerText = config.gift_address || '';
       }
