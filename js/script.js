@@ -1301,25 +1301,19 @@ END:VCALENDAR`;
         document.getElementById('bank-account').innerText = config.bank_account || '';
       }
     }
-
-    const qrSection = document.getElementById('qr-section');
+	
+	const qrSection = document.getElementById('qr-section');
     const qrControl = config.control_qr;
     if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
       if (qrSection) qrSection.style.display = 'none';
     } else {
       if (qrSection) {
         qrSection.style.display = 'block';
-        const qrImg = document.getElementById('dyn-qr-image'); // DITUKAR KEPADA dyn-qr-image
+        const qrImg = document.getElementById('dyn-qr-image');
         if (qrImg) {
-          let qrUrl = config.qr_image_url || '';
-          // Jika guna link Google Drive (view?id=...), tukar ke format terus terpapar (uc?export=view&id=...)
-          if (qrUrl.includes('drive.google.com') && qrUrl.includes('/file/d/')) {
-            const fileIdMatch = qrUrl.match(/\/file\/d\/([^\/]+)/);
-            if (fileIdMatch && fileIdMatch[1]) {
-              qrUrl = `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
-            }
-          }
-          qrImg.src = qrUrl;
+          const fileId = config.qr_image_url ? String(config.qr_image_url).trim() : '';
+          // Terusjana pautan imej rasmi Google Drive menggunakan File ID
+          qrImg.src = fileId ? `https://lh3.googleusercontent.com/d/${fileId}=s500` : '';
         }
       }
     }
