@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- FUNGSI BANTUAN GVIZ UNTUK TAB BIASA (Gallery, Wishes, Tentative) ---
   function fetchSheetDataViaGViz(sheetName, callback) {
-    if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) {
-      console.error("Sila masukkan SPREADSHEET_ID yang sah!");
-      return;
-    }
+    if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
 
@@ -76,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  // --- 1. FETCH CONFIG KHAS (MENYOKONG DUA JADUAL DALAM 1 TAB CONFIG) ---
+  // --- 1. FETCH CONFIG KHAS (MENYOKONG PELBAGAI JADUAL DALAM 1 TAB CONFIG) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -93,27 +90,36 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let config = {};
 
+        // Fungsi pembantu untuk ekstrak nilai sel secara selamat
+        function extractCellVal(cell) {
+          if (!cell) return '';
+          if (cell.v !== undefined && cell.v !== null) {
+            // Elakkan sel boolean (checkbox) daripada ditukar jadi perkataan "true" yang salah konteks jika perlu, 
+            // tapi simpan nilainya untuk master switch.
+            return cell.v;
+          }
+          return '';
+        }
+
         rows.forEach(r => {
           if (!r || !r.c) return;
           
-          // Baca Lajur A (Indeks 0) sebagai Key & Lajur B (Indeks 1) sebagai Value
-          if (r.c[0] && r.c[0].v !== null && r.c[0].v !== undefined) {
-            const k = String(r.c[0].v).trim().toLowerCase();
-            const v = r.c[1] !== undefined && r.c[1] !== null ? (r.c[1].v !== undefined ? r.c[1].v : r.c[1].f) : '';
-            if (k && k !== 'key') {
-              config[k] = v;
-            }
+          // 1. Semak pasangan Lajur A (Indeks 0) & Lajur B (Indeks 1) [General / Bank / Event Details]
+          const k1 = extractCellVal(r.c[0]);
+          const v1 = extractCellVal(r.c[1]);
+          if (k1 && typeof k1 === 'string' && k1.toLowerCase() !== 'key') {
+            config[k1.trim().toLowerCase()] = v1;
           }
 
-          // Baca Lajur F (Indeks 5) sebagai Master Switch Key & Lajur G (Indeks 6) sebagai Master Switch Value
-          if (r.c[5] && r.c[5].v !== null && r.c[5].v !== undefined) {
-            const sk = String(r.c[5].v).trim().toLowerCase();
-            const sv = r.c[6] !== undefined && r.c[6] !== null ? (r.c[6].v !== undefined ? r.c[6].v : r.c[6].f) : '';
-            if (sk) {
-              config[sk] = sv;
-            }
+          // 2. Semak pasangan Lajur F (Indeks 5) & Lajur G (Indeks 6) [Master Switch]
+          const k2 = extractCellVal(r.c[5]);
+          const v2 = extractCellVal(r.c[6]);
+          if (k2 && typeof k2 === 'string' && k2.toLowerCase() !== 'key') {
+            config[k2.trim().toLowerCase()] = v2;
           }
         });
+
+        console.log("Config Berjaya Diparse:", config);
 
         // Pemetaan Pengantin
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
@@ -175,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Master Switch: RSVP
+        // Master Switch: RSVP (Semak nilai boolean true / false atau string)
         const rsvpFormEl = document.getElementById('rsvp-form');
         const rsvpNameInput = document.getElementById('rsvp-name');
         const rsvpPhoneInput = document.getElementById('rsvp-phone');
@@ -183,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const rsvpSubmitBtn = rsvpFormEl ? rsvpFormEl.querySelector('button[type="submit"]') : null;
 
         if (config.control_rsvp !== undefined) {
-          const valR = String(config.control_rsvp).trim().toUpperCase();
-          if (valR === 'FALSE' || valR === 'OFF' || valR === '0') {
+          const isRsvpActive = config.control_rsvp === true || String(config.control_rsvp).trim().toUpperCase() === 'TRUE';
+          if (!isRsvpActive) {
             if (rsvpSubmitBtn) {
               rsvpSubmitBtn.disabled = true;
               rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
@@ -210,10 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Master Switch: Galeri
         const uploadBtn = document.getElementById('btn-upload-gallery');
         if (uploadBtn && config.control_gallery !== undefined) {
-          const valG = String(config.control_gallery).trim().toUpperCase();
+          const isGalleryActive = config.control_gallery === true || String(config.control_gallery).trim().toUpperCase() === 'TRUE';
           const photoInput = document.getElementById('photo-upload');
           
-          if (valG === 'FALSE' || valG === 'OFF' || valG === '0') {
+          if (!isGalleryActive) {
             uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
             uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
             if (photoInput) photoInput.disabled = true;
@@ -230,8 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const wishMsgInput = document.getElementById('wish-message');
 
         if (config.control_wish !== undefined) {
-          const valW = String(config.control_wish).trim().toUpperCase();
-          if (valW === 'FALSE' || valW === 'OFF' || valW === '0') {
+          const isWishActive = config.control_wish === true || String(config.control_wish).trim().toUpperCase() === 'TRUE';
+          if (!isWishActive) {
             if (wishSubmitBtn) {
               wishSubmitBtn.disabled = true;
               wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
@@ -272,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data && data.length > 0) {
         container.innerHTML = data.map(item => {
-          let displayTime = item.time || item.masa || item['time'] || '';
+          let displayTime = item.time || item.masa || '';
           if (displayTime.includes('GMT') || displayTime.includes('1899')) {
             const dateObj = new Date(displayTime);
             if (!isNaN(dateObj.getTime())) {
@@ -1177,13 +1183,14 @@ END:VCALENDAR`;
     });
   };
   
+  // Fungsi kawalan paparan seksyen berdasarkan Master Switch
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtn = document.getElementById('dock-gift-btn');
     
+    // Jika control_gift false, sembunyikan butang kasihan/gift
     if (giftControl === false || String(giftControl).trim().toUpperCase() === "FALSE") {
       if (dockGiftBtn) dockGiftBtn.style.display = 'none'; 
-      return; 
     } else {
       if (dockGiftBtn) dockGiftBtn.style.display = 'flex';
     }
