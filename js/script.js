@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isPlaying) {
         bgMusic.pause();
         isPlaying = false;
-        updateMusicUI(); // Kemas kini terus apabila dipause
+        updateMusicUI();
       } else {
         bgMusic.play().then(() => { 
           isPlaying = true; 
