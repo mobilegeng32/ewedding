@@ -6,7 +6,7 @@ html {
 
 body {
   background-color: #FAF8F5 !important;
-  background-image: none !important; /* Menghilangkan pola titik-titik */
+  background-image: none !important;
 }
 
 /* Custom Scrollbar */
@@ -26,11 +26,11 @@ body {
 
 /* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
 .no-scrollbar::-webkit-scrollbar {
-  display: none; /* Untuk Chrome, Safari, Opera */
+  display: none;
 }
 .no-scrollbar {
-  -ms-overflow-style: none;  /* Untuk IE dan Edge */
-  scrollbar-width: none;  /* Untuk Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Glass Card Style */
