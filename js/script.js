@@ -978,13 +978,13 @@ END:VCALENDAR`;
   function openDock() {
     isOpen = true;
     
-    // 1. Sembunyikan terus butang trigger di penjuru kanan bawah
+    // Sembunyikan terus butang trigger di penjuru kanan bawah
     if (fabContainer) {
       fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
       fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
     }
     
-    // 2. Paparkan dock menu di bahagian tengah bawah
+    // Paparkan dock menu di bahagian tengah bawah
     if (fabDock) {
       fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
