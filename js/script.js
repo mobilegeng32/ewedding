@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonEl.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
         buttonEl.innerHTML = buttonEl.getAttribute('data-original-html');
         
-        // PEMBETULAN UTAMA: Pasang semula listener input file galeri apabila cooldown tamat
         if (buttonEl.id === 'btn-upload-gallery') {
           bindPhotoUploadListener();
         }
@@ -783,27 +782,31 @@ END:VCALENDAR`;
   function bindPhotoUploadListener() {
     const photoUpload = document.getElementById('photo-upload');
     if (photoUpload) {
-      photoUpload.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          if (!file.type.startsWith('image/')) {
-            photoUpload.value = '';
-            showConfirmDialog(
-              "Format Tidak Sah",
-              "Hanya fail gambar (foto) sahaja dibenarkan untuk dimuat naik! Sila pilih fail gambar yang sah.",
-              () => {}, 
-              true,
-              'error'
-            );
-            return;
-          }
+      // Pastikan listener lama dibuang dulu untuk elakkan binding bertindih
+      photoUpload.removeEventListener('change', handlePhotoUploadChange);
+      photoUpload.addEventListener('change', handlePhotoUploadChange);
+    }
+  }
 
-          selectedFileForUpload = file;
-          if (uploaderNameInput) uploaderNameInput.value = '';
-          if (imageCaptionInput) imageCaptionInput.value = '';
-          if (uploadModal) uploadModal.classList.remove('hidden');
-        }
-      });
+  function handlePhotoUploadChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        event.target.value = '';
+        showConfirmDialog(
+          "Format Tidak Sah",
+          "Hanya fail gambar (foto) sahaja dibenarkan untuk dimuat naik! Sila pilih fail gambar yang sah.",
+          () => {}, 
+          true,
+          'error'
+        );
+        return;
+      }
+
+      selectedFileForUpload = file;
+      if (uploaderNameInput) uploaderNameInput.value = '';
+      if (imageCaptionInput) imageCaptionInput.value = '';
+      if (uploadModal) uploadModal.classList.remove('hidden');
     }
   }
 
@@ -876,6 +879,9 @@ END:VCALENDAR`;
     selectedFileForUpload = null;
     const photoUpload = document.getElementById('photo-upload');
     if (photoUpload) photoUpload.value = '';
+    
+    // PEMBETULAN UTAMA: Pastikan event listener sentiasa dipasang semula selepas modal ditutup
+    bindPhotoUploadListener();
   }
 
   if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModal);
