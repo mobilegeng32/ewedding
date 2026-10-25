@@ -363,15 +363,15 @@ END:VCALENDAR`;
       document.body.removeChild(link);
     });
   }
-
+  
   /* -------------------------------------------------------------
      CUSTOM MODAL PENGESAHAN (CONFIRM-MODAL)
   ------------------------------------------------------------- */
-  const confirmModal = document.getElementById('confirm-modal');
-  const confirmTitle = document.getElementById('confirm-title');
-  const confirmDesc = document.getElementById('confirm-desc');
-  const dialogYesBtn = document.getElementById('dialog-yes-btn');
-  const dialogCancelBtn = document.getElementById('dialog-cancel-btn');
+  const confirmModal = document.getElementById('custom-confirm-modal');
+  const confirmTitle = document.getElementById('custom-modal-title');
+  const confirmDesc = document.getElementById('custom-modal-desc');
+  const dialogYesBtn = document.getElementById('modal-btn-yes');
+  const dialogCancelBtn = document.getElementById('modal-btn-no');
 
   function showConfirmDialog(title, desc, onConfirm) {
     if (!confirmModal) {
