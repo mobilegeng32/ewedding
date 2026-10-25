@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-	
+  
+  // Paksa laman web kembali ke atas (Home/Hero) setiap kali laman web di-refresh
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxP5CFIHTFg9lJNzupWptbtYGECjOwOCIsqei6IpcUBcySKPuL0wZyeiRM1tbo76t2R/exec';
   
   function fetchSiteConfig() {
