@@ -469,8 +469,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-      e.preventDefault();
       const targetId = this.getAttribute('href');
+      
+      // ABAIKAN jika ia bukan pautan hashtag tempatan (elak ralat URL luar)
+      if (!targetId || !targetId.startsWith('#')) return;
+
+      e.preventDefault();
       if (targetId === '#' || targetId === '#hero-section') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
