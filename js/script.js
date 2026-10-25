@@ -416,8 +416,8 @@ END:VCALENDAR`;
           formData.append('phone', document.getElementById('rsvp-phone').value);
           formData.append('status', document.getElementById('rsvp-status').value);
           formData.append('pax', document.getElementById('rsvp-pax').value);
-
-          fetch(SCRIPT_URL, { method: 'POST', body: formData })
+		  
+		  fetch(`${SCRIPT_URL}?action=rsvp`, { method: 'POST', body: formData })
           .then(response => response.json())
           .then(data => {
             const alertBox = document.getElementById('rsvp-alert');
@@ -599,8 +599,8 @@ END:VCALENDAR`;
               formData.append('fileData', base64String);
               formData.append('name', uploaderName);
               formData.append('caption', imageCaption);
-
-              fetch(SCRIPT_URL, { method: 'POST', body: formData })
+			  
+			  fetch(`${SCRIPT_URL}?action=gallery`, { method: 'POST', body: formData })
               .then(response => response.json())
               .then(data => {
                 if (data.status === "error") {
@@ -723,8 +723,8 @@ END:VCALENDAR`;
             formData.append('action', 'wishes');
             formData.append('name', nameInput.value);
             formData.append('message', msgInput.value);
-
-            fetch(SCRIPT_URL, { method: 'POST', body: formData })
+			
+			fetch(`${SCRIPT_URL}?action=wishes`, { method: 'POST', body: formData })
             .then(response => response.json())
             .then(data => {
               const wishAlert = document.getElementById('wish-alert');
@@ -874,12 +874,12 @@ END:VCALENDAR`;
         setActiveNav(targetSectionId);
       });
     });
-
-    const observer = new IntersectionObserver((entries) => {
+	
+		const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) setActiveNav(entry.target.id);
       });
-    }, { root: null, rootMargin: '-30% 0px -40% 0px', threshold: 0.15 });
+    }, { root: null, rootMargin: '-20% 0px -20% 0px', threshold: 0.1 });
 
     sectionIds.forEach(id => {
       const sectionEl = document.getElementById(id);
