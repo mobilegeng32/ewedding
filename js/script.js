@@ -886,17 +886,19 @@ END:VCALENDAR`;
   if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
 
   bindPhotoUploadListener();
-
-  // --- GALLERY UPLOAD (MANDATORY CAPTION CHECK) ---
+  
+  // --- GALLERY UPLOAD (MANDATORY NAME & CAPTION CHECK) ---
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
       
+      const uploaderName = uploaderNameInput.value.trim();
       const imageCaption = imageCaptionInput.value.trim();
-      if (!imageCaption) {
+
+      if (!uploaderName || !imageCaption) {
         showConfirmDialog(
-          "Kapsyen Diperlukan",
-          "Sila masukkan kapsyen gambar terlebih dahulu sebelum meneruskan muat naik!",
+          "Maklumat Tidak Lengkap",
+          "Sila masukkan Nama Anda dan Kapsyen Gambar terlebih dahulu sebelum meneruskan muat naik!",
           () => {},
           true,
           'error'
@@ -913,7 +915,6 @@ END:VCALENDAR`;
           const uploadBtnMain = document.getElementById('btn-upload-gallery');
           setButtonCooldown(uploadBtnMain, window.galleryCd || 5, "Memuat Naik");
 
-          const uploaderName = uploaderNameInput.value.trim() || "Tetamu Undangan";
           const galleryAlert = document.getElementById('gallery-alert');
 
           if (galleryAlert) {
