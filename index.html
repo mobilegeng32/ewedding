@@ -81,7 +81,7 @@
       <div class="pt-8">
         <a href="#invitation-section" id="hero-open-btn" class="group relative inline-flex items-center gap-3.5 bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 px-8 py-4 rounded-full text-xs sm:text-sm tracking-widest font-semibold uppercase transition-colors duration-300 shadow-xl hover:shadow-2xl border border-butter-300/30 cursor-pointer overflow-hidden">
           <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-          <span>Buka Undangan  v2.19</span>
+          <span>Buka Undangan v2.20</span>
           <span class="w-7 h-7 rounded-full bg-butter-200 text-purpleTheme-900 flex items-center justify-center transition-transform duration-300 group-hover:translate-y-1 shadow-sm shrink-0">
             <i class="fas fa-chevron-down text-xs"></i>
           </span>
@@ -102,7 +102,6 @@
       <div class="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-purpleTheme-700/20 rounded-tl-lg pointer-events-none"></div>
       <div class="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-purpleTheme-700/20 rounded-br-lg pointer-events-none"></div>
 	  
-	  <!-- Ditambahkan leading-loose dan py-2 supaya jarak baris Arab lebih luas dan tidak bertindih di skrin telefon -->
       <div class="text-purpleTheme-800 font-arabic text-2xl sm:text-4xl font-medium tracking-wide drop-shadow-sm leading-loose py-2">
         السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّهِ وَبَرَكاتُهُ
       </div>
@@ -175,7 +174,6 @@
             </a>
           </div>
 
-          <!-- Secondary Button Style -->
           <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 cursor-pointer">
             <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
           </button>
@@ -268,7 +266,6 @@
           <select id="rsvp-pax" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer"></select>
         </div>
 
-        <!-- Primary Button Style -->
         <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer border border-butter-300/30">
           Hantar Pengesahan
         </button>
@@ -309,7 +306,6 @@
           <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
         </p>
 
-        <!-- Secondary Button Style -->
         <label id="btn-upload-gallery" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 shrink-0">
           <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar
           <input type="file" id="photo-upload" accept="image/*" class="hidden">
@@ -336,7 +332,6 @@
       <div class="absolute -top-16 -left-16 w-36 h-36 bg-purpleTheme-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="space-y-6 relative z-10 text-left">
-        <!-- Form Hantar Ucapan -->
         <form id="wish-form" class="space-y-4">
           <div class="space-y-1.5">
             <label for="wish-name" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Nama Anda <span class="text-purpleTheme-500">*</span></label>
@@ -359,7 +354,6 @@
           </div>
 
           <div class="pt-1">
-            <!-- Primary Button Style -->
             <button id="btn-submit-wish" type="submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-butter-300/30 group">
               <span>Hantar Ucapan</span>
               <i class="fas fa-paper-plane text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
@@ -371,17 +365,14 @@
           Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
         </div>
         
-        <!-- Garis Pemisah -->
         <div class="w-full h-[1px] bg-purpleTheme-100/80 my-4"></div>
 
-        <!-- Senarai Kad Ucapan Tetamu -->
         <div class="space-y-3">
           <div class="flex items-center justify-between px-1">
             <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
             <span class="text-[10px] text-purpleTheme-700/70 italic">Kemas kini langsung</span>
           </div>
           <div id="wishes-container" class="max-h-[380px] overflow-y-auto space-y-3 pr-2 custom-scrollbar">
-            <!-- Kad ucapan dimuatkan secara dinamik -->
           </div>
         </div>
       </div>
@@ -433,7 +424,7 @@
     </div>
   </footer>
 
-  <!-- MODAL: UPLOAD GAMBAR -->
+  <!-- CUSTOM MODAL: UPLOAD GAMBAR -->
   <div id="upload-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md w-full border border-purpleTheme-100 shadow-2xl space-y-5 relative animate-fade-in">
       <button id="close-upload-modal" type="button" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">&times;</button>
@@ -457,9 +448,7 @@
       </div>
 
       <div class="flex gap-3 pt-2">
-        <!-- Outline / Secondary Button Style -->
         <button id="cancel-upload-btn" type="button" class="w-1/2 py-3.5 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-semibold tracking-wider uppercase hover:bg-purpleTheme-50 transition-all cursor-pointer">BATAL</button>
-        <!-- Primary Button Style -->
         <button id="confirm-upload-btn" type="button" class="w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">TERUSKAN</button>
       </div>
     </div>
@@ -469,7 +458,6 @@
   <div id="custom-confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in bg-white">
       
-      <!-- Kotak Ikon dengan Animasi Interaksi -->
       <div id="modal-icon-box" class="w-14 h-14 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm transition-transform duration-300 hover:scale-110">
         <i id="modal-icon-class" class="fas fa-question-circle"></i>
       </div>
@@ -483,6 +471,54 @@
         <button id="modal-btn-no" type="button" class="w-1/2 py-3.5 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-semibold tracking-wider uppercase hover:bg-purpleTheme-50 transition-all cursor-pointer">TIDAK</button>
         <button id="modal-btn-yes" type="button" class="w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">YA, PASTI</button>
       </div>
+    </div>
+  </div>
+  
+  <!-- MODAL: SALAM KASIH & HADIAH -->
+  <div id="gift-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md w-full border border-purpleTheme-100 shadow-2xl space-y-5 relative animate-fade-in bg-white/95">
+      <button id="close-gift-modal" type="button" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">&times;</button>
+      
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-2 shadow-sm">
+          <i class="fas fa-gift"></i>
+        </div>
+        <h3 class="font-serif text-2xl font-semibold text-purpleTheme-900">Salam Kasih &amp; Hadiah</h3>
+        <p class="text-xs text-purpleTheme-800/70 font-light">Doa restu anda adalah kurnia terindah. Jika ingin menitipkan tanda kasih:</p>
+      </div>
+
+      <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
+        <!-- Kad Akaun Bank -->
+        <div class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
+          <div>
+            <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">Bank BCA</h4>
+            <p class="text-[11px] text-purpleTheme-700/80 font-medium">Utrias Ismi</p>
+          </div>
+          <div class="bg-butter-50 py-2.5 px-3 rounded-xl border border-butter-200 flex items-center justify-between gap-2">
+            <span class="font-mono text-xs sm:text-sm font-semibold text-purpleTheme-900">1234567890</span>
+            <button type="button" onclick="copyToClipboard('1234567890', this)" class="bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5 shrink-0">
+              <i class="fas fa-copy text-xs"></i> <span>Salin</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Kad Alamat Fizikal -->
+        <div class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
+          <div>
+            <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">Kirim Hadiah Fizikal</h4>
+            <p class="text-[11px] text-purpleTheme-700/80 font-medium">Alamat Penerima</p>
+          </div>
+          <div class="bg-butter-50 p-3 rounded-xl border border-butter-200 text-left space-y-2">
+            <p class="text-[11px] text-purpleTheme-800/90 font-light leading-relaxed">
+              Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia
+            </p>
+            <button type="button" onclick="copyToClipboard('Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia', this)" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2 rounded-lg font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5">
+              <i class="fas fa-copy text-xs"></i> <span>Salin Alamat</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <button id="btn-close-gift" type="button" class="w-full py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">TUTUP</button>
     </div>
   </div>
   
@@ -502,7 +538,7 @@
       <span class="text-[9px] font-semibold mt-0.5">Utama</span>
     </a>
 
-    <!-- 2. Undangan (Masuk dalam popover 3 dot jika skrin kecil) -->
+    <!-- 2. Undangan -->
     <a href="#invitation-section" data-target="invitation-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Undangan">
       <i class="fas fa-envelope-open-text text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Undangan</span>
@@ -520,19 +556,27 @@
       <span class="text-[9px] font-semibold mt-0.5">RSVP</span>
     </a>
 
-    <!-- 5. Galeri (Masuk dalam popover 3 dot jika skrin kecil) -->
+    <!-- 5. Galeri -->
     <a href="#gallery-section" data-target="gallery-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Galeri">
       <i class="fas fa-images text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Galeri</span>
     </a>
 
-    <!-- 6. Ucapan (Masuk dalam popover 3 dot jika skrin kecil) -->
+    <!-- 6. Ucapan -->
     <a href="#wishes-section" data-target="wishes-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Ucapan">
       <i class="fas fa-heart text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Ucapan</span>
     </a>
+
+    <!-- 7. Kasih (Salam Kasih Modal Toggle) -->
+    <button id="dock-gift-btn" type="button" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Kasih">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-gift text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">Kasih</span>
+    </button>
 	
-	<!-- 7. Musik Toggle -->
+	<!-- 8. Musik Toggle -->
     <button id="dock-music-btn" type="button" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Muzik">
       <div class="h-6 flex items-center justify-center mb-0.5">
         <i id="dock-music-icon" class="fas fa-volume-xmark text-base group-hover:scale-110 transition-transform"></i>
@@ -540,7 +584,7 @@
       <span id="dock-music-text" class="text-[9px] font-semibold tracking-tight">Muzik</span>
     </button>
 
-    <!-- 8. Butang "Lagi" (3 Dot - Muncul automatik bila skrin kecil) -->
+    <!-- 9. Butang "Lagi" (3 Dot - Muncul automatik bila skrin kecil) -->
     <div id="more-menu-container" class="relative hidden">
       <button id="more-menu-btn" type="button" class="flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Lagi">
         <i class="fas fa-ellipsis-h text-base group-hover:scale-110 transition-transform"></i>
@@ -558,6 +602,9 @@
         <a href="#wishes-section" data-target="wishes-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
           <i class="fas fa-heart w-4 text-center"></i> Ucapan
         </a>
+        <button id="popover-gift-btn" type="button" class="fab-link w-full flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all text-left cursor-pointer">
+          <i class="fas fa-gift w-4 text-center"></i> Salam Kasih
+        </button>
       </div>
     </div>
   </div>

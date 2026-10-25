@@ -1074,4 +1074,50 @@ END:VCALENDAR`;
   });
 
   updateActiveSection();
+  
+  // Kawalan Modal Salam Kasih
+  const giftModal = document.getElementById('gift-modal');
+  const dockGiftBtn = document.getElementById('dock-gift-btn');
+  const popoverGiftBtn = document.getElementById('popover-gift-btn');
+  const closeGiftModalBtn = document.getElementById('close-gift-modal');
+  const btnCloseGift = document.getElementById('btn-close-gift');
+
+  function openGiftModal() {
+    if (giftModal) giftModal.classList.remove('hidden');
+    closeDock(); // Tutup dock utama apabila modal dibuka
+  }
+
+  function closeGiftModal() {
+    if (giftModal) giftModal.classList.add('hidden');
+  }
+
+  if (dockGiftBtn) dockGiftBtn.addEventListener('click', (e) => { e.stopPropagation(); openGiftModal(); });
+  if (popoverGiftBtn) popoverGiftBtn.addEventListener('click', (e) => { e.stopPropagation(); openGiftModal(); });
+  if (closeGiftModalBtn) closeGiftModalBtn.addEventListener('click', closeGiftModal);
+  if (btnCloseGift) btnCloseGift.addEventListener('click', closeGiftModal);
+
+  // Tutup modal jika klik di luar kotak modal
+  if (giftModal) {
+    giftModal.addEventListener('click', (e) => {
+      if (e.target === giftModal) closeGiftModal();
+    });
+  }
+
+  // Fungsi Salin Teks (Clipboard)
+  window.copyToClipboard = function(text, btnElement) {
+    navigator.clipboard.writeText(text).then(() => {
+      const originalHTML = btnElement.innerHTML;
+      btnElement.innerHTML = `<i class="fas fa-check text-xs"></i> <span>Berjaya!</span>`;
+      btnElement.classList.add('bg-emerald-500', 'text-white');
+      btnElement.classList.remove('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900');
+      
+      setTimeout(() => {
+        btnElement.innerHTML = originalHTML;
+        btnElement.classList.remove('bg-emerald-500', 'text-white');
+        btnElement.classList.add('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900');
+      }, 2000);
+    }).catch(err => {
+      console.error('Gagal menyalin teks:', err);
+    });
+  };
 });
