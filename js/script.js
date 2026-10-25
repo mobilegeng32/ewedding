@@ -1311,23 +1311,24 @@ END:VCALENDAR`;
         qrSection.style.display = 'block';
         const qrImg = document.getElementById('dyn-qr-image');
         if (qrImg) {
-          const fileId = config.qr_image_url ? String(config.qr_image_url).trim() : '';
-          // Terusjana pautan imej rasmi Google Drive menggunakan File ID
-          qrImg.src = fileId ? `https://lh3.googleusercontent.com/d/${fileId}=s500` : '';
+          const rawInput = config.qr_image_url ? String(config.qr_image_url).trim() : '';
+          let fileId = rawInput;
+
+          // Jika anda letak pautan penuh Google Drive, kod ini automatically ekstrak ID
+          if (rawInput.includes('drive.google.com')) {
+            const match1 = rawInput.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            const match2 = rawInput.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (match1 && match1[1]) {
+              fileId = match1[1];
+            } else if (match2 && match2[1]) {
+              fileId = match2[1];
+            }
+          }
+
+          // Paparkan imej menggunakan direct link Google Drive
+          qrImg.src = fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : '';
         }
       }
     }
-
-    const addressSection = document.getElementById('address-section');
-    const addressControl = config.control_address;
-    if (addressControl === false || String(addressControl).trim().toUpperCase() === "FALSE") {
-      if (addressSection) addressSection.style.display = 'none';
-    } else {
-      if (addressSection) {
-        addressSection.style.display = 'block';
-        document.getElementById('gift-address').innerText = config.gift_address || '';
-      }
-    }
-  }
 
 });
