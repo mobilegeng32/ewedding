@@ -493,58 +493,73 @@
     </button>
   </div>
   
-  <!-- NOTCHED NAVIGATION DOCK (Menu Timbul di Tengah Skrin Bawah) -->
-  <div id="fab-dock" class="glass-card border border-butter-300 shadow-2xl rounded-full px-4 py-3 flex items-center justify-center gap-1 sm:gap-3 bg-white/95 transition-all duration-500 ease-out fixed left-1/2 -translate-x-1/2 bottom-6 scale-75 opacity-0 pointer-events-none w-max max-w-[95vw] origin-bottom z-50">
+  <!-- NAVIGATION DOCK DENGAN SOKONGAN 3 DOT RESPONSIF -->
+  <div id="fab-dock" class="glass-card border border-butter-300 shadow-2xl rounded-full px-4 py-3 flex items-center justify-center gap-2 sm:gap-3 bg-white/95 transition-all duration-500 ease-out fixed left-1/2 -translate-x-1/2 bottom-6 scale-75 opacity-0 pointer-events-none w-max max-w-[95vw] origin-bottom z-50">
     
-    <a href="#hero-section" data-target="hero-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Utama">
-      <div class="h-6 flex items-center justify-center mb-0.5">
-        <i class="fas fa-home text-base group-hover:scale-110 transition-transform"></i>
-      </div>
-      <span class="text-[9px] font-semibold tracking-tight">Utama</span>
+    <!-- 1. Utama -->
+    <a href="#hero-section" data-target="hero-section" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Utama">
+      <i class="fas fa-home text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Utama</span>
     </a>
 
-    <a href="#invitation-section" data-target="invitation-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Undangan">
-      <div class="h-6 flex items-center justify-center mb-0.5">
-        <i class="fas fa-envelope-open-text text-base group-hover:scale-110 transition-transform"></i>
-      </div>
-      <span class="text-[9px] font-semibold tracking-tight">Undangan</span>
+    <!-- 2. Undangan (Masuk dalam popover 3 dot jika skrin kecil) -->
+    <a href="#invitation-section" data-target="invitation-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Undangan">
+      <i class="fas fa-envelope-open-text text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Undangan</span>
     </a>
 
-    <a href="#details-section" data-target="details-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Lokasi">
-      <div class="h-6 flex items-center justify-center mb-0.5">
-        <i class="fas fa-map-marker-alt text-base group-hover:scale-110 transition-transform"></i>
-      </div>
-      <span class="text-[9px] font-semibold tracking-tight">Lokasi</span>
+    <!-- 3. Lokasi -->
+    <a href="#details-section" data-target="details-section" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Lokasi">
+      <i class="fas fa-map-marker-alt text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Lokasi</span>
     </a>
 
-    <a href="#rsvp-section" data-target="rsvp-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="RSVP">
-      <div class="h-6 flex items-center justify-center mb-0.5">
-        <i class="fas fa-clipboard-check text-base group-hover:scale-110 transition-transform"></i>
-      </div>
-      <span class="text-[9px] font-semibold tracking-tight">RSVP</span>
+    <!-- 4. RSVP -->
+    <a href="#rsvp-section" data-target="rsvp-section" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="RSVP">
+      <i class="fas fa-clipboard-check text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">RSVP</span>
     </a>
 
-    <a href="#gallery-section" data-target="gallery-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Galeri">
-      <div class="h-6 flex items-center justify-center mb-0.5">
-        <i class="fas fa-images text-base group-hover:scale-110 transition-transform"></i>
-      </div>
-      <span class="text-[9px] font-semibold tracking-tight">Galeri</span>
+    <!-- 5. Galeri (Masuk dalam popover 3 dot jika skrin kecil) -->
+    <a href="#gallery-section" data-target="gallery-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Galeri">
+      <i class="fas fa-images text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Galeri</span>
     </a>
 
-    <a href="#wishes-section" data-target="wishes-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Ucapan">
-      <div class="h-6 flex items-center justify-center mb-0.5">
-        <i class="fas fa-heart text-base group-hover:scale-110 transition-transform"></i>
-      </div>
-      <span class="text-[9px] font-semibold tracking-tight">Ucapan</span>
+    <!-- 6. Ucapan (Masuk dalam popover 3 dot jika skrin kecil) -->
+    <a href="#wishes-section" data-target="wishes-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Ucapan">
+      <i class="fas fa-heart text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Ucapan</span>
     </a>
 
-    <!-- Music Toggle -->
-    <button id="dock-music-btn" type="button" class="flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Muzik">
+    <!-- 7. Musik Toggle -->
+    <button id="dock-music-btn" type="button" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Muzik">
       <div class="h-6 flex items-center justify-center mb-0.5">
         <i id="dock-music-icon" class="fas fa-volume-xmark text-base group-hover:scale-110 transition-transform"></i>
       </div>
       <span id="dock-music-text" class="text-[9px] font-semibold tracking-tight">Muzik</span>
     </button>
+
+    <!-- 8. Butang "Lagi" (3 Dot - Muncul automatik bila skrin kecil) -->
+    <div id="more-menu-container" class="relative hidden">
+      <button id="more-menu-btn" type="button" class="flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Lagi">
+        <i class="fas fa-ellipsis-h text-base group-hover:scale-110 transition-transform"></i>
+        <span class="text-[9px] font-semibold mt-0.5">Lagi</span>
+      </button>
+
+      <!-- Kotak Popover Menu Tambahan -->
+      <div id="more-popover" class="absolute bottom-14 right-0 bg-white/95 backdrop-blur-md border border-butter-300 shadow-xl rounded-2xl p-3 hidden flex-col gap-2.5 w-36 z-50 animate-fade-in">
+        <a href="#invitation-section" data-target="invitation-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
+          <i class="fas fa-envelope-open-text w-4 text-center"></i> Undangan
+        </a>
+        <a href="#gallery-section" data-target="gallery-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
+          <i class="fas fa-images w-4 text-center"></i> Galeri
+        </a>
+        <a href="#wishes-section" data-target="wishes-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
+          <i class="fas fa-heart w-4 text-center"></i> Ucapan
+        </a>
+      </div>
+    </div>
   </div>
   
   <script src="js/script.js"></script>

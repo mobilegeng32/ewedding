@@ -260,6 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const dockMusicIcon = document.getElementById('dock-music-icon');
   const dockMusicText = document.getElementById('dock-music-text');
 
+  const moreMenuBtn = document.getElementById('more-menu-btn');
+  const morePopover = document.getElementById('more-popover');
+
   let isOpen = false;
   let lastScrollY = window.scrollY;
   let closeTimer = null;
@@ -928,7 +931,7 @@ END:VCALENDAR`;
     if (isOpen) {
       closeTimer = setTimeout(() => {
         closeDock();
-      }, 3500); // Timer FAB Menu hide : 3.5 Second
+      }, 3500);
     }
   }
 
@@ -942,7 +945,7 @@ END:VCALENDAR`;
             fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
           }
         }
-      }, 4000); // Timer Menu button hide : 4 Second
+      }, 4000);
     }
   }
 
@@ -972,38 +975,43 @@ END:VCALENDAR`;
     lastScrollY = currentScrollY;
   });
 
-	function openDock() {
-	  isOpen = true;
-	  if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-times text-sm';
-	  
-	  if (fabDock) {
-		fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
-		fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
-	  }
-	  
-	  if (fabContainer) {
-		fabContainer.classList.add('dock-active');
-	  }
-	  
-	  resetCloseTimer();
-	}
+  function openDock() {
+    isOpen = true;
+    if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-times text-sm';
+    
+    if (fabDock) {
+      fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+    
+    if (fabContainer) {
+      fabContainer.classList.add('dock-active');
+    }
+    
+    resetCloseTimer();
+  }
 	
-	function closeDock() {
-	  isOpen = false;
-	  if (closeTimer) clearTimeout(closeTimer);
-	  if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-bars text-sm';
-	  
-	  if (fabDock) {
-		fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
-		fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
-	  }
-	  
-	  if (fabContainer) {
-		fabContainer.classList.remove('dock-active');
-	  }
+  function closeDock() {
+    isOpen = false;
+    if (closeTimer) clearTimeout(closeTimer);
+    if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-bars text-sm';
+    
+    if (fabDock) {
+      fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+    
+    if (fabContainer) {
+      fabContainer.classList.remove('dock-active');
+    }
 
-	  resetScrollTimeout();
-	}
+    if (morePopover) {
+      morePopover.classList.add('hidden');
+      morePopover.classList.remove('flex');
+    }
+
+    resetScrollTimeout();
+  }
 
   if (fabTrigger) {
     fabTrigger.addEventListener('click', (e) => {
@@ -1016,7 +1024,25 @@ END:VCALENDAR`;
     });
   }
 
+  // Buka/tutup popover 3 dot (Lagi)
+  if (moreMenuBtn && morePopover) {
+    moreMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      morePopover.classList.toggle('hidden');
+      morePopover.classList.toggle('flex');
+      resetCloseTimer();
+    });
+  }
+
+  // Tangani semua klik luar (Click outside handler)
   window.addEventListener('click', (e) => {
+    // Tutup popover jika klik luar butang 'Lagi'
+    if (morePopover && moreMenuBtn && !moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
+      morePopover.classList.add('hidden');
+      morePopover.classList.remove('flex');
+    }
+
+    // Tutup dock jika klik luar kawasan dock & trigger
     if (isOpen) {
       if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
         closeDock();

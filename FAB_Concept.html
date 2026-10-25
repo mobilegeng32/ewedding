@@ -3,321 +3,443 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Undangan Perkahwinan - Utrias & Hazim</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   
+  <!-- Favicon / Ikon Tab Pelayar -->
+  <link rel="icon" type="image/jpeg" href="images/logo2-nobg.png">
+  <link rel="apple-touch-icon" href="images/logo2-nobg.png">
+  
+  <title>Walimatulurus | Utrias & Hazim</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            purpleTheme: {
-              50: '#f5f0fa',
-              100: '#ebe1f5',
-              200: '#d7c4eb',
-              700: '#583083',
-              800: '#3f2061',
-              900: '#261042',
-            },
             butter: {
-              100: '#fffcf0',
-              200: '#fff3ab',
-              300: '#ffe87a',
-              400: '#ffd747',
+              50: '#FFFDF0',
+              100: '#FFF9D6',
+              200: '#FFF3AB',
+              300: '#FFE87A',
+              400: '#FFD94D',
+            },
+            purpleTheme: {
+              50: '#F5EFFB',
+              100: '#E6D7F6',
+              200: '#CDB1EC',
+              500: '#7C4DFF',
+              700: '#583083',
+              800: '#3D1E61',
+              900: '#261042',
             }
           },
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            serif: ['Cinzel', 'serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Montserrat', 'sans-serif'],
             arabic: ['Amiri', 'serif'],
           }
         }
       }
     }
   </script>
+
   <style>
+    html {
+      scroll-behavior: smooth;
+      background-color: #FAF8F5 !important;
+    }
+    body {
+      background-color: #FAF8F5 !important;
+      background-image: none !important;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F5EFFB;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CDB1EC;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #583083;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
     .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.9) !important;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(88, 48, 131, 0.1);
+    }
+    .smooth-transition {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .custom-shadow {
+      box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
+    }
+    @media (max-width: 520px) {
+      #fab-container.dock-active {
+        transform: translateY(-90px);
+      }
+    }
+    @media (min-width: 521px) {
+      #fab-container.dock-active {
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
-<body class="bg-butter-100 text-purpleTheme-900 font-sans antialiased selection:bg-purpleTheme-200 selection:text-purpleTheme-900">
+<body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
 
-  <!-- Audio Latar Belakang -->
-  <audio id="bg-music" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3" type="audio/mpeg">
+  <audio id="bg-music" loop preload="auto">
+    <source src="music/background-sound.mp3" type="audio/mpeg">
+    Pelayar anda tidak menyokong elemen audio.
   </audio>
 
-  <!-- HERO SECTION -->
-  <section id="hero-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-purpleTheme-50/50 to-butter-200/40 pointer-events-none"></div>
-    <div class="relative z-10 max-w-lg mx-auto space-y-6 glass-card p-8 rounded-3xl shadow-xl border border-purpleTheme-100">
-      <span class="text-xs uppercase tracking-[0.3em] text-purpleTheme-700 font-semibold">The Wedding of</span>
-      <h1 class="font-serif text-4xl sm:text-5xl font-bold tracking-wide text-purpleTheme-900">Utrias & Hazim</h1>
-      <p class="text-sm font-light text-purpleTheme-800/80 max-w-sm mx-auto">Dengan penuh kesyukuran, kami menjemput anda ke majlis perkahwinan kami.</p>
-      <div class="pt-4">
-        <a href="#invitation-section" class="inline-block px-8 py-3.5 bg-purpleTheme-900 text-butter-100 text-xs font-semibold tracking-widest uppercase rounded-full shadow-lg hover:bg-purpleTheme-800 transition-transform active:scale-95">Buka Undangan</a>
+  <!-- 1. HERO SECTION -->
+  <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
+    <div class="max-w-3xl mx-auto z-10 space-y-6">
+      <span class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-5 py-2 rounded-full border border-butter-300 shadow-sm">
+        Walimatulurus / Undangan Majlis Nikah
+      </span>
+
+      <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-normal tracking-tight text-purpleTheme-900 leading-tight">
+        Utrias <span class="italic font-light text-purpleTheme-700">&amp;</span> Hazim
+      </h1>
+
+      <p class="text-sm sm:text-base tracking-wide text-purpleTheme-800/80 max-w-lg mx-auto font-light italic">
+        "Dua benua, dua hati, satu ikatan abadi."
+      </p>
+
+      <div class="w-16 h-[1px] bg-purpleTheme-700/30 mx-auto my-4"></div>
+
+      <p class="text-sm sm:text-base font-medium tracking-widest uppercase text-purpleTheme-700">
+        Sabtu, 22 May 2027
+      </p>
+	  
+      <div class="pt-8">
+        <a href="#invitation-section" id="hero-open-btn" class="group relative inline-flex items-center gap-3.5 bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 px-8 py-4 rounded-full text-xs sm:text-sm tracking-widest font-semibold uppercase transition-colors duration-300 shadow-xl hover:shadow-2xl border border-butter-300/30 cursor-pointer overflow-hidden">
+          <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+          <span>Buka Undangan</span>
+          <span class="w-7 h-7 rounded-full bg-butter-200 text-purpleTheme-900 flex items-center justify-center transition-transform duration-300 group-hover:translate-y-1 shadow-sm shrink-0">
+            <i class="fas fa-chevron-down text-xs"></i>
+          </span>
+        </a>
       </div>
     </div>
-  </section>
 
-  <!-- INVITATION SECTION -->
-  <section id="invitation-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-    <div class="max-w-xl mx-auto glass-card p-8 sm:p-12 rounded-3xl shadow-xl border border-purpleTheme-100 space-y-6">
-      <div class="text-purpleTheme-800 font-arabic text-2xl sm:text-4xl font-medium tracking-wide leading-loose py-2">
+    <a href="#invitation-section" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
+      <i class="fas fa-chevron-down text-lg"></i>
+    </a>
+  </section>
+  
+  <!-- 2. INVITATION SECTION -->
+  <section id="invitation-section" class="py-16 px-6 max-w-3xl mx-auto text-center">
+    <div class="glass-card rounded-3xl p-8 sm:p-14 custom-shadow border border-purpleTheme-100/80 relative overflow-hidden space-y-8">
+      <div class="absolute -top-12 -right-12 w-40 h-40 bg-butter-200/40 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-purpleTheme-100/40 rounded-full blur-2xl pointer-events-none"></div>
+	  
+      <div class="text-purpleTheme-800 font-arabic text-2xl sm:text-4xl font-medium tracking-wide drop-shadow-sm leading-loose py-2">
         السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّهِ وَبَرَكاتُهُ
       </div>
-      <p class="text-sm font-light text-purpleTheme-800/80 leading-relaxed italic">
-        "Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Tanpa mengurangi rasa hormat, seiring memohon rahmat dan rida Allah SWT, kami bermaksud mengundang:"
-      </p>
-      <div class="py-3 px-6 bg-butter-200/60 rounded-2xl border border-butter-300 inline-block font-semibold text-xs tracking-wider text-purpleTheme-900 uppercase">
-        Bapak / Ibu / Saudara / i
+
+      <div class="space-y-3 text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light max-w-md mx-auto">
+        <p class="italic">"Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Tanpa mengurangi rasa hormat, seiring memohon rahmat dan rida Allah SWT, kami bermaksud mengundang:"</p>
+        <div class="inline-block bg-butter-100/90 border border-butter-300/80 px-5 py-1.5 rounded-full my-2 shadow-sm">
+          <p class="font-medium text-purpleTheme-900 text-xs sm:text-sm tracking-wide">Bapak / Ibu / Saudara / i</p>
+        </div>
+        <p>untuk hadir dan memberikan doa restu pada syukuran pernikahan putra-putri kami:</p>
       </div>
-      <div class="space-y-4 pt-4">
-        <h2 class="font-serif text-3xl font-bold text-purpleTheme-900">Utrias Nur Baiti</h2>
-        <p class="text-xs text-purpleTheme-700 font-medium">Puteri dari Bpk. Sakiman Hadi & Ibu Sutrisno / Ibu Sumiarsih</p>
-        <div class="text-purpleTheme-700 font-serif text-xl">&amp;</div>
-        <h2 class="font-serif text-3xl font-bold text-purpleTheme-900">Muhammad Hazim</h2>
-        <p class="text-xs text-purpleTheme-700 font-medium">Putera dari keluarga bahagia</p>
+
+      <div class="space-y-8 pt-2">
+        <div class="space-y-2">
+          <h3 id="dyn-bride-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide">Memuat data...</h3>
+          <div class="w-12 h-[1px] bg-butter-400 mx-auto opacity-70"></div>
+          <p id="dyn-bride-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4">...</p>
+        </div>
+
+        <div class="flex justify-center items-center py-0">
+          <span class="w-10 h-10 rounded-full bg-butter-100 border border-butter-200 flex items-center justify-center shadow-sm">
+            <span class="font-serif italic text-purpleTheme-700 text-lg font-semibold">&amp;</span>
+          </span>
+        </div>
+
+        <div class="space-y-2">
+          <h3 id="dyn-groom-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide">Memuat data...</h3>
+          <div class="w-12 h-[1px] bg-butter-400 mx-auto opacity-70"></div>
+          <p id="dyn-groom-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4">...</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- DETAILS / LOKASI SECTION -->
-  <section id="details-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-    <div class="max-w-xl mx-auto glass-card p-8 sm:p-12 rounded-3xl shadow-xl border border-purpleTheme-100 space-y-6">
-      <span class="text-xs uppercase tracking-[0.2em] text-purpleTheme-700 font-semibold">Atur Cara & Lokasi</span>
-      <h2 class="font-serif text-3xl font-bold text-purpleTheme-900">Lokasi Majlis</h2>
-      <p class="text-sm text-purpleTheme-800/80">Kemojing Kulon, Kemojing, Binangun, Cilacap, Jawa Tengah</p>
-      <div class="pt-4">
-        <a href="https://maps.google.com" target="_blank" class="inline-block px-6 py-3 bg-butter-200 text-purpleTheme-900 text-xs font-semibold tracking-wider uppercase rounded-xl shadow-md hover:bg-butter-300 transition-all">Buka Google Maps</a>
+  <!-- 3. DETAILS & MAJLIS SECTION -->
+  <section id="details-section" class="py-16 px-6 max-w-5xl mx-auto space-y-16">
+    <div class="text-center space-y-3">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Butiran Majlis</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Maklumat Akad Nikah</h2>
+      <div class="w-12 h-[1px] bg-butter-400 mx-auto"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="glass-card rounded-3xl p-8 custom-shadow border border-purpleTheme-100 flex flex-col justify-between space-y-6">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-full bg-butter-200 flex items-center justify-center text-purpleTheme-700 text-xl">
+            <i class="fas fa-mosque"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-purpleTheme-900">Masa &amp; Lokasi</h3>
+          <div class="space-y-2 text-sm text-purpleTheme-900/80 leading-relaxed font-light">
+            <p id="dyn-event-date" class="font-medium text-purpleTheme-900"><i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> Memuat...</p>
+            <p id="dyn-event-time" class="font-medium text-purpleTheme-900"><i class="far fa-clock text-purpleTheme-700 mr-2"></i> Memuat...</p>
+            <p id="dyn-event-location" class="pt-2"><i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> Memuat...</p>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-purpleTheme-100/80 space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <a id="dyn-gmaps-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-3 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer">
+              <i class="fas fa-map-marked-alt text-purpleTheme-700"></i> Google Maps
+            </a>
+            <a id="dyn-waze-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-3 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer">
+              <i class="fas fa-location-arrow text-purpleTheme-700"></i> Waze
+            </a>
+          </div>
+
+          <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all shadow-sm border border-butter-300 cursor-pointer">
+            <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
+          </button>
+        </div>
+      </div>
+	  
+      <div class="glass-card rounded-3xl p-8 custom-shadow border border-purpleTheme-100 flex flex-col justify-between space-y-6 relative">
+        <div>
+          <div class="w-12 h-12 rounded-full bg-butter-200 flex items-center justify-center text-purpleTheme-700 text-xl mb-4">
+            <i class="fas fa-list-ul"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-purpleTheme-900 mb-6">Atur Cara Majlis</h3>
+		  
+          <div id="tentative-scroll-box" class="max-h-[320px] overflow-y-auto pr-2 no-scrollbar space-y-6">
+            <div id="dyn-tentative-container" class="relative pl-6 space-y-6 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-butter-300">
+              <p class="text-xs text-purpleTheme-700/60 italic">Memuatkan atur cara majlis...</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- RSVP SECTION -->
-  <section id="rsvp-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-    <div class="max-w-xl mx-auto glass-card p-8 sm:p-12 rounded-3xl shadow-xl border border-purpleTheme-100 space-y-6 w-full">
-      <span class="text-xs uppercase tracking-[0.2em] text-purpleTheme-700 font-semibold">Kehadiran</span>
-      <h2 class="font-serif text-3xl font-bold text-purpleTheme-900">RSVP Kehadiran</h2>
-      <form class="space-y-4 text-left">
+  <!-- 4. RSVP SECTION -->
+  <section id="rsvp-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Kehadiran</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Pengesahan RSVP</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Sila sahkan kehadiran anda sebelum 1 May 2027</p>
+    </div>
+
+    <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-6">
+      <form id="rsvp-form" class="space-y-4 text-left">
         <div>
-          <label class="block text-xs font-medium text-purpleTheme-800 mb-1">Nama Penuh</label>
-          <input type="text" class="w-full px-4 py-3 rounded-xl bg-white/70 border border-purpleTheme-200 text-sm focus:outline-none focus:ring-2 focus:ring-purpleTheme-700" placeholder="Masukkan nama anda">
+          <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Penuh *</label>
+          <input type="text" id="rsvp-name" required placeholder="Contoh: Ahmad Razak" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900">
         </div>
-        <div>
-          <label class="block text-xs font-medium text-purpleTheme-800 mb-1">Status Kehadiran</label>
-          <select class="w-full px-4 py-3 rounded-xl bg-white/70 border border-purpleTheme-200 text-sm focus:outline-none focus:ring-2 focus:ring-purpleTheme-700">
-            <option>Hadir</option>
-            <option>Tidak Hadir</option>
-          </select>
-        </div>
-        <button type="button" class="w-full py-3.5 bg-purpleTheme-900 text-butter-100 text-xs font-semibold tracking-wider uppercase rounded-xl shadow-md hover:bg-purpleTheme-800 transition-all">Hantar RSVP</button>
+        <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase shadow-lg cursor-pointer">
+          Hantar Pengesahan
+        </button>
       </form>
     </div>
   </section>
-
-  <!-- GALLERY SECTION -->
-  <section id="gallery-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-    <div class="max-w-2xl mx-auto glass-card p-8 sm:p-12 rounded-3xl shadow-xl border border-purpleTheme-100 space-y-6 w-full">
-      <span class="text-xs uppercase tracking-[0.2em] text-purpleTheme-700 font-semibold">Kenangan Indah</span>
-      <h2 class="font-serif text-3xl font-bold text-purpleTheme-900">Galeri Gambar</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <div class="aspect-square bg-butter-200 rounded-2xl flex items-center justify-center text-purpleTheme-700/50 text-xs font-medium border border-butter-300 shadow-inner">Foto 1</div>
-        <div class="aspect-square bg-butter-200 rounded-2xl flex items-center justify-center text-purpleTheme-700/50 text-xs font-medium border border-butter-300 shadow-inner">Foto 2</div>
-        <div class="aspect-square bg-butter-200 rounded-2xl flex items-center justify-center text-purpleTheme-700/50 text-xs font-medium border border-butter-300 shadow-inner">Foto 3</div>
-      </div>
+  
+  <!-- 5. GALERI SECTION -->
+  <section id="gallery-section" class="py-16 px-6 max-w-5xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Memori Indah</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Galeri Gambar &amp; Slideshow</h2>
     </div>
   </section>
-
-  <!-- WISHES SECTION -->
-  <section id="wishes-section" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-    <div class="max-w-xl mx-auto glass-card p-8 sm:p-12 rounded-3xl shadow-xl border border-purpleTheme-100 space-y-6 w-full">
-      <span class="text-xs uppercase tracking-[0.2em] text-purpleTheme-700 font-semibold">Doa & Restu</span>
-      <h2 class="font-serif text-3xl font-bold text-purpleTheme-900">Buku Hajat</h2>
-      <form class="space-y-4 text-left">
-        <div>
-          <label class="block text-xs font-medium text-purpleTheme-800 mb-1">Ucapan & Doa</label>
-          <textarea rows="3" class="w-full px-4 py-3 rounded-xl bg-white/70 border border-purpleTheme-200 text-sm focus:outline-none focus:ring-2 focus:ring-purpleTheme-700" placeholder="Tuliskan ucapan anda..."></textarea>
-        </div>
-        <button type="button" class="w-full py-3.5 bg-purpleTheme-900 text-butter-100 text-xs font-semibold tracking-wider uppercase rounded-xl shadow-md hover:bg-purpleTheme-800 transition-all">Kirim Ucapan</button>
-      </form>
+  
+  <!-- 6. BUKU HAJAT SECTION -->
+  <section id="wishes-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Buku Hajat</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Ucapan &amp; Doa Restu</h2>
     </div>
   </section>
 
   <!-- FLOATING TRIGGER BUTTON -->
   <div id="fab-container" class="fixed bottom-6 right-6 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
-    <button id="fab-trigger" type="button" class="w-12 h-12 rounded-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 flex items-center justify-center shadow-2xl border-2 border-butter-300/40 transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto">
+    <button id="fab-trigger" type="button" class="w-12 h-12 rounded-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 flex items-center justify-center shadow-2xl border-2 border-butter-300/40 cursor-pointer pointer-events-auto" title="Menu Navigasi">
       <i id="fab-trigger-icon" class="fas fa-bars text-sm"></i>
     </button>
   </div>
-
-  <!-- NOTCHED NAVIGATION DOCK -->
-  <div id="fab-dock" class="glass-card border border-butter-300 shadow-2xl rounded-full px-4 py-3 flex items-center justify-center gap-2 sm:gap-4 bg-white/95 transition-all duration-500 ease-out fixed left-1/2 -translate-x-1/2 bottom-6 scale-75 opacity-0 pointer-events-none w-max max-w-[95vw] origin-bottom z-50">
+  
+  <!-- OPTIMIZED NAVIGATION DOCK WITH "LAGI" POPOVER -->
+  <div id="fab-dock" class="glass-card border border-butter-300 shadow-2xl rounded-full px-5 py-3 flex items-center justify-center gap-4 sm:gap-6 bg-white/95 transition-all duration-500 ease-out fixed left-1/2 -translate-x-1/2 bottom-6 scale-75 opacity-0 pointer-events-none w-max max-w-[95vw] origin-bottom z-50">
     
-    <!-- Menu Items -->
-    <a href="#hero-section" data-target="hero-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Utama">
-      <i class="fas fa-home text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[9px] font-semibold tracking-tight">Utama</span>
+    <!-- 1. Utama -->
+    <a href="#hero-section" data-target="hero-section" class="fab-link flex flex-col items-center px-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Utama">
+      <i class="fas fa-home text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Utama</span>
     </a>
 
-    <a href="#invitation-section" data-target="invitation-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Undangan">
-      <i class="fas fa-envelope-open-text text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[9px] font-semibold tracking-tight">Undangan</span>
+    <!-- 2. Lokasi -->
+    <a href="#details-section" data-target="details-section" class="fab-link flex flex-col items-center px-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Lokasi">
+      <i class="fas fa-map-marker-alt text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">Lokasi</span>
     </a>
 
-    <a href="#details-section" data-target="details-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Lokasi">
-      <i class="fas fa-map-marker-alt text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[9px] font-semibold tracking-tight">Lokasi</span>
+    <!-- 3. RSVP -->
+    <a href="#rsvp-section" data-target="rsvp-section" class="fab-link flex flex-col items-center px-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="RSVP">
+      <i class="fas fa-clipboard-check text-base group-hover:scale-110 transition-transform"></i>
+      <span class="text-[9px] font-semibold mt-0.5">RSVP</span>
     </a>
 
-    <a href="#rsvp-section" data-target="rsvp-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="RSVP">
-      <i class="fas fa-clipboard-check text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[9px] font-semibold tracking-tight">RSVP</span>
-    </a>
-
-    <a href="#gallery-section" data-target="gallery-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Galeri">
-      <i class="fas fa-images text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[9px] font-semibold tracking-tight">Galeri</span>
-    </a>
-
-    <a href="#wishes-section" data-target="wishes-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Ucapan">
-      <i class="fas fa-heart text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span class="text-[9px] font-semibold tracking-tight">Ucapan</span>
-    </a>
-
-    <!-- Music Toggle -->
-    <button id="dock-music-btn" type="button" class="flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Muzik">
-      <i id="dock-music-icon" class="fas fa-volume-xmark text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
-      <span id="dock-music-text" class="text-[9px] font-semibold tracking-tight">Muzik</span>
+    <!-- 4. Musik Toggle -->
+    <button id="dock-music-btn" type="button" class="flex flex-col items-center px-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Muzik">
+      <i id="dock-music-icon" class="fas fa-volume-xmark text-base group-hover:scale-110 transition-transform"></i>
+      <span id="dock-music-text" class="text-[9px] font-semibold mt-0.5">Muzik</span>
     </button>
+
+    <!-- 5. Butang "Lagi" (More Menu Popover) -->
+    <div class="relative">
+      <button id="more-menu-btn" type="button" class="flex flex-col items-center px-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Lagi">
+        <i class="fas fa-ellipsis-h text-base group-hover:scale-110 transition-transform"></i>
+        <span class="text-[9px] font-semibold mt-0.5">Lagi</span>
+      </button>
+
+      <!-- Kotak Popover Menu Tambahan yang Timbul ke Atas -->
+      <div id="more-popover" class="absolute bottom-14 right-0 bg-white/95 backdrop-blur-md border border-butter-300 shadow-xl rounded-2xl p-3 hidden flex-col gap-2.5 w-36 z-50 animate-fade-in">
+        <a href="#invitation-section" data-target="invitation-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
+          <i class="fas fa-envelope-open-text w-4 text-center"></i> Undangan
+        </a>
+        <a href="#gallery-section" data-target="gallery-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
+          <i class="fas fa-images w-4 text-center"></i> Galeri
+        </a>
+        <a href="#wishes-section" data-target="wishes-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
+          <i class="fas fa-heart w-4 text-center"></i> Ucapan
+        </a>
+      </div>
+    </div>
 
   </div>
 
   <script>
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
-    window.addEventListener('load', () => { window.scrollTo(0, 0); });
-
     document.addEventListener('DOMContentLoaded', () => {
-      window.scrollTo(0, 0);
-
       const fabContainer = document.getElementById('fab-container');
       const fabTrigger = document.getElementById('fab-trigger');
       const fabTriggerIcon = document.getElementById('fab-trigger-icon');
       const fabDock = document.getElementById('fab-dock');
       const fabLinks = document.querySelectorAll('.fab-link');
       
-      const bgMusic = document.getElementById('bg-music');
-      const dockMusicBtn = document.getElementById('dock-music-btn');
-      const dockMusicIcon = document.getElementById('dock-music-icon');
-      const dockMusicText = document.getElementById('dock-music-text');
+      const moreMenuBtn = document.getElementById('more-menu-btn');
+      const morePopover = document.getElementById('more-popover');
 
       let isOpen = false;
-      let isPlaying = false;
-      let hasInteracted = false;
       let lastScrollY = window.scrollY;
       let closeTimer = null;
+      let scrollTimeout = null;
 
-      const sections = document.querySelectorAll('section[id]');
-
-      function updateActiveSection() {
-        let scrollPosition = window.scrollY + window.innerHeight / 3;
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-          const sectionId = section.getAttribute('id');
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            fabLinks.forEach(link => {
-              if (link.getAttribute('data-target') === sectionId) {
-                link.classList.remove('text-purpleTheme-900/60');
-                link.classList.add('text-purpleTheme-900', 'font-bold', 'scale-110');
-              } else {
-                link.classList.remove('text-purpleTheme-900', 'font-bold', 'scale-110');
-                link.classList.add('text-purpleTheme-900/60');
-              }
-            });
-          }
+      // Toggle More Popover
+      if (moreMenuBtn && morePopover) {
+        moreMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          morePopover.classList.toggle('hidden');
+          morePopover.classList.toggle('flex');
+          resetCloseTimer();
         });
+      }
+
+      function openDock() {
+        isOpen = true;
+        if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-times text-sm';
+        if (fabDock) {
+          fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
+          fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
+        }
+        if (fabContainer) fabContainer.classList.add('dock-active');
+        resetCloseTimer();
+      }
+      
+      function closeDock() {
+        isOpen = false;
+        if (closeTimer) clearTimeout(closeTimer);
+        if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-bars text-sm';
+        if (fabDock) {
+          fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
+          fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+        }
+        if (fabContainer) fabContainer.classList.remove('dock-active');
+        if (morePopover) {
+          morePopover.classList.add('hidden');
+          morePopover.classList.remove('flex');
+        }
+        resetScrollTimeout();
       }
 
       function resetCloseTimer() {
         if (closeTimer) clearTimeout(closeTimer);
         if (isOpen) {
-          closeTimer = setTimeout(() => {
-            closeDock();
-          }, 5000);
+          closeTimer = setTimeout(() => { closeDock(); }, 10000); // 10 saat
+        }
+      }
+
+      function resetScrollTimeout() {
+        clearTimeout(scrollTimeout);
+        if (!isOpen && window.scrollY > 300) {
+          scrollTimeout = setTimeout(() => {
+            if (!isOpen && window.scrollY > 300) {
+              if (fabContainer) {
+                fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+              }
+            }
+          }, 4000); // 4 saat masa auto-hide bila berhenti skrol
         }
       }
 
       window.addEventListener('scroll', () => {
         let currentScrollY = window.scrollY;
-        updateActiveSection();
-
-        if (currentScrollY > 250) {
-          fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-          fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-          
-          if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) {
-            closeDock();
+        if (currentScrollY > 300) {
+          if (fabContainer) {
+            fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
           }
+          if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) { closeDock(); }
+          resetScrollTimeout();
         } else {
-          fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-          fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          if (fabContainer) {
+            fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          }
           closeDock();
         }
         lastScrollY = currentScrollY;
       });
 
-      function openDock() {
-        isOpen = true;
-        fabTriggerIcon.className = 'fas fa-times text-sm';
-        
-        fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
-        fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
-        resetCloseTimer();
+      if (fabTrigger) {
+        fabTrigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (isOpen) { closeDock(); } else { openDock(); }
+        });
       }
-
-      function closeDock() {
-        isOpen = false;
-        if (closeTimer) clearTimeout(closeTimer);
-        fabTriggerIcon.className = 'fas fa-bars text-sm';
-        
-        fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
-        fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
-      }
-
-      fabTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (isOpen) {
-          closeDock();
-        } else {
-          openDock();
-        }
-      });
 
       window.addEventListener('click', (e) => {
-        if (isOpen) {
-          if (!fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
-            closeDock();
-          } else {
-            resetCloseTimer();
-          }
+        if (morePopover && !moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
+          morePopover.classList.add('hidden');
+          morePopover.classList.remove('flex');
         }
-      });
-
-      window.addEventListener('touchstart', (e) => {
         if (isOpen) {
-          if (!fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
+          if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
             closeDock();
           } else {
             resetCloseTimer();
@@ -326,56 +448,8 @@
       });
 
       fabLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          closeDock();
-        });
+        link.addEventListener('click', () => { closeDock(); });
       });
-
-      function updateMusicUI() {
-        if (isPlaying) {
-          dockMusicIcon.className = 'fas fa-volume-high text-purpleTheme-700 mb-0.5 group-hover:scale-110 transition-transform';
-          dockMusicText.textContent = 'Pasang';
-        } else {
-          dockMusicIcon.className = 'fas fa-volume-xmark text-purpleTheme-700/60 mb-0.5 group-hover:scale-110 transition-transform';
-          dockMusicText.textContent = 'Muzik';
-        }
-      }
-
-      function playAudio() {
-        bgMusic.play().then(() => {
-          isPlaying = true;
-          hasInteracted = true;
-          updateMusicUI();
-        }).catch(() => {});
-      }
-
-      function handleFirstInteraction() {
-        if (!hasInteracted) {
-          playAudio();
-          window.removeEventListener('click', handleFirstInteraction);
-          window.removeEventListener('scroll', handleFirstInteraction);
-          window.removeEventListener('touchstart', handleFirstInteraction);
-        }
-      }
-
-      window.addEventListener('click', handleFirstInteraction);
-      window.addEventListener('scroll', handleFirstInteraction);
-      window.addEventListener('touchstart', handleFirstInteraction);
-
-      dockMusicBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (isPlaying) {
-          bgMusic.pause();
-          isPlaying = false;
-          updateMusicUI();
-        } else {
-          playAudio();
-        }
-        hasInteracted = true;
-        resetCloseTimer();
-      });
-
-      updateActiveSection();
     });
   </script>
 </body>

@@ -1,0 +1,63 @@
+/* Smooth Scrolling Global */
+html {
+  scroll-behavior: smooth;
+  background-color: #FAF8F5 !important;
+}
+
+body {
+  background-color: #FAF8F5 !important;
+  background-image: none !important; /* Menghilangkan pola titik-titik */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F5EFFB;
+}
+::-webkit-scrollbar-thumb {
+  background: #CDB1EC;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #583083;
+}
+
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Untuk Chrome, Safari, Opera */
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* Untuk IE dan Edge */
+  scrollbar-width: none;  /* Untuk Firefox */
+}
+
+/* Glass Card Style */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(88, 48, 131, 0.1);
+}
+
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-shadow {
+  box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
+}
+
+/* Hanya bergerak ke atas pada skrin telefon (mobile) apabila dock dibuka */
+@media (max-width: 520px) {
+  #fab-container.dock-active {
+    transform: translateY(-85px);
+  }
+}
+
+/* Pada skrin tablet/laptop (768px ke atas), butang kekal statik tanpa bergerak */
+@media (min-width: 521px) {
+  #fab-container.dock-active {
+    transform: translateY(0);
+  }
+}
