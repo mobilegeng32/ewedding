@@ -362,7 +362,7 @@ END:VCALENDAR`;
   }
   
   /* -------------------------------------------------------------
-     CUSTOM MODAL PENGESAHAN (CONFIRM-MODAL) - FIXED EVENT BINDING
+     CUSTOM MODAL PENGESAHAN (CONFIRM-MODAL) - FIXED VERSION
   ------------------------------------------------------------- */
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
