@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // ID Google Sheets anda untuk proses Baca (Read: GViz)
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
-
-  // --- FUNGSI BANTUAN GVIZ UNTUK TAB BIASA (Gallery, Wishes, Tentative) ---
+  
+  // --- FUNGSI BANTUAN GVIZ (DIKEMASKINI UTAMAKAN .f UNTUK FORMAT MASA/TARIKH) ---
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
@@ -37,7 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
             row.c.forEach((cell, index) => {
               let val = '';
               if (cell !== null && cell !== undefined) {
-                val = cell.v !== undefined ? cell.v : (cell.f !== undefined ? cell.f : '');
+                // Utamakan .f (formatted string seperti "10:00 am") jika ada, jika tidak guna .v
+                val = cell.f !== undefined && cell.f !== null ? cell.f : (cell.v !== undefined ? cell.v : '');
               }
               obj[cols[index]] = val;
             });
