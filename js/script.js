@@ -49,12 +49,27 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  // --- FUNGSI BANTUAN COOLDOWN ---
+  // --- FUNGSI BANTUAN COOLDOWN DENGAN LOCALSTORAGE ---
   function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
     if (!buttonEl) return;
     
+    const btnId = buttonEl.id || 'btn_generic';
+    const storageKey = `cooldown_expiry_${btnId}`;
+    const now = Date.now();
+    const savedExpiry = localStorage.getItem(storageKey);
+    
     let remainingTime = durationInSeconds;
-    const originalHTML = buttonEl.innerHTML;
+    
+    if (savedExpiry && savedExpiry > now) {
+      remainingTime = Math.ceil((savedExpiry - now) / 1000);
+    } else {
+      localStorage.setItem(storageKey, now + (durationInSeconds * 1000));
+    }
+
+    const originalHTML = buttonEl.getAttribute('data-original-html') || buttonEl.innerHTML;
+    if (!buttonEl.hasAttribute('data-original-html')) {
+      buttonEl.setAttribute('data-original-html', originalHTML);
+    }
     
     buttonEl.disabled = true;
     buttonEl.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
@@ -66,12 +81,28 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> ${customText} (${remainingTime}s)`;
       } else {
         clearInterval(countdownTimer);
+        localStorage.removeItem(storageKey);
         buttonEl.disabled = false;
         buttonEl.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
-        buttonEl.innerHTML = originalHTML;
+        buttonEl.innerHTML = buttonEl.getAttribute('data-original-html');
       }
     }, 1000);
   }
+
+  // Semak semula cooldown yang aktif serta-merta semasa laman web dimuatkan (menghalang bypass via refresh)
+  setTimeout(() => {
+    ['rsvp-submit', 'btn-upload-gallery', 'btn-submit-wish', 'refresh-wishes-btn'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        const savedExpiry = localStorage.getItem(`cooldown_expiry_${id}`);
+        if (savedExpiry && savedExpiry > Date.now()) {
+          const activeDuration = Math.ceil((savedExpiry - Date.now()) / 1000);
+          const customTxt = id === 'btn-upload-gallery' ? 'Memuat Naik' : 'Sila tunggu';
+          setButtonCooldown(btn, activeDuration, customTxt);
+        }
+      }
+    });
+  }, 300);
 
   // --- 1. FETCH CONFIG KHAS ---
   function fetchSiteConfig() {
@@ -988,7 +1019,7 @@ END:VCALENDAR`;
   const refreshWishesBtn = document.getElementById('refresh-wishes-btn');
   if (refreshWishesBtn) {
     refreshWishesBtn.addEventListener('click', () => {
-      setButtonCooldown(refreshWishesBtn, 10, "Memuat");
+      setButtonCooldown(refreshWishesBtn, window.wishCd || 5, "Memuat");
       fetchWishes();
     });
   }
