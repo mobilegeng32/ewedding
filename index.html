@@ -273,7 +273,8 @@
           <select id="rsvp-pax" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer"></select>
         </div>
 
-        <button type="submit" class="w-full bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 font-medium py-3.5 rounded-xl text-sm tracking-wide smooth-transition shadow-md mt-2 cursor-pointer">
+        <!-- ID rsvp-submit ditambah di sini untuk keserasian skrip -->
+        <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 font-medium py-3.5 rounded-xl text-sm tracking-wide smooth-transition shadow-md mt-2 cursor-pointer">
           Hantar Pengesahan
         </button>
       </form>
@@ -327,7 +328,6 @@
   
   <!-- 6. BUKU HAJAT SECTION -->
   <section id="wishes-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
-    <!-- Tajuk di luar kad (Standard ikut seksyen lain) -->
     <div class="text-center space-y-2">
       <span class="inline-block px-4 py-1 rounded-full bg-butter-100 text-purpleTheme-800 text-[11px] uppercase tracking-[0.25em] font-semibold border border-butter-300/60 shadow-sm">
         Buku Hajat
@@ -338,13 +338,10 @@
       </p>
     </div>
 
-    <!-- Kad Utama Borang & Senarai Ucapan -->
     <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-8 relative overflow-hidden">
-      <!-- Hiasan latar belakang lembut -->
       <div class="absolute -top-16 -left-16 w-36 h-36 bg-purpleTheme-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="space-y-6 relative z-10">
-        <!-- Form Hantar Ucapan -->
         <form id="wish-form" class="space-y-5 bg-white/60 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-purpleTheme-100/80 shadow-sm text-left">
           <div class="space-y-1.5">
             <label for="wish-name" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Nama Anda <span class="text-purpleTheme-500">*</span></label>
@@ -378,7 +375,6 @@
           Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
         </div>
         
-        <!-- Senarai Kad Ucapan Tetamu -->
         <div class="space-y-3 pt-2">
           <div class="flex items-center justify-between px-1">
             <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
@@ -430,6 +426,7 @@
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
         Officially Made By Arejim's &copy; 2026 v2.10
+      </p>
     </div>
   </footer>
 
@@ -463,7 +460,7 @@
     </div>
   </div>
   
-  <!-- CUSTOM MODAL PENGESAHAN BERASINGAN (RSVP, GALLERY, WISHES) -->
+  <!-- CUSTOM MODAL PENGESAHAN BERASINGAN -->
   <div id="custom-confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in bg-white">
       <div id="modal-icon-box" class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1">
