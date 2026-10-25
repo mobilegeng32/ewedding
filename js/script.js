@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const savedExpiry = localStorage.getItem(`cooldown_expiry_${id}`);
         if (savedExpiry && savedExpiry > Date.now()) {
           const activeDuration = Math.ceil((savedExpiry - Date.now()) / 1000);
-          const customTxt = id === 'btn-upload-gallery' ? 'Memuat Naik' : 'Sila tunggu';
+          const customTxt = id === 'btn-upload-gallery' ? 'Memuat Naik' : (id === 'refresh-wishes-btn' ? 'Memuat' : 'Sila tunggu');
           setButtonCooldown(btn, activeDuration, customTxt);
         }
       }
@@ -154,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
+        window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 5;
 
         // Pemetaan Pengantin
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
@@ -782,7 +783,6 @@ END:VCALENDAR`;
   function bindPhotoUploadListener() {
     const photoUpload = document.getElementById('photo-upload');
     if (photoUpload) {
-      // Pastikan listener lama dibuang dulu untuk elakkan binding bertindih
       photoUpload.removeEventListener('change', handlePhotoUploadChange);
       photoUpload.addEventListener('change', handlePhotoUploadChange);
     }
@@ -879,8 +879,6 @@ END:VCALENDAR`;
     selectedFileForUpload = null;
     const photoUpload = document.getElementById('photo-upload');
     if (photoUpload) photoUpload.value = '';
-    
-    // PEMBETULAN UTAMA: Pastikan event listener sentiasa dipasang semula selepas modal ditutup
     bindPhotoUploadListener();
   }
 
@@ -889,11 +887,23 @@ END:VCALENDAR`;
 
   bindPhotoUploadListener();
 
-  // --- GALLERY UPLOAD ---
+  // --- GALLERY UPLOAD (MANDATORY CAPTION CHECK) ---
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
       
+      const imageCaption = imageCaptionInput.value.trim();
+      if (!imageCaption) {
+        showConfirmDialog(
+          "Kapsyen Diperlukan",
+          "Sila masukkan kapsyen gambar terlebih dahulu sebelum meneruskan muat naik!",
+          () => {},
+          true,
+          'error'
+        );
+        return;
+      }
+
       if (uploadModal) uploadModal.classList.add('hidden');
 
       showConfirmDialog(
@@ -904,7 +914,6 @@ END:VCALENDAR`;
           setButtonCooldown(uploadBtnMain, window.galleryCd || 5, "Memuat Naik");
 
           const uploaderName = uploaderNameInput.value.trim() || "Tetamu Undangan";
-          const imageCaption = imageCaptionInput.value.trim() || "Kenangan Majlis";
           const galleryAlert = document.getElementById('gallery-alert');
 
           if (galleryAlert) {
@@ -1030,7 +1039,7 @@ END:VCALENDAR`;
   const refreshWishesBtn = document.getElementById('refresh-wishes-btn');
   if (refreshWishesBtn) {
     refreshWishesBtn.addEventListener('click', () => {
-      setButtonCooldown(refreshWishesBtn, window.wishCd || 5, "Memuat");
+      setButtonCooldown(refreshWishesBtn, window.wishManualCd || 5, "Memuat");
       fetchWishes();
     });
   }
