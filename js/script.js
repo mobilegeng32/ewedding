@@ -26,12 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(url)
       .then(res => res.text())
       .then(text => {
-        const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);\s*$/);
-        if (!match) {
+        // Cari kedudukan json bermula dengan 'setResponse(' dan berakhir dengan ')'
+        const startIdx = text.indexOf('setResponse(');
+        if (startIdx === -1) {
           console.error(`Format GViz tidak sah untuk tab: ${sheetName}`);
           return;
         }
-        const json = JSON.parse(match[1]);
+        
+        const jsonStart = startIdx + 'setResponse('.length;
+        const jsonEnd = text.lastIndexOf(')');
+        
+        if (jsonEnd === -1 || jsonEnd <= jsonStart) {
+          console.error(`Gagal huraikan respons GViz untuk tab: ${sheetName}`);
+          return;
+        }
+
+        const jsonString = text.substring(jsonStart, jsonEnd);
+        const json = JSON.parse(jsonString);
+        
         const cols = json.table.cols.map(col => col.label || col.id);
         const rows = json.table.rows.map(row => {
           let obj = {};
