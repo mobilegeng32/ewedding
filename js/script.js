@@ -361,11 +361,33 @@ END:VCALENDAR`;
     });
   }
   
+  /* -------------------------------------------------------------
+     CUSTOM MODAL PENGESAHAN (CONFIRM-MODAL) - FIXED EVENT BINDING
+  ------------------------------------------------------------- */
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
   const dialogYesBtn = document.getElementById('modal-btn-yes');
   const dialogCancelBtn = document.getElementById('modal-btn-no');
+
+  let currentConfirmCallback = null;
+
+  if (dialogYesBtn) {
+    dialogYesBtn.addEventListener('click', () => {
+      if (confirmModal) confirmModal.classList.add('hidden');
+      if (typeof currentConfirmCallback === 'function') {
+        currentConfirmCallback();
+        currentConfirmCallback = null;
+      }
+    });
+  }
+
+  if (dialogCancelBtn) {
+    dialogCancelBtn.addEventListener('click', () => {
+      if (confirmModal) confirmModal.classList.add('hidden');
+      currentConfirmCallback = null;
+    });
+  }
 
   function showConfirmDialog(title, desc, onConfirm) {
     if (!confirmModal) {
@@ -375,23 +397,13 @@ END:VCALENDAR`;
 
     if (confirmTitle) confirmTitle.innerText = title;
     if (confirmDesc) confirmDesc.innerText = desc;
+    currentConfirmCallback = onConfirm;
     confirmModal.classList.remove('hidden');
-
-    const newYesBtn = dialogYesBtn.cloneNode(true);
-    const newCancelBtn = dialogCancelBtn.cloneNode(true);
-    dialogYesBtn.parentNode.replaceChild(newYesBtn, dialogYesBtn);
-    dialogCancelBtn.parentNode.replaceChild(newCancelBtn, dialogCancelBtn);
-
-    newYesBtn.addEventListener('click', () => {
-      confirmModal.classList.add('hidden');
-      onConfirm();
-    });
-
-    newCancelBtn.addEventListener('click', () => {
-      confirmModal.classList.add('hidden');
-    });
   }
 
+  /* -------------------------------------------------------------
+     RSVP FORM & SUBMISSION
+  ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -452,6 +464,9 @@ END:VCALENDAR`;
     });
   }
 
+  /* -------------------------------------------------------------
+     GALLERY, SLIDESHOW & UPLOAD
+  ------------------------------------------------------------- */
   const fallbackGallery = [
     { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama Bermula Disini..." }
   ];
@@ -645,6 +660,9 @@ END:VCALENDAR`;
   fetchGalleryImages();
   setInterval(() => { fetchGalleryImages(true); }, 10000);
 
+  /* -------------------------------------------------------------
+     WISHES (BUKU HAJAT) & SUBMISSION
+  ------------------------------------------------------------- */
   let defaultWishes = [
     { name: "Systems", message: "Titipkan sepotong doa, pesanan, atau hajat buat pengantin.", timestamp: new Date().toISOString() }
   ];
@@ -801,7 +819,7 @@ END:VCALENDAR`;
         if (rawUrl.includes('googleusercontent.com')) rawUrl = rawUrl.split('=')[0] + '=s0';
         modalImg.src = rawUrl;
         modalCaption.innerText = slideCaption ? slideCaption.innerText : '';
-        modal.classList.remove('hidden');
+        modal.classList.add('hidden'); // Selesai klik buka modal besar
       }
     });
 
@@ -887,9 +905,9 @@ END:VCALENDAR`;
       });
     }
 
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const targetSectionId = item.getAttribute('href').substring(1);
+    navItems.forEach(logItem => {
+      logItem.addEventListener('click', () => {
+        const targetSectionId = logItem.getAttribute('href').substring(1);
         setActiveNav(targetSectionId);
       });
     });
