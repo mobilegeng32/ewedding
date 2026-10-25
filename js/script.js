@@ -1301,8 +1301,8 @@ END:VCALENDAR`;
         document.getElementById('bank-account').innerText = config.bank_account || '';
       }
     }
-
-    const qrSection = document.getElementById('qr-section');
+	
+	const qrSection = document.getElementById('qr-section');
     const qrControl = config.control_qr;
     if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
       if (qrSection) qrSection.style.display = 'none';
@@ -1317,14 +1317,12 @@ END:VCALENDAR`;
           if (rawInput.includes('drive.google.com')) {
             const match1 = rawInput.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             const match2 = rawInput.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-            if (match1 && match1[1]) {
-              fileId = match1[1];
-            } else if (match2 && match2[1]) {
-              fileId = match2[1];
-            }
+            if (match1 && match1[1]) fileId = match1[1];
+            else if (match2 && match2[1]) fileId = match2[1];
           }
 
-          qrImg.src = fileId ? `https://lh3.googleusercontent.com/d/${fileId}=s500` : '';
+          // Gunakan API Thumbnail rasmi Google Drive (Sangat stabil untuk paparan imej saiz sederhana di web)
+          qrImg.src = fileId ? `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000` : '';
         }
       }
     }
