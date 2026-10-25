@@ -55,15 +55,15 @@ body {
   }
 }
 
-/* Pada skrin tablet/laptop (768px ke atas), butang kekal statik tanpa bergerak */
+/* Pada skrin tablet/laptop, butang kekal statik tanpa bergerak */
 @media (min-width: 521px) {
   #fab-container.dock-active {
     transform: translateY(0);
   }
 }
 
-/* Pada skrin besar (desktop / tablet): Kekalkan 7 menu penuh, sembunyikan butang "Lagi" */
-@media (min-width: 640px) {
+/* Pada skrin besar (769px ke atas): Kekalkan 7 menu penuh, sembunyikan butang "Lagi" */
+@media (min-width: 769px) {
   .menu-item-collapse {
     display: flex !important;
   }
@@ -72,8 +72,8 @@ body {
   }
 }
 
-/* Pada skrin kecil (telefon bimbit < 639px): Jadikan menu tertentu tersembunyi di dalam popover "Lagi" */
-@media (max-width: 639px) {
+/* Pada skrin telefon & tablet (768px ke bawah): Jadikan menu tertentu tersembunyi di dalam popover "Lagi" */
+@media (max-width: 768px) {
   .menu-item-collapse {
     display: none !important;
   }
