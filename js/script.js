@@ -263,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isOpen = false;
   let lastScrollY = window.scrollY;
   let closeTimer = null;
+  let scrollTimeout = null;
 
   const sections = document.querySelectorAll('section[id]');
 
@@ -927,7 +928,21 @@ END:VCALENDAR`;
     if (isOpen) {
       closeTimer = setTimeout(() => {
         closeDock();
-      }, 6000);
+      }, 6000); // Tukar nombor ini kepada 6000 atau 8000 = 6 @ 8 Second
+    }
+  }
+
+  function resetScrollTimeout() {
+    clearTimeout(scrollTimeout);
+    if (!isOpen && window.scrollY > 300) {
+      scrollTimeout = setTimeout(() => {
+        if (!isOpen && window.scrollY > 300) {
+          if (fabContainer) {
+            fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+          }
+        }
+      }, 3500); // Timer Menu button hide :- 3500= 3.5 Second
     }
   }
 
@@ -944,6 +959,9 @@ END:VCALENDAR`;
       if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) {
         closeDock();
       }
+
+      resetScrollTimeout();
+
     } else {
       if (fabContainer) {
         fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
@@ -963,7 +981,6 @@ END:VCALENDAR`;
 		fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
 	  }
 	  
-	  // Biarkan CSS yang tentukan pergerakan mengikut saiz skrin secara automatik
 	  if (fabContainer) {
 		fabContainer.classList.add('dock-active');
 	  }
@@ -984,6 +1001,8 @@ END:VCALENDAR`;
 	  if (fabContainer) {
 		fabContainer.classList.remove('dock-active');
 	  }
+
+	  resetScrollTimeout();
 	}
 
   if (fabTrigger) {
