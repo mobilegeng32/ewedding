@@ -8,210 +8,268 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // URL Google Apps Script HANYA untuk proses Tulis (Write: doPost)
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
   
-  function fetchSiteConfig() {
-    if (!SCRIPT_URL.includes('http')) return;
+  // ID Google Sheets anda untuk proses Baca (Read: GViz)
+  const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
 
-    fetch(`${SCRIPT_URL}?action=config`)
-      .then(res => res.json())
-      .then(config => {
-        if (!config) return;
+  // --- FUNGSI BANTUAN GVIZ UNTUK MEMBACA DATA DARI SHEET ---
+  function fetchSheetDataViaGViz(sheetName, callback) {
+    if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) {
+      console.error("Sila masukkan SPREADSHEET_ID yang sah!");
+      return;
+    }
 
-        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
-          document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
+    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+    fetch(url)
+      .then(res => res.text())
+      .then(text => {
+        const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);\s*$/);
+        if (!match) {
+          console.error(`Format GViz tidak sah untuk tab: ${sheetName}`);
+          return;
         }
-        if (config.bride_desc && document.getElementById('dyn-bride-desc')) {
-          document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
-        }
-        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) {
-          document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
-        }
-        if (config.groom_desc && document.getElementById('dyn-groom-desc')) {
-          document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
-        }
-
-        if (config.event_date && document.getElementById('dyn-event-date')) {
-          document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
-        }
-        if (config.event_time && document.getElementById('dyn-event-time')) {
-          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
-        }
-        if (config.event_location && document.getElementById('dyn-event-location')) {
-          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
-        }
-
-        if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
-          document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
-        }
-        if (config.waze_url && document.getElementById('dyn-waze-link')) {
-          document.getElementById('dyn-waze-link').href = config.waze_url;
-        }
-
-        if (config.contact1_name && document.getElementById('dyn-c1-name')) {
-          document.getElementById('dyn-c1-name').innerText = config.contact1_name;
-          document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
-          document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone}`;
-          document.getElementById('dyn-c1-wa').href = `https://wa.me/${config.contact1_phone}?text=Assalamualaikum`;
-        }
-        if (config.contact2_name && document.getElementById('dyn-c2-name')) {
-          document.getElementById('dyn-c2-name').innerText = config.contact2_name;
-          document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
-          document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone}`;
-          document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
-        }
-
-        const maxPax = parseInt(config.max_pax) || 5;
-        const paxSelect = document.getElementById('rsvp-pax');
-        if (paxSelect) {
-          paxSelect.innerHTML = ''; 
-          for (let i = 1; i <= maxPax; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = `${i} Orang`;
-            paxSelect.appendChild(option);
-          }
-        }
-
-        const rsvpFormEl = document.getElementById('rsvp-form');
-        const rsvpNameInput = document.getElementById('rsvp-name');
-        const rsvpPhoneInput = document.getElementById('rsvp-phone');
-        const rsvpStatusInput = document.getElementById('rsvp-status');
-        const rsvpSubmitBtn = rsvpFormEl ? rsvpFormEl.querySelector('button[type="submit"]') : null;
-
-        if (config.control_RSVP !== undefined) {
-          const valR = String(config.control_RSVP).trim().toUpperCase();
-          if (valR === 'FALSE' || valR === 'OFF' || valR === '0' || valR === '') {
-            if (rsvpSubmitBtn) {
-              rsvpSubmitBtn.disabled = true;
-              rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-              rsvpSubmitBtn.classList.remove('hover:bg-purpleTheme-800', 'bg-purpleTheme-700');
-              rsvpSubmitBtn.innerText = "RSVP DITUTUP";
-            }
-            if (rsvpNameInput) rsvpNameInput.disabled = true;
-            if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
-            if (rsvpStatusInput) rsvpStatusInput.disabled = true;
-            if (paxSelect) paxSelect.disabled = true;
-          } else {
-            if (rsvpSubmitBtn) {
-              rsvpSubmitBtn.disabled = false;
-              rsvpSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-              rsvpSubmitBtn.classList.add('hover:bg-purpleTheme-800', 'bg-purpleTheme-700');
-              rsvpSubmitBtn.innerText = "Hantar Pengesahan";
-            }
-            if (rsvpNameInput) rsvpNameInput.disabled = false;
-            if (rsvpPhoneInput) rsvpPhoneInput.disabled = false;
-            if (rsvpStatusInput) rsvpStatusInput.disabled = false;
-            if (paxSelect) paxSelect.disabled = false;
-          }
-        }
-
-        const uploadBtn = document.getElementById('btn-upload-gallery');
-        if (uploadBtn && config.control_gallery !== undefined) {
-          const valG = String(config.control_gallery).trim().toUpperCase();
-          const photoInput = document.getElementById('photo-upload');
-          
-          if (valG === 'FALSE' || valG === 'OFF' || valG === '0' || valG === '') {
-            uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
-            uploadBtn.classList.remove('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900', 'border-butter-300');
-            uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
-            if (photoInput) photoInput.disabled = true;
-          } else {
-            uploadBtn.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
-            uploadBtn.classList.add('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900', 'border-butter-300');
-            uploadBtn.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar <input type="file" id="photo-upload" accept="image/*" class="hidden">`;
-            bindPhotoUploadListener();
-          }
-        }
-
-        const wishSubmitBtn = document.getElementById('btn-submit-wish');
-        const wishNameInput = document.getElementById('wish-name');
-        const wishMsgInput = document.getElementById('wish-message');
-
-        if (config.control_wish !== undefined) {
-          const valW = String(config.control_wish).trim().toUpperCase();
-
-          if (valW === 'FALSE' || valW === 'OFF' || valW === '0' || valW === '') {
-            if (wishSubmitBtn) {
-              wishSubmitBtn.disabled = true;
-              wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-              wishSubmitBtn.classList.remove('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
-              wishSubmitBtn.innerText = "UCAPAN DITUTUP";
-            }
-            if (wishNameInput) wishNameInput.disabled = true;
-            if (wishMsgInput) wishMsgInput.disabled = true;
-          } else {
-            if (wishSubmitBtn) {
-              wishSubmitBtn.disabled = false;
-              wishSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-              wishSubmitBtn.classList.add('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
-              wishSubmitBtn.innerText = "HANTAR UCAPAN";
-            }
-            if (wishNameInput) wishNameInput.disabled = false;
-            if (wishMsgInput) wishMsgInput.disabled = false;
-          }
-        }
-      })
-      .catch(err => console.log("Gagal memuatkan konfigurasi dari sheet:", err));
-  }
-  
-  fetchSiteConfig();
-  
-  function fetchTentative() {
-    if (!SCRIPT_URL.includes('http')) return;
-
-    fetch(`${SCRIPT_URL}?action=tentative`)
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('dyn-tentative-container');
-        const scrollBox = document.getElementById('tentative-scroll-box');
-        const scrollIndicator = document.getElementById('tentative-scroll-indicator');
-
-        if (!container) return;
-
-        if (data && data.length > 0) {
-          container.innerHTML = data.map(item => {
-            let displayTime = item.time;
-            if (displayTime.includes('GMT') || displayTime.includes('1899')) {
-              const dateObj = new Date(displayTime);
-              if (!isNaN(dateObj.getTime())) {
-                displayTime = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-              }
-            }
-
-            return `
-			  <div class="relative">
-				<span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
-				<span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
-				<p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description}</p>
-			  </div>
-			`;
-          }).join('');
-
-          if (scrollBox && scrollIndicator) {
-            if (scrollBox.scrollHeight <= scrollBox.clientHeight) {
-              scrollIndicator.classList.add('hidden');
-            } else {
-              scrollIndicator.classList.remove('hidden');
-            }
-
-            scrollBox.addEventListener('scroll', () => {
-              if (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) {
-                scrollIndicator.style.opacity = '0';
-              } else {
-                scrollIndicator.style.opacity = '1';
-              }
+        const json = JSON.parse(match[1]);
+        const cols = json.table.cols.map(col => col.label || col.id);
+        const rows = json.table.rows.map(row => {
+          let obj = {};
+          if (row && row.c) {
+            row.c.forEach((cell, index) => {
+              obj[cols[index]] = cell ? (cell.v !== null ? cell.v : '') : '';
             });
           }
-        } else {
-          container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
-          if (scrollIndicator) scrollIndicator.classList.add('hidden');
-        }
+          return obj;
+        });
+        callback(rows);
       })
-      .catch(err => console.log("Gagal memuatkan atur cara majlis:", err));
+      .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
+  }
+  
+  // --- FUNGSI BANTUAN COOLDOWN 10 SAAT (ANTI-SPAM) ---
+  function setButtonCooldown(buttonEl, durationInSeconds = 10, customText = "Sila tunggu") {
+    if (!buttonEl) return;
+    
+    let remainingTime = durationInSeconds;
+    const originalHTML = buttonEl.innerHTML;
+    
+    buttonEl.disabled = true;
+    buttonEl.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+    buttonEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> ${customText} (${remainingTime}s)`;
+    
+    const countdownTimer = setInterval(() => {
+      remainingTime--;
+      if (remainingTime > 0) {
+        buttonEl.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> ${customText} (${remainingTime}s)`;
+      } else {
+        clearInterval(countdownTimer);
+        buttonEl.disabled = false;
+        buttonEl.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+        buttonEl.innerHTML = originalHTML;
+      }
+    }, 1000);
   }
 
-  fetchTentative();
+  // --- 1. FETCH CONFIG VIA GVIZ ---
+  function fetchSiteConfig() {
+    fetchSheetDataViaGViz('Config', function(rows) {
+      if (!rows || rows.length === 0) return;
+      const config = rows[0]; // Ambil baris pertama sebagai objek konfigurasi
+
+      if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
+        document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
+      }
+      if (config.bride_desc && document.getElementById('dyn-bride-desc')) {
+        document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
+      }
+      if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) {
+        document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
+      }
+      if (config.groom_desc && document.getElementById('dyn-groom-desc')) {
+        document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
+      }
+
+      if (config.event_date && document.getElementById('dyn-event-date')) {
+        document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
+      }
+      if (config.event_time && document.getElementById('dyn-event-time')) {
+        document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
+      }
+      if (config.event_location && document.getElementById('dyn-event-location')) {
+        document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
+      }
+
+      if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
+        document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
+      }
+      if (config.waze_url && document.getElementById('dyn-waze-link')) {
+        document.getElementById('dyn-waze-link').href = config.waze_url;
+      }
+
+      if (config.contact1_name && document.getElementById('dyn-c1-name')) {
+        document.getElementById('dyn-c1-name').innerText = config.contact1_name;
+        document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
+        document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone}`;
+        document.getElementById('dyn-c1-wa').href = `https://wa.me/${config.contact1_phone}?text=Assalamualaikum`;
+      }
+      if (config.contact2_name && document.getElementById('dyn-c2-name')) {
+        document.getElementById('dyn-c2-name').innerText = config.contact2_name;
+        document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
+        document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone}`;
+        document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
+      }
+
+      const maxPax = parseInt(config.max_pax) || 5;
+      const paxSelect = document.getElementById('rsvp-pax');
+      if (paxSelect) {
+        paxSelect.innerHTML = ''; 
+        for (let i = 1; i <= maxPax; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = `${i} Orang`;
+          paxSelect.appendChild(option);
+        }
+      }
+
+      const rsvpFormEl = document.getElementById('rsvp-form');
+      const rsvpNameInput = document.getElementById('rsvp-name');
+      const rsvpPhoneInput = document.getElementById('rsvp-phone');
+      const rsvpStatusInput = document.getElementById('rsvp-status');
+      const rsvpSubmitBtn = rsvpFormEl ? rsvpFormEl.querySelector('button[type="submit"]') : null;
+
+      if (config.control_RSVP !== undefined) {
+        const valR = String(config.control_RSVP).trim().toUpperCase();
+        if (valR === 'FALSE' || valR === 'OFF' || valR === '0' || valR === '') {
+          if (rsvpSubmitBtn) {
+            rsvpSubmitBtn.disabled = true;
+            rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+            rsvpSubmitBtn.classList.remove('hover:bg-purpleTheme-800', 'bg-purpleTheme-700', 'bg-purpleTheme-900');
+            rsvpSubmitBtn.innerText = "RSVP DITUTUP";
+          }
+          if (rsvpNameInput) rsvpNameInput.disabled = true;
+          if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
+          if (rsvpStatusInput) rsvpStatusInput.disabled = true;
+          if (paxSelect) paxSelect.disabled = true;
+        } else {
+          if (rsvpSubmitBtn) {
+            rsvpSubmitBtn.disabled = false;
+            rsvpSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+            rsvpSubmitBtn.classList.add('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
+            rsvpSubmitBtn.innerText = "Hantar Pengesahan";
+          }
+          if (rsvpNameInput) rsvpNameInput.disabled = false;
+          if (rsvpPhoneInput) rsvpPhoneInput.disabled = false;
+          if (rsvpStatusInput) rsvpStatusInput.disabled = false;
+          if (paxSelect) paxSelect.disabled = false;
+        }
+      }
+
+      const uploadBtn = document.getElementById('btn-upload-gallery');
+      if (uploadBtn && config.control_gallery !== undefined) {
+        const valG = String(config.control_gallery).trim().toUpperCase();
+        const photoInput = document.getElementById('photo-upload');
+        
+        if (valG === 'FALSE' || valG === 'OFF' || valG === '0' || valG === '') {
+          uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+          uploadBtn.classList.remove('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900', 'border-butter-300');
+          uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
+          if (photoInput) photoInput.disabled = true;
+        } else {
+          uploadBtn.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+          uploadBtn.classList.add('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900', 'border-butter-300');
+          uploadBtn.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar <input type="file" id="photo-upload" accept="image/*" class="hidden">`;
+          bindPhotoUploadListener();
+        }
+      }
+
+      const wishSubmitBtn = document.getElementById('btn-submit-wish');
+      const wishNameInput = document.getElementById('wish-name');
+      const wishMsgInput = document.getElementById('wish-message');
+
+      if (config.control_wish !== undefined) {
+        const valW = String(config.control_wish).trim().toUpperCase();
+
+        if (valW === 'FALSE' || valW === 'OFF' || valW === '0' || valW === '') {
+          if (wishSubmitBtn) {
+            wishSubmitBtn.disabled = true;
+            wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+            wishSubmitBtn.classList.remove('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
+            wishSubmitBtn.innerText = "UCAPAN DITUTUP";
+          }
+          if (wishNameInput) wishNameInput.disabled = true;
+          if (wishMsgInput) wishMsgInput.disabled = true;
+        } else {
+          if (wishSubmitBtn) {
+            wishSubmitBtn.disabled = false;
+            wishSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+            wishSubmitBtn.classList.add('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
+            wishSubmitBtn.innerText = "Hantar Ucapan";
+          }
+          if (wishNameInput) wishNameInput.disabled = false;
+          if (wishMsgInput) wishMsgInput.disabled = false;
+        }
+      }
+
+      applySiteConfig(config);
+    });
+  }
+  
+  // --- MUAT BERPERINGKAT (STAGGERED INITIAL LOAD) ---
+  setTimeout(() => { fetchSiteConfig(); }, 200);
+  setTimeout(() => { fetchTentative(); }, 600);
+  setTimeout(() => { fetchGalleryImages(); }, 1000);
+  setTimeout(() => { fetchWishes(); }, 1400);
+  
+  // --- 2. FETCH TENTATIVE VIA GVIZ ---
+  function fetchTentative() {
+    fetchSheetDataViaGViz('Tentative', function(data) {
+      const container = document.getElementById('dyn-tentative-container');
+      const scrollBox = document.getElementById('tentative-scroll-box');
+      const scrollIndicator = document.getElementById('tentative-scroll-indicator');
+
+      if (!container) return;
+
+      if (data && data.length > 0) {
+        container.innerHTML = data.map(item => {
+          let displayTime = item.time || item.Masa || '';
+          if (displayTime.includes('GMT') || displayTime.includes('1899')) {
+            const dateObj = new Date(displayTime);
+            if (!isNaN(dateObj.getTime())) {
+              displayTime = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+            }
+          }
+
+          return `
+            <div class="relative">
+              <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
+              <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
+              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description || item.Perkara || ''}</p>
+            </div>
+          `;
+        }).join('');
+
+        if (scrollBox && scrollIndicator) {
+          if (scrollBox.scrollHeight <= scrollBox.clientHeight) {
+            scrollIndicator.classList.add('hidden');
+          } else {
+            scrollIndicator.classList.remove('hidden');
+          }
+
+          scrollBox.addEventListener('scroll', () => {
+            if (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) {
+              scrollIndicator.style.opacity = '0';
+            } else {
+              scrollIndicator.style.opacity = '1';
+            }
+          });
+        }
+      } else {
+        container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
+        if (scrollIndicator) scrollIndicator.classList.add('hidden');
+      }
+    });
+  }
 
   const rsvpStatus = document.getElementById('rsvp-status');
   const paxContainer = document.getElementById('pax-container');
@@ -252,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const fabContainer = document.getElementById('fab-container');
   const fabTrigger = document.getElementById('fab-trigger');
-  const fabTriggerIcon = document.getElementById('fab-trigger-icon');
   const fabDock = document.getElementById('fab-dock');
   const fabLinks = document.querySelectorAll('.fab-link');
   
@@ -404,7 +461,7 @@ END:VCALENDAR`;
   }
   
   const confirmModal = document.getElementById('custom-confirm-modal');
-  const confirmTitle = document.getElementById('custom-confirm-title');
+  const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
   const dialogYesBtn = document.getElementById('modal-btn-yes');
   const dialogCancelBtn = document.getElementById('modal-btn-no');
@@ -467,6 +524,7 @@ END:VCALENDAR`;
     confirmModal.classList.remove('hidden');
   }
 
+  // --- RSVP SUBMIT (DOPOST) DENGAN COOLDOWN 10 SAAT ---
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -476,12 +534,8 @@ END:VCALENDAR`;
         "Hantar Pengesahan RSVP?",
         "Adakah anda pasti maklumat kehadiran yang dimasukkan sudah betul?",
         () => {
-          const submitBtn = rsvpForm.querySelector('button[type="submit"]');
-          const originalBtnText = submitBtn ? submitBtn.innerText : "Hantar";
-          if (submitBtn) {
-            submitBtn.innerText = "Sedang Hantar...";
-            submitBtn.disabled = true;
-          }
+          const submitBtn = document.getElementById('rsvp-submit');
+          setButtonCooldown(submitBtn, 10, "Sila tunggu");
 
           const formData = new URLSearchParams();
           formData.append('action', 'rsvp');
@@ -514,17 +568,9 @@ END:VCALENDAR`;
                 setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
               }
             }
-            if (submitBtn) {
-              submitBtn.innerText = originalBtnText;
-              submitBtn.disabled = false;
-            }
           })
           .catch(error => {
             console.error('RSVP Error:', error);
-            if (submitBtn) {
-              submitBtn.innerText = originalBtnText;
-              submitBtn.disabled = false;
-            }
           });
         }
       );
@@ -581,36 +627,35 @@ END:VCALENDAR`;
     }
   }
 
-  function fetchGalleryImages(isBackgroundCheck = false) {
-    if (!SCRIPT_URL.includes('http')) return;
-    
-    fetch(`${SCRIPT_URL}?action=gallery`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.length > 0) {
-          const newGallery = data.map(item => ({
-            url: item.url,
-            caption: `${item.caption} (Oleh: ${item.name})`
-          }));
+  // --- 3. FETCH GALLERY VIA GVIZ ---
+  function fetchGalleryImages() {
+    fetchSheetDataViaGViz('Gallery', function(data) {
+      if (data && data.length > 0) {
+        const newGallery = data.map(item => ({
+          url: item.url || item.URL || '',
+          caption: `${item.caption || item.Kapsyen || 'Kenangan'} (Oleh: ${item.name || item.Nama || 'Tetamu'})`
+        })).filter(img => img.url !== '');
 
-          if (JSON.stringify(newGallery) !== JSON.stringify(defaultGallery)) {
-            defaultGallery = newGallery;
-            isUsingFallback = false;
-            if (!isBackgroundCheck) {
-              currentSlide = 0;
-              renderSlide();
-            }
-          }
-        } else {
-          if (!isUsingFallback) {
-            defaultGallery = [...fallbackGallery];
-            isUsingFallback = true;
-            currentSlide = 0;
-            renderSlide();
-          }
+        if (newGallery.length > 0 && JSON.stringify(newGallery) !== JSON.stringify(defaultGallery)) {
+          defaultGallery = newGallery;
+          isUsingFallback = false;
+          currentSlide = 0;
+          renderSlide();
+        } else if (newGallery.length === 0 && !isUsingFallback) {
+          defaultGallery = [...fallbackGallery];
+          isUsingFallback = true;
+          currentSlide = 0;
+          renderSlide();
         }
-      })
-      .catch(err => console.log("Gagal memuat galeri:", err));
+      } else {
+        if (!isUsingFallback) {
+          defaultGallery = [...fallbackGallery];
+          isUsingFallback = true;
+          currentSlide = 0;
+          renderSlide();
+        }
+      }
+    });
   }
 
   function renderSlide() {
@@ -658,6 +703,7 @@ END:VCALENDAR`;
 
   bindPhotoUploadListener();
 
+  // --- GALLERY UPLOAD (DOPOST) DENGAN COOLDOWN 10 SAAT ---
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
@@ -668,12 +714,15 @@ END:VCALENDAR`;
         "Muat Naik Gambar?",
         "Adakah anda pasti mahu memuat naik gambar ini ke galeri majlis?",
         () => {
+          const uploadBtnMain = document.getElementById('btn-upload-gallery');
+          setButtonCooldown(uploadBtnMain, 10, "Memuat Naik");
+
           const uploaderName = uploaderNameInput.value.trim() || "Tetamu Undangan";
           const imageCaption = imageCaptionInput.value.trim() || "Kenangan Majlis";
           const galleryAlert = document.getElementById('gallery-alert');
 
           if (galleryAlert) {
-            galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses dan memuat naik gambar...`;
+            galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses gambar...`;
             galleryAlert.classList.remove('hidden');
           }
 
@@ -731,33 +780,24 @@ END:VCALENDAR`;
     });
   }
 
-  fetchGalleryImages();
-  setInterval(() => { fetchGalleryImages(true); }, 10000);
-
   let defaultWishes = [
     { name: "Systems", message: "Titipkan sepotong doa, pesanan, atau hajat buat pengantin.", timestamp: new Date().toISOString() }
   ];
 
   let isUsingWishFallback = false;
-
-  function getRelativeTime(timestamp) {
-    if (!timestamp) return "Baru sahaja";
+  
+  function formatSubmitTime(timestamp) {
+    if (!timestamp) return "";
     let date = typeof timestamp === 'string' ? new Date(timestamp.replace(/-/g, "/")) : new Date(timestamp);
-    if (isNaN(date.getTime())) return "Baru sahaja";
+    if (isNaN(date.getTime())) return timestamp; 
 
-    const now = new Date();
-    const diffInSeconds = Math.floor((now - date) / 1000);
-
-    if (diffInSeconds < 5) return "Baru sahaja";
-    if (diffInSeconds < 60) return `${diffInSeconds} saat lalu`;
-    const minutes = Math.floor(diffInSeconds / 60);
-    if (minutes < 60) return `${minutes} minit lalu`;
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} jam lalu`;
-    const days = Math.floor(hours / 24);
-    if (days < 7) return `${days} hari lalu`;
-
-    return date.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+    return date.toLocaleDateString('ms-MY', { 
+      day: 'numeric', 
+      month: 'short', 
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   }
 
   function renderWishes() {
@@ -767,45 +807,49 @@ END:VCALENDAR`;
       <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-purpleTheme-100 shadow-sm space-y-1.5 transition-all">
         <div class="flex items-center justify-between border-b border-purpleTheme-50 pb-1.5">
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${w.name}</h4>
-          <span class="text-[10px] text-purpleTheme-700/60 font-light wish-time" data-timestamp="${w.timestamp || ''}">${getRelativeTime(w.timestamp)}</span>
+          <span class="text-[10px] text-purpleTheme-700/60 font-light">${formatSubmitTime(w.timestamp)}</span>
         </div>
         <p class="text-xs sm:text-sm text-purpleTheme-800/90 leading-relaxed font-light whitespace-pre-line break-words">${w.message}</p>
       </div>
     `).join('');
   }
 
-  function updateLiveTimestamps() {
-    document.querySelectorAll('.wish-time').forEach(el => {
-      const timestamp = el.getAttribute('data-timestamp');
-      if (timestamp) el.innerText = getRelativeTime(timestamp);
+  // --- 4. FETCH WISHES VIA GVIZ ---
+  function fetchWishes() {
+    fetchSheetDataViaGViz('Wishes', function(data) {
+      if (data && data.length > 0) {
+        const newWishes = data.map(item => ({ 
+          name: item.name || item.Nama || '', 
+          message: item.message || item.Ucapan || '', 
+          timestamp: item.timestamp || item.Masa || '' 
+        })).reverse();
+
+        const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
+        const newWishesSimple = newWishes.map(w => ({ name: w.name, message: w.message }));
+
+        if (JSON.stringify(newWishesSimple) !== JSON.stringify(oldWishesSimple)) {
+          defaultWishes = newWishes;
+          isUsingWishFallback = false;
+          renderWishes();
+        }
+      } else {
+        if (!isUsingWishFallback) {
+          isUsingWishFallback = true;
+          renderWishes();
+        }
+      }
     });
   }
 
-  function fetchWishes(isBackgroundCheck = false) {
-    if (!SCRIPT_URL.includes('http')) return;
-    fetch(`${SCRIPT_URL}?action=wishes`)
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.length > 0) {
-          const newWishes = data.map(item => ({ name: item.name, message: item.message, timestamp: item.timestamp })).reverse();
-          const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
-          const newWishesSimple = newWishes.map(w => ({ name: w.name, message: w.message }));
-
-          if (JSON.stringify(newWishesSimple) !== JSON.stringify(oldWishesSimple)) {
-            defaultWishes = newWishes;
-            isUsingWishFallback = false;
-            renderWishes();
-          }
-        } else {
-          if (!isUsingWishFallback && !isBackgroundCheck) {
-            isUsingWishFallback = true;
-            renderWishes();
-          }
-        }
-      })
-      .catch(err => console.log("Gagal memuat ucapan:", err));
+  const refreshWishesBtn = document.getElementById('refresh-wishes-btn');
+  if (refreshWishesBtn) {
+    refreshWishesBtn.addEventListener('click', () => {
+      setButtonCooldown(refreshWishesBtn, 10, "Memuat");
+      fetchWishes();
+    });
   }
 
+  // --- WISH SUBMIT (DOPOST) DENGAN COOLDOWN 10 SAAT ---
   const wishForm = document.getElementById('wish-form');
   if (wishForm) {
     wishForm.addEventListener('submit', (e) => {
@@ -818,12 +862,8 @@ END:VCALENDAR`;
           "Hantar Ucapan & Doa?",
           "Adakah anda pasti mahu menghantar ucapan ini kepada pengantin?",
           () => {
-            const submitBtn = wishForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn ? submitBtn.innerText : "HANTAR UCAPAN";
-            if (submitBtn) { 
-              submitBtn.innerText = "Sedang Hantar..."; 
-              submitBtn.disabled = true; 
-            }
+            const submitBtn = document.getElementById('btn-submit-wish');
+            setButtonCooldown(submitBtn, 10, "Sila tunggu");
 
             const formData = new URLSearchParams();
             formData.append('action', 'wishes');
@@ -853,27 +893,15 @@ END:VCALENDAR`;
                 }
                 fetchWishes();
               }
-              if (submitBtn) { 
-                submitBtn.innerText = originalBtnText; 
-                submitBtn.disabled = false; 
-              }
             })
             .catch(error => {
               console.error('Wish Error:', error);
-              if (submitBtn) { 
-                submitBtn.innerText = originalBtnText; 
-                submitBtn.disabled = false; 
-              }
             });
           }
         );
       }
     });
   }
-
-  fetchWishes();
-  setInterval(() => { fetchWishes(true); }, 5000);
-  setInterval(() => { updateLiveTimestamps(); }, 30000);
 
   if (slideContainer) {
     const modal = document.createElement('div');
@@ -978,13 +1006,11 @@ END:VCALENDAR`;
   function openDock() {
     isOpen = true;
     
-    // Sembunyikan terus butang trigger di penjuru kanan bawah
     if (fabContainer) {
       fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
       fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
     }
     
-    // Paparkan dock menu di bahagian tengah bawah
     if (fabDock) {
       fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
@@ -997,19 +1023,16 @@ END:VCALENDAR`;
     isOpen = false;
     if (closeTimer) clearTimeout(closeTimer);
     
-    // 1. Sembunyikan dock menu di tengah bawah
     if (fabDock) {
       fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
     }
 
-    // 2. Munculkan semula butang trigger di penjuru kanan bawah jika pengguna skrol > 300px
     if (window.scrollY > 300 && fabContainer) {
       fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
       fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
     }
 
-    // 3. Tutup popover "Lagi" jika ia terbuka
     if (morePopover) {
       morePopover.classList.add('hidden');
       morePopover.classList.remove('flex');
@@ -1029,7 +1052,6 @@ END:VCALENDAR`;
     });
   }
 
-  // Buka/tutup popover 3 dot (Lagi)
   if (moreMenuBtn && morePopover) {
     moreMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1039,15 +1061,12 @@ END:VCALENDAR`;
     });
   }
 
-  // Tangani semua klik luar (Click outside handler)
   window.addEventListener('click', (e) => {
-    // Tutup popover jika klik luar butang 'Lagi'
     if (morePopover && moreMenuBtn && !moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
       morePopover.classList.add('hidden');
       morePopover.classList.remove('flex');
     }
 
-    // Tutup dock jika klik luar kawasan dock & trigger
     if (isOpen) {
       if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
         closeDock();
@@ -1075,7 +1094,6 @@ END:VCALENDAR`;
 
   updateActiveSection();
   
-  // Kawalan Modal Salam Kasih
   const giftModal = document.getElementById('gift-modal');
   const dockGiftBtn = document.getElementById('dock-gift-btn');
   const popoverGiftBtn = document.getElementById('popover-gift-btn');
@@ -1084,7 +1102,7 @@ END:VCALENDAR`;
 
   function openGiftModal() {
     if (giftModal) giftModal.classList.remove('hidden');
-    closeDock(); // Tutup dock utama apabila modal dibuka
+    closeDock(); 
   }
 
   function closeGiftModal() {
@@ -1096,14 +1114,12 @@ END:VCALENDAR`;
   if (closeGiftModalBtn) closeGiftModalBtn.addEventListener('click', closeGiftModal);
   if (btnCloseGift) btnCloseGift.addEventListener('click', closeGiftModal);
 
-  // Tutup modal jika klik di luar kotak modal
   if (giftModal) {
     giftModal.addEventListener('click', (e) => {
       if (e.target === giftModal) closeGiftModal();
     });
   }
 
-  // Fungsi Salin Teks (Clipboard)
   window.copyToClipboard = function(text, btnElement) {
     navigator.clipboard.writeText(text).then(() => {
       const originalHTML = btnElement.innerHTML;
@@ -1120,4 +1136,53 @@ END:VCALENDAR`;
       console.error('Gagal menyalin teks:', err);
     });
   };
+  
+  function applySiteConfig(config) {
+    const giftControl = config.control_gift;
+    const dockGiftBtn = document.getElementById('dock-gift-btn');
+    
+    if (giftControl === false || String(giftControl).trim().toUpperCase() === "FALSE") {
+      if (dockGiftBtn) dockGiftBtn.style.display = 'none'; 
+      return; 
+    } else {
+      if (dockGiftBtn) dockGiftBtn.style.display = 'flex';
+    }
+
+    const bankSection = document.getElementById('bank-section');
+    const bankControl = config.control_bank;
+    if (bankControl === false || String(bankControl).trim().toUpperCase() === "FALSE") {
+      if (bankSection) bankSection.style.display = 'none';
+    } else {
+      if (bankSection) {
+        bankSection.style.display = 'block';
+        document.getElementById('bank-name').innerText = config.bank_name || '';
+        document.getElementById('bank-holder').innerText = config.bank_holder || '';
+        document.getElementById('bank-account').innerText = config.bank_account || '';
+      }
+    }
+
+    const qrSection = document.getElementById('qr-section');
+    const qrControl = config.control_qr;
+    if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
+      if (qrSection) qrSection.style.display = 'none';
+    } else {
+      if (qrSection) {
+        qrSection.style.display = 'block';
+        const qrImg = document.getElementById('qr-image');
+        if (qrImg) qrImg.src = config.qr_image_url || '';
+      }
+    }
+
+    const addressSection = document.getElementById('address-section');
+    const addressControl = config.control_address;
+    if (addressControl === false || String(addressControl).trim().toUpperCase() === "FALSE") {
+      if (addressSection) addressSection.style.display = 'none';
+    } else {
+      if (addressSection) {
+        addressSection.style.display = 'block';
+        document.getElementById('gift-address').innerText = config.gift_address || '';
+      }
+    }
+  }
+
 });

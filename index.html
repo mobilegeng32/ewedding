@@ -81,7 +81,7 @@
       <div class="pt-8">
         <a href="#invitation-section" id="hero-open-btn" class="group relative inline-flex items-center gap-3.5 bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 px-8 py-4 rounded-full text-xs sm:text-sm tracking-widest font-semibold uppercase transition-colors duration-300 shadow-xl hover:shadow-2xl border border-butter-300/30 cursor-pointer overflow-hidden">
           <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-          <span>Buka Undangan v2.20</span>
+          <span>Buka Undangan v2.21</span>
           <span class="w-7 h-7 rounded-full bg-butter-200 text-purpleTheme-900 flex items-center justify-center transition-transform duration-300 group-hover:translate-y-1 shadow-sm shrink-0">
             <i class="fas fa-chevron-down text-xs"></i>
           </span>
@@ -368,10 +368,12 @@
         <div class="w-full h-[1px] bg-purpleTheme-100/80 my-4"></div>
 
         <div class="space-y-3">
-          <div class="flex items-center justify-between px-1">
-            <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
-            <span class="text-[10px] text-purpleTheme-700/70 italic">Kemas kini langsung</span>
-          </div>
+			<div class="flex items-center justify-between px-1">
+			  <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
+			  <button id="refresh-wishes-btn" type="button" class="text-[10px] text-purpleTheme-700 bg-butter-200 hover:bg-butter-300 px-2.5 py-1 rounded-lg font-medium transition-all flex items-center gap-1 cursor-pointer">
+				<i class="fas fa-sync-alt text-[9px]"></i> <span>Muat Semula</span>
+			  </button>
+			</div>
           <div id="wishes-container" class="max-h-[380px] overflow-y-auto space-y-3 pr-2 custom-scrollbar">
           </div>
         </div>
@@ -488,36 +490,48 @@
       </div>
 
       <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
-        <!-- Kad Akaun Bank -->
-        <div class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
+        <!-- 1. KAD AKAUN BANK (Dikawal oleh control_bank) -->
+        <div id="bank-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
           <div>
-            <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">Bank BCA</h4>
-            <p class="text-[11px] text-purpleTheme-700/80 font-medium">Utrias Ismi</p>
+            <h4 id="bank-name" class="font-serif text-lg font-semibold text-purpleTheme-900">--</h4>
+            <p id="bank-holder" class="text-[11px] text-purpleTheme-700/80 font-medium">--</p>
           </div>
           <div class="bg-butter-50 py-2.5 px-3 rounded-xl border border-butter-200 flex items-center justify-between gap-2">
-            <span class="font-mono text-xs sm:text-sm font-semibold text-purpleTheme-900">1234567890</span>
-            <button type="button" onclick="copyToClipboard('1234567890', this)" class="bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5 shrink-0">
+            <span id="bank-account" class="font-mono text-xs sm:text-sm font-semibold text-purpleTheme-900">--</span>
+            <button type="button" onclick="copyToClipboard(document.getElementById('bank-account').innerText, this)" class="bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer flex items-center gap-1.5 shrink-0">
               <i class="fas fa-copy text-xs"></i> <span>Salin</span>
             </button>
           </div>
         </div>
 
-        <!-- Kad Alamat Fizikal -->
-        <div class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
+        <!-- 2. KAD QR CODE (Dikawal oleh control_qr) -->
+        <div id="qr-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
+          <div>
+            <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">QR Code DuitNow / Bank</h4>
+            <p class="text-[11px] text-purpleTheme-700/80 font-medium">Imbas untuk transfer</p>
+          </div>
+          <div class="w-48 h-48 mx-auto bg-butter-50 p-2 rounded-xl border border-butter-200 shadow-sm flex items-center justify-center">
+            <img id="qr-image" src="" alt="QR Code" class="w-full h-full object-contain rounded-lg">
+          </div>
+        </div>
+
+        <!-- 3. KAD ALAMAT FIZIKAL (Dikawal oleh control_address) -->
+        <div id="address-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
           <div>
             <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">Kirim Hadiah Fizikal</h4>
             <p class="text-[11px] text-purpleTheme-700/80 font-medium">Alamat Penerima</p>
           </div>
           <div class="bg-butter-50 p-3 rounded-xl border border-butter-200 text-left space-y-2">
-            <p class="text-[11px] text-purpleTheme-800/90 font-light leading-relaxed">
-              Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia
+            <p id="gift-address" class="text-[11px] text-purpleTheme-800/90 font-light leading-relaxed">
+              --
             </p>
-            <button type="button" onclick="copyToClipboard('Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia', this)" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2 rounded-lg font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5">
+            <button type="button" onclick="copyToClipboard(document.getElementById('gift-address').innerText, this)" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2 rounded-lg font-medium transition-all cursor-pointer flex items-center justify-center gap-1.5">
               <i class="fas fa-copy text-xs"></i> <span>Salin Alamat</span>
             </button>
           </div>
         </div>
       </div>
+      
       <button id="btn-close-gift" type="button" class="w-full py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">TUTUP</button>
     </div>
   </div>
