@@ -1314,7 +1314,6 @@ END:VCALENDAR`;
           const rawInput = config.qr_image_url ? String(config.qr_image_url).trim() : '';
           let fileId = rawInput;
 
-          // Jika anda letak pautan penuh Google Drive, kod ini secara automatik ekstrak ID fail
           if (rawInput.includes('drive.google.com')) {
             const match1 = rawInput.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             const match2 = rawInput.match(/[?&]id=([a-zA-Z0-9_-]+)/);
@@ -1325,7 +1324,6 @@ END:VCALENDAR`;
             }
           }
 
-          // Guna format pautan rasmi Google Drive CDN yang bebas dari skrin amaran virus
           qrImg.src = fileId ? `https://lh3.googleusercontent.com/d/${fileId}=s500` : '';
         }
       }
@@ -1342,5 +1340,4 @@ END:VCALENDAR`;
       }
     }
   }
-
 });
