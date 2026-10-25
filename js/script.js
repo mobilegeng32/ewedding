@@ -974,18 +974,20 @@ END:VCALENDAR`;
     }
     lastScrollY = currentScrollY;
   });
-
+  
   function openDock() {
     isOpen = true;
-    if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-times text-sm';
     
+    // 1. Sembunyikan terus butang trigger di penjuru kanan bawah
+    if (fabContainer) {
+      fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+    }
+    
+    // 2. Paparkan dock menu di bahagian tengah bawah
     if (fabDock) {
       fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
-    }
-    
-    if (fabContainer) {
-      fabContainer.classList.add('dock-active');
     }
     
     resetCloseTimer();
@@ -994,17 +996,20 @@ END:VCALENDAR`;
   function closeDock() {
     isOpen = false;
     if (closeTimer) clearTimeout(closeTimer);
-    if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-bars text-sm';
     
+    // 1. Sembunyikan dock menu di tengah bawah
     if (fabDock) {
       fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
     }
-    
-    if (fabContainer) {
-      fabContainer.classList.remove('dock-active');
+
+    // 2. Munculkan semula butang trigger di penjuru kanan bawah jika pengguna skrol > 300px
+    if (window.scrollY > 300 && fabContainer) {
+      fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+      fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
     }
 
+    // 3. Tutup popover "Lagi" jika ia terbuka
     if (morePopover) {
       morePopover.classList.add('hidden');
       morePopover.classList.remove('flex');

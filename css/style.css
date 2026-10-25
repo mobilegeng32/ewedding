@@ -48,21 +48,7 @@ body {
   box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
 }
 
-/* Hanya bergerak ke atas pada skrin telefon (mobile) apabila dock dibuka */
-@media (max-width: 520px) {
-  #fab-container.dock-active {
-    transform: translateY(-85px);
-  }
-}
-
-/* Pada skrin tablet/laptop, butang kekal statik tanpa bergerak */
-@media (min-width: 521px) {
-  #fab-container.dock-active {
-    transform: translateY(0);
-  }
-}
-
-/* Pada skrin besar (769px ke atas): Kekalkan 7 menu penuh, sembunyikan butang "Lagi" */
+/* Pada skrin besar (769px ke atas): Kekalkan menu penuh, sembunyikan butang "Lagi" */
 @media (min-width: 769px) {
   .menu-item-collapse {
     display: flex !important;
