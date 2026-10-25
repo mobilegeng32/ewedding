@@ -8,7 +8,7 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCmkuHrMRjJk71C0bu8pYZ8vViSlPo57y9qppe1nEYbWfeBz5k806saBRv_sy1NKVX/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
   
   function fetchSiteConfig() {
     if (!SCRIPT_URL.includes('http')) return;
