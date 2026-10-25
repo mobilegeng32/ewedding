@@ -953,7 +953,7 @@ END:VCALENDAR`;
     }
     lastScrollY = currentScrollY;
   });
-
+  
   function openDock() {
     isOpen = true;
     if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-times text-sm';
@@ -962,6 +962,12 @@ END:VCALENDAR`;
       fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
     }
+    
+    // Hanya naik ke atas pada layar kecil (phone) yang mengalami tumpang tindih
+    if (fabContainer && window.innerWidth < 768) {
+      fabContainer.classList.add('translate-y-[-85px]');
+    }
+    
     resetCloseTimer();
   }
 
@@ -973,6 +979,10 @@ END:VCALENDAR`;
     if (fabDock) {
       fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
       fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+    
+    if (fabContainer) {
+      fabContainer.classList.remove('translate-y-[-68px]');
     }
   }
 
