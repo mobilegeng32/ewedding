@@ -53,7 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
           let obj = {};
           if (row && row.c) {
             row.c.forEach((cell, index) => {
-              obj[cols[index]] = cell ? (cell.v !== null ? cell.v : '') : '';
+              let val = '';
+              if (cell !== null && cell !== undefined) {
+                val = cell.v !== undefined ? cell.v : (cell.f !== undefined ? cell.f : '');
+              }
+              obj[cols[index]] = val;
             });
           }
           return obj;
@@ -91,7 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function fetchSiteConfig() {
     fetchSheetDataViaGViz('Config', function(rows) {
       if (!rows || rows.length === 0) return;
-      const config = rows[0]; // Ambil baris pertama sebagai objek konfigurasi
+      
+      let config = {};
+      rows.forEach(r => {
+        if (r.key && r.value !== undefined) {
+          config[r.key.trim().toLowerCase()] = r.value;
+        } else {
+          config = { ...config, ...r };
+        }
+      });
 
       if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
         document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
@@ -154,8 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const rsvpStatusInput = document.getElementById('rsvp-status');
       const rsvpSubmitBtn = rsvpFormEl ? rsvpFormEl.querySelector('button[type="submit"]') : null;
 
-      if (config.control_RSVP !== undefined) {
-        const valR = String(config.control_RSVP).trim().toUpperCase();
+      if (config.control_rsvp !== undefined) {
+        const valR = String(config.control_rsvp).trim().toUpperCase();
         if (valR === 'FALSE' || valR === 'OFF' || valR === '0' || valR === '') {
           if (rsvpSubmitBtn) {
             rsvpSubmitBtn.disabled = true;
@@ -248,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data && data.length > 0) {
         container.innerHTML = data.map(item => {
-          let displayTime = item.time || item.Masa || '';
+          let displayTime = item.time || item.masa || '';
           if (displayTime.includes('GMT') || displayTime.includes('1899')) {
             const dateObj = new Date(displayTime);
             if (!isNaN(dateObj.getTime())) {
@@ -260,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="relative">
               <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
               <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
-              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description || item.Perkara || ''}</p>
+              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description || item.perkara || ''}</p>
             </div>
           `;
         }).join('');
@@ -648,8 +660,8 @@ END:VCALENDAR`;
     fetchSheetDataViaGViz('Gallery', function(data) {
       if (data && data.length > 0) {
         const newGallery = data.map(item => ({
-          url: item.url || item.URL || '',
-          caption: `${item.caption || item.Kapsyen || 'Kenangan'} (Oleh: ${item.name || item.Nama || 'Tetamu'})`
+          url: item.url || '',
+          caption: `${item.caption || 'Kenangan'} (Oleh: ${item.name || 'Tetamu'})`
         })).filter(img => img.url !== '');
 
         if (newGallery.length > 0 && JSON.stringify(newGallery) !== JSON.stringify(defaultGallery)) {
@@ -835,9 +847,9 @@ END:VCALENDAR`;
     fetchSheetDataViaGViz('Wishes', function(data) {
       if (data && data.length > 0) {
         const newWishes = data.map(item => ({ 
-          name: item.name || item.Nama || '', 
-          message: item.message || item.Ucapan || '', 
-          timestamp: item.timestamp || item.Masa || '' 
+          name: item.name || '', 
+          message: item.message || '', 
+          timestamp: item.timestamp || '' 
         })).reverse();
 
         const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
