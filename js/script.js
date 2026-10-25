@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.control_RSVP !== undefined) {
           const valR = String(config.control_RSVP).trim().toUpperCase();
-          // Jika FALSE / Kosong / 0 (artinya checkbox TIDAK ditutup/ditanda salah)
           if (valR === 'FALSE' || valR === 'OFF' || valR === '0' || valR === '') {
             if (rsvpSubmitBtn) {
               rsvpSubmitBtn.disabled = true;
@@ -416,8 +415,14 @@ END:VCALENDAR`;
           formData.append('phone', document.getElementById('rsvp-phone').value);
           formData.append('status', document.getElementById('rsvp-status').value);
           formData.append('pax', document.getElementById('rsvp-pax').value);
-		  
-		  fetch(`${SCRIPT_URL}?action=rsvp`, { method: 'POST', body: formData })
+          
+          fetch(`${SCRIPT_URL}?action=rsvp`, { 
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData 
+          })
           .then(response => response.json())
           .then(data => {
             const alertBox = document.getElementById('rsvp-alert');
@@ -599,8 +604,14 @@ END:VCALENDAR`;
               formData.append('fileData', base64String);
               formData.append('name', uploaderName);
               formData.append('caption', imageCaption);
-			  
-			  fetch(`${SCRIPT_URL}?action=gallery`, { method: 'POST', body: formData })
+              
+              fetch(`${SCRIPT_URL}?action=gallery`, { 
+                method: 'POST', 
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData 
+              })
               .then(response => response.json())
               .then(data => {
                 if (data.status === "error") {
@@ -723,8 +734,14 @@ END:VCALENDAR`;
             formData.append('action', 'wishes');
             formData.append('name', nameInput.value);
             formData.append('message', msgInput.value);
-			
-			fetch(`${SCRIPT_URL}?action=wishes`, { method: 'POST', body: formData })
+            
+            fetch(`${SCRIPT_URL}?action=wishes`, { 
+              method: 'POST', 
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: formData 
+            })
             .then(response => response.json())
             .then(data => {
               const wishAlert = document.getElementById('wish-alert');
@@ -874,8 +891,8 @@ END:VCALENDAR`;
         setActiveNav(targetSectionId);
       });
     });
-	
-		const observer = new IntersectionObserver((entries) => {
+
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) setActiveNav(entry.target.id);
       });
@@ -886,5 +903,4 @@ END:VCALENDAR`;
       if (sectionEl) observer.observe(sectionEl);
     });
   }
-
 });
