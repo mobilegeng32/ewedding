@@ -362,7 +362,7 @@ END:VCALENDAR`;
   }
   
   /* -------------------------------------------------------------
-     CUSTOM MODAL PENGESAHAN (CONFIRM-MODAL) - FIXED VERSION
+     CUSTOM MODAL PENGESAHAN (ROBUST & SAFE)
   ------------------------------------------------------------- */
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
@@ -402,7 +402,7 @@ END:VCALENDAR`;
   }
 
   /* -------------------------------------------------------------
-     RSVP FORM & SUBMISSION
+     1. RSVP SUBMISSION
   ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -414,9 +414,11 @@ END:VCALENDAR`;
         "Adakah anda pasti maklumat kehadiran yang dimasukkan sudah betul?",
         () => {
           const submitBtn = rsvpForm.querySelector('button[type="submit"]');
-          const originalBtnText = submitBtn.innerText;
-          submitBtn.innerText = "Sedang Hantar...";
-          submitBtn.disabled = true;
+          const originalBtnText = submitBtn ? submitBtn.innerText : "Hantar";
+          if (submitBtn) {
+            submitBtn.innerText = "Sedang Hantar...";
+            submitBtn.disabled = true;
+          }
 
           const formData = new URLSearchParams();
           formData.append('action', 'rsvp');
@@ -427,9 +429,7 @@ END:VCALENDAR`;
           
           fetch(SCRIPT_URL, { 
             method: 'POST', 
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: formData 
           })
           .then(response => response.json())
@@ -451,13 +451,17 @@ END:VCALENDAR`;
                 setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
               }
             }
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
+            if (submitBtn) {
+              submitBtn.innerText = originalBtnText;
+              submitBtn.disabled = false;
+            }
           })
           .catch(error => {
             console.error('RSVP Error:', error);
-            submitBtn.innerText = originalBtnText;
-            submitBtn.disabled = false;
+            if (submitBtn) {
+              submitBtn.innerText = originalBtnText;
+              submitBtn.disabled = false;
+            }
           });
         }
       );
@@ -465,7 +469,7 @@ END:VCALENDAR`;
   }
 
   /* -------------------------------------------------------------
-     GALLERY, SLIDESHOW & UPLOAD
+     2. GALLERY, SLIDESHOW & UPLOAD
   ------------------------------------------------------------- */
   const fallbackGallery = [
     { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama Bermula Disini..." }
@@ -624,9 +628,7 @@ END:VCALENDAR`;
               
               fetch(SCRIPT_URL, { 
                 method: 'POST', 
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: formData 
               })
               .then(response => response.json())
@@ -661,7 +663,7 @@ END:VCALENDAR`;
   setInterval(() => { fetchGalleryImages(true); }, 10000);
 
   /* -------------------------------------------------------------
-     WISHES (BUKU HAJAT) & SUBMISSION
+     3. WISHES (BUKU HAJAT) SUBMISSION
   ------------------------------------------------------------- */
   let defaultWishes = [
     { name: "Systems", message: "Titipkan sepotong doa, pesanan, atau hajat buat pengantin.", timestamp: new Date().toISOString() }
@@ -748,7 +750,11 @@ END:VCALENDAR`;
           "Adakah anda pasti mahu menghantar ucapan ini kepada pengantin?",
           () => {
             const submitBtn = wishForm.querySelector('button[type="submit"]');
-            if (submitBtn) { submitBtn.innerText = "Sedang Hantar..."; submitBtn.disabled = true; }
+            const originalBtnText = submitBtn ? submitBtn.innerText : "HANTAR UCAPAN";
+            if (submitBtn) { 
+              submitBtn.innerText = "Sedang Hantar..."; 
+              submitBtn.disabled = true; 
+            }
 
             const formData = new URLSearchParams();
             formData.append('action', 'wishes');
@@ -757,9 +763,7 @@ END:VCALENDAR`;
             
             fetch(SCRIPT_URL, { 
               method: 'POST', 
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               body: formData 
             })
             .then(response => response.json())
@@ -780,11 +784,17 @@ END:VCALENDAR`;
                 }
                 fetchWishes();
               }
-              if (submitBtn) { submitBtn.innerText = "HANTAR UCAPAN"; submitBtn.disabled = false; }
+              if (submitBtn) { 
+                submitBtn.innerText = originalBtnText; 
+                submitBtn.disabled = false; 
+              }
             })
             .catch(error => {
               console.error('Wish Error:', error);
-              if (submitBtn) { submitBtn.innerText = "HANTAR UCAPAN"; submitBtn.disabled = false; }
+              if (submitBtn) { 
+                submitBtn.innerText = originalBtnText; 
+                submitBtn.disabled = false; 
+              }
             });
           }
         );
@@ -819,7 +829,7 @@ END:VCALENDAR`;
         if (rawUrl.includes('googleusercontent.com')) rawUrl = rawUrl.split('=')[0] + '=s0';
         modalImg.src = rawUrl;
         modalCaption.innerText = slideCaption ? slideCaption.innerText : '';
-        modal.classList.add('hidden'); // Selesai klik buka modal besar
+        modal.classList.remove('hidden');
       }
     });
 
@@ -905,9 +915,9 @@ END:VCALENDAR`;
       });
     }
 
-    navItems.forEach(logItem => {
-      logItem.addEventListener('click', () => {
-        const targetSectionId = logItem.getAttribute('href').substring(1);
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const targetSectionId = item.getAttribute('href').substring(1);
         setActiveNav(targetSectionId);
       });
     });
