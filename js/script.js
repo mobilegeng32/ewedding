@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { fetchGalleryImages(); }, 1000);
   setTimeout(() => { fetchWishes(); }, 1400);
   
-  // --- 2. FETCH TENTATIVE KHAS (BACA TERUS IKUT INDEKS LAJUR A & B) ---
+  // --- 2. FETCH TENTATIVE DENGAN REGEX PARSER KEBAL ---
   function fetchTentative() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
@@ -296,37 +296,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const cellTime = row.c[0]; // Lajur A (Masa)
             const cellDesc = row.c[1]; // Lajur B (Perkara)
 
-            // Utamakan nilai .f (formatted string seperti "10:00 am"), jika tiada guna .v
-            let displayTime = '';
-            if (cellTime) {
-              if (cellTime.f !== undefined && cellTime.f !== null && cellTime.f !== '') {
-                displayTime = cellTime.f;
-              } else if (cellTime.v !== undefined && cellTime.v !== null) {
-                let rawV = String(cellTime.v);
-                // Jika masih keluar Date(1899...), kita huraikan manual jam & minitnya
-                if (rawV.startsWith('Date(')) {
-                  const match = rawV.match(/Date\(([^)]+)\)/);
-                  if (match) {
-                    const parts = match[1].split(',').map(num => parseInt(num.trim(), 10));
-                    if (!isNaN(parts[3])) {
-                      let hour = parts[3];
-                      let minute = parts[4] || 0;
-                      let ampm = hour >= 12 ? 'pm' : 'am';
-                      if (hour > 12) hour -= 12;
-                      if (hour === 0) hour = 12;
-                      const minStr = minute < 10 ? '0' + minute : minute;
-                      displayTime = `${hour}:${minStr} ${ampm}`;
-                    }
-                  }
-                } else {
-                  displayTime = rawV;
-                }
+            let rawTime = '';
+            if (cellTime && cellTime.v !== undefined && cellTime.v !== null) {
+              rawTime = String(cellTime.v);
+            }
+
+            let displayTime = rawTime;
+
+            // Jika mengandungi format Date(YYYY,MM,DD,HH,mm,ss), ekstrak nombor jam & minit secara terus
+            if (rawTime.startsWith('Date(')) {
+              const nums = rawTime.match(/\d+/g);
+              if (nums && nums.length >= 5) {
+                let hour = parseInt(nums[3], 10);
+                let minute = parseInt(nums[4], 10);
+                let ampm = hour >= 12 ? 'PM' : 'AM';
+                hour = hour % 12;
+                hour = hour ? hour : 12; // Tukar jam 0 kepada 12
+                let minStr = minute < 10 ? '0' + minute : minute;
+                displayTime = `${hour}:${minStr} ${ampm}`;
               }
             }
 
             let description = '';
-            if (cellDesc) {
-              description = cellDesc.f !== undefined && cellDesc.f !== null ? cellDesc.f : (cellDesc.v !== undefined ? cellDesc.v : '');
+            if (cellDesc && cellDesc.v !== undefined && cellDesc.v !== null) {
+              description = String(cellDesc.v);
             }
 
             if (!displayTime && !description) return '';
