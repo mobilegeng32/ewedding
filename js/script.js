@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ID Google Sheets anda untuk proses Baca (Read: GViz)
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
 
-  // --- FUNGSI BANTUAN GVIZ UNTUK MEMBACA DATA DARI SHEET ---
+  // --- FUNGSI BANTUAN GVIZ UNTUK TAB BIASA (Gallery, Wishes, Tentative) ---
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) {
       console.error("Sila masukkan SPREADSHEET_ID yang sah!");
@@ -27,27 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => res.text())
       .then(text => {
         const startIdx = text.indexOf('setResponse(');
-        if (startIdx === -1) {
-          console.error(`Format GViz tidak sah untuk tab: ${sheetName}`);
-          return;
-        }
+        if (startIdx === -1) return;
         
-        const jsonStart = startIdx + 'setResponse('.length;
-        const jsonEnd = text.lastIndexOf(')');
-        
-        if (jsonEnd === -1 || jsonEnd <= jsonStart) {
-          console.error(`Gagal huraikan respons GViz untuk tab: ${sheetName}`);
-          return;
-        }
-
-        const jsonString = text.substring(jsonStart, jsonEnd);
+        const jsonString = text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')'));
         const json = JSON.parse(jsonString);
         
-        // Tukar semua label kolum kepada huruf kecil secara automatik untuk elakkan isu case-sensitive
-        const cols = json.table.cols.map(col => {
-          let label = col.label || col.id || '';
-          return label.trim().toLowerCase();
-        });
+        const cols = json.table.cols.map(col => (col.label || col.id || '').trim().toLowerCase());
 
         const rows = json.table.rows.map(row => {
           let obj = {};
@@ -90,175 +75,184 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 1000);
   }
-  
-  // --- 1. FETCH CONFIG VIA GVIZ (PARSING ROBUST KUNCI-NILAI) ---
+
+  // --- 1. FETCH CONFIG KHAS (MENYOKONG DUA JADUAL DALAM 1 TAB CONFIG) ---
   function fetchSiteConfig() {
-    fetchSheetDataViaGViz('Config', function(rows) {
-      if (!rows || rows.length === 0) return;
-      
-      let config = {};
+    if (!SPREADSHEET_ID) return;
+    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 
-      rows.forEach(r => {
-        const keys = Object.keys(r);
-        if (keys.length >= 2) {
-          // Ambil lajur pertama sebagai Key dan lajur kedua sebagai Value
-          const k = String(r[keys[0]] || '').trim().toLowerCase();
-          const v = r[keys[1]];
-          if (k) {
-            config[k] = v;
-          }
-        } else {
-          // Jika Sheet menggunakan struktur melintang (Horizontal)
-          config = { ...config, ...r };
-        }
-      });
-
-      console.log("Objek Config Terurai:", config); // Untuk rujukan pengesahan di Console Browser
-
-      // Pemetaan Pengantin Perempuan & Lelaki
-      if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
-        document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
-      }
-      if (config.bride_desc && document.getElementById('dyn-bride-desc')) {
-        document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
-      }
-      if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) {
-        document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
-      }
-      if (config.groom_desc && document.getElementById('dyn-groom-desc')) {
-        document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
-      }
-
-      // Pemetaan Masa & Lokasi
-      if (config.event_date && document.getElementById('dyn-event-date')) {
-        document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
-      }
-      if (config.event_time && document.getElementById('dyn-event-time')) {
-        document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
-      }
-      if (config.event_location && document.getElementById('dyn-event-location')) {
-        document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
-      }
-
-      // Pautan Navigasi
-      if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
-        document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
-      }
-      if (config.waze_url && document.getElementById('dyn-waze-link')) {
-        document.getElementById('dyn-waze-link').href = config.waze_url;
-      }
-
-      // Kontak Telefon & WhatsApp
-      if (config.contact1_name && document.getElementById('dyn-c1-name')) {
-        document.getElementById('dyn-c1-name').innerText = config.contact1_name;
-        document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
-        document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone}`;
-        document.getElementById('dyn-c1-wa').href = `https://wa.me/${config.contact1_phone}?text=Assalamualaikum`;
-      }
-      if (config.contact2_name && document.getElementById('dyn-c2-name')) {
-        document.getElementById('dyn-c2-name').innerText = config.contact2_name;
-        document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
-        document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone}`;
-        document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
-      }
-
-      // Pilihan Bilangan Tetamu (Max Pax)
-      const maxPax = parseInt(config.max_pax) || 5;
-      const paxSelect = document.getElementById('rsvp-pax');
-      if (paxSelect) {
-        paxSelect.innerHTML = ''; 
-        for (let i = 1; i <= maxPax; i++) {
-          const option = document.createElement('option');
-          option.value = i;
-          option.textContent = `${i} Orang`;
-          paxSelect.appendChild(option);
-        }
-      }
-
-      // Kawalan Master Switch: RSVP
-      const rsvpFormEl = document.getElementById('rsvp-form');
-      const rsvpNameInput = document.getElementById('rsvp-name');
-      const rsvpPhoneInput = document.getElementById('rsvp-phone');
-      const rsvpStatusInput = document.getElementById('rsvp-status');
-      const rsvpSubmitBtn = rsvpFormEl ? rsvpFormEl.querySelector('button[type="submit"]') : null;
-
-      if (config.control_rsvp !== undefined) {
-        const valR = String(config.control_rsvp).trim().toUpperCase();
-        if (valR === 'FALSE' || valR === 'OFF' || valR === '0' || valR === '') {
-          if (rsvpSubmitBtn) {
-            rsvpSubmitBtn.disabled = true;
-            rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-            rsvpSubmitBtn.classList.remove('hover:bg-purpleTheme-800', 'bg-purpleTheme-700', 'bg-purpleTheme-900');
-            rsvpSubmitBtn.innerText = "RSVP DITUTUP";
-          }
-          if (rsvpNameInput) rsvpNameInput.disabled = true;
-          if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
-          if (rsvpStatusInput) rsvpStatusInput.disabled = true;
-          if (paxSelect) paxSelect.disabled = true;
-        } else {
-          if (rsvpSubmitBtn) {
-            rsvpSubmitBtn.disabled = false;
-            rsvpSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-            rsvpSubmitBtn.classList.add('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
-            rsvpSubmitBtn.innerText = "Hantar Pengesahan";
-          }
-          if (rsvpNameInput) rsvpNameInput.disabled = false;
-          if (rsvpPhoneInput) rsvpPhoneInput.disabled = false;
-          if (rsvpStatusInput) rsvpStatusInput.disabled = false;
-          if (paxSelect) paxSelect.disabled = false;
-        }
-      }
-
-      // Kawalan Master Switch: Galeri Gambar
-      const uploadBtn = document.getElementById('btn-upload-gallery');
-      if (uploadBtn && config.control_gallery !== undefined) {
-        const valG = String(config.control_gallery).trim().toUpperCase();
-        const photoInput = document.getElementById('photo-upload');
+    fetch(url)
+      .then(res => res.text())
+      .then(text => {
+        const startIdx = text.indexOf('setResponse(');
+        if (startIdx === -1) return;
         
-        if (valG === 'FALSE' || valG === 'OFF' || valG === '0' || valG === '') {
-          uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
-          uploadBtn.classList.remove('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900', 'border-butter-300');
-          uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
-          if (photoInput) photoInput.disabled = true;
-        } else {
-          uploadBtn.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
-          uploadBtn.classList.add('bg-butter-200', 'hover:bg-butter-300', 'text-purpleTheme-900', 'border-butter-300');
-          uploadBtn.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar <input type="file" id="photo-upload" accept="image/*" class="hidden">`;
-          bindPhotoUploadListener();
-        }
-      }
+        const jsonString = text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')'));
+        const json = JSON.parse(jsonString);
+        const rows = json.table.rows;
+        
+        let config = {};
 
-      // Kawalan Master Switch: Ucapan
-      const wishSubmitBtn = document.getElementById('btn-submit-wish');
-      const wishNameInput = document.getElementById('wish-name');
-      const wishMsgInput = document.getElementById('wish-message');
-
-      if (config.control_wish !== undefined) {
-        const valW = String(config.control_wish).trim().toUpperCase();
-
-        if (valW === 'FALSE' || valW === 'OFF' || valW === '0' || valW === '') {
-          if (wishSubmitBtn) {
-            wishSubmitBtn.disabled = true;
-            wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-            wishSubmitBtn.classList.remove('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
-            wishSubmitBtn.innerText = "UCAPAN DITUTUP";
+        rows.forEach(r => {
+          if (!r || !r.c) return;
+          
+          // Baca Lajur A (Indeks 0) sebagai Key & Lajur B (Indeks 1) sebagai Value
+          if (r.c[0] && r.c[0].v !== null && r.c[0].v !== undefined) {
+            const k = String(r.c[0].v).trim().toLowerCase();
+            const v = r.c[1] !== undefined && r.c[1] !== null ? (r.c[1].v !== undefined ? r.c[1].v : r.c[1].f) : '';
+            if (k && k !== 'key') {
+              config[k] = v;
+            }
           }
-          if (wishNameInput) wishNameInput.disabled = true;
-          if (wishMsgInput) wishMsgInput.disabled = true;
-        } else {
-          if (wishSubmitBtn) {
-            wishSubmitBtn.disabled = false;
-            wishSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-            wishSubmitBtn.classList.add('hover:bg-purpleTheme-800', 'bg-purpleTheme-900');
-            wishSubmitBtn.innerText = "Hantar Ucapan";
-          }
-          if (wishNameInput) wishNameInput.disabled = false;
-          if (wishMsgInput) wishMsgInput.disabled = false;
-        }
-      }
 
-      applySiteConfig(config);
-    });
+          // Baca Lajur F (Indeks 5) sebagai Master Switch Key & Lajur G (Indeks 6) sebagai Master Switch Value
+          if (r.c[5] && r.c[5].v !== null && r.c[5].v !== undefined) {
+            const sk = String(r.c[5].v).trim().toLowerCase();
+            const sv = r.c[6] !== undefined && r.c[6] !== null ? (r.c[6].v !== undefined ? r.c[6].v : r.c[6].f) : '';
+            if (sk) {
+              config[sk] = sv;
+            }
+          }
+        });
+
+        // Pemetaan Pengantin
+        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
+          document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
+        }
+        if (config.bride_desc && document.getElementById('dyn-bride-desc')) {
+          document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
+        }
+        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) {
+          document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
+        }
+        if (config.groom_desc && document.getElementById('dyn-groom-desc')) {
+          document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
+        }
+
+        // Pemetaan Masa & Lokasi Majlis
+        if (config.event_date && document.getElementById('dyn-event-date')) {
+          document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
+        }
+        if (config.event_time && document.getElementById('dyn-event-time')) {
+          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
+        }
+        if (config.event_location && document.getElementById('dyn-event-location')) {
+          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
+        }
+
+        // Pautan Maps & Waze
+        if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
+          document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
+        }
+        if (config.waze_url && document.getElementById('dyn-waze-link')) {
+          document.getElementById('dyn-waze-link').href = config.waze_url;
+        }
+
+        // Kontak Panggilan
+        if (config.contact1_name && document.getElementById('dyn-c1-name')) {
+          document.getElementById('dyn-c1-name').innerText = config.contact1_name;
+          document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
+          document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone}`;
+          document.getElementById('dyn-c1-wa').href = `https://wa.me/${config.contact1_phone}?text=Assalamualaikum`;
+        }
+        if (config.contact2_name && document.getElementById('dyn-c2-name')) {
+          document.getElementById('dyn-c2-name').innerText = config.contact2_name;
+          document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
+          document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone}`;
+          document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
+        }
+
+        // Maksimum Pax RSVP
+        const maxPax = parseInt(config.max_pax) || 5;
+        const paxSelect = document.getElementById('rsvp-pax');
+        if (paxSelect) {
+          paxSelect.innerHTML = ''; 
+          for (let i = 1; i <= maxPax; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i} Orang`;
+            paxSelect.appendChild(option);
+          }
+        }
+
+        // Master Switch: RSVP
+        const rsvpFormEl = document.getElementById('rsvp-form');
+        const rsvpNameInput = document.getElementById('rsvp-name');
+        const rsvpPhoneInput = document.getElementById('rsvp-phone');
+        const rsvpStatusInput = document.getElementById('rsvp-status');
+        const rsvpSubmitBtn = rsvpFormEl ? rsvpFormEl.querySelector('button[type="submit"]') : null;
+
+        if (config.control_rsvp !== undefined) {
+          const valR = String(config.control_rsvp).trim().toUpperCase();
+          if (valR === 'FALSE' || valR === 'OFF' || valR === '0') {
+            if (rsvpSubmitBtn) {
+              rsvpSubmitBtn.disabled = true;
+              rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              rsvpSubmitBtn.innerText = "RSVP DITUTUP";
+            }
+            if (rsvpNameInput) rsvpNameInput.disabled = true;
+            if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
+            if (rsvpStatusInput) rsvpStatusInput.disabled = true;
+            if (paxSelect) paxSelect.disabled = true;
+          } else {
+            if (rsvpSubmitBtn) {
+              rsvpSubmitBtn.disabled = false;
+              rsvpSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              rsvpSubmitBtn.innerText = "Hantar Pengesahan";
+            }
+            if (rsvpNameInput) rsvpNameInput.disabled = false;
+            if (rsvpPhoneInput) rsvpPhoneInput.disabled = false;
+            if (rsvpStatusInput) rsvpStatusInput.disabled = false;
+            if (paxSelect) paxSelect.disabled = false;
+          }
+        }
+
+        // Master Switch: Galeri
+        const uploadBtn = document.getElementById('btn-upload-gallery');
+        if (uploadBtn && config.control_gallery !== undefined) {
+          const valG = String(config.control_gallery).trim().toUpperCase();
+          const photoInput = document.getElementById('photo-upload');
+          
+          if (valG === 'FALSE' || valG === 'OFF' || valG === '0') {
+            uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+            uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
+            if (photoInput) photoInput.disabled = true;
+          } else {
+            uploadBtn.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+            uploadBtn.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar <input type="file" id="photo-upload" accept="image/*" class="hidden">`;
+            bindPhotoUploadListener();
+          }
+        }
+
+        // Master Switch: Ucapan
+        const wishSubmitBtn = document.getElementById('btn-submit-wish');
+        const wishNameInput = document.getElementById('wish-name');
+        const wishMsgInput = document.getElementById('wish-message');
+
+        if (config.control_wish !== undefined) {
+          const valW = String(config.control_wish).trim().toUpperCase();
+          if (valW === 'FALSE' || valW === 'OFF' || valW === '0') {
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = true;
+              wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              wishSubmitBtn.innerText = "UCAPAN DITUTUP";
+            }
+            if (wishNameInput) wishNameInput.disabled = true;
+            if (wishMsgInput) wishMsgInput.disabled = true;
+          } else {
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = false;
+              wishSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              wishSubmitBtn.innerText = "Hantar Ucapan";
+            }
+            if (wishNameInput) wishNameInput.disabled = false;
+            if (wishMsgInput) wishMsgInput.disabled = false;
+          }
+        }
+
+        applySiteConfig(config);
+      })
+      .catch(err => console.error("Gagal ambil Config:", err));
   }
   
   // --- MUAT BERPERINGKAT (STAGGERED INITIAL LOAD) ---
@@ -278,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data && data.length > 0) {
         container.innerHTML = data.map(item => {
-          let displayTime = item.time || item.masa || '';
+          let displayTime = item.time || item.masa || item['time'] || '';
           if (displayTime.includes('GMT') || displayTime.includes('1899')) {
             const dateObj = new Date(displayTime);
             if (!isNaN(dateObj.getTime())) {
@@ -678,8 +672,8 @@ END:VCALENDAR`;
     fetchSheetDataViaGViz('Gallery', function(data) {
       if (data && data.length > 0) {
         const newGallery = data.map(item => ({
-          url: item.url || '',
-          caption: `${item.caption || 'Kenangan'} (Oleh: ${item.name || 'Tetamu'})`
+          url: item.url || item.URL || '',
+          caption: `${item.caption || item.kapsyen || 'Kenangan'} (Oleh: ${item.name || item.nama || 'Tetamu'})`
         })).filter(img => img.url !== '');
 
         if (newGallery.length > 0 && JSON.stringify(newGallery) !== JSON.stringify(defaultGallery)) {
@@ -865,9 +859,9 @@ END:VCALENDAR`;
     fetchSheetDataViaGViz('Wishes', function(data) {
       if (data && data.length > 0) {
         const newWishes = data.map(item => ({ 
-          name: item.name || '', 
-          message: item.message || '', 
-          timestamp: item.timestamp || '' 
+          name: item.name || item.nama || '', 
+          message: item.message || item.ucapan || '', 
+          timestamp: item.timestamp || item.masa || '' 
         })).reverse();
 
         const oldWishesSimple = defaultWishes.map(w => ({ name: w.name, message: w.message }));
@@ -1231,4 +1225,4 @@ END:VCALENDAR`;
     }
   }
 
-});	
+});
