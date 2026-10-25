@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
             row.c.forEach((cell, index) => {
               let val = '';
               if (cell !== null && cell !== undefined) {
-                // Utamakan .f (formatted string seperti "10:00 am") jika ada, jika tidak guna .v
                 val = cell.f !== undefined && cell.f !== null ? cell.f : (cell.v !== undefined ? cell.v : '');
               }
               obj[cols[index]] = val;
@@ -91,12 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let config = {};
 
-        // Fungsi pembantu untuk ekstrak nilai sel secara selamat
         function extractCellVal(cell) {
           if (!cell) return '';
           if (cell.v !== undefined && cell.v !== null) {
-            // Elakkan sel boolean (checkbox) daripada ditukar jadi perkataan "true" yang salah konteks jika perlu, 
-            // tapi simpan nilainya untuk master switch.
             return cell.v;
           }
           return '';
@@ -105,14 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach(r => {
           if (!r || !r.c) return;
           
-          // 1. Semak pasangan Lajur A (Indeks 0) & Lajur B (Indeks 1) [General / Bank / Event Details]
           const k1 = extractCellVal(r.c[0]);
           const v1 = extractCellVal(r.c[1]);
           if (k1 && typeof k1 === 'string' && k1.toLowerCase() !== 'key') {
             config[k1.trim().toLowerCase()] = v1;
           }
 
-          // 2. Semak pasangan Lajur F (Indeks 5) & Lajur G (Indeks 6) [Master Switch]
           const k2 = extractCellVal(r.c[5]);
           const v2 = extractCellVal(r.c[6]);
           if (k2 && typeof k2 === 'string' && k2.toLowerCase() !== 'key') {
@@ -147,18 +141,35 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
         }
 		
-		// Pautan Maps & Waze (Dipastikan bersih dari ruang kosong)
+		    // Pautan Google Maps (Dengan onclick terus untuk jamin responsif)
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink) {
-          gmapsLink.href = config.gmaps_url ? String(config.gmaps_url).trim() : '#';
+          const gmapsUrl = config.gmaps_url ? String(config.gmaps_url).trim() : '#';
+          gmapsLink.href = gmapsUrl;
+          gmapsLink.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (gmapsUrl && gmapsUrl !== '#') {
+              window.open(gmapsUrl, '_blank');
+            }
+          };
         }
 
+        // Pautan Waze (Dengan onclick terus untuk jamin responsif)
         const wazeLink = document.getElementById('dyn-waze-link');
         if (wazeLink) {
-          wazeLink.href = config.waze_url ? String(config.waze_url).trim() : '#';
+          const wazeUrl = config.waze_url ? String(config.waze_url).trim() : '#';
+          wazeLink.href = wazeUrl;
+          wazeLink.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (wazeUrl && wazeUrl !== '#') {
+              window.open(wazeUrl, '_blank');
+            }
+          };
         }
 
-        // Kontak Panggilan & WhatsApp (Dibersihkan nombor telefon daripada sebarang simbol/jarak)
+        // Kontak 1 (Panggilan & WhatsApp dengan onclick terus)
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
           document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
@@ -167,10 +178,27 @@ document.addEventListener('DOMContentLoaded', () => {
           const telBtn1 = document.getElementById('dyn-c1-tel');
           const waBtn1 = document.getElementById('dyn-c1-wa');
           
-          if (telBtn1) telBtn1.href = phone1 ? `tel:${phone1}` : '#';
-          if (waBtn1) waBtn1.href = phone1 ? `https://wa.me/${phone1}?text=Assalamualaikum` : '#';
+          if (telBtn1) {
+            const telUrl = phone1 ? `tel:${phone1}` : '#';
+            telBtn1.href = telUrl;
+            telBtn1.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (phone1) window.location.href = telUrl;
+            };
+          }
+          if (waBtn1) {
+            const waUrl = phone1 ? `https://wa.me/${phone1}?text=Assalamualaikum` : '#';
+            waBtn1.href = waUrl;
+            waBtn1.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (phone1) window.open(waUrl, '_blank');
+            };
+          }
         }
 
+        // Kontak 2 (Panggilan & WhatsApp dengan onclick terus)
         if (config.contact2_name && document.getElementById('dyn-c2-name')) {
           document.getElementById('dyn-c2-name').innerText = config.contact2_name;
           document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
@@ -179,8 +207,24 @@ document.addEventListener('DOMContentLoaded', () => {
           const telBtn2 = document.getElementById('dyn-c2-tel');
           const waBtn2 = document.getElementById('dyn-c2-wa');
           
-          if (telBtn2) telBtn2.href = phone2 ? `tel:${phone2}` : '#';
-          if (waBtn2) waBtn2.href = phone2 ? `https://wa.me/${phone2}?text=Assalamualaikum` : '#';
+          if (telBtn2) {
+            const telUrl2 = phone2 ? `tel:${phone2}` : '#';
+            telBtn2.href = telUrl2;
+            telBtn2.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (phone2) window.location.href = telUrl2;
+            };
+          }
+          if (waBtn2) {
+            const waUrl2 = phone2 ? `https://wa.me/${phone2}?text=Assalamualaikum` : '#';
+            waBtn2.href = waUrl2;
+            waBtn2.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (phone2) window.open(waUrl2, '_blank');
+            };
+          }
         }
 
         // Maksimum Pax RSVP
@@ -196,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Master Switch: RSVP (Semak nilai boolean true / false atau string)
+        // Master Switch: RSVP
         const rsvpFormEl = document.getElementById('rsvp-form');
         const rsvpNameInput = document.getElementById('rsvp-name');
         const rsvpPhoneInput = document.getElementById('rsvp-phone');
@@ -307,8 +351,8 @@ document.addEventListener('DOMContentLoaded', () => {
           container.innerHTML = rows.map(row => {
             if (!row || !row.c) return '';
             
-            const cellTime = row.c[0]; // Lajur A (Masa)
-            const cellDesc = row.c[1]; // Lajur B (Perkara)
+            const cellTime = row.c[0];
+            const cellDesc = row.c[1];
 
             let rawTime = '';
             if (cellTime && cellTime.v !== undefined && cellTime.v !== null) {
@@ -317,7 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let displayTime = rawTime;
 
-            // Jika mengandungi format Date(YYYY,MM,DD,HH,mm,ss), ekstrak nombor jam & minit secara terus
             if (rawTime.startsWith('Date(')) {
               const nums = rawTime.match(/\d+/g);
               if (nums && nums.length >= 5) {
@@ -325,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let minute = parseInt(nums[4], 10);
                 let ampm = hour >= 12 ? 'PM' : 'AM';
                 hour = hour % 12;
-                hour = hour ? hour : 12; // Tukar jam 0 kepada 12
+                hour = hour ? hour : 12;
                 let minStr = minute < 10 ? '0' + minute : minute;
                 displayTime = `${hour}:${minStr} ${ampm}`;
               }
@@ -1236,12 +1279,10 @@ END:VCALENDAR`;
     });
   };
   
-  // Fungsi kawalan paparan seksyen berdasarkan Master Switch
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtn = document.getElementById('dock-gift-btn');
     
-    // Jika control_gift false, sembunyikan butang kasihan/gift
     if (giftControl === false || String(giftControl).trim().toUpperCase() === "FALSE") {
       if (dockGiftBtn) dockGiftBtn.style.display = 'none'; 
     } else {
