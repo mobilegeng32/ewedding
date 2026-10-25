@@ -146,27 +146,41 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.event_location && document.getElementById('dyn-event-location')) {
           document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
         }
-
-        // Pautan Maps & Waze
-        if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
-          document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
-        }
-        if (config.waze_url && document.getElementById('dyn-waze-link')) {
-          document.getElementById('dyn-waze-link').href = config.waze_url;
+		
+		// Pautan Maps & Waze (Dipastikan bersih dari ruang kosong)
+        const gmapsLink = document.getElementById('dyn-gmaps-link');
+        if (gmapsLink) {
+          gmapsLink.href = config.gmaps_url ? String(config.gmaps_url).trim() : '#';
         }
 
-        // Kontak Panggilan
+        const wazeLink = document.getElementById('dyn-waze-link');
+        if (wazeLink) {
+          wazeLink.href = config.waze_url ? String(config.waze_url).trim() : '#';
+        }
+
+        // Kontak Panggilan & WhatsApp (Dibersihkan nombor telefon daripada sebarang simbol/jarak)
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
           document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
-          document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone}`;
-          document.getElementById('dyn-c1-wa').href = `https://wa.me/${config.contact1_phone}?text=Assalamualaikum`;
+          
+          const phone1 = config.contact1_phone ? String(config.contact1_phone).replace(/[^0-9+]/g, '') : '';
+          const telBtn1 = document.getElementById('dyn-c1-tel');
+          const waBtn1 = document.getElementById('dyn-c1-wa');
+          
+          if (telBtn1) telBtn1.href = phone1 ? `tel:${phone1}` : '#';
+          if (waBtn1) waBtn1.href = phone1 ? `https://wa.me/${phone1}?text=Assalamualaikum` : '#';
         }
+
         if (config.contact2_name && document.getElementById('dyn-c2-name')) {
           document.getElementById('dyn-c2-name').innerText = config.contact2_name;
           document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || '';
-          document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone}`;
-          document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
+          
+          const phone2 = config.contact2_phone ? String(config.contact2_phone).replace(/[^0-9+]/g, '') : '';
+          const telBtn2 = document.getElementById('dyn-c2-tel');
+          const waBtn2 = document.getElementById('dyn-c2-wa');
+          
+          if (telBtn2) telBtn2.href = phone2 ? `tel:${phone2}` : '#';
+          if (waBtn2) waBtn2.href = phone2 ? `https://wa.me/${phone2}?text=Assalamualaikum` : '#';
         }
 
         // Maksimum Pax RSVP
