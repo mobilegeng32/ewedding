@@ -223,7 +223,7 @@
           <h3 class="font-serif text-2xl text-purpleTheme-900 mb-6">Atur Cara Majlis</h3>
 		  
           <div id="tentative-scroll-box" class="max-h-[320px] overflow-y-auto pr-2 no-scrollbar space-y-6">
-            <div id="dyn-tentative-container" class="relative pl-6 space-y-6 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-[2px] before:bg-butter-300">
+            <div id="dyn-tentative-container" class="relative pl-6 space-y-6 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-butter-300">
               <p class="text-xs text-purpleTheme-700/60 italic">Memuatkan atur cara majlis...</p>
             </div>
           </div>
@@ -238,15 +238,15 @@
   </section>
 
   <!-- 4. RSVP SECTION -->
-  <section id="rsvp-section" class="py-16 px-6 max-w-3xl mx-auto">
+  <section id="rsvp-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Kehadiran</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Pengesahan RSVP</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Sila sahkan kehadiran anda sebelum 1 May 2027</p>
+    </div>
+
     <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-6">
-      <div class="text-center space-y-2">
-        <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Kehadiran</span>
-        <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Pengesahan RSVP</h2>
-        <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Sila sahkan kehadiran anda sebelum 1 May 2027</p>
-      </div>
-	  
-      <form id="rsvp-form" class="space-y-4 pt-4 text-left">
+      <form id="rsvp-form" class="space-y-4 text-left">
         <div>
           <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Penuh *</label>
           <input type="text" id="rsvp-name" required placeholder="Contoh: Ahmad Razak" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
@@ -273,7 +273,6 @@
           <select id="rsvp-pax" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer"></select>
         </div>
 
-        <!-- ID rsvp-submit ditambah di sini untuk keserasian skrip -->
         <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 font-medium py-3.5 rounded-xl text-sm tracking-wide smooth-transition shadow-md mt-2 cursor-pointer">
           Hantar Pengesahan
         </button>
@@ -329,20 +328,20 @@
   <!-- 6. BUKU HAJAT SECTION -->
   <section id="wishes-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-      <span class="inline-block px-4 py-1 rounded-full bg-butter-100 text-purpleTheme-800 text-[11px] uppercase tracking-[0.25em] font-semibold border border-butter-300/60 shadow-sm">
-        Buku Hajat
-      </span>
-      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal">Ucapan &amp; Doa Restu</h2>
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Buku Hajat</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Ucapan &amp; Doa Restu</h2>
       <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light max-w-md mx-auto">
         Titipkan sepotong doa, pesanan, atau kata-kata indah buat pengantin.
       </p>
     </div>
 
-    <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-8 relative overflow-hidden">
+    <!-- Padding luar dikecilkan dari p-8 sm:p-12 kepada py-6 px-6 sm:py-8 sm:px-10 -->
+	<div class="glass-card rounded-3xl pt-2 pb-6 px-6 sm:pt-3 sm:pb-8 sm:px-10 custom-shadow border border-purpleTheme-100 space-y-6 relative overflow-hidden">
       <div class="absolute -top-16 -left-16 w-36 h-36 bg-purpleTheme-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div class="space-y-6 relative z-10">
-        <form id="wish-form" class="space-y-5 bg-white/60 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-purpleTheme-100/80 shadow-sm text-left">
+      <div class="space-y-6 relative z-10 text-left">
+        <!-- Form Hantar Ucapan -->
+        <form id="wish-form" class="space-y-4">
           <div class="space-y-1.5">
             <label for="wish-name" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Nama Anda <span class="text-purpleTheme-500">*</span></label>
             <div class="relative">
@@ -364,7 +363,7 @@
           </div>
 
           <div class="pt-1">
-            <button id="btn-submit-wish" type="submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-4 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-butter-300/30 group">
+            <button id="btn-submit-wish" type="submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-butter-300/30 group">
               <span>Hantar Ucapan</span>
               <i class="fas fa-paper-plane text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
             </button>
@@ -375,7 +374,11 @@
           Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
         </div>
         
-        <div class="space-y-3 pt-2">
+        <!-- Garis Pemisah -->
+        <div class="w-full h-[1px] bg-purpleTheme-100/80 my-4"></div>
+
+        <!-- Senarai Kad Ucapan Tetamu -->
+        <div class="space-y-3">
           <div class="flex items-center justify-between px-1">
             <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
             <span class="text-[10px] text-purpleTheme-700/70 italic">Kemas kini langsung</span>
@@ -387,16 +390,19 @@
       </div>
     </div>
   </section>
-
+  
   <!-- 7. COUNTDOWN SECTION -->
-  <section id="countdown-section" class="py-12 px-6 max-w-4xl mx-auto">
+  <section id="countdown-section" class="py-16 px-6 max-w-4xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Menghitung Hari</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Menuju Hari Bahagia</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Menuju ikatan suci pernikahan kami</p>
+    </div>
+
     <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow text-center relative overflow-hidden border border-purpleTheme-100">
       <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-butter-200 via-purpleTheme-500 to-butter-200"></div>
 
-      <h2 class="font-serif text-2xl sm:text-3xl text-purpleTheme-900 mb-2">Menghitung Hari</h2>
-      <p class="text-xs sm:text-sm text-purpleTheme-800/70 mb-8 font-light">Menuju ikatan suci pernikahan kami</p>
-
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-2">
         <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
           <span id="cd-days" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
           <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Hari</span>
