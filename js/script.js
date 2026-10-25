@@ -422,7 +422,7 @@ END:VCALENDAR`;
           formData.append('status', document.getElementById('rsvp-status').value);
           formData.append('pax', document.getElementById('rsvp-pax').value);
           
-          fetch(`${SCRIPT_URL}?action=rsvp`, { 
+          fetch(SCRIPT_URL, { 
             method: 'POST', 
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
@@ -443,7 +443,6 @@ END:VCALENDAR`;
                 alertBox.innerHTML = `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.`;
                 alertBox.classList.remove('hidden');
                 rsvpForm.reset();
-                // Pastikan pax container kembali muncul ikut nilai default 'Hadir' selepas reset
                 if (paxContainer) paxContainer.classList.remove('hidden');
                 if (rsvpPax) rsvpPax.value = "1";
                 setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
@@ -466,7 +465,7 @@ END:VCALENDAR`;
      GALLERY, SLIDESHOW & UPLOAD
   ------------------------------------------------------------- */
   const fallbackGallery = [
-    { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama" }
+    { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama Bermula Disini..." }
   ];
 
   let defaultGallery = [];
@@ -506,7 +505,7 @@ END:VCALENDAR`;
   function fetchGalleryImages(isBackgroundCheck = false) {
     if (!SCRIPT_URL.includes('http')) return;
     
-    fetch(SCRIPT_URL)
+    fetch(`${SCRIPT_URL}?action=gallery`)
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
@@ -584,10 +583,8 @@ END:VCALENDAR`;
     confirmUploadBtn.addEventListener('click', () => {
       if (!selectedFileForUpload) return;
       
-      // Tutup modal input nama/kapsyen terlebih dahulu
       if (uploadModal) uploadModal.classList.add('hidden');
 
-      // Paparkan custom confirmation modal untuk upload
       showConfirmDialog(
         "Muat Naik Gambar?",
         "Adakah anda pasti mahu memuat naik gambar ini ke galeri majlis?",
@@ -622,7 +619,7 @@ END:VCALENDAR`;
               formData.append('name', uploaderName);
               formData.append('caption', imageCaption);
               
-              fetch(`${SCRIPT_URL}?action=gallery`, { 
+              fetch(SCRIPT_URL, { 
                 method: 'POST', 
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded',
@@ -755,7 +752,7 @@ END:VCALENDAR`;
             formData.append('name', nameInput.value);
             formData.append('message', msgInput.value);
             
-            fetch(`${SCRIPT_URL}?action=wishes`, { 
+            fetch(SCRIPT_URL, { 
               method: 'POST', 
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
