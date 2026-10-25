@@ -57,13 +57,6 @@
     Pelayar anda tidak menyokong elemen audio.
   </audio>
 
-  <div id="music-container" class="fixed bottom-20 right-5 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
-    <button id="music-toggle" type="button" class="relative group bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-purpleTheme-700/20 active:scale-95 cursor-pointer" title="Pasang/Hentikan Lagu Background">
-      <span class="absolute inset-0 rounded-full bg-butter-300 animate-ping opacity-30 pointer-events-none"></span>
-      <i id="music-icon" class="fas fa-music text-base transition-transform duration-300 group-hover:rotate-12"></i>
-    </button>
-  </div>
-
   <!-- 1. HERO SECTION -->
   <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
     <div class="max-w-3xl mx-auto z-10 space-y-6">
@@ -435,7 +428,7 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v2.12
+        Officially Made By Arejim's &copy; 2026 v2.13
       </p>
     </div>
   </footer>
@@ -493,39 +486,65 @@
     </div>
   </div>
   
-  <!-- FLOATING QUICK ACTION BAR -->
-  <div id="quick-action-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none max-w-[95vw]">
-    <div class="glass-card bg-white/95 backdrop-blur-md px-2.5 py-2 rounded-full shadow-2xl border border-purpleTheme-100 flex items-center gap-1.5 sm:gap-3">
-      <a href="#invitation-section" id="nav-invitation-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Kad Undangan">
-        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-envelope-open-text"></i></div>
-        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Undangan</span>
-      </a>
-      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
-      <a href="#details-section" id="nav-details-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Lokasi Majlis">
-        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-map-marker-alt"></i></div>
-        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Lokasi</span>
-      </a>
-      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
-      <a href="#rsvp-section" id="nav-rsvp-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="RSVP Kehadiran">
-        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-clipboard-check"></i></div>
-        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">RSVP</span>
-      </a>
-      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
-      <a href="#gallery-section" id="nav-gallery-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Galeri Gambar">
-        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-images"></i></div>
-        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Galeri</span>
-      </a>
-      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
-      <a href="#wishes-section" id="nav-wishes-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Buku Hajat">
-        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-heart"></i></div>
-        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Ucapan</span>
-      </a>
-      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
-      <a href="#hero-section" id="nav-home-btn" class="flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Muka Depan">
-        <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-purpleTheme-900 text-butter-100 group-hover:bg-purpleTheme-800 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-home"></i></div>
-        <span class="text-[8px] sm:text-[9px] font-medium mt-0.5 text-purpleTheme-900">Utama</span>
-      </a>
-    </div>
+  <!-- FLOATING TRIGGER BUTTON (Pencetus di Penjuru Kanan Bawah) -->
+  <div id="fab-container" class="fixed bottom-6 right-6 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
+    <button id="fab-trigger" type="button" class="w-12 h-12 rounded-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 flex items-center justify-center shadow-2xl border-2 border-butter-300/40 transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto" title="Menu Navigasi">
+      <i id="fab-trigger-icon" class="fas fa-bars text-sm"></i>
+    </button>
+  </div>
+  
+  <!-- NOTCHED NAVIGATION DOCK (Menu Timbul di Tengah Skrin Bawah) -->
+  <div id="fab-dock" class="glass-card border border-butter-300 shadow-2xl rounded-full px-4 py-3 flex items-center justify-center gap-1 sm:gap-3 bg-white/95 transition-all duration-500 ease-out fixed left-1/2 -translate-x-1/2 bottom-6 scale-75 opacity-0 pointer-events-none w-max max-w-[95vw] origin-bottom z-50">
+    
+    <a href="#hero-section" data-target="hero-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Utama">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-home text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">Utama</span>
+    </a>
+
+    <a href="#invitation-section" data-target="invitation-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Undangan">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-envelope-open-text text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">Undangan</span>
+    </a>
+
+    <a href="#details-section" data-target="details-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Lokasi">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-map-marker-alt text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">Lokasi</span>
+    </a>
+
+    <a href="#rsvp-section" data-target="rsvp-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="RSVP">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-clipboard-check text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">RSVP</span>
+    </a>
+
+    <a href="#gallery-section" data-target="gallery-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Galeri">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-images text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">Galeri</span>
+    </a>
+
+    <a href="#wishes-section" data-target="wishes-section" class="fab-link flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Ucapan">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i class="fas fa-heart text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span class="text-[9px] font-semibold tracking-tight">Ucapan</span>
+    </a>
+
+    <!-- Music Toggle -->
+    <button id="dock-music-btn" type="button" class="flex flex-col items-center px-2 py-1 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Muzik">
+      <div class="h-6 flex items-center justify-center mb-0.5">
+        <i id="dock-music-icon" class="fas fa-volume-xmark text-base group-hover:scale-110 transition-transform"></i>
+      </div>
+      <span id="dock-music-text" class="text-[9px] font-semibold tracking-tight">Muzik</span>
+    </button>
   </div>
   
   <script src="js/script.js"></script>

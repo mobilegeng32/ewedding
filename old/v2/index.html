@@ -1,570 +1,533 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kad Perkahwinan Utrias & Hazim</title>
-
-  <!-- Tailwind CSS CDN -->
+  
+  <!-- Favicon / Ikon Tab Pelayar -->
+  <link rel="icon" type="image/jpeg" href="images/logo2-nobg.png">
+  <link rel="apple-touch-icon" href="images/logo2-nobg.png">
+  
+  <title>Walimatulurus | Utrias & Hazim</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Amiri:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="./css/style.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            butter: {
+              50: '#FFFDF0',
+              100: '#FFF9D6',
+              200: '#FFF3AB',
+              300: '#FFE87A',
+              400: '#FFD94D',
+            },
+            purpleTheme: {
+              50: '#F5EFFB',
+              100: '#E6D7F6',
+              200: '#CDB1EC',
+              500: '#7C4DFF',
+              700: '#583083',
+              800: '#3D1E61',
+              900: '#261042',
+            }
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Montserrat', 'sans-serif'],
+            arabic: ['Amiri', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="p-2 sm:p-6 md:p-10 flex flex-col items-center justify-center min-h-screen relative text-purple-950">
+<body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
 
-<!-- Navigation Bar -->
-  <nav class="w-full max-w-6xl navbar-bg rounded-t-xl py-3 px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between text-gold text-xs sm:text-sm font-semibold tracking-wider border-b border-yellow-300/30 relative">
-    
-    <!-- Top Row for Mobile: Logo, Mobile Menu Toggle, & Music Button -->
-    <div class="w-full flex items-center justify-between md:w-auto">
-      <div class="flex items-center space-x-1">
-        <i class="fa-solid font-bold text-lg text-gold">🕌</i>
+  <audio id="bg-music" loop preload="auto">
+    <source src="music/background-sound.mp3" type="audio/mpeg">
+    Pelayar anda tidak menyokong elemen audio.
+  </audio>
+
+  <div id="music-container" class="fixed bottom-20 right-5 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
+    <button id="music-toggle" type="button" class="relative group bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-purpleTheme-700/20 active:scale-95 cursor-pointer" title="Pasang/Hentikan Lagu Background">
+      <span class="absolute inset-0 rounded-full bg-butter-300 animate-ping opacity-30 pointer-events-none"></span>
+      <i id="music-icon" class="fas fa-music text-base transition-transform duration-300 group-hover:rotate-12"></i>
+    </button>
+  </div>
+
+  <!-- 1. HERO SECTION -->
+  <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
+    <div class="max-w-3xl mx-auto z-10 space-y-6">
+      <span class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-5 py-2 rounded-full border border-butter-300 shadow-sm animate-fade-in">
+        Walimatulurus / Undangan Majlis Nikah
+      </span>
+
+      <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-normal tracking-tight text-purpleTheme-900 leading-tight">
+        Utrias <span class="italic font-light text-purpleTheme-700">&amp;</span> Hazim
+      </h1>
+
+      <p class="text-sm sm:text-base tracking-wide text-purpleTheme-800/80 max-w-lg mx-auto font-light italic">
+        "Dua benua, dua hati, satu ikatan abadi."
+      </p>
+
+      <div class="w-16 h-[1px] bg-purpleTheme-700/30 mx-auto my-4"></div>
+
+      <p class="text-sm sm:text-base font-medium tracking-widest uppercase text-purpleTheme-700">
+        Sabtu, 22 May 2027
+      </p>
+	  
+      <div class="pt-8">
+        <a href="#invitation-section" id="hero-open-btn" class="group relative inline-flex items-center gap-3.5 bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 px-8 py-4 rounded-full text-xs sm:text-sm tracking-widest font-semibold uppercase transition-colors duration-300 shadow-xl hover:shadow-2xl border border-butter-300/30 cursor-pointer overflow-hidden">
+          <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+          <span>Buka Undangan</span>
+          <span class="w-7 h-7 rounded-full bg-butter-200 text-purpleTheme-900 flex items-center justify-center transition-transform duration-300 group-hover:translate-y-1 shadow-sm shrink-0">
+            <i class="fas fa-chevron-down text-xs"></i>
+          </span>
+        </a>
       </div>
-      
-      <div class="flex items-center gap-2 md:hidden">
-        <!-- Music Toggle Mobile -->
-        <button id="musicToggleMobile" class="text-gold hover:text-yellow-100 text-sm focus:outline-none flex items-center gap-1 bg-purple-900/60 px-2.5 py-1 rounded-full border border-yellow-300/40">
-          <i class="fa-solid fa-music"></i>
-        </button>
-        <!-- Hamburger Menu Button -->
-        <button onclick="toggleMobileMenu()" class="text-gold hover:text-yellow-100 text-lg focus:outline-none p-1.5 bg-purple-900/60 rounded-lg border border-yellow-300/40">
-          <i class="fa-solid fa-bars" id="menuIcon"></i>
-        </button>
+    </div>
+
+    <a href="#invitation-section" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
+      <i class="fas fa-chevron-down text-lg"></i>
+    </a>
+  </section>
+  
+  <!-- 2. INVITATION SECTION -->
+  <section id="invitation-section" class="py-16 px-6 max-w-3xl mx-auto text-center">
+    <div class="glass-card rounded-3xl p-8 sm:p-14 custom-shadow border border-purpleTheme-100/80 relative overflow-hidden space-y-8">
+      <div class="absolute -top-12 -right-12 w-40 h-40 bg-butter-200/40 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-purpleTheme-100/40 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-purpleTheme-700/20 rounded-tl-lg pointer-events-none"></div>
+      <div class="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-purpleTheme-700/20 rounded-br-lg pointer-events-none"></div>
+	  
+	  <!-- Ditambahkan leading-loose dan py-2 supaya jarak baris Arab lebih luas dan tidak bertindih di skrin telefon -->
+      <div class="text-purpleTheme-800 font-arabic text-2xl sm:text-4xl font-medium tracking-wide drop-shadow-sm leading-loose py-2">
+        السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّهِ وَبَرَكاتُهُ
+      </div>
+
+      <div class="space-y-3 text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light max-w-md mx-auto">
+        <p class="italic">"Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Tanpa mengurangi rasa hormat, seiring memohon rahmat dan rida Allah SWT, kami bermaksud mengundang:"</p>
+        <div class="inline-block bg-butter-100/90 border border-butter-300/80 px-5 py-1.5 rounded-full my-2 shadow-sm">
+          <p class="font-medium text-purpleTheme-900 text-xs sm:text-sm tracking-wide">Bapak / Ibu / Saudara / i</p>
+        </div>
+        <p>untuk hadir dan memberikan doa restu pada syukuran pernikahan putra-putri kami:</p>
+      </div>
+
+      <div class="space-y-8 pt-2">
+        <div class="space-y-2">
+          <h3 id="dyn-bride-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide">Memuat data...</h3>
+          <div class="w-12 h-[1px] bg-butter-400 mx-auto opacity-70"></div>
+          <p id="dyn-bride-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4">...</p>
+        </div>
+
+        <div class="flex justify-center items-center py-0">
+          <span class="w-10 h-10 rounded-full bg-butter-100 border border-butter-200 flex items-center justify-center shadow-sm">
+            <span class="font-serif italic text-purpleTheme-700 text-lg font-semibold">&amp;</span>
+          </span>
+        </div>
+
+        <div class="space-y-2">
+          <h3 id="dyn-groom-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide">Memuat data...</h3>
+          <div class="w-12 h-[1px] bg-butter-400 mx-auto opacity-70"></div>
+          <p id="dyn-groom-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4">...</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-3 w-32 mx-auto pt-2">
+        <div class="h-[1px] bg-gradient-to-r from-transparent to-purpleTheme-700/30 flex-1"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-butter-400"></div>
+        <div class="h-[1px] bg-gradient-to-l from-transparent to-purpleTheme-700/30 flex-1"></div>
       </div>
     </div>
+  </section>
 
-    <!-- Desktop Menu Links (Hidden on small screens) -->
-    <div class="hidden md:flex space-x-6 items-center uppercase">
-      <a href="#home" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="#story" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-heart"></i> Our Story</a>
-      <a href="#event" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-calendar-days"></i> Event</a>
-      <a href="#gallery" onclick="openModal('modal-gallery')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-image"></i> Gallery</a>
-      <a href="#rsvp" onclick="openModal('modal-rsvp')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-clipboard-user"></i> RSVP</a>
-      <a href="#wishes" onclick="openModal('modal-wishes')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-heart-circle-check"></i> Wishes</a>
-      <a href="#contact" onclick="openModal('modal-contact')" class="hover:text-yellow-100 transition flex items-center gap-1.5"><i class="fa-solid fa-phone"></i> Contact</a>
+  <!-- 3. DETAILS & MAJLIS SECTION -->
+  <section id="details-section" class="py-16 px-6 max-w-5xl mx-auto space-y-16">
+    <div class="text-center space-y-3">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Butiran Majlis</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Maklumat Akad Nikah</h2>
+      <div class="w-12 h-[1px] bg-butter-400 mx-auto"></div>
     </div>
 
-    <!-- Desktop Music Toggle (Hidden on small screens) -->
-    <div class="hidden md:block">
-      <button id="musicToggle" class="text-gold hover:text-yellow-100 text-base sm:text-lg focus:outline-none flex items-center gap-1 bg-purple-900/60 px-3 py-1 rounded-full border border-yellow-300/40">
-        <i class="fa-solid fa-music"></i>
-      </button>
-    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="glass-card rounded-3xl p-8 custom-shadow border border-purpleTheme-100 flex flex-col justify-between space-y-6">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-full bg-butter-200 flex items-center justify-center text-purpleTheme-700 text-xl">
+            <i class="fas fa-mosque"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-purpleTheme-900">Masa &amp; Lokasi</h3>
+          <div class="space-y-2 text-sm text-purpleTheme-900/80 leading-relaxed font-light">
+            <p id="dyn-event-date" class="font-medium text-purpleTheme-900"><i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> Memuat...</p>
+            <p id="dyn-event-time" class="font-medium text-purpleTheme-900"><i class="far fa-clock text-purpleTheme-700 mr-2"></i> Memuat...</p>
+            <p id="dyn-event-location" class="pt-2"><i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> Memuat...</p>
+          </div>
+        </div>
 
-    <!-- Mobile Dropdown Menu (Hidden by default, toggled via JS) -->
-    <div id="mobileDropdown" class="hidden w-full flex-col space-y-2 pt-3 pb-2 mt-2 border-t border-yellow-300/20 md:hidden uppercase text-center text-xs">
-      <a href="#home" onclick="toggleMobileMenu()" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="#story" onclick="toggleMobileMenu()" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-heart"></i> Our Story</a>
-      <a href="#event" onclick="toggleMobileMenu()" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-calendar-days"></i> Event</a>
-      <a href="#gallery" onclick="openModal('modal-gallery'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-image"></i> Gallery</a>
-      <a href="#rsvp" onclick="openModal('modal-rsvp'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-clipboard-user"></i> RSVP</a>
-      <a href="#wishes" onclick="openModal('modal-wishes'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-heart-circle-check"></i> Wishes</a>
-      <a href="#contact" onclick="openModal('modal-contact'); toggleMobileMenu();" class="block py-2 hover:bg-purple-900/40 rounded transition"><i class="fa-solid fa-phone"></i> Contact</a>
-    </div>
-  </nav>
-
-	<!-- Audio Player (Background Music) -->
-	<audio id="bgMusic" loop>
-	  <source src="music/background-sound.mp3" type="audio/mpeg">
-	</audio>
-
-  <!-- Main Container Wrapper -->
-  <div class="max-w-6xl w-full">
-    <!-- Outer Golden Ornamental Frame -->
-    <div class="relative p-2 sm:p-4 rounded-b-xl border-2 border-amber-600/40 bg-[#eee098] shadow-2xl">
-      
-      <!-- TICKET MAIN WRAPPER -->
-      <div class="relative bg-card-pattern rounded-xl p-4 sm:p-8 text-purple-950 flex flex-col lg:flex-row shadow-inner overflow-hidden border border-yellow-500/30 my-2">
-        
-        <!-- Ticket Cutout Notches -->
-        <div class="ticket-notch-top hidden lg:block"></div>
-        <div class="ticket-notch-bottom hidden lg:block"></div>
-
-        <!-- LEFT SECTION: MAIN INVITATION CARD (Minimalist Clean Header) -->
-        <div class="lg:w-2/3 p-4 sm:p-6 flex flex-col justify-between border-b-2 lg:border-b-0 lg:border-r-2 border-dashed border-purple-900/20 pb-8 lg:pb-0 lg:pr-8">
-          
-		  <!-- Minimalist Bismillah Header (Kemas & Seimbang) -->
-          <div class="w-full text-center pt-1 mb-6">
-            <div class="font-arabic text-2xl sm:text-3xl text-purple-900 font-bold mb-6 leading-normal">
-              بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-            </div>
-            <p class="text-[11px] sm:text-xs font-semibold tracking-widest text-purple-800 uppercase mt-4">
-              TOGETHER WITH OUR FAMILIES WE INVITE YOU TO WITNESS OUR AKAD NIKAH
-            </p>
+        <div class="pt-4 border-t border-purpleTheme-100/80 space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <a id="dyn-gmaps-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-3 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer">
+              <i class="fas fa-map-marked-alt text-purpleTheme-700"></i> Google Maps
+            </a>
+            <a id="dyn-waze-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-3 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer">
+              <i class="fas fa-location-arrow text-purpleTheme-700"></i> Waze
+            </a>
           </div>
 
-          <!-- Bride & Groom Names -->
-          <div class="text-center my-4 relative">
-            <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold text-purple-950 tracking-tight flex items-center justify-center gap-2 sm:gap-4">
-              <span>Utrias</span>
-              <span class="font-vibes text-amber-600 text-4xl sm:text-6xl md:text-7xl font-normal">&amp;</span>
-              <span>Hazim</span>
-            </h1>
-            <p class="text-xs sm:text-sm font-semibold tracking-wider text-purple-800 uppercase mt-2">
-              BEGINNING OF OUR JOURNEY
-            </p>
-            <p class="font-vibes text-2xl sm:text-3xl text-amber-600 mt-1">
-              Forever Together
-            </p>
+          <!-- Secondary Button Style -->
+          <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 cursor-pointer">
+            <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
+          </button>
+
+          <div class="pt-3 border-t border-purpleTheme-100/60 space-y-2.5">
+            <span class="text-[10px] uppercase tracking-widest text-purpleTheme-700 font-semibold block text-center">Hubungi Untuk Pertanyaan</span>
             
-            <!-- Flight Route Line Graphic -->
-            <div class="mt-4 flex items-center justify-center relative w-3/4 mx-auto">
-              <div class="w-full border-b-2 border-dashed border-purple-800/30 relative">
-                <i class="fa-solid fa-plane text-purple-900 text-sm absolute -top-2 left-3/4 transform -translate-y-1/2 rotate-12"></i>
-                <i class="fa-solid fa-heart text-amber-600 text-xs absolute -top-1.5 left-1/2 transform -translate-x-1/2"></i>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div class="bg-white/80 p-3 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
+                <div>
+                  <p id="dyn-c1-name" class="font-semibold text-purpleTheme-900 text-xs">Memuat...</p>
+                  <p id="dyn-c1-rel" class="text-[10px] text-purpleTheme-700/70">...</p>
+                </div>
+                <div class="flex gap-1.5 shrink-0">
+                  <a id="dyn-c1-tel" href="#" class="w-7 h-7 rounded-lg bg-butter-200 text-purpleTheme-800 flex items-center justify-center hover:bg-butter-300 transition-all text-xs" title="Telefon"><i class="fas fa-phone"></i></a>
+                  <a id="dyn-c1-wa" href="#" target="_blank" rel="noopener noreferrer" class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center hover:bg-emerald-600 transition-all text-xs" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+              </div>
+
+              <div class="bg-white/80 p-3 rounded-xl border border-purpleTheme-100 flex items-center justify-between">
+                <div>
+                  <p id="dyn-c2-name" class="font-semibold text-purpleTheme-900 text-xs">Memuat...</p>
+                  <p id="dyn-c2-rel" class="text-[10px] text-purpleTheme-700/70">...</p>
+                </div>
+                <div class="flex gap-1.5 shrink-0">
+                  <a id="dyn-c2-tel" href="#" class="w-7 h-7 rounded-lg bg-butter-200 text-purpleTheme-800 flex items-center justify-center hover:bg-butter-300 transition-all text-xs" title="Telefon"><i class="fas fa-phone"></i></a>
+                  <a id="dyn-c2-wa" href="#" target="_blank" rel="noopener noreferrer" class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center hover:bg-emerald-600 transition-all text-xs" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+	  
+      <div class="glass-card rounded-3xl p-8 custom-shadow border border-purpleTheme-100 flex flex-col justify-between space-y-6 relative">
+        <div>
+          <div class="w-12 h-12 rounded-full bg-butter-200 flex items-center justify-center text-purpleTheme-700 text-xl mb-4">
+            <i class="fas fa-list-ul"></i>
+          </div>
+          <h3 class="font-serif text-2xl text-purpleTheme-900 mb-6">Atur Cara Majlis</h3>
 		  
-		  <!-- Date, Day, Time Block (Gaya Boarding Pass Badge - Padat & Menarik) -->
-          <div class="grid grid-cols-3 gap-2 text-center my-6 py-4 px-3 rounded-xl bg-purple-900/10 border-2 border-purple-900/20 shadow-sm items-center">
-            
-            <!-- Column 1: DATE -->
-            <div class="border-r-2 border-dashed border-purple-900/20 px-1 flex flex-col justify-center items-center">
-              <span class="text-[10px] sm:text-xs font-extrabold text-purple-900 uppercase tracking-widest flex items-center gap-1">
-                <i class="fa-solid fa-calendar-day text-amber-600 text-[10px]"></i> DATE
-              </span>
-              <span class="font-sans font-black text-3xl sm:text-4xl text-purple-950 leading-none my-1 tracking-tight">
-                22
-              </span>
-              <span class="bg-purple-900 text-yellow-300 font-bold text-[10px] sm:text-xs px-2 py-0.5 rounded-md uppercase tracking-wider">
-                MAY 2027
-              </span>
+          <div id="tentative-scroll-box" class="max-h-[320px] overflow-y-auto pr-2 no-scrollbar space-y-6">
+            <div id="dyn-tentative-container" class="relative pl-6 space-y-6 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-butter-300">
+              <p class="text-xs text-purpleTheme-700/60 italic">Memuatkan atur cara majlis...</p>
             </div>
+          </div>
+        </div>
 
-            <!-- Column 2: DAY -->
-            <div class="border-r-2 border-dashed border-purple-900/20 px-1 flex flex-col justify-center items-center">
-              <span class="text-[10px] sm:text-xs font-extrabold text-purple-900 uppercase tracking-widest flex items-center gap-1">
-                <i class="fa-solid fa-sun text-amber-600 text-[10px]"></i> DAY
-              </span>
-              <span class="font-serif font-black text-xl sm:text-2xl text-purple-950 uppercase my-1 tracking-wider">
-                SATURDAY
-              </span>
-              <span class="text-[10px] font-bold text-purple-800/80 uppercase tracking-widest">
-                WEEKEND
-              </span>
-            </div>
+        <div id="tentative-scroll-indicator" class="pt-2 flex flex-col items-center justify-center text-purpleTheme-700/60 text-xs gap-1 border-t border-purpleTheme-100/60 transition-opacity duration-300">
+          <span class="text-[10px] uppercase tracking-wider font-medium">Skrol ke bawah</span>
+          <i class="fas fa-chevron-down animate-bounce text-purpleTheme-700"></i>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <!-- Column 3: TIME -->
-            <div class="px-1 flex flex-col justify-center items-center">
-              <span class="text-[10px] sm:text-xs font-extrabold text-purple-900 uppercase tracking-widest flex items-center gap-1">
-                <i class="fa-solid fa-clock text-amber-600 text-[10px]"></i> TIME
-              </span>
-              <span class="font-sans font-black text-xl sm:text-2xl text-purple-950 my-1 tracking-tight">
-                12:00
-              </span>
-              <span class="bg-amber-600 text-white font-bold text-[10px] sm:text-xs px-2 py-0.5 rounded-md uppercase tracking-wider">
-                PM (NOON)
-              </span>
-            </div>
+  <!-- 4. RSVP SECTION -->
+  <section id="rsvp-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Kehadiran</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Pengesahan RSVP</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Sila sahkan kehadiran anda sebelum 1 May 2027</p>
+    </div>
 
+    <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-6">
+      <form id="rsvp-form" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Penuh *</label>
+          <input type="text" id="rsvp-name" required placeholder="Contoh: Ahmad Razak" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nombor Telefon *</label>
+            <input type="tel" id="rsvp-phone" required inputmode="numeric" pattern="[0-9]*" maxlength="13" placeholder="Contoh: 0123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
           </div>
 
-          <!-- Boarding Call CTA Button -->
-          <div class="text-center mt-2">
-            <button onclick="openModal('modal-rsvp')" class="bg-purple-900 hover:bg-purple-950 text-yellow-200 font-bold py-2.5 px-8 rounded-full shadow-md text-xs sm:text-sm tracking-wider uppercase transition flex items-center justify-center gap-3 mx-auto border border-yellow-300/40">
-              <i class="fa-solid fa-plane-departure"></i>
-              BOARDING NOW
-              <i class="fa-solid fa-plane-arrival"></i>
+          <div>
+            <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Status Kehadiran *</label>
+            <select id="rsvp-status" required class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer">
+              <option value="Hadir">Hadir</option>
+              <option value="Tidak Hadir">Tidak Hadir</option>
+              <option value="Belum Pasti">Belum Pasti</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="pax-container" class="transition-all duration-300">
+          <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Bilangan Tetamu (Termasuk Anda)</label>
+          <select id="rsvp-pax" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer"></select>
+        </div>
+
+        <!-- Primary Button Style -->
+        <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer border border-butter-300/30">
+          Hantar Pengesahan
+        </button>
+      </form>
+
+      <div id="rsvp-alert" class="hidden bg-butter-100 border border-butter-300 text-purpleTheme-900 p-4 rounded-xl text-center text-sm font-medium">
+        <i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.
+      </div>
+    </div>
+  </section>
+  
+  <!-- 5. GALERI & SLIDESHOW SECTION -->
+  <section id="gallery-section" class="py-16 px-6 max-w-5xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Memori Indah</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Galeri Gambar &amp; Slideshow</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Tetamu dialu-alukan muat naik gambar Kenangan bersama pengantin</p>
+    </div>
+
+    <div class="glass-card rounded-3xl p-4 sm:p-6 custom-shadow border border-purpleTheme-100 space-y-6">
+      <div class="relative w-full h-80 sm:h-[450px] rounded-2xl overflow-hidden bg-purpleTheme-900/10 group cursor-pointer" id="slideshow-container">
+        <img id="slideshow-img" src="" alt="Wedding Moment" class="w-full h-full object-cover smooth-transition duration-500">
+
+        <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-purpleTheme-900/80 via-purpleTheme-900/30 to-transparent p-6 text-white">
+          <p id="slideshow-caption" class="text-sm sm:text-base font-light italic">Buat Tetamu Undangan: Moment Bahagia Bersama</p>
+        </div>
+
+        <button id="prev-slide" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
+          <i class="fas fa-chevron-left text-sm"></i>
+        </button>
+        <button id="next-slide" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-purpleTheme-900 p-3 rounded-full shadow-md smooth-transition">
+          <i class="fas fa-chevron-right text-sm"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+        <p class="text-xs text-purpleTheme-800/70 font-light text-center sm:text-left">
+          <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
+        </p>
+
+        <!-- Secondary Button Style -->
+        <label id="btn-upload-gallery" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 shrink-0">
+          <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar
+          <input type="file" id="photo-upload" accept="image/*" class="hidden">
+        </label>
+      </div>
+
+      <div id="gallery-alert" class="hidden p-4 rounded-xl bg-butter-100 border border-butter-300 text-purpleTheme-900 text-center text-sm font-medium transition-all">
+        <i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih Kerana Sudi Berkongsi Kenangan Bersama Kami.
+      </div>
+    </div>
+  </section>
+  
+  <!-- 6. BUKU HAJAT SECTION -->
+  <section id="wishes-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Buku Hajat</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Ucapan &amp; Doa Restu</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light max-w-md mx-auto">
+        Titipkan sepotong doa, pesanan, atau kata-kata indah buat pengantin.
+      </p>
+    </div>
+
+	<div class="glass-card rounded-3xl pt-2 pb-6 px-6 sm:pt-3 sm:pb-8 sm:px-10 custom-shadow border border-purpleTheme-100 space-y-6 relative overflow-hidden">
+      <div class="absolute -top-16 -left-16 w-36 h-36 bg-purpleTheme-100/40 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="space-y-6 relative z-10 text-left">
+        <!-- Form Hantar Ucapan -->
+        <form id="wish-form" class="space-y-4">
+          <div class="space-y-1.5">
+            <label for="wish-name" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Nama Anda <span class="text-purpleTheme-500">*</span></label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-purpleTheme-700/50">
+                <i class="fas fa-user text-xs"></i>
+              </span>
+              <input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" class="w-full pl-10 pr-4 py-3 rounded-xl border border-purpleTheme-200/80 bg-white text-sm text-purpleTheme-900 placeholder:text-purpleTheme-900/30 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 transition-all shadow-inner">
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label for="wish-message" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Titipkan Ucapan &amp; Doa <span class="text-purpleTheme-500">*</span></label>
+            <div class="relative">
+              <span class="absolute top-3.5 left-3.5 flex items-start pointer-events-none text-purpleTheme-700/50">
+                <i class="fas fa-comment-alt text-xs"></i>
+              </span>
+              <textarea id="wish-message" required rows="3" placeholder="Tuliskan ucapan tahniah dan doa buat pengantin..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-purpleTheme-200/80 bg-white text-sm text-purpleTheme-900 placeholder:text-purpleTheme-900/30 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 transition-all shadow-inner resize-y"></textarea>
+            </div>
+          </div>
+
+          <div class="pt-1">
+            <!-- Primary Button Style -->
+            <button id="btn-submit-wish" type="submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-butter-300/30 group">
+              <span>Hantar Ucapan</span>
+              <i class="fas fa-paper-plane text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
             </button>
           </div>
+        </form>
+
+        <div id="wish-alert" class="hidden p-4 rounded-2xl bg-butter-100 border border-butter-300 text-purpleTheme-900 text-center text-sm font-medium shadow-sm animate-fade-in">
+          Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
         </div>
-
-        <!-- RIGHT SECTION: BOARDING PASS STUB -->
-        <div class="lg:w-1/3 p-2 sm:p-6 flex flex-col justify-between pt-6 lg:pt-0 lg:pl-8">
-          <div>
-            <div class="bg-purple-900 text-yellow-200 text-center py-2 px-4 rounded-md font-bold tracking-widest text-sm uppercase mb-4 border border-yellow-300/30">
-              BOARDING PASS
-            </div>
-
-            <!-- Pass Details Grid -->
-            <div class="space-y-3 text-xs">
-              <div>
-                <p class="text-[10px] font-bold text-purple-800 uppercase tracking-wider">PASSENGER</p>
-                <p class="font-bold text-purple-950 text-sm">YOU ARE OUR SPECIAL GUEST</p>
-              </div>
-
-              <div class="grid grid-cols-2 gap-2 pt-1 border-t border-purple-900/10">
-                <div>
-                  <p class="text-[10px] font-bold text-purple-800 uppercase tracking-wider">FROM</p>
-                  <p class="font-bold text-purple-950 flex items-center gap-1.5 text-sm">
-                    MALAYSIA 🇲🇾
-                  </p>
-                </div>
-                <div>
-                  <p class="text-[10px] font-bold text-purple-800 uppercase tracking-wider">TO</p>
-                  <p class="font-bold text-purple-950 flex items-center gap-1.5 text-sm">
-                    INDONESIA 🇮🇩
-                  </p>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-2 pt-1 border-t border-purple-900/10">
-                <div>
-                  <p class="text-[10px] font-bold text-purple-800 uppercase tracking-wider">FLIGHT</p>
-                  <p class="font-bold text-purple-950 text-sm">UH2027</p>
-                </div>
-                <div>
-                  <p class="text-[10px] font-bold text-purple-800 uppercase tracking-wider">DESTINATION</p>
-                  <p class="font-bold text-purple-950 text-xs">FOREVER TOGETHER</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Barcode Footer Section -->
-          <div class="mt-6 text-center pt-3 border-t border-purple-900/10">
-            <div class="font-barcode text-3xl sm:text-4xl text-purple-950 tracking-widest select-none">
-              ||| | ||||| |||| || |||||| ||| |||
-            </div>
-            <div class="mt-2 text-[11px] font-bold text-purple-900 uppercase tracking-widest">
-              BOARDING GROUP: <span class="text-purple-950 font-extrabold">VIP GUEST</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SECTION 2: COUNTDOWN & OUR JOURNEY -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-4">
         
-        <!-- Left: Countdown Timer Card -->
-        <div class="lg:col-span-5 bg-purple-900 text-yellow-200 p-4 rounded-xl border border-yellow-300/40 shadow-md flex flex-col justify-center">
-          <h3 class="text-center font-bold tracking-wider text-xs sm:text-sm uppercase mb-3 flex items-center justify-center gap-2">
-            OUR JOURNEY BEGINS IN <i class="fa-solid fa-plane"></i>
-          </h3>
-          <div class="grid grid-cols-4 gap-2 text-center" id="countdown">
-            <div class="bg-cream text-purple-950 p-2 rounded-lg border border-yellow-500/30 shadow-sm">
-              <span id="days" class="font-serif text-xl sm:text-2xl font-bold block">00</span>
-              <span class="text-[9px] font-bold uppercase text-purple-800">DAYS</span>
-            </div>
-            <div class="bg-cream text-purple-950 p-2 rounded-lg border border-yellow-500/30 shadow-sm">
-              <span id="hours" class="font-serif text-xl sm:text-2xl font-bold block">00</span>
-              <span class="text-[9px] font-bold uppercase text-purple-800">HOURS</span>
-            </div>
-            <div class="bg-cream text-purple-950 p-2 rounded-lg border border-yellow-500/30 shadow-sm">
-              <span id="minutes" class="font-serif text-xl sm:text-2xl font-bold block">00</span>
-              <span class="text-[9px] font-bold uppercase text-purple-800">MINUTES</span>
-            </div>
-            <div class="bg-cream text-purple-950 p-2 rounded-lg border border-yellow-500/30 shadow-sm">
-              <span id="seconds" class="font-serif text-xl sm:text-2xl font-bold block">00</span>
-              <span class="text-[9px] font-bold uppercase text-purple-800">SECONDS</span>
-            </div>
+        <!-- Garis Pemisah -->
+        <div class="w-full h-[1px] bg-purpleTheme-100/80 my-4"></div>
+
+        <!-- Senarai Kad Ucapan Tetamu -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
+            <span class="text-[10px] text-purpleTheme-700/70 italic">Kemas kini langsung</span>
           </div>
-        </div>
-
-        <!-- Right: Our Journey Milestones -->
-        <div id="story" class="lg:col-span-7 bg-card-pattern p-4 rounded-xl border border-yellow-500/30 shadow-md text-purple-950 flex flex-col justify-center">
-          <h3 class="text-center font-bold text-xs sm:text-sm uppercase tracking-wider text-purple-900 mb-4">
-            OUR JOURNEY
-          </h3>
-          <div class="flex items-center justify-between px-2 sm:px-6 relative">
-            <div class="absolute top-1/2 left-8 right-8 h-0.5 border-b-2 border-dashed border-purple-800/30 -translate-y-4"></div>
-            
-            <div class="text-center z-10">
-              <div class="w-10 h-10 rounded-full bg-purple-900 text-yellow-200 flex items-center justify-center mx-auto text-sm shadow-md border border-yellow-300/40">
-                <i class="fa-solid fa-user-group"></i>
-              </div>
-              <p class="text-[10px] font-bold mt-2 text-purple-950 uppercase">FIRST MEETING</p>
-              <p class="text-[10px] text-purple-800">2025</p>
-            </div>
-
-            <div class="text-center z-10">
-              <div class="w-10 h-10 rounded-full bg-purple-900 text-yellow-200 flex items-center justify-center mx-auto text-sm shadow-md border border-yellow-300/40">
-                <i class="fa-solid fa-heart"></i>
-              </div>
-              <p class="text-[10px] font-bold mt-2 text-purple-950 uppercase">DISTANCE</p>
-              <p class="text-[10px] text-purple-800">2026</p>
-            </div>
-
-            <div class="text-center z-10">
-              <div class="w-10 h-10 rounded-full bg-purple-900 text-yellow-200 flex items-center justify-center mx-auto text-sm shadow-md border border-yellow-300/40">
-                <i class="fa-solid fa-ring"></i>
-              </div>
-              <p class="text-[10px] font-bold mt-2 text-purple-950 uppercase">ENGAGEMENT</p>
-              <p class="text-[10px] text-purple-800">2026</p>
-            </div>
-
-            <div class="text-center z-10">
-              <div class="w-10 h-10 rounded-full bg-purple-900 text-yellow-200 flex items-center justify-center mx-auto text-sm shadow-md border border-yellow-300/40">
-                <i class="fa-solid fa-mosque"></i>
-              </div>
-              <p class="text-[10px] font-bold mt-2 text-purple-950 uppercase">AKAD NIKAH</p>
-              <p class="text-[10px] text-purple-800">2027</p>
-            </div>
+          <div id="wishes-container" class="max-h-[380px] overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+            <!-- Kad ucapan dimuatkan secara dinamik -->
           </div>
-        </div>
-
-      </div>
-
-      <!-- SECTION 3: EVENT DETAILS & LOCATION MAP -->
-      <div id="event" class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-4">
-        
-        <!-- Left: Event Info with Image -->
-        <div class="lg:col-span-7 bg-card-pattern p-4 sm:p-6 rounded-xl border border-yellow-500/30 shadow-md flex flex-col md:flex-row gap-4 items-center">
-          <div class="flex-1 space-y-3">
-            <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider text-purple-900 border-b border-purple-900/20 pb-2">
-              EVENT DETAILS
-            </h3>
-            
-            <div class="flex items-start gap-3">
-              <i class="fa-solid fa-calendar-check text-amber-600 text-sm mt-0.5"></i>
-              <div>
-                <p class="text-[10px] font-bold text-purple-800 uppercase">EVENT</p>
-                <p class="text-xs font-bold text-purple-950">AKAD NIKAH</p>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <i class="fa-solid fa-calendar-day text-amber-600 text-sm mt-0.5"></i>
-              <div>
-                <p class="text-[10px] font-bold text-purple-800 uppercase">DATE &amp; DAY</p>
-                <p class="text-xs font-bold text-purple-950">22-5-2027 (SATURDAY)</p>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <i class="fa-solid fa-clock text-amber-600 text-sm mt-0.5"></i>
-              <div>
-                <p class="text-[10px] font-bold text-purple-800 uppercase">TIME</p>
-                <p class="text-xs font-bold text-purple-950">12:00 PM</p>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-3">
-              <i class="fa-solid fa-location-dot text-amber-600 text-sm mt-0.5"></i>
-              <div>
-                <p class="text-[10px] font-bold text-purple-800 uppercase">VENUE</p>
-                <p class="text-xs font-bold text-purple-950">Perkarangan Kediaman Ibu Sumiarsih, Jalan Lalang Buaya, Cilacap, Indonesia</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="w-full md:w-1/2 h-48 rounded-lg overflow-hidden border border-yellow-500/30 shadow-inner">
-            <img src="images/kakek-wardi.jpg" alt="Venue Perkahwinan" class="w-full h-full object-cover">
-          </div>
-        </div>
-
-		<!-- Right: Map Location Card -->
-        <div class="lg:col-span-5 bg-card-pattern p-4 sm:p-6 rounded-xl border border-yellow-500/30 shadow-md flex flex-col justify-between">
-          <div>
-            <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider text-purple-900 border-b border-purple-900/20 pb-2 flex items-center gap-2">
-              <i class="fa-solid fa-location-dot text-amber-600"></i> LOCATION
-            </h3>
-            <p class="text-xs font-semibold text-purple-950 mt-2 mb-1">Kemojing Kulon, Kemojing</p>
-            <p class="text-[11px] text-purple-900/80 mb-3">Kec. Binangun, Kabupaten Cilacap, Jawa Tengah 53281, Indonesia</p>
-            
-            <!-- Map Preview Frame -->
-            <div class="w-full h-32 rounded-lg bg-purple-100 overflow-hidden relative border border-purple-900/20 shadow-inner">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.334!2d109.298!3d-7.6625!2m3!1f0!1f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6542fc7d4f9f7d%3A0x87QX%2BH3G!2sKemojing%2C%20Binangun%2C%20Cilacap%20Regency%2C%20Central%20Java%2C%20Indonesia!5e0!3m2!1sen!2smy!4v1700000000000!5m2!1sen!2smy" 
-                class="w-full h-full border-0" 
-                allowfullscreen="" 
-                loading="lazy">
-              </iframe>
-            </div>
-          </div>
-
-          <!-- Navigation Apps Buttons -->
-          <div class="grid grid-cols-2 gap-2 mt-4">
-            <a href="https://maps.app.goo.gl/tQFsJaaekpDRTpjc9" target="_blank" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm transition">
-              <i class="fa-solid fa-map-location-dot text-blue-600"></i> GOOGLE MAPS
-            </a>
-            <a href="https://waze.com/ul?q=-7.6625,109.298&navigate=yes" target="_blank" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 font-bold py-2 px-3 rounded-lg text-xs flex items-center justify-center gap-2 shadow-sm transition">
-              <i class="fa-solid fa-waze text-sky-500"></i> WAZE
-            </a>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SECTION 4: ADD TO CALENDAR BANNER -->
-      <div class="my-4 bg-card-pattern p-3 rounded-xl border border-yellow-500/30 flex flex-col md:flex-row items-center justify-between gap-3 shadow-md">
-        <div class="flex items-center gap-2 text-purple-950 font-bold text-xs uppercase px-2">
-          <i class="fa-solid fa-calendar-plus text-amber-600 text-base"></i>
-          <span>ADD TO CALENDAR</span>
-        </div>
-        <div class="grid grid-cols-3 gap-2 w-full md:w-auto">
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+Hazim+%26+Utrias&dates=20270522T040000Z/20270522T080000Z&details=Majlis+Perkahwinan+Hazim+and+Utrias&location=Jalan+Lalang+Buaya,+Cilacap" target="_blank" class="bg-white hover:bg-gray-100 text-purple-950 font-semibold py-1.5 px-3 rounded-md text-[11px] flex items-center justify-center gap-1.5 border border-purple-900/10 shadow-sm transition">
-            <i class="fa-brands fa-google text-red-500"></i> GOOGLE CALENDAR
-          </a>
-          <a href="#" onclick="addToCalendar('outlook')" class="bg-white hover:bg-gray-100 text-purple-950 font-semibold py-1.5 px-3 rounded-md text-[11px] flex items-center justify-center gap-1.5 border border-purple-900/10 shadow-sm transition">
-            <i class="fa-solid fa-envelope text-blue-600"></i> OUTLOOK CALENDAR
-          </a>
-          <a href="#" onclick="addToCalendar('apple')" class="bg-white hover:bg-gray-100 text-purple-950 font-semibold py-1.5 px-3 rounded-md text-[11px] flex items-center justify-center gap-1.5 border border-purple-900/10 shadow-sm transition">
-            <i class="fa-brands fa-apple text-black"></i> APPLE CALENDAR
-          </a>
         </div>
       </div>
-
-      <!-- SECTION 5: 4 ACTION CARDS (RSVP, WISHES, GALLERY, CONTACT) -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 my-4">
-        
-        <!-- RSVP Card -->
-        <div class="bg-card-pattern p-4 rounded-xl border border-yellow-500/30 text-center flex flex-col justify-between shadow-md">
-          <div>
-            <h4 class="font-bold text-xs uppercase text-purple-950 tracking-wider">RSVP</h4>
-            <div class="my-3 text-amber-600 text-2xl">
-              <i class="fa-solid fa-ticket-simple"></i>
-            </div>
-            <p class="text-[10px] text-purple-800 font-semibold uppercase mb-3">KINDLY CONFIRM YOUR ATTENDANCE</p>
-          </div>
-          <button onclick="openModal('modal-rsvp')" class="bg-purple-900 hover:bg-purple-950 text-yellow-200 text-xs font-bold py-2 px-3 rounded-lg shadow uppercase transition border border-yellow-300/30">
-            RSVP NOW
-          </button>
-        </div>
-
-        <!-- Wishes Card -->
-        <div class="bg-card-pattern p-4 rounded-xl border border-yellow-500/30 text-center flex flex-col justify-between shadow-md">
-          <div>
-            <h4 class="font-bold text-xs uppercase text-purple-950 tracking-wider">WISHES</h4>
-            <div class="my-3 text-amber-600 text-2xl">
-              <i class="fa-solid fa-envelope-open-text"></i>
-            </div>
-            <p class="text-[10px] text-purple-800 font-semibold uppercase mb-3">LEAVE YOUR DUA &amp; BLESSINGS</p>
-          </div>
-          <button onclick="openModal('modal-wishes')" class="bg-purple-900 hover:bg-purple-950 text-yellow-200 text-xs font-bold py-2 px-3 rounded-lg shadow uppercase transition border border-yellow-300/30">
-            SEND WISHES
-          </button>
-        </div>
-
-        <!-- Gallery Card -->
-        <div class="bg-card-pattern p-4 rounded-xl border border-yellow-500/30 text-center flex flex-col justify-between shadow-md">
-          <div>
-            <h4 class="font-bold text-xs uppercase text-purple-950 tracking-wider">GALLERY</h4>
-            <div class="my-3 text-amber-600 text-2xl">
-              <i class="fa-solid fa-images"></i>
-            </div>
-            <p class="text-[10px] text-purple-800 font-semibold uppercase mb-3">OUR PRECIOUS MOMENTS</p>
-          </div>
-          <button onclick="openModal('modal-gallery')" class="bg-purple-900 hover:bg-purple-950 text-yellow-200 text-xs font-bold py-2 px-3 rounded-lg shadow uppercase transition border border-yellow-300/30">
-            VIEW GALLERY
-          </button>
-        </div>
-
-        <!-- Contact Card -->
-        <div class="bg-card-pattern p-4 rounded-xl border border-yellow-500/30 text-center flex flex-col justify-between shadow-md">
-          <div>
-            <h4 class="font-bold text-xs uppercase text-purple-950 tracking-wider">CONTACT</h4>
-            <div class="my-3 text-amber-600 text-2xl flex justify-center gap-2">
-              <i class="fa-brands fa-whatsapp"></i>
-              <i class="fa-solid fa-phone"></i>
-            </div>
-            <p class="text-[10px] text-purple-800 font-semibold uppercase mb-3">WE'RE HERE TO HELP YOU</p>
-          </div>
-          <button onclick="openModal('modal-contact')" class="bg-purple-900 hover:bg-purple-950 text-yellow-200 text-xs font-bold py-2 px-3 rounded-lg shadow uppercase transition border border-yellow-300/30">
-            CONTACT US
-          </button>
-        </div>
-
-      </div>
-
-		<!-- FOOTER SECTION: QURAN VERSE -->
-      <footer class="mt-6 pt-4 border-t border-purple-900/20 text-center text-purple-950">
-        <div class="font-arabic text-2xl sm:text-3xl mb-1 font-bold text-purple-900">
-          وَخَلَقْنَاكُمْ أَزْوَاجًا
-        </div>
-        <div class="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-purple-900">
-          AND WE CREATED YOU IN PAIRS
-        </div>
-        <div class="text-[10px] font-semibold text-purple-800/80 mt-0.5">
-          (QURAN 78:8)
-        </div>
-      </footer>
-
     </div>
-  </div>
+  </section>
+  
+  <!-- 7. COUNTDOWN SECTION -->
+  <section id="countdown-section" class="py-16 px-6 max-w-4xl mx-auto space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Menghitung Hari</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Menuju Hari Bahagia</h2>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Menuju ikatan suci pernikahan kami</p>
+    </div>
 
-  <!-- FLOATING WHATSAPP BUTTON -->
-  <a href="https://wa.me/60123456789?text=Hai%20Hazim%20%26%20Utrias,%20saya%20ada%20soalan%20mengenai%20majlis%20perkahwinan" target="_blank" class="fixed bottom-6 right-6 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full p-3.5 shadow-2xl z-50 transition transform hover:scale-110 border-2 border-white flex items-center justify-center">
-    <i class="fa-brands fa-whatsapp text-2xl"></i>
-  </a>
+    <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow text-center relative overflow-hidden border border-purpleTheme-100">
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-butter-200 via-purpleTheme-500 to-butter-200"></div>
 
-  <!-- MODALS CONTAINER -->
-  <!-- RSVP Modal -->
-  <div id="modal-rsvp" class="modal bg-black/70 p-4">
-    <div class="bg-cream rounded-2xl max-w-md w-full p-6 text-purple-950 border-2 border-yellow-500 shadow-2xl relative">
-      <button onclick="closeModal('modal-rsvp')" class="absolute top-4 right-4 text-purple-900 hover:text-red-600 text-xl font-bold">&times;</button>
-      <h3 class="font-serif text-xl font-bold text-center text-purple-900 uppercase border-b border-purple-900/20 pb-2 mb-4">Pengesahan Kehadiran (RSVP)</h3>
-      <form id="rsvpForm" onsubmit="handleRSVP(event)" class="space-y-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-2">
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-days" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Hari</span>
+        </div>
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-hours" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Jam</span>
+        </div>
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-minutes" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Minit</span>
+        </div>
+        <div class="bg-butter-100/80 border border-butter-200 p-4 rounded-2xl">
+          <span id="cd-seconds" class="font-serif text-3xl sm:text-5xl font-bold text-purpleTheme-800 block">00</span>
+          <span class="text-xs uppercase tracking-wider text-purpleTheme-700 font-medium">Saat</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FOOTER -->
+  <footer class="py-12 px-6 text-center border-t border-purpleTheme-100 bg-butter-50">
+    <div class="max-w-xl mx-auto space-y-4">
+      <h3 class="font-serif text-2xl text-purpleTheme-900">Utrias &amp; Hazim</h3>
+      <p class="text-xs text-purpleTheme-800/60 font-light">
+        Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
+      </p>
+      <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
+        Officially Made By Arejim's &copy; 2026 v2.12
+      </p>
+    </div>
+  </footer>
+
+  <!-- MODAL: UPLOAD GAMBAR -->
+  <div id="upload-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-md w-full border border-purpleTheme-100 shadow-2xl space-y-5 relative animate-fade-in">
+      <button id="close-upload-modal" type="button" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">&times;</button>
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-2">
+          <i class="fas fa-camera"></i>
+        </div>
+        <h3 class="font-serif text-2xl font-semibold text-purpleTheme-900">Maklumat Kenangan</h3>
+        <p class="text-xs text-purpleTheme-800/70 font-light">Sila isi nama dan kapsyen ringkas sebelum muat naik gambar anda</p>
+      </div>
+
+      <div class="space-y-4">
         <div>
-          <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Nama Penuh</label>
-          <input type="text" required class="w-full px-3 py-2 border border-purple-900/30 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-800" placeholder="Masukkan nama anda">
+          <label for="modal-uploader-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-1.5">Nama Anda</label>
+          <input type="text" id="modal-uploader-name" placeholder="Contoh: Tetamu Undangan" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/80 text-purpleTheme-900">
         </div>
         <div>
-          <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Status Kehadiran</label>
-          <select required class="w-full px-3 py-2 border border-purple-900/30 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-800">
-            <option value="Hadir">Ya, Saya Akan Hadir</option>
-            <option value="Tidak Hadir">Maaf, Tidak Dapat Hadir</option>
-          </select>
+          <label for="modal-image-caption" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-1.5">Kapsyen Gambar</label>
+          <input type="text" id="modal-image-caption" placeholder="Contoh: Kenangan Bersama Pengantin" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 focus:outline-none focus:ring-2 focus:ring-purpleTheme-400 text-sm bg-white/80 text-purpleTheme-900">
         </div>
-        <div>
-          <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Bilangan Pax</label>
-          <input type="number" min="1" max="5" value="1" class="w-full px-3 py-2 border border-purple-900/30 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-800">
-        </div>
-        <button type="submit" class="w-full bg-purple-900 text-yellow-200 font-bold py-2.5 rounded-lg text-sm hover:bg-purple-950 transition uppercase border border-yellow-300/30">Hantar Pengesahan</button>
-      </form>
-    </div>
-  </div>
+      </div>
 
-  <!-- Wishes Modal -->
-  <div id="modal-wishes" class="modal bg-black/70 p-4">
-    <div class="bg-cream rounded-2xl max-w-md w-full p-6 text-purple-950 border-2 border-yellow-500 shadow-2xl relative">
-      <button onclick="closeModal('modal-wishes')" class="absolute top-4 right-4 text-purple-900 hover:text-red-600 text-xl font-bold">&times;</button>
-      <h3 class="font-serif text-xl font-bold text-center text-purple-900 uppercase border-b border-purple-900/20 pb-2 mb-4">Ucapan &amp; Doa</h3>
-      <form onsubmit="handleWish(event)" class="space-y-3 mb-4">
-        <input id="wishName" type="text" required placeholder="Nama Anda" class="w-full px-3 py-2 border border-purple-900/30 rounded-lg text-sm">
-        <textarea id="wishText" required placeholder="Tuliskan ucapan & doa buat pengantin..." rows="3" class="w-full px-3 py-2 border border-purple-900/30 rounded-lg text-sm"></textarea>
-        <button type="submit" class="w-full bg-purple-900 text-yellow-200 font-bold py-2 rounded-lg text-sm hover:bg-purple-950 transition uppercase">Kirim Ucapan</button>
-      </form>
-      <div id="wishesList" class="max-h-40 overflow-y-auto space-y-2 border-t border-purple-900/20 pt-3">
-        <div class="bg-purple-900/5 p-2.5 rounded-lg text-xs">
-          <p class="font-bold text-purple-900">Ahmad &amp; Keluarga</p>
-          <p class="text-purple-800 italic">"Selamat pengantin baru Hazim & Utrias! Semoga kekal hingga ke anak cucu dan dirahmati Allah selalu."</p>
-        </div>
+      <div class="flex gap-3 pt-2">
+        <!-- Outline / Secondary Button Style -->
+        <button id="cancel-upload-btn" type="button" class="w-1/2 py-3.5 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-semibold tracking-wider uppercase hover:bg-purpleTheme-50 transition-all cursor-pointer">BATAL</button>
+        <!-- Primary Button Style -->
+        <button id="confirm-upload-btn" type="button" class="w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">TERUSKAN</button>
       </div>
     </div>
   </div>
+  
+  <!-- CUSTOM MODAL PENGESAHAN / AMARAN BERASINGAN -->
+  <div id="custom-confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in bg-white">
+      
+      <!-- Kotak Ikon dengan Animasi Interaksi -->
+      <div id="modal-icon-box" class="w-14 h-14 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm transition-transform duration-300 hover:scale-110">
+        <i id="modal-icon-class" class="fas fa-question-circle"></i>
+      </div>
 
-  <!-- Gallery Modal -->
-  <div id="modal-gallery" class="modal bg-black/80 p-4">
-    <div class="bg-cream rounded-2xl max-w-2xl w-full p-6 text-purple-950 border-2 border-yellow-500 shadow-2xl relative">
-      <button onclick="closeModal('modal-gallery')" class="absolute top-4 right-4 text-purple-900 hover:text-red-600 text-xl font-bold">&times;</button>
-      <h3 class="font-serif text-xl font-bold text-center text-purple-900 uppercase border-b border-purple-900/20 pb-2 mb-4">Galeri Gambar</h3>
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[60vh] overflow-y-auto">
-        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80" class="rounded-lg shadow object-cover h-32 w-full">
-        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=80" class="rounded-lg shadow object-cover h-32 w-full">
-        <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" class="rounded-lg shadow object-cover h-32 w-full">
+      <div class="space-y-1">
+        <h3 id="custom-modal-title" class="font-serif text-2xl font-semibold text-purpleTheme-900">Sahkan Tindakan</h3>
+        <p id="custom-modal-desc" class="text-xs text-purpleTheme-800/70 font-light">Adakah anda pasti mahu meneruskan?</p>
+      </div>
+
+      <div class="flex gap-3 pt-2">
+        <button id="modal-btn-no" type="button" class="w-1/2 py-3.5 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-semibold tracking-wider uppercase hover:bg-purpleTheme-50 transition-all cursor-pointer">TIDAK</button>
+        <button id="modal-btn-yes" type="button" class="w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">YA, PASTI</button>
       </div>
     </div>
   </div>
-
-  <!-- Contact Modal -->
-  <div id="modal-contact" class="modal bg-black/70 p-4">
-    <div class="bg-cream rounded-2xl max-w-sm w-full p-6 text-purple-950 border-2 border-yellow-500 shadow-2xl relative">
-      <button onclick="closeModal('modal-contact')" class="absolute top-4 right-4 text-purple-900 hover:text-red-600 text-xl font-bold">&times;</button>
-      <h3 class="font-serif text-xl font-bold text-center text-purple-900 uppercase border-b border-purple-900/20 pb-2 mb-4">Hubungi Kami</h3>
-      <div class="space-y-3 text-sm">
-        <a href="https://wa.me/60123456789" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-purple-900 text-yellow-200 font-bold hover:bg-purple-950 transition">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
-          <span>Hazim (Pengantin Lelaki)</span>
-        </a>
-        <a href="https://wa.me/62812345678" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-purple-900 text-yellow-200 font-bold hover:bg-purple-950 transition">
-          <i class="fa-brands fa-whatsapp text-xl"></i>
-          <span>Utrias (Pengantin Perempuan)</span>
-        </a>
-      </div>
+  
+  <!-- FLOATING QUICK ACTION BAR -->
+  <div id="quick-action-bar" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none max-w-[95vw]">
+    <div class="glass-card bg-white/95 backdrop-blur-md px-2.5 py-2 rounded-full shadow-2xl border border-purpleTheme-100 flex items-center gap-1.5 sm:gap-3">
+      <a href="#invitation-section" id="nav-invitation-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Kad Undangan">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-envelope-open-text"></i></div>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Undangan</span>
+      </a>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
+      <a href="#details-section" id="nav-details-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Lokasi Majlis">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-map-marker-alt"></i></div>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Lokasi</span>
+      </a>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
+      <a href="#rsvp-section" id="nav-rsvp-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="RSVP Kehadiran">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-clipboard-check"></i></div>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">RSVP</span>
+      </a>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
+      <a href="#gallery-section" id="nav-gallery-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Galeri Gambar">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-images"></i></div>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Galeri</span>
+      </a>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
+      <a href="#wishes-section" id="nav-wishes-section" class="nav-item flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Buku Hajat">
+        <div class="icon-box w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-butter-200/90 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-heart"></i></div>
+        <span class="nav-label text-[8px] sm:text-[9px] font-medium mt-0.5 transition-colors duration-300">Ucapan</span>
+      </a>
+      <div class="w-[1px] h-5 bg-purpleTheme-100/80"></div>
+      <a href="#hero-section" id="nav-home-btn" class="flex flex-col items-center text-purpleTheme-800 transition-all duration-300 group px-1" title="Muka Depan">
+        <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-purpleTheme-900 text-butter-100 group-hover:bg-purpleTheme-800 flex items-center justify-center text-[11px] sm:text-xs transition-all duration-300 shadow-sm"><i class="fas fa-home"></i></div>
+        <span class="text-[8px] sm:text-[9px] font-medium mt-0.5 text-purpleTheme-900">Utama</span>
+      </a>
     </div>
   </div>
-
-  <!-- Custom Script -->
+  
   <script src="js/script.js"></script>
 </body>
 </html>

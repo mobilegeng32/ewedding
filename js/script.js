@@ -1,9 +1,7 @@
-// Letak di baris paling atas sekali (di luar DOMContentLoaded)
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-// Pastikan skrol dipaksa ke atas sebaik sahaja laman web selesai muat (terutama untuk phone)
 window.addEventListener('load', () => {
   window.scrollTo(0, 0);
 });
@@ -247,21 +245,38 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   const bgMusic = document.getElementById('bg-music');
-  const musicBtn = document.getElementById('music-toggle');
-  const musicIcon = document.getElementById('music-icon');
-  const musicLabel = document.getElementById('music-label');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   
   let isPlaying = false;
   let hasInteracted = false;
 
-  function updateMusicUI() {
+  const fabContainer = document.getElementById('fab-container');
+  const fabTrigger = document.getElementById('fab-trigger');
+  const fabTriggerIcon = document.getElementById('fab-trigger-icon');
+  const fabDock = document.getElementById('fab-dock');
+  const fabLinks = document.querySelectorAll('.fab-link');
+  
+  const dockMusicBtn = document.getElementById('dock-music-btn');
+  const dockMusicIcon = document.getElementById('dock-music-icon');
+  const dockMusicText = document.getElementById('dock-music-text');
+
+  let isOpen = false;
+  let lastScrollY = window.scrollY;
+  let closeTimer = null;
+
+  const sections = document.querySelectorAll('section[id]');
+
+  function updateDockMusicUI() {
     if (isPlaying) {
-      if (musicIcon) musicIcon.className = 'fas fa-volume-high fa-beat text-purpleTheme-700';
-      if (musicLabel) musicLabel.innerText = "Muzik: ON";
+      if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-high text-purpleTheme-700 group-hover:scale-110 transition-transform';
+      if (dockMusicText) dockMusicText.textContent = 'Musik';
+      if (dockMusicBtn) dockMusicBtn.classList.remove('text-purpleTheme-900/60');
+      if (dockMusicBtn) dockMusicBtn.classList.add('text-purpleTheme-900');
     } else {
-      if (musicIcon) musicIcon.className = 'fas fa-volume-xmark text-purpleTheme-700/60';
-      if (musicLabel) musicLabel.innerText = "Muzik: OFF";
+      if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-xmark text-purpleTheme-900/60 group-hover:scale-110 transition-transform';
+      if (dockMusicText) dockMusicText.textContent = 'Musik';
+      if (dockMusicBtn) dockMusicBtn.classList.remove('text-purpleTheme-900');
+      if (dockMusicBtn) dockMusicBtn.classList.add('text-purpleTheme-900/60');
     }
   }
 
@@ -270,17 +285,31 @@ document.addEventListener('DOMContentLoaded', () => {
       bgMusic.play().then(() => {
         isPlaying = true;
         hasInteracted = true;
-        updateMusicUI();
+        updateDockMusicUI();
       }).catch((error) => {
         console.log("Autoplay disekat oleh pelayar:", error);
+        isPlaying = false;
+        updateDockMusicUI();
       });
+    }
+  }
+
+  function pauseAudioTrack() {
+    if (bgMusic) {
+      bgMusic.pause();
+      isPlaying = false;
+      updateDockMusicUI();
     }
   }
 
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (!isPlaying) playAudioTrack();
+      if (!isPlaying) {
+        playAudioTrack();
+      } else {
+        pauseAudioTrack();
+      }
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
@@ -299,22 +328,16 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', triggerAudioOnFirstInteraction);
   window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
   
-  if (musicBtn && bgMusic) {
-    musicBtn.addEventListener('click', (e) => {
+  if (dockMusicBtn && bgMusic) {
+    dockMusicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (isPlaying) {
-        bgMusic.pause();
-        isPlaying = false;
-        updateMusicUI();
+        pauseAudioTrack();
       } else {
-        bgMusic.play().then(() => { 
-          isPlaying = true; 
-          updateMusicUI();
-        }).catch((err) => { 
-          console.log("Audio play error:", err); 
-        });
+        playAudioTrack();
       }
       hasInteracted = true;
+      resetCloseTimer();
     });
   }
 
@@ -376,9 +399,6 @@ END:VCALENDAR`;
     });
   }
   
-  /* -------------------------------------------------------------
-     CUSTOM MODAL PENGESAHAN (ROBUST & SAFE)
-  ------------------------------------------------------------- */
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-confirm-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -406,7 +426,6 @@ END:VCALENDAR`;
     });
   }
 
-  // Fungsi Dipertingkat untuk Sokong Jenis Modal (Amaran Ralat vs Pengesahan Biasa)
   function showConfirmDialog(title, desc, onConfirm, isAlertOnly = false, iconType = 'question') {
     if (!confirmModal) {
       onConfirm();
@@ -417,7 +436,6 @@ END:VCALENDAR`;
     if (confirmDesc) confirmDesc.innerText = desc;
     currentConfirmCallback = onConfirm;
 
-    // Tetapkan sama ada paparkan 1 butang (Amaran) atau 2 butang (Pengesahan)
     if (isAlertOnly) {
       if (dialogCancelBtn) dialogCancelBtn.classList.add('hidden');
       if (dialogYesBtn) {
@@ -432,7 +450,6 @@ END:VCALENDAR`;
       }
     }
 
-    // Ubah ikon & warna latar belakang bulat mengikut jenis ralat/pertanyaan
     if (modalIconBox && modalIconClass) {
       if (iconType === 'error') {
         modalIconBox.className = "w-14 h-14 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center text-2xl mb-1 shadow-sm transition-transform duration-300 hover:scale-110";
@@ -446,9 +463,6 @@ END:VCALENDAR`;
     confirmModal.classList.remove('hidden');
   }
 
-  /* -------------------------------------------------------------
-     1. RSVP SUBMISSION
-  ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -513,9 +527,6 @@ END:VCALENDAR`;
     });
   }
 
-  /* -------------------------------------------------------------
-     2. GALLERY, SLIDESHOW & UPLOAD
-  ------------------------------------------------------------- */
   const fallbackGallery = [
     { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama Bermula Disini..." }
   ];
@@ -545,17 +556,14 @@ END:VCALENDAR`;
       photoUpload.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
-          // Semak jika fail bukan gambar
           if (!file.type.startsWith('image/')) {
-            photoUpload.value = ''; // Kosongkan pilihan fail
-            
-            // Paparkan Custom Modal Amaran Ralat dengan Ikon X beranimasi
+            photoUpload.value = '';
             showConfirmDialog(
               "Format Tidak Sah",
               "Hanya fail gambar (foto) sahaja dibenarkan untuk dimuat naik! Sila pilih fail gambar yang sah.",
               () => {}, 
-              true,      // isAlertOnly = true (Hanya paparkan butang 'FAHAM')
-              'error'    // iconType = 'error' (Ikon X merah berdenyut)
+              true,
+              'error'
             );
             return;
           }
@@ -722,9 +730,6 @@ END:VCALENDAR`;
   fetchGalleryImages();
   setInterval(() => { fetchGalleryImages(true); }, 10000);
 
-  /* -------------------------------------------------------------
-     3. WISHES (BUKU HAJAT) SUBMISSION
-  ------------------------------------------------------------- */
   let defaultWishes = [
     { name: "Systems", message: "Titipkan sepotong doa, pesanan, atau hajat buat pengantin.", timestamp: new Date().toISOString() }
   ];
@@ -895,102 +900,118 @@ END:VCALENDAR`;
 
     modal.addEventListener('click', () => { modal.classList.add('hidden'); });
   }
-  
-  const quickActionBar = document.getElementById('quick-action-bar');
-  const musicContainer = document.getElementById('music-container');
 
-  if (quickActionBar) {
-    let idleTimer = null;
-    const isMobileDevice = () => window.innerWidth < 768;
+  function updateActiveSection() {
+    let scrollPosition = window.scrollY + window.innerHeight / 3;
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
 
-    function showElements() {
-      if (window.scrollY > 300) {
-        quickActionBar.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-        quickActionBar.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        if (musicContainer) {
-          musicContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-          musicContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        }
-      }
-    }
-
-    function hideElements() {
-      if (isMobileDevice() && window.scrollY > 300) {
-        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        if (musicContainer) {
-          musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-          musicContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        }
-      }
-    }
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        showElements();
-        if (isMobileDevice()) {
-          clearTimeout(idleTimer);
-          idleTimer = setTimeout(hideElements, 3000);
-        }
-      } else {
-        quickActionBar.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-        quickActionBar.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        if (musicContainer) {
-          musicContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-          musicContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-        }
-      }
-    });
-
-    window.addEventListener('touchstart', () => {
-      if (isMobileDevice() && window.scrollY > 300) {
-        showElements();
-        clearTimeout(idleTimer);
-        idleTimer = setTimeout(hideElements, 3000);
-      }
-    });
-
-    const sectionIds = ['invitation-section', 'details-section', 'rsvp-section', 'gallery-section', 'wishes-section'];
-    const navItems = document.querySelectorAll('.nav-item');
-
-    function setActiveNav(activeId) {
-      navItems.forEach(item => {
-        const iconBox = item.querySelector('.icon-box');
-        const navLabel = item.querySelector('.nav-label');
-        if (item.id === `nav-${activeId}`) {
-          iconBox.classList.remove('bg-butter-200/90', 'text-purpleTheme-900');
-          iconBox.classList.add('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
-          if (navLabel) {
-            navLabel.classList.remove('text-purpleTheme-800');
-            navLabel.classList.add('text-purpleTheme-900', 'font-bold');
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        fabLinks.forEach(link => {
+          if (link.getAttribute('data-target') === sectionId) {
+            link.classList.remove('text-purpleTheme-900/60');
+            link.classList.add('text-purpleTheme-900', 'font-bold', 'scale-110');
+          } else {
+            link.classList.remove('text-purpleTheme-900', 'font-bold', 'scale-110');
+            link.classList.add('text-purpleTheme-900/60');
           }
-        } else {
-          iconBox.classList.remove('bg-purpleTheme-900', 'text-butter-300', 'scale-110');
-          iconBox.classList.add('bg-butter-200/90', 'text-purpleTheme-900');
-          if (navLabel) {
-            navLabel.classList.remove('text-purpleTheme-900', 'font-bold');
-            navLabel.classList.add('text-purpleTheme-800');
-          }
-        }
-      });
-    }
-
-    navItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const targetSectionId = item.getAttribute('href').substring(1);
-        setActiveNav(targetSectionId);
-      });
-    });
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) setActiveNav(entry.target.id);
-      });
-    }, { root: null, rootMargin: '-20% 0px -20% 0px', threshold: 0.1 });
-
-    sectionIds.forEach(id => {
-      const sectionEl = document.getElementById(id);
-      if (sectionEl) observer.observe(sectionEl);
+        });
+      }
     });
   }
+
+  function resetCloseTimer() {
+    if (closeTimer) clearTimeout(closeTimer);
+    if (isOpen) {
+      closeTimer = setTimeout(() => {
+        closeDock();
+      }, 6000);
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    let currentScrollY = window.scrollY;
+    updateActiveSection();
+
+    if (currentScrollY > 300) {
+      if (fabContainer) {
+        fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+      
+      if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) {
+        closeDock();
+      }
+    } else {
+      if (fabContainer) {
+        fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+      closeDock();
+    }
+    lastScrollY = currentScrollY;
+  });
+
+  function openDock() {
+    isOpen = true;
+    if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-times text-sm';
+    
+    if (fabDock) {
+      fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+    resetCloseTimer();
+  }
+
+  function closeDock() {
+    isOpen = false;
+    if (closeTimer) clearTimeout(closeTimer);
+    if (fabTriggerIcon) fabTriggerIcon.className = 'fas fa-bars text-sm';
+    
+    if (fabDock) {
+      fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+  }
+
+  if (fabTrigger) {
+    fabTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isOpen) {
+        closeDock();
+      } else {
+        openDock();
+      }
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (isOpen) {
+      if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
+        closeDock();
+      } else {
+        resetCloseTimer();
+      }
+    }
+  });
+
+  window.addEventListener('touchstart', (e) => {
+    if (isOpen) {
+      if (fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
+        closeDock();
+      } else {
+        resetCloseTimer();
+      }
+    }
+  });
+
+  fabLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeDock();
+    });
+  });
+
+  updateActiveSection();
 });

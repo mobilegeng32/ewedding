@@ -1,111 +1,49 @@
-/* Import Google Fonts & Barcode Font */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Amiri:ital@0;1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap');
+/* Smooth Scrolling Global */
+html {
+  scroll-behavior: smooth;
+  background-color: #FAF8F5 !important;
+}
 
 body {
-  font-family: 'Montserrat', sans-serif;
-  /* Tukar warna latar belakang utama di sini */
-  background-color: #f7e8a4; /* Soft Gold / Butter Yellow */
-  background-image: radial-gradient(#d8c273 1px, transparent 0);
-  background-size: 24px 24px;
+  background-color: #FAF8F5 !important;
+  background-image: none !important; /* Menghilangkan pola titik-titik */
 }
 
-/* Custom Font Family Utilities */
-.font-serif {
-  font-family: 'Cinzel', serif;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F5EFFB;
+}
+::-webkit-scrollbar-thumb {
+  background: #CDB1EC;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #583083;
 }
 
-.font-vibes {
-  font-family: 'Great Vibes', cursive;
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Untuk Chrome, Safari, Opera */
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* Untuk IE dan Edge */
+  scrollbar-width: none;  /* Untuk Firefox */
 }
 
-.font-arabic {
-  font-family: 'Amiri', serif;
+/* Glass Card Style */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(88, 48, 131, 0.1);
 }
 
-.font-barcode {
-  font-family: 'Libre Barcode 128', cursive;
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Custom Color Themes: Butter Yellow & Purple */
-.bg-cream {
-  background-color: #fffde6; /* Butter Yellow Light */
-}
-
-.bg-card-pattern {
-  background-color: #fffde6; /* Butter Yellow Card Background */
-  background-image: radial-gradient(#e6dfb8 0.7px, transparent 0);
-  background-size: 16px 16px;
-}
-
-.text-gold {
-  color: #fae168; /* Butter Yellow Accent */
-}
-
-.border-gold {
-  border-color: #fae168;
-}
-
-.navbar-bg {
-  background: linear-gradient(180deg, #3d2256 0%, #241433 100%);
-}
-
-/* Tukar warna lubang lengkung tiket supaya sama dengan background baru */
-.ticket-notch-top {
-  position: absolute;
-  top: -16px;
-  right: 33.333%;
-  width: 32px;
-  height: 32px;
-  background-color: #eee098; /* Butter Yellow / Soft Gold sama macam bingkai luar */
-  border-radius: 50%;
-  transform: translateX(50%);
-  z-index: 20;
-}
-
-.ticket-notch-bottom {
-  position: absolute;
-  bottom: -16px;
-  right: 33.333%;
-  width: 32px;
-  height: 32px;
-  background-color: #eee098; /* Butter Yellow / Soft Gold sama macam bingkai luar */
-  border-radius: 50%;
-  transform: translateX(50%);
-  z-index: 20;
-}
-
-/* Ribbon Badge Style */
-.ribbon-badge {
-  position: absolute;
-  top: -35px;
-  left: 20px;
-  background: #361f4d;
-  color: #fae168;
-  width: 65px;
-  padding: 12px 4px 16px 4px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 10px;
-  line-height: 1.1;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  border-left: 1px solid #fae168;
-  border-right: 1px solid #fae168;
-  border-top: 1px solid #fae168;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
-  z-index: 10;
-}
-
-/* Modal Popup Styles */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal.active {
-  display: flex;
+.custom-shadow {
+  box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
 }
