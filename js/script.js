@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { fetchGalleryImages(); }, 1000);
   setTimeout(() => { fetchWishes(); }, 1400);
   
-  // --- 2. FETCH TENTATIVE VIA GVIZ ---
+  // --- 2. FETCH TENTATIVE VIA GVIZ (DIPERBAIKI) ---
   function fetchTentative() {
     fetchSheetDataViaGViz('Tentative', function(data) {
       const container = document.getElementById('dyn-tentative-container');
@@ -278,22 +278,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data && data.length > 0) {
         container.innerHTML = data.map(item => {
-          let displayTime = item.time || item.masa || '';
-          if (displayTime.includes('GMT') || displayTime.includes('1899')) {
-            const dateObj = new Date(displayTime);
-            if (!isNaN(dateObj.getTime())) {
-              displayTime = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+          let rawTime = item.time || item.masa || item['time'] || '';
+          let displayTime = rawTime;
+
+          // Jika mengandungi format Date(YYYY,MM,DD,HH,mm,ss) dari GViz
+          if (rawTime.startsWith('Date(') || rawTime.includes('1899') || rawTime.includes('GMT')) {
+            const match = rawTime.match(/Date\(([^)]+)\)/);
+            if (match) {
+              const parts = match[1].split(',').map(num => parseInt(num.trim(), 10));
+              // parts[3] = jam, parts[4] = minit
+              if (!isNaN(parts[3])) {
+                let hour = parts[3];
+                let minute = parts[4] || 0;
+                let ampm = hour >= 12 ? 'Petang' : 'Pagi';
+                if (hour === 0) {
+                  hour = 12;
+                } else if (hour > 12) {
+                  hour -= 12;
+                  ampm = 'Petang';
+                }
+                const minStr = minute < 10 ? '0' + minute : minute;
+                displayTime = `${hour}:${minStr} ${ampm}`;
+              }
+            } else {
+              const dateObj = new Date(rawTime);
+              if (!isNaN(dateObj.getTime())) {
+                displayTime = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+              }
             }
           }
+
+          const description = item.description || item.perkara || '';
+          if (!displayTime && !description) return '';
 
           return `
             <div class="relative">
               <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
               <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
-              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description || item.perkara || ''}</p>
+              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${description}</p>
             </div>
           `;
-        }).join('');
+        }).filter(Boolean).join('');
 
         if (scrollBox && scrollIndicator) {
           if (scrollBox.scrollHeight <= scrollBox.clientHeight) {
