@@ -1301,8 +1301,8 @@ END:VCALENDAR`;
         document.getElementById('bank-account').innerText = config.bank_account || '';
       }
     }
-	
-	const qrSection = document.getElementById('qr-section');
+
+    const qrSection = document.getElementById('qr-section');
     const qrControl = config.control_qr;
     if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
       if (qrSection) qrSection.style.display = 'none';
@@ -1314,7 +1314,7 @@ END:VCALENDAR`;
           const rawInput = config.qr_image_url ? String(config.qr_image_url).trim() : '';
           let fileId = rawInput;
 
-          // Jika anda letak pautan penuh Google Drive, kod ini automatically ekstrak ID
+          // Jika anda letak pautan penuh Google Drive, kod ini secara automatik ekstrak ID fail
           if (rawInput.includes('drive.google.com')) {
             const match1 = rawInput.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
             const match2 = rawInput.match(/[?&]id=([a-zA-Z0-9_-]+)/);
@@ -1325,10 +1325,22 @@ END:VCALENDAR`;
             }
           }
 
-          // Paparkan imej menggunakan direct link Google Drive
-          qrImg.src = fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : '';
+          // Guna format pautan rasmi Google Drive CDN yang bebas dari skrin amaran virus
+          qrImg.src = fileId ? `https://lh3.googleusercontent.com/d/${fileId}=s500` : '';
         }
       }
     }
+
+    const addressSection = document.getElementById('address-section');
+    const addressControl = config.control_address;
+    if (addressControl === false || String(addressControl).trim().toUpperCase() === "FALSE") {
+      if (addressSection) addressSection.style.display = 'none';
+    } else {
+      if (addressSection) {
+        addressSection.style.display = 'block';
+        document.getElementById('gift-address').innerText = config.gift_address || '';
+      }
+    }
+  }
 
 });
