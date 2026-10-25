@@ -370,10 +370,12 @@ END:VCALENDAR`;
      CUSTOM MODAL PENGESAHAN (ROBUST & SAFE)
   ------------------------------------------------------------- */
   const confirmModal = document.getElementById('custom-confirm-modal');
-  const confirmTitle = document.getElementById('custom-modal-title');
+  const confirmTitle = document.getElementById('custom-confirm-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
   const dialogYesBtn = document.getElementById('modal-btn-yes');
   const dialogCancelBtn = document.getElementById('modal-btn-no');
+  const modalIconBox = document.getElementById('modal-icon-box');
+  const modalIconClass = document.getElementById('modal-icon-class');
 
   let currentConfirmCallback = null;
 
@@ -394,7 +396,8 @@ END:VCALENDAR`;
     });
   }
 
-  function showConfirmDialog(title, desc, onConfirm) {
+  // Fungsi Dipertingkat untuk Sokong Jenis Modal (Amaran Ralat vs Pengesahan Biasa)
+  function showConfirmDialog(title, desc, onConfirm, isAlertOnly = false, iconType = 'question') {
     if (!confirmModal) {
       onConfirm();
       return;
@@ -403,6 +406,33 @@ END:VCALENDAR`;
     if (confirmTitle) confirmTitle.innerText = title;
     if (confirmDesc) confirmDesc.innerText = desc;
     currentConfirmCallback = onConfirm;
+
+    // Tetapkan sama ada paparkan 1 butang (Amaran) atau 2 butang (Pengesahan)
+    if (isAlertOnly) {
+      if (dialogCancelBtn) dialogCancelBtn.classList.add('hidden');
+      if (dialogYesBtn) {
+        dialogYesBtn.className = "w-full py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer";
+        dialogYesBtn.innerText = "FAHAM";
+      }
+    } else {
+      if (dialogCancelBtn) dialogCancelBtn.classList.remove('hidden');
+      if (dialogYesBtn) {
+        dialogYesBtn.className = "w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer";
+        dialogYesBtn.innerText = "YA, PASTI";
+      }
+    }
+
+    // Ubah ikon & warna latar belakang bulat mengikut jenis ralat/pertanyaan
+    if (modalIconBox && modalIconClass) {
+      if (iconType === 'error') {
+        modalIconBox.className = "w-14 h-14 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center text-2xl mb-1 shadow-sm transition-transform duration-300 hover:scale-110";
+        modalIconClass.className = "fas fa-times animate-pulse";
+      } else {
+        modalIconBox.className = "w-14 h-14 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm transition-transform duration-300 hover:scale-110";
+        modalIconClass.className = "fas fa-question-circle";
+      }
+    }
+
     confirmModal.classList.remove('hidden');
   }
 
@@ -498,13 +528,28 @@ END:VCALENDAR`;
   const confirmUploadBtn = document.getElementById('confirm-upload-btn');
   const uploaderNameInput = document.getElementById('modal-uploader-name');
   const imageCaptionInput = document.getElementById('modal-image-caption');
-
+  
   function bindPhotoUploadListener() {
     const photoUpload = document.getElementById('photo-upload');
     if (photoUpload) {
       photoUpload.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
+          // Semak jika fail bukan gambar
+          if (!file.type.startsWith('image/')) {
+            photoUpload.value = ''; // Kosongkan pilihan fail
+            
+            // Paparkan Custom Modal Amaran Ralat dengan Ikon X beranimasi
+            showConfirmDialog(
+              "Format Tidak Sah",
+              "Hanya fail gambar (foto) sahaja dibenarkan untuk dimuat naik! Sila pilih fail gambar yang sah.",
+              () => {}, 
+              true,      // isAlertOnly = true (Hanya paparkan butang 'FAHAM')
+              'error'    // iconType = 'error' (Ikon X merah berdenyut)
+            );
+            return;
+          }
+
           selectedFileForUpload = file;
           if (uploaderNameInput) uploaderNameInput.value = '';
           if (imageCaptionInput) imageCaptionInput.value = '';

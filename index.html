@@ -58,7 +58,7 @@
   </audio>
 
   <div id="music-container" class="fixed bottom-20 right-5 z-50 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none">
-    <button id="music-toggle" type="button" class="relative group bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-purpleTheme-700/20 active:scale-95" title="Pasang/Hentikan Lagu Background">
+    <button id="music-toggle" type="button" class="relative group bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-purpleTheme-700/20 active:scale-95 cursor-pointer" title="Pasang/Hentikan Lagu Background">
       <span class="absolute inset-0 rounded-full bg-butter-300 animate-ping opacity-30 pointer-events-none"></span>
       <i id="music-icon" class="fas fa-music text-base transition-transform duration-300 group-hover:rotate-12"></i>
     </button>
@@ -173,15 +173,16 @@
 
         <div class="pt-4 border-t border-purpleTheme-100/80 space-y-3">
           <div class="grid grid-cols-2 gap-3">
-            <a id="dyn-gmaps-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-2.5 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 smooth-transition">
+            <a id="dyn-gmaps-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-3 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer">
               <i class="fas fa-map-marked-alt text-purpleTheme-700"></i> Google Maps
             </a>
-            <a id="dyn-waze-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-2.5 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 smooth-transition">
+            <a id="dyn-waze-link" href="#" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-800 text-xs py-3 px-4 rounded-xl border border-purpleTheme-200 text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer">
               <i class="fas fa-location-arrow text-purpleTheme-700"></i> Waze
             </a>
           </div>
 
-          <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-2.5 px-4 rounded-xl font-medium flex items-center justify-center gap-2 smooth-transition border border-butter-300">
+          <!-- Secondary Button Style -->
+          <button id="add-calendar-btn" type="button" class="w-full bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 cursor-pointer">
             <i class="far fa-calendar-plus"></i> Simpan ke Kalendar (.ics)
           </button>
 
@@ -273,7 +274,8 @@
           <select id="rsvp-pax" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer"></select>
         </div>
 
-        <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-700 hover:bg-purpleTheme-800 text-butter-100 font-medium py-3.5 rounded-xl text-sm tracking-wide smooth-transition shadow-md mt-2 cursor-pointer">
+        <!-- Primary Button Style -->
+        <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer border border-butter-300/30">
           Hantar Pengesahan
         </button>
       </form>
@@ -313,7 +315,8 @@
           <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
         </p>
 
-        <label id="btn-upload-gallery" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 smooth-transition border border-butter-300 shrink-0">
+        <!-- Secondary Button Style -->
+        <label id="btn-upload-gallery" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 shrink-0">
           <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar
           <input type="file" id="photo-upload" accept="image/*" class="hidden">
         </label>
@@ -335,7 +338,6 @@
       </p>
     </div>
 
-    <!-- Padding luar dikecilkan dari p-8 sm:p-12 kepada py-6 px-6 sm:py-8 sm:px-10 -->
 	<div class="glass-card rounded-3xl pt-2 pb-6 px-6 sm:pt-3 sm:pb-8 sm:px-10 custom-shadow border border-purpleTheme-100 space-y-6 relative overflow-hidden">
       <div class="absolute -top-16 -left-16 w-36 h-36 bg-purpleTheme-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -363,6 +365,7 @@
           </div>
 
           <div class="pt-1">
+            <!-- Primary Button Style -->
             <button id="btn-submit-wish" type="submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-butter-300/30 group">
               <span>Hantar Ucapan</span>
               <i class="fas fa-paper-plane text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
@@ -460,25 +463,31 @@
       </div>
 
       <div class="flex gap-3 pt-2">
-        <button id="cancel-upload-btn" type="button" class="w-1/2 py-3 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-medium hover:bg-purpleTheme-50 transition-all cursor-pointer">BATAL</button>
-        <button id="confirm-upload-btn" type="button" class="w-1/2 py-3 rounded-xl bg-purpleTheme-900 text-white text-xs font-medium shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">TERUSKAN</button>
+        <!-- Outline / Secondary Button Style -->
+        <button id="cancel-upload-btn" type="button" class="w-1/2 py-3.5 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-semibold tracking-wider uppercase hover:bg-purpleTheme-50 transition-all cursor-pointer">BATAL</button>
+        <!-- Primary Button Style -->
+        <button id="confirm-upload-btn" type="button" class="w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">TERUSKAN</button>
       </div>
     </div>
   </div>
   
-  <!-- CUSTOM MODAL PENGESAHAN BERASINGAN -->
+  <!-- CUSTOM MODAL PENGESAHAN / AMARAN BERASINGAN -->
   <div id="custom-confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
     <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in bg-white">
-      <div id="modal-icon-box" class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1">
+      
+      <!-- Kotak Ikon dengan Animasi Interaksi -->
+      <div id="modal-icon-box" class="w-14 h-14 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm transition-transform duration-300 hover:scale-110">
         <i id="modal-icon-class" class="fas fa-question-circle"></i>
       </div>
+
       <div class="space-y-1">
         <h3 id="custom-modal-title" class="font-serif text-2xl font-semibold text-purpleTheme-900">Sahkan Tindakan</h3>
         <p id="custom-modal-desc" class="text-xs text-purpleTheme-800/70 font-light">Adakah anda pasti mahu meneruskan?</p>
       </div>
+
       <div class="flex gap-3 pt-2">
-        <button id="modal-btn-no" type="button" class="w-1/2 py-3 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-medium hover:bg-purpleTheme-50 transition-all cursor-pointer">TIDAK</button>
-        <button id="modal-btn-yes" type="button" class="w-1/2 py-3 rounded-xl bg-purpleTheme-900 text-white text-xs font-medium shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">YA, PASTI</button>
+        <button id="modal-btn-no" type="button" class="w-1/2 py-3.5 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-semibold tracking-wider uppercase hover:bg-purpleTheme-50 transition-all cursor-pointer">TIDAK</button>
+        <button id="modal-btn-yes" type="button" class="w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer">YA, PASTI</button>
       </div>
     </div>
   </div>
