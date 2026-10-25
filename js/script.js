@@ -1309,8 +1309,18 @@ END:VCALENDAR`;
     } else {
       if (qrSection) {
         qrSection.style.display = 'block';
-        const qrImg = document.getElementById('qr-image');
-        if (qrImg) qrImg.src = config.qr_image_url || '';
+        const qrImg = document.getElementById('dyn-qr-image'); // DITUKAR KEPADA dyn-qr-image
+        if (qrImg) {
+          let qrUrl = config.qr_image_url || '';
+          // Jika guna link Google Drive (view?id=...), tukar ke format terus terpapar (uc?export=view&id=...)
+          if (qrUrl.includes('drive.google.com') && qrUrl.includes('/file/d/')) {
+            const fileIdMatch = qrUrl.match(/\/file\/d\/([^\/]+)/);
+            if (fileIdMatch && fileIdMatch[1]) {
+              qrUrl = `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
+            }
+          }
+          qrImg.src = qrUrl;
+        }
       }
     }
 
