@@ -424,7 +424,7 @@
         Terima kasih atas doa &amp; kebersamaan anda dalam meraikan hari bahagia kami.
       </p>
       <p class="text-[10px] uppercase tracking-widest text-purpleTheme-700/50 pt-4">
-        Officially Made By Arejim's &copy; 2026 v2.1
+        Officially Made By Arejim's &copy; 2026 v2.2
       </p>
     </div>
   </footer>
@@ -458,20 +458,20 @@
       </div>
     </div>
   </div>
-
-  <!-- MODAL: CONFIRMATION -->
-  <div id="confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
-    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in">
-      <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1">
-        <i class="fas fa-question-circle"></i>
+  
+  <!-- CUSTOM MODAL PENGESAHAN BERASINGAN (RSVP, GALLERY, WISHES) -->
+  <div id="custom-confirm-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-5 text-center relative animate-fade-in bg-white">
+      <div id="modal-icon-box" class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1">
+        <i id="modal-icon-class" class="fas fa-question-circle"></i>
       </div>
       <div class="space-y-1">
-        <h3 id="confirm-title" class="font-serif text-2xl font-semibold text-purpleTheme-900">Sahkan Tindakan</h3>
-        <p id="confirm-desc" class="text-xs text-purpleTheme-800/70 font-light">Adakah anda pasti mahu meneruskan?</p>
+        <h3 id="custom-modal-title" class="font-serif text-2xl font-semibold text-purpleTheme-900">Sahkan Tindakan</h3>
+        <p id="custom-modal-desc" class="text-xs text-purpleTheme-800/70 font-light">Adakah anda pasti mahu meneruskan?</p>
       </div>
       <div class="flex gap-3 pt-2">
-        <button id="dialog-cancel-btn" type="button" class="w-1/2 py-3 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-medium hover:bg-purpleTheme-50 transition-all cursor-pointer">TIDAK</button>
-        <button id="dialog-yes-btn" type="button" class="w-1/2 py-3 rounded-xl bg-purpleTheme-900 text-white text-xs font-medium shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">PASTI</button>
+        <button id="modal-btn-no" type="button" class="w-1/2 py-3 rounded-xl border border-purpleTheme-200 text-purpleTheme-800 text-xs font-medium hover:bg-purpleTheme-50 transition-all cursor-pointer">TIDAK</button>
+        <button id="modal-btn-yes" type="button" class="w-1/2 py-3 rounded-xl bg-purpleTheme-900 text-white text-xs font-medium shadow-md hover:bg-purpleTheme-800 transition-all cursor-pointer">YA, PASTI</button>
       </div>
     </div>
   </div>
