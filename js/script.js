@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // 1. Kawalan RSVP (control_RSVP)
         const rsvpFormEl = document.getElementById('rsvp-form');
         const rsvpNameInput = document.getElementById('rsvp-name');
         const rsvpPhoneInput = document.getElementById('rsvp-phone');
@@ -99,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // 2. Kawalan Gallery Upload Switch (control_gallery)
         const uploadBtn = document.getElementById('btn-upload-gallery');
         if (uploadBtn && config.control_gallery !== undefined) {
           const valG = String(config.control_gallery).trim().toUpperCase();
@@ -118,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // 3. Kawalan Wish Submit Switch (control_wish)
         const wishSubmitBtn = document.getElementById('btn-submit-wish');
         const wishNameInput = document.getElementById('wish-name');
         const wishMsgInput = document.getElementById('wish-message');
@@ -364,9 +361,6 @@ END:VCALENDAR`;
     });
   }
   
-  /* -------------------------------------------------------------
-     CUSTOM MODAL PENGESAHAN (CONFIRM-MODAL)
-  ------------------------------------------------------------- */
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -398,9 +392,6 @@ END:VCALENDAR`;
     });
   }
 
-  /* -------------------------------------------------------------
-     RSVP FORM & SUBMISSION
-  ------------------------------------------------------------- */
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -461,9 +452,6 @@ END:VCALENDAR`;
     });
   }
 
-  /* -------------------------------------------------------------
-     GALLERY, SLIDESHOW & UPLOAD
-  ------------------------------------------------------------- */
   const fallbackGallery = [
     { url: "https://sites.create-cdn.net/siteimages/73/5/5/735562/21/1/9/21197176/1000x1000.jpg?1726336942", caption: "Detik Manis Bersama Bermula Disini..." }
   ];
@@ -657,9 +645,6 @@ END:VCALENDAR`;
   fetchGalleryImages();
   setInterval(() => { fetchGalleryImages(true); }, 10000);
 
-  /* -------------------------------------------------------------
-     WISHES (BUKU HAJAT) & SUBMISSION
-  ------------------------------------------------------------- */
   let defaultWishes = [
     { name: "Systems", message: "Titipkan sepotong doa, pesanan, atau hajat buat pengantin.", timestamp: new Date().toISOString() }
   ];
