@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  // --- FUNGSI BANTUAN COOLDOWN 10 SAAT ---
-  function setButtonCooldown(buttonEl, durationInSeconds = 10, customText = "Sila tunggu") {
+  // --- FUNGSI BANTUAN COOLDOWN ---
+  function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
     if (!buttonEl) return;
     
     let remainingTime = durationInSeconds;
@@ -115,6 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         console.log("Config Berjaya Diparse:", config);
+
+        window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
+        window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
+        window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
 
         // Pemetaan Pengantin
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
@@ -675,7 +679,7 @@ END:VCALENDAR`;
         "Adakah anda pasti maklumat kehadiran yang dimasukkan sudah betul?",
         () => {
           const submitBtn = document.getElementById('rsvp-submit');
-          setButtonCooldown(submitBtn, 10, "Sila tunggu");
+          setButtonCooldown(submitBtn, window.rsvpCd || 5, "Sila tunggu");
 
           const formData = new URLSearchParams();
           formData.append('action', 'rsvp');
@@ -855,7 +859,7 @@ END:VCALENDAR`;
         "Adakah anda pasti mahu memuat naik gambar ini ke galeri majlis?",
         () => {
           const uploadBtnMain = document.getElementById('btn-upload-gallery');
-          setButtonCooldown(uploadBtnMain, 10, "Memuat Naik");
+          setButtonCooldown(uploadBtnMain, window.galleryCd || 5, "Memuat Naik");
 
           const uploaderName = uploaderNameInput.value.trim() || "Tetamu Undangan";
           const imageCaption = imageCaptionInput.value.trim() || "Kenangan Majlis";
@@ -1003,7 +1007,7 @@ END:VCALENDAR`;
           "Adakah anda pasti mahu menghantar ucapan ini kepada pengantin?",
           () => {
             const submitBtn = document.getElementById('btn-submit-wish');
-            setButtonCooldown(submitBtn, 10, "Sila tunggu");
+            setButtonCooldown(submitBtn, window.wishCd || 5, "Sila tunggu");
 
             const formData = new URLSearchParams();
             formData.append('action', 'wishes');
@@ -1136,7 +1140,7 @@ END:VCALENDAR`;
     } else {
       if (fabContainer) {
         fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-        fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
       }
       closeDock();
     }
@@ -1320,7 +1324,6 @@ END:VCALENDAR`;
           }
 
           if (fileId) {
-            // Lalukan melalui proksi wsrv.nl yang melepasi sekatan pelayar 100%
             const targetUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
             qrImg.src = `https://wsrv.nl/?url=${encodeURIComponent(targetUrl)}`;
           } else {
