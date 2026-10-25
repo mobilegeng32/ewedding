@@ -172,12 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             return `
-              <div class="relative">
-                <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
-                <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
-                <p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description}</p>
-              </div>
-            `;
+			  <div class="relative">
+				<span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
+				<span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
+				<p class="text-sm font-medium text-purpleTheme-900 mt-1">${item.description}</p>
+			  </div>
+			`;
           }).join('');
 
           if (scrollBox && scrollIndicator) {
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         bgMusic.play().then(() => { 
           isPlaying = true; 
-          updateMusicUI(); // Kemas kini DALAM .then() selepas muzik berjaya dimainkan
+          updateMusicUI();
         }).catch((err) => { 
           console.log("Audio play error:", err); 
         });
