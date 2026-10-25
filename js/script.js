@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(url)
       .then(res => res.text())
       .then(text => {
-        // Cari kedudukan json bermula dengan 'setResponse(' dan berakhir dengan ')'
         const startIdx = text.indexOf('setResponse(');
         if (startIdx === -1) {
           console.error(`Format GViz tidak sah untuk tab: ${sheetName}`);
@@ -44,7 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const jsonString = text.substring(jsonStart, jsonEnd);
         const json = JSON.parse(jsonString);
         
-        const cols = json.table.cols.map(col => col.label || col.id);
+        // Tukar semua label kolum kepada huruf kecil secara automatik untuk elakkan isu case-sensitive
+        const cols = json.table.cols.map(col => {
+          let label = col.label || col.id || '';
+          return label.trim().toLowerCase();
+        });
+
         const rows = json.table.rows.map(row => {
           let obj = {};
           if (row && row.c) {
