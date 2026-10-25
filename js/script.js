@@ -268,79 +268,99 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { fetchGalleryImages(); }, 1000);
   setTimeout(() => { fetchWishes(); }, 1400);
   
-  // --- 2. FETCH TENTATIVE VIA GVIZ (DIPERBAIKI) ---
+  // --- 2. FETCH TENTATIVE KHAS (BACA TERUS IKUT INDEKS LAJUR A & B) ---
   function fetchTentative() {
-    fetchSheetDataViaGViz('Tentative', function(data) {
-      const container = document.getElementById('dyn-tentative-container');
-      const scrollBox = document.getElementById('tentative-scroll-box');
-      const scrollIndicator = document.getElementById('tentative-scroll-indicator');
+    if (!SPREADSHEET_ID) return;
+    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
 
-      if (!container) return;
+    fetch(url)
+      .then(res => res.text())
+      .then(text => {
+        const startIdx = text.indexOf('setResponse(');
+        if (startIdx === -1) return;
+        
+        const jsonString = text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')'));
+        const json = JSON.parse(jsonString);
+        const rows = json.table.rows;
 
-      if (data && data.length > 0) {
-        container.innerHTML = data.map(item => {
-          let rawTime = item.time || item.masa || item['time'] || '';
-          let displayTime = rawTime;
+        const container = document.getElementById('dyn-tentative-container');
+        const scrollBox = document.getElementById('tentative-scroll-box');
+        const scrollIndicator = document.getElementById('tentative-scroll-indicator');
 
-          // Jika mengandungi format Date(YYYY,MM,DD,HH,mm,ss) dari GViz
-          if (rawTime.startsWith('Date(') || rawTime.includes('1899') || rawTime.includes('GMT')) {
-            const match = rawTime.match(/Date\(([^)]+)\)/);
-            if (match) {
-              const parts = match[1].split(',').map(num => parseInt(num.trim(), 10));
-              // parts[3] = jam, parts[4] = minit
-              if (!isNaN(parts[3])) {
-                let hour = parts[3];
-                let minute = parts[4] || 0;
-                let ampm = hour >= 12 ? 'Petang' : 'Pagi';
-                if (hour === 0) {
-                  hour = 12;
-                } else if (hour > 12) {
-                  hour -= 12;
-                  ampm = 'Petang';
+        if (!container) return;
+
+        if (rows && rows.length > 0) {
+          container.innerHTML = rows.map(row => {
+            if (!row || !row.c) return '';
+            
+            const cellTime = row.c[0]; // Lajur A (Masa)
+            const cellDesc = row.c[1]; // Lajur B (Perkara)
+
+            // Utamakan nilai .f (formatted string seperti "10:00 am"), jika tiada guna .v
+            let displayTime = '';
+            if (cellTime) {
+              if (cellTime.f !== undefined && cellTime.f !== null && cellTime.f !== '') {
+                displayTime = cellTime.f;
+              } else if (cellTime.v !== undefined && cellTime.v !== null) {
+                let rawV = String(cellTime.v);
+                // Jika masih keluar Date(1899...), kita huraikan manual jam & minitnya
+                if (rawV.startsWith('Date(')) {
+                  const match = rawV.match(/Date\(([^)]+)\)/);
+                  if (match) {
+                    const parts = match[1].split(',').map(num => parseInt(num.trim(), 10));
+                    if (!isNaN(parts[3])) {
+                      let hour = parts[3];
+                      let minute = parts[4] || 0;
+                      let ampm = hour >= 12 ? 'pm' : 'am';
+                      if (hour > 12) hour -= 12;
+                      if (hour === 0) hour = 12;
+                      const minStr = minute < 10 ? '0' + minute : minute;
+                      displayTime = `${hour}:${minStr} ${ampm}`;
+                    }
+                  }
+                } else {
+                  displayTime = rawV;
                 }
-                const minStr = minute < 10 ? '0' + minute : minute;
-                displayTime = `${hour}:${minStr} ${ampm}`;
-              }
-            } else {
-              const dateObj = new Date(rawTime);
-              if (!isNaN(dateObj.getTime())) {
-                displayTime = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
               }
             }
-          }
 
-          const description = item.description || item.perkara || '';
-          if (!displayTime && !description) return '';
-
-          return `
-            <div class="relative">
-              <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
-              <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
-              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${description}</p>
-            </div>
-          `;
-        }).filter(Boolean).join('');
-
-        if (scrollBox && scrollIndicator) {
-          if (scrollBox.scrollHeight <= scrollBox.clientHeight) {
-            scrollIndicator.classList.add('hidden');
-          } else {
-            scrollIndicator.classList.remove('hidden');
-          }
-
-          scrollBox.addEventListener('scroll', () => {
-            if (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) {
-              scrollIndicator.style.opacity = '0';
-            } else {
-              scrollIndicator.style.opacity = '1';
+            let description = '';
+            if (cellDesc) {
+              description = cellDesc.f !== undefined && cellDesc.f !== null ? cellDesc.f : (cellDesc.v !== undefined ? cellDesc.v : '');
             }
-          });
+
+            if (!displayTime && !description) return '';
+
+            return `
+              <div class="relative">
+                <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
+                <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
+                <p class="text-sm font-medium text-purpleTheme-900 mt-1">${description}</p>
+              </div>
+            `;
+          }).join('');
+
+          if (scrollBox && scrollIndicator) {
+            if (scrollBox.scrollHeight <= scrollBox.clientHeight) {
+              scrollIndicator.classList.add('hidden');
+            } else {
+              scrollIndicator.classList.remove('hidden');
+            }
+
+            scrollBox.addEventListener('scroll', () => {
+              if (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) {
+                scrollIndicator.style.opacity = '0';
+              } else {
+                scrollIndicator.style.opacity = '1';
+              }
+            });
+          }
+        } else {
+          container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
+          if (scrollIndicator) scrollIndicator.classList.add('hidden');
         }
-      } else {
-        container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
-        if (scrollIndicator) scrollIndicator.classList.add('hidden');
-      }
-    });
+      })
+      .catch(err => console.error("Gagal ambil Tentative:", err));
   }
 
   const rsvpStatus = document.getElementById('rsvp-status');
