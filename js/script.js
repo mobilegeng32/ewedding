@@ -931,7 +931,7 @@ END:VCALENDAR`;
     if (isOpen) {
       closeTimer = setTimeout(() => {
         closeDock();
-      }, 3500);
+      }, 5000);
     }
   }
 
@@ -945,7 +945,7 @@ END:VCALENDAR`;
             fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
           }
         }
-      }, 4000);
+      }, 3500);
     }
   }
 
