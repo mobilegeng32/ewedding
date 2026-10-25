@@ -90,21 +90,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 1000);
   }
-
-  // --- 1. FETCH CONFIG VIA GVIZ ---
+  
+  // --- 1. FETCH CONFIG VIA GVIZ (PARSING ROBUST KUNCI-NILAI) ---
   function fetchSiteConfig() {
     fetchSheetDataViaGViz('Config', function(rows) {
       if (!rows || rows.length === 0) return;
       
       let config = {};
+
       rows.forEach(r => {
-        if (r.key && r.value !== undefined) {
-          config[r.key.trim().toLowerCase()] = r.value;
+        const keys = Object.keys(r);
+        if (keys.length >= 2) {
+          // Ambil lajur pertama sebagai Key dan lajur kedua sebagai Value
+          const k = String(r[keys[0]] || '').trim().toLowerCase();
+          const v = r[keys[1]];
+          if (k) {
+            config[k] = v;
+          }
         } else {
+          // Jika Sheet menggunakan struktur melintang (Horizontal)
           config = { ...config, ...r };
         }
       });
 
+      console.log("Objek Config Terurai:", config); // Untuk rujukan pengesahan di Console Browser
+
+      // Pemetaan Pengantin Perempuan & Lelaki
       if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
         document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
       }
@@ -118,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
       }
 
+      // Pemetaan Masa & Lokasi
       if (config.event_date && document.getElementById('dyn-event-date')) {
         document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
       }
@@ -128,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
       }
 
+      // Pautan Navigasi
       if (config.gmaps_url && document.getElementById('dyn-gmaps-link')) {
         document.getElementById('dyn-gmaps-link').href = config.gmaps_url;
       }
@@ -135,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dyn-waze-link').href = config.waze_url;
       }
 
+      // Kontak Telefon & WhatsApp
       if (config.contact1_name && document.getElementById('dyn-c1-name')) {
         document.getElementById('dyn-c1-name').innerText = config.contact1_name;
         document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || '';
@@ -148,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('dyn-c2-wa').href = `https://wa.me/${config.contact2_phone}?text=Assalamualaikum`;
       }
 
+      // Pilihan Bilangan Tetamu (Max Pax)
       const maxPax = parseInt(config.max_pax) || 5;
       const paxSelect = document.getElementById('rsvp-pax');
       if (paxSelect) {
@@ -160,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      // Kawalan Master Switch: RSVP
       const rsvpFormEl = document.getElementById('rsvp-form');
       const rsvpNameInput = document.getElementById('rsvp-name');
       const rsvpPhoneInput = document.getElementById('rsvp-phone');
@@ -193,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      // Kawalan Master Switch: Galeri Gambar
       const uploadBtn = document.getElementById('btn-upload-gallery');
       if (uploadBtn && config.control_gallery !== undefined) {
         const valG = String(config.control_gallery).trim().toUpperCase();
@@ -211,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      // Kawalan Master Switch: Ucapan
       const wishSubmitBtn = document.getElementById('btn-submit-wish');
       const wishNameInput = document.getElementById('wish-name');
       const wishMsgInput = document.getElementById('wish-message');
@@ -1213,4 +1231,4 @@ END:VCALENDAR`;
     }
   }
 
-});
+});	
