@@ -282,7 +282,7 @@
     <div class="text-center space-y-2">
       <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Memori Indah</span>
       <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Galeri Gambar &amp; Slideshow</h2>
-      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Tetamu dialu-alukan muat naik gambar Kenangan bersama pengantin</p>
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Tetamu dialu-alukan muat naik gambar kenangan bersama pengantin</p>
     </div>
 
     <div class="glass-card rounded-3xl p-4 sm:p-6 custom-shadow border border-purpleTheme-100 space-y-6">
@@ -301,15 +301,24 @@
         </button>
       </div>
 
+      <!-- KAWASAN BUTANG TINDAKAN GALERI (DIKEMASKINI) -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
         <p class="text-xs text-purpleTheme-800/70 font-light text-center sm:text-left">
-          <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Muat naik gambar dari peranti anda untuk ditayangkan dalam slideshow!
+          <i class="fas fa-info-circle text-purpleTheme-700 mr-1"></i> Slideshow utama dipapar secara rawak. Semak gambar anda di bawah!
         </p>
 
-        <label id="btn-upload-gallery" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 shrink-0">
-          <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar
-          <input type="file" id="photo-upload" accept="image/*" class="hidden">
-        </label>
+        <div class="flex items-center gap-2.5 w-full sm:w-auto justify-center">
+          <!-- Butang Semak Gambar Saya (Baru) -->
+          <button id="btn-my-photos" type="button" class="bg-white hover:bg-purpleTheme-50 text-purpleTheme-900 font-medium px-4 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-purpleTheme-200 cursor-pointer">
+            <i class="fas fa-user-clock text-purpleTheme-700"></i> Gambar Saya
+          </button>
+
+          <!-- Butang Muat Naik Asal -->
+          <label id="btn-upload-gallery" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 shrink-0">
+            <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik
+            <input type="file" id="photo-upload" accept="image/*" class="hidden">
+          </label>
+        </div>
       </div>
 
       <div id="gallery-alert" class="hidden p-4 rounded-xl bg-butter-100 border border-butter-300 text-purpleTheme-900 text-center text-sm font-medium transition-all">
@@ -624,6 +633,28 @@
           <i class="fas fa-gift w-4 text-center"></i> Salam Kasih
         </button>
       </div>
+    </div>
+  </div>
+  
+  <!-- MODAL: PAPARAN GAMBAR SAYA (LOCALSTORAGE) -->
+  <div id="my-photos-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden p-4 transition-all">
+    <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-2xl w-full border border-purpleTheme-100 shadow-2xl space-y-5 relative animate-fade-in bg-white/95 max-h-[85vh] flex flex-col">
+      <button id="close-my-photos-modal" type="button" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">&times;</button>
+      
+      <div class="text-center space-y-1 shrink-0">
+        <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-2 shadow-sm">
+          <i class="fas fa-images"></i>
+        </div>
+        <h3 class="font-serif text-2xl font-semibold text-purpleTheme-900">Kenangan Anda</h3>
+        <p class="text-xs text-purpleTheme-800/70 font-light">Senarai gambar yang pernah anda muat naik dari peranti ini.</p>
+      </div>
+
+      <!-- Kontena Grid Gambar Peribadi -->
+      <div id="my-photos-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 overflow-y-auto pr-1 no-scrollbar flex-1 p-1">
+        <!-- Javascript akan masukkan senarai gambar di sini secara dinamik -->
+      </div>
+
+      <button id="btn-close-my-photos" type="button" class="w-full py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer shrink-0">TUTUP</button>
     </div>
   </div>
   

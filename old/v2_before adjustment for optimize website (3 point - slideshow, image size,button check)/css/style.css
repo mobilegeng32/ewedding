@@ -1,0 +1,69 @@
+/* Smooth Scrolling Global */
+html {
+  scroll-behavior: smooth;
+  background-color: #FAF8F5 !important;
+}
+
+body {
+  background-color: #FAF8F5 !important;
+  background-image: none !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F5EFFB;
+}
+::-webkit-scrollbar-thumb {
+  background: #CDB1EC;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #583083;
+}
+
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glass Card Style */
+.glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(88, 48, 131, 0.1);
+}
+
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-shadow {
+  box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
+}
+
+/* Pada skrin besar (769px ke atas): Kekalkan menu penuh, sembunyikan butang "Lagi" */
+@media (min-width: 769px) {
+  .menu-item-collapse {
+    display: flex !important;
+  }
+  #more-menu-container {
+    display: none !important;
+  }
+}
+
+/* Pada skrin telefon & tablet (768px ke bawah): Jadikan menu tertentu tersembunyi di dalam popover "Lagi" */
+@media (max-width: 768px) {
+  .menu-item-collapse {
+    display: none !important;
+  }
+  #more-menu-container {
+    display: flex !important;
+  }
+}
