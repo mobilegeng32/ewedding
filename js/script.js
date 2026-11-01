@@ -178,24 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
           showCountdownError();
         }
 		
-								 
-													 
-				
-													  
-																											   
-					
-																	 
-					 
-											   
-											
-																															  
-									  
-	  
-																																
-	 
-	
-   
-  
+        // --- TAMBAHAN: RSVP DEADLINE DARI DATABASE (STRICT) ---
+        if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
+          document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
+        } else {
+          console.error("Data rsvp_deadline tidak dijumpai dalam database!");
+          const deadlineEl = document.getElementById('dyn-rsvp-deadline');
+          if (deadlineEl) {
+            deadlineEl.innerText = "⚠️ Gagal memuatkan tarikh tutup RSVP dari pangkalan data.";
+            deadlineEl.classList.add('text-red-500', 'font-medium');
+          }
+        }
+		
         if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
