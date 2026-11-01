@@ -521,6 +521,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  
+  // Fungsi khas untuk kawal muzik dari popover tanpa tutup menu
+  window.toggleMusicFromPopover = function(event) {
+	if (event) event.stopPropagation();
+
+	// Trigger klik pada butang muzik utama dock
+	const mainMusicBtn = document.getElementById('dock-music-btn');
+		if (mainMusicBtn) {
+			mainMusicBtn.click();
+		}
+
+		// Pastikan timer reset supaya menu FAB tidak hilang
+		if (typeof resetCloseTimer === 'function') {
+			resetCloseTimer();
+		}	
+	};
 
   // --- 8. COUNTDOWN TIMER ---
   const weddingDate = new Date('May 22, 2027 10:00:00').getTime();

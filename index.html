@@ -81,7 +81,7 @@
       <div class="pt-8">
         <a href="#invitation-section" id="hero-open-btn" class="group relative inline-flex items-center gap-3.5 bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 px-8 py-4 rounded-full text-xs sm:text-sm tracking-widest font-semibold uppercase transition-colors duration-300 shadow-xl hover:shadow-2xl border border-butter-300/30 cursor-pointer overflow-hidden">
           <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-          <span>Buka Undangan v2.71</span>
+          <span>Buka Undangan v2.72</span>
           <span class="w-7 h-7 rounded-full bg-butter-200 text-purpleTheme-900 flex items-center justify-center transition-transform duration-300 group-hover:translate-y-1 shadow-sm shrink-0">
             <i class="fas fa-chevron-down text-xs"></i>
           </span>
@@ -635,7 +635,7 @@
         </a>
 
         <!-- Muzik (Bila tekan, terus trigger butang muzik utama & kekalkan popover) -->
-        <button id="popover-music-btn" type="button" onclick="document.getElementById('dock-music-btn').click();" class="w-full flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all text-left cursor-pointer">
+        <button id="popover-music-btn" type="button" onclick="toggleMusicFromPopover(event)" class="w-full flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all text-left cursor-pointer">
           <i class="fas fa-volume-high w-4 text-center"></i> <span id="popover-music-text">Muzik On/Off</span>
         </button>
       </div>
