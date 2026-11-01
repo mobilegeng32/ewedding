@@ -769,7 +769,7 @@ END:VCALENDAR`;
             if (rsvpPaxInput) { rsvpPaxInput.value = '1'; rsvpPaxInput.disabled = true; }
 
             if (alertBox) {
-              alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup oleh pengantin.`;
+              alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup buat masa kini.`;
               alertBox.classList.remove('hidden');
               setTimeout(() => {
                 alertBox.classList.add('hidden');
@@ -882,7 +882,7 @@ END:VCALENDAR`;
 
             const galleryAlert = document.getElementById('gallery-alert');
             if (galleryAlert) {
-              galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Fungsi muat naik gambar telah ditutup oleh pengantin.`;
+              galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Muat naik foto ditutup buat masa kini.`;
               galleryAlert.classList.remove('hidden');
               setTimeout(() => {
                 galleryAlert.classList.add('hidden');
@@ -1194,7 +1194,7 @@ END:VCALENDAR`;
             if (msgInput) { msgInput.value = ''; msgInput.disabled = true; }
 
             if (wishAlert) {
-              wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
+              wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan ditutup buat masa kini.`;
               wishAlert.classList.remove('hidden');
               setTimeout(() => {
                 wishAlert.classList.add('hidden');
