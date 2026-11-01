@@ -510,33 +510,41 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
   
   if (dockMusicBtn && bgMusic) {
-    dockMusicBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      isPlaying ? pauseAudioTrack() : playAudioTrack();
-      hasInteracted = true;
-      
-      // Kekalkan menu FAB/popover supaya tidak tertutup serta-merta
-      if (typeof resetCloseTimer === 'function') {
-        resetCloseTimer();
-      }
-    });
-  }
+  dockMusicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    isPlaying ? pauseAudioTrack() : playAudioTrack();
+    hasInteracted = true;
+
+    // Paksa supaya timer penutupan dibatalkan sepenuhnya dan menu kekal terbuka
+    if (typeof closeTimer !== 'undefined' && closeTimer) {
+      clearTimeout(closeTimer);
+    }
+    if (typeof isOpen !== 'undefined') {
+      isOpen = true; // Kekalkan state terbuka
+    }
+
+    // Panggil semula reset timer jika ada
+    if (typeof resetCloseTimer === 'function') {
+      resetCloseTimer();
+    }
+  });
+}
   
   // Fungsi khas untuk kawal muzik dari popover tanpa tutup menu
   window.toggleMusicFromPopover = function(event) {
-	if (event) event.stopPropagation();
+    if (event) event.stopPropagation();
 
-	// Trigger klik pada butang muzik utama dock
-	const mainMusicBtn = document.getElementById('dock-music-btn');
-		if (mainMusicBtn) {
-			mainMusicBtn.click();
-		}
+    // Trigger klik pada butang muzik utama dock
+    const mainMusicBtn = document.getElementById('dock-music-btn');
+    if (mainMusicBtn) {
+      mainMusicBtn.click();
+    }
 
-		// Pastikan timer reset supaya menu FAB tidak hilang
-		if (typeof resetCloseTimer === 'function') {
-			resetCloseTimer();
-		}	
-	};
+    // Pastikan timer reset supaya menu FAB tidak hilang
+    if (typeof resetCloseTimer === 'function') {
+      resetCloseTimer();
+    }
+  };
 
   // --- 8. COUNTDOWN TIMER ---
   const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
