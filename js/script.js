@@ -482,18 +482,17 @@ document.addEventListener('DOMContentLoaded', () => {
       updateDockMusicUI();
     }
   }
-
-  if (heroOpenBtn) {
+  
+	if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      isPlaying ? pauseAudioTrack() : playAudioTrack();
+      // Pastikan ia hanya memulakan muzik sekiranya belum dimainkan (bukan toggle play/pause)
+      if (!isPlaying) {
+        playAudioTrack();
+      }
+      hasInteracted = true;
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-      // Trigger buka dock sebentar supaya tetamu nampak kedudukan butang FAB
-      setTimeout(() => {
-        if (typeof openDock === 'function') openDock();
-      }, 600);
     });
   }
 
@@ -515,6 +514,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
+      
+      // Kekalkan menu FAB/popover supaya tidak tertutup serta-merta
+      if (typeof resetCloseTimer === 'function') {
+        resetCloseTimer();
+      }
     });
   }
 
