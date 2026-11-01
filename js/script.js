@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.61)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.62)
  * =================================================================
  */
 
@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC ---
+  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC (KEKAL TERPAPAR & AUTO-COLLAPSE) ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -309,19 +309,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const moreMenuBtn = document.getElementById('more-menu-btn');
   const morePopover = document.getElementById('more-popover');
 
-  window.addEventListener('scroll', () => {
-    if (!fabContainer || !fabDock) return;
-    if (window.scrollY > 250) {
-      fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-      fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
-      fabDock.classList.add('scale-100', 'opacity-100');
-    } else {
-      fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-      fabDock.classList.remove('scale-100', 'opacity-100');
-      fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
-      if (morePopover) morePopover.classList.add('hidden');
-    }
-  });
+  // Pastikan floating dock sentiasa kelihatan (kekal di skrin)
+  if (fabContainer && fabDock) {
+    fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+    fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
+    fabDock.classList.add('scale-100', 'opacity-100');
+  }
 
   if (fabTrigger) {
     fabTrigger.addEventListener('click', () => {
@@ -329,11 +322,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  let inactivityTimer = null;
+  function resetInactivityTimer() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      if (morePopover) morePopover.classList.add('hidden');
+    }, 5000); // Auto-tutup menu popover selepas 5 saat tidak aktif
+  }
+
   if (moreMenuBtn && morePopover) {
     moreMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       morePopover.classList.toggle('hidden');
+      resetInactivityTimer();
     });
+    
+    // Tutup popover apabila mana-mana link navigasi dalam dock ditekan
+    fabDock.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('click', () => {
+        morePopover.classList.add('hidden');
+      });
+    });
+
     document.addEventListener('click', (e) => {
       if (!moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
         morePopover.classList.add('hidden');
@@ -578,7 +588,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & CLEAR STUCK DATA)
+  // 11. RSVP SUBMIT
   // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -630,7 +640,6 @@ END:VCALENDAR`;
               rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
               rsvpSubmitBtn.innerText = "RSVP DITUTUP";
             }
-            // KOSONGKAN NILAI INPUT SERTA-MERTA SUPAYA TIADA DATA TERSTUCK
             if (rsvpNameInput) { rsvpNameInput.value = ''; rsvpNameInput.disabled = true; }
             if (rsvpPhoneInput) { rsvpPhoneInput.value = ''; rsvpPhoneInput.disabled = true; }
             if (rsvpStatusInput) { rsvpStatusInput.value = 'Hadir'; rsvpStatusInput.disabled = true; }
@@ -947,7 +956,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 14. BUKU HAJAT & UCAPAN (REAL-TIME LIVE CHECK & CLEAR STUCK DATA)
+  // 14. BUKU HAJAT & UCAPAN
   // =========================================================================
   let defaultWishes = [];
   window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
@@ -1058,7 +1067,6 @@ END:VCALENDAR`;
               wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
               wishSubmitBtn.innerText = "UCAPAN DITUTUP";
             }
-            // KOSONGKAN NILAI INPUT UCAPAN SERTA-MERTA SUPAYA TIADA DATA TERSTUCK
             if (nameInput) { nameInput.value = ''; nameInput.disabled = true; }
             if (msgInput) { msgInput.value = ''; msgInput.disabled = true; }
 
@@ -1111,7 +1119,7 @@ END:VCALENDAR`;
     });
   }
 
-  // --- 15. APPLY SITE CONFIG (LOAD AWAL) ---
+  // --- 15. APPLY SITE CONFIG (LOAD AWAL & QR CODE FIX) ---
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -1133,14 +1141,16 @@ END:VCALENDAR`;
     }
 
     const qrSection = document.getElementById('qr-section');
+    const qrImageEl = document.getElementById('dyn-qr-image');
     if (qrSection) {
       const qrControl = config.control_qr;
       if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
         qrSection.style.display = 'none';
       } else {
         qrSection.style.display = 'block';
-        if (config.qr_image_url && document.getElementById('dyn-qr-image')) {
-          document.getElementById('dyn-qr-image').src = config.qr_image_url;
+        if (config.qr_image_url && qrImageEl) {
+          qrImageEl.src = config.qr_image_url;
+          qrImageEl.style.display = 'block';
         }
       }
     }
