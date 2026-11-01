@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - MASTER SCRIPT (RESTORED & OPTIMIZED)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED)
  * =================================================================
  */
 
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
 
-  // --- 3. FETCH SITE CONFIG (CONFIG AWAL) ---
+  // --- 3. FETCH SITE CONFIG (CONFIG AWAL & FLOATING DOCK CONTROL) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -160,6 +160,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const wazeLink = document.getElementById('dyn-waze-link');
         if (wazeLink && config.waze_url) { wazeLink.href = config.waze_url; wazeLink.onclick = (e) => { e.preventDefault(); window.open(config.waze_url, '_blank'); }; }
+
+        // Maklumat Hubungi (Contact 1 & 2)
+        if (config.contact1_name && document.getElementById('dyn-c1-name')) {
+          document.getElementById('dyn-c1-name').innerText = config.contact1_name;
+          document.getElementById('dyn-c1-rel').innerText = config.contact1_rel || '';
+          document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone || ''}`;
+          document.getElementById('dyn-c1-wa').href = `https://wa.me/${(config.contact1_phone || '').replace(/[^0-9]/g, '')}`;
+        }
+        if (config.contact2_name && document.getElementById('dyn-c2-name')) {
+          document.getElementById('dyn-c2-name').innerText = config.contact2_name;
+          document.getElementById('dyn-c2-rel').innerText = config.contact2_rel || '';
+          document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone || ''}`;
+          document.getElementById('dyn-c2-wa').href = `https://wa.me/${(config.contact2_phone || '').replace(/[^0-9]/g, '')}`;
+        }
 
         const maxPax = parseInt(config.max_pax) || 5;
         const paxSelect = document.getElementById('rsvp-pax');
@@ -267,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 6. SMOOTH SCROLL ---
+  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -281,6 +295,47 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+  // Floating Trigger & Dock Behaviours
+  const fabContainer = document.getElementById('fab-container');
+  const fabTrigger = document.getElementById('fab-trigger');
+  const fabDock = document.getElementById('fab-dock');
+  const invitationSection = document.getElementById('invitation-section');
+  const moreMenuBtn = document.getElementById('more-menu-btn');
+  const morePopover = document.getElementById('more-popover');
+
+  window.addEventListener('scroll', () => {
+    if (!invitationSection || !fabContainer || !fabDock) return;
+    const triggerHeight = invitationSection.offsetTop - 100;
+    if (window.scrollY >= triggerHeight) {
+      fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+      fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.add('scale-100', 'opacity-100');
+    } else {
+      fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+      fabDock.classList.remove('scale-100', 'opacity-100');
+      fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
+      if (morePopover) morePopover.classList.add('hidden');
+    }
+  });
+
+  if (fabTrigger) {
+    fabTrigger.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  if (moreMenuBtn && morePopover) {
+    moreMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      morePopover.classList.toggle('hidden');
+    });
+    document.addEventListener('click', (e) => {
+      if (!moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
+        morePopover.classList.add('hidden');
+      }
+    });
+  }
 
   // --- 7. AUDIO & MUZIK LATAR BELAKANG ---
   const bgMusic = document.getElementById('bg-music');
@@ -394,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // --- 9. IMPORT KE KALENDAR (.ICS) ---
+  // --- 9. IMPORT KE KALENDAR (.ICS) & GIFT MODAL LOGIC ---
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', () => {
@@ -420,6 +475,46 @@ END:VCALENDAR`;
       document.body.removeChild(link);
     });
   }
+
+  // Gift Modal Open/Close Controls
+  const giftModal = document.getElementById('gift-modal');
+  const dockGiftBtn = document.getElementById('dock-gift-btn');
+  const popoverGiftBtn = document.getElementById('popover-gift-btn');
+  const closeGiftModalBtn = document.getElementById('close-gift-modal');
+  const btnCloseGift = document.getElementById('btn-close-gift');
+
+  function openGiftModal() {
+    if (giftModal) giftModal.classList.remove('hidden');
+    if (morePopover) morePopover.classList.add('hidden');
+  }
+  function closeGiftModal() {
+    if (giftModal) giftModal.classList.add('hidden');
+  }
+
+  if (dockGiftBtn) dockGiftBtn.addEventListener('click', openGiftModal);
+  if (popoverGiftBtn) popoverGiftBtn.addEventListener('click', openGiftModal);
+  if (closeGiftModalBtn) closeGiftModalBtn.addEventListener('click', closeGiftModal);
+  if (btnCloseGift) btnCloseGift.addEventListener('click', closeGiftModal);
+  if (giftModal) {
+    giftModal.addEventListener('click', (e) => {
+      if (e.target === giftModal) closeGiftModal();
+    });
+  }
+
+  // Global Copy to Clipboard Function
+  window.copyToClipboard = function(text, btnElement) {
+    navigator.clipboard.writeText(text).then(() => {
+      const originalHTML = btnElement.innerHTML;
+      btnElement.innerHTML = `<i class="fas fa-check text-xs"></i> <span>Disalin!</span>`;
+      btnElement.classList.add('bg-emerald-500', 'text-white');
+      setTimeout(() => {
+        btnElement.innerHTML = originalHTML;
+        btnElement.classList.remove('bg-emerald-500', 'text-white');
+      }, 2000);
+    }).catch(err => {
+      console.error('Gagal salin teks:', err);
+    });
+  };
   
   // --- 10. CUSTOM MODAL & CONFIRM DIALOG ---
   const confirmModal = document.getElementById('custom-confirm-modal');
@@ -698,6 +793,21 @@ END:VCALENDAR`;
     }, 10000);
   }
 
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentSlide--;
+      renderSlide();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentSlide++;
+      renderSlide();
+    });
+  }
+
   function closeUploadModal() {
     if (uploadModal) uploadModal.classList.add('hidden');
     selectedFileForUpload = null;
@@ -859,6 +969,14 @@ END:VCALENDAR`;
     });
   }
 
+  const refreshWishesBtn = document.getElementById('refresh-wishes-btn');
+  if (refreshWishesBtn) {
+    refreshWishesBtn.addEventListener('click', () => {
+      setButtonCooldown(refreshWishesBtn, window.wishManualCd || 5, "Memuat");
+      fetchWishes();
+    });
+  }
+
   const wishForm = document.getElementById('wish-form');
   if (wishForm) {
     wishForm.addEventListener('submit', (e) => {
@@ -896,7 +1014,7 @@ END:VCALENDAR`;
                 if (wishSubmitBtn) {
                   wishSubmitBtn.disabled = true;
                   wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-                  wishSubmitBtn.innerText = "UCAPAN DITUTUP";
+                  wishSubmitBtn.innerText = "UCAPAN DِTITUTUP";
                 }
                 if (nameInput) nameInput.disabled = true;
                 if (msgInput) msgInput.disabled = true;
@@ -943,7 +1061,7 @@ END:VCALENDAR`;
     });
   }
 
-  // --- 15. APPLY SITE CONFIG (BANK & HADIAH) ---
+  // --- 15. APPLY SITE CONFIG (BANK, QR, ADDRESS, HADIAH) ---
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -961,6 +1079,32 @@ END:VCALENDAR`;
         document.getElementById('bank-name').innerText = config.bank_name || '';
         document.getElementById('bank-holder').innerText = config.bank_holder || '';
         document.getElementById('bank-account').innerText = config.bank_account || '';
+      }
+    }
+
+    const qrSection = document.getElementById('qr-section');
+    if (qrSection) {
+      const qrControl = config.control_qr;
+      if (qrControl === false || String(qrControl).trim().toUpperCase() === "FALSE") {
+        qrSection.style.display = 'none';
+      } else {
+        qrSection.style.display = 'block';
+        if (config.qr_image_url && document.getElementById('dyn-qr-image')) {
+          document.getElementById('dyn-qr-image').src = config.qr_image_url;
+        }
+      }
+    }
+
+    const addressSection = document.getElementById('address-section');
+    if (addressSection) {
+      const addressControl = config.control_address;
+      if (addressControl === false || String(addressControl).trim().toUpperCase() === "FALSE") {
+        addressSection.style.display = 'none';
+      } else {
+        addressSection.style.display = 'block';
+        if (config.gift_address && document.getElementById('gift-address')) {
+          document.getElementById('gift-address').innerText = config.gift_address;
+        }
       }
     }
   }
