@@ -48,7 +48,7 @@ body {
   box-shadow: 0 10px 30px -10px rgba(88, 48, 131, 0.08);
 }
 
-/* Pada skrin besar (769px ke atas): Kekalkan menu penuh, sembunyikan butang "Lagi" */
+/* Pada skrin besar (769px ke atas - Laptop/PC): Kekalkan menu penuh, sembunyikan butang "Lagi" */
 @media (min-width: 769px) {
   .menu-item-collapse {
     display: flex !important;
@@ -58,12 +58,12 @@ body {
   }
 }
 
-/* Pada skrin telefon & tablet (768px ke bawah): Jadikan menu tertentu tersembunyi di dalam popover "Lagi" */
+/* Pada skrin telefon & tablet (768px ke bawah): Paparkan butang "Lagi" (3 titik) dan sembunyikan menu tambahan */
 @media (max-width: 768px) {
   .menu-item-collapse {
     display: none !important;
   }
   #more-menu-container {
-    display: flex !important;
+    display: block !important;
   }
 }
