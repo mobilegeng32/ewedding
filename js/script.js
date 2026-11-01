@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - RESTORED MASTER SCRIPT (v2.65)
+ * DIGITAL WEDDING INVITATION - FIXED SCRIPT (FAB & MASTER SWITCH)
  * =================================================================
  */
 
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
 
-  // --- 4. FETCH SITE CONFIG (TETAPAN UTAMA LAMAN WEB) ---
+  // --- 4. FETCH SITE CONFIG (TETAPAN UTAMA LAMAN WEB & MASTER SWITCH) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -152,6 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
             config[k2.trim().toLowerCase()] = v2;
           }
         });
+
+        console.log("Config Data Received:", config);
 
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
@@ -253,6 +255,79 @@ document.addEventListener('DOMContentLoaded', () => {
             option.value = i;
             option.textContent = `${i} Orang`;
             paxSelect.appendChild(option);
+          }
+        }
+
+        // --- APPLIKASI MASTER SWITCH (RSVP, GALLERY, WISHES) ---
+        const rsvpFormEl = document.getElementById('rsvp-form');
+        const rsvpNameInput = document.getElementById('rsvp-name');
+        const rsvpPhoneInput = document.getElementById('rsvp-phone');
+        const rsvpStatusInput = document.getElementById('rsvp-status');
+        const rsvpSubmitBtn = document.getElementById('rsvp-submit');
+
+        if (config.control_rsvp !== undefined) {
+          const isRsvpActive = config.control_rsvp === true || String(config.control_rsvp).trim().toUpperCase() === 'TRUE';
+          if (!isRsvpActive) {
+            if (rsvpSubmitBtn) {
+              rsvpSubmitBtn.disabled = true;
+              rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              rsvpSubmitBtn.innerText = "RSVP DITUTUP";
+            }
+            if (rsvpNameInput) rsvpNameInput.disabled = true;
+            if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
+            if (rsvpStatusInput) rsvpStatusInput.disabled = true;
+            if (paxSelect) paxSelect.disabled = true;
+          } else {
+            if (rsvpSubmitBtn) {
+              rsvpSubmitBtn.disabled = false;
+              rsvpSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              rsvpSubmitBtn.innerText = "HANTAR PENGESAHAN";
+            }
+            if (rsvpNameInput) rsvpNameInput.disabled = false;
+            if (rsvpPhoneInput) rsvpPhoneInput.disabled = false;
+            if (rsvpStatusInput) rsvpStatusInput.disabled = false;
+            if (paxSelect) paxSelect.disabled = false;
+          }
+        }
+
+        const uploadBtn = document.getElementById('btn-upload-gallery');
+        if (uploadBtn && config.control_gallery !== undefined) {
+          const isGalleryActive = config.control_gallery === true || String(config.control_gallery).trim().toUpperCase() === 'TRUE';
+          const photoInput = document.getElementById('photo-upload');
+          
+          if (!isGalleryActive) {
+            uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+            uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
+            if (photoInput) photoInput.disabled = true;
+          } else {
+            uploadBtn.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+            uploadBtn.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik Gambar <input type="file" id="photo-upload" accept="image/*" class="hidden">`;
+            bindPhotoUploadListener();
+          }
+        }
+
+        const wishSubmitBtn = document.getElementById('btn-submit-wish');
+        const wishNameInput = document.getElementById('wish-name');
+        const wishMsgInput = document.getElementById('wish-message');
+
+        if (config.control_wish !== undefined) {
+          const isWishActive = config.control_wish === true || String(config.control_wish).trim().toUpperCase() === 'TRUE';
+          if (!isWishActive) {
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = true;
+              wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              wishSubmitBtn.innerText = "UCAPAN DITUTUP";
+            }
+            if (wishNameInput) wishNameInput.disabled = true;
+            if (wishMsgInput) wishMsgInput.disabled = true;
+          } else {
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = false;
+              wishSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs transition-transform duration-300 group-hover:translate-x-1"></i>`;
+            }
+            if (wishNameInput) wishNameInput.disabled = false;
+            if (wishMsgInput) wishMsgInput.disabled = false;
           }
         }
 
@@ -373,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // --- 8. AUDIO & MUZIK LATAR BELAKANG & TRIGGER FAB DOCK ---
+  // --- 8. AUDIO, MUZIK & TRIGGER BUKA UNDANGAN ---
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
@@ -427,16 +502,15 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       
-      // Skrol ke bahagian undangan
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-      // Buka Dock Menu secara automatik untuk tetamu nampak, kemudian auto-hide selepas beberapa saat
+      // Paparkan FAB Dock sebentar supaya tetamu sedar kedudukannya
       setTimeout(() => {
         if (typeof openDock === 'function') {
           openDock();
         }
-      }, 600); // Berikan sedikit masa selepas lancar skrol
+      }, 600);
     });
   }
 
@@ -944,7 +1018,7 @@ END:VCALENDAR`;
     modal.addEventListener('click', () => { modal.classList.add('hidden'); });
   }
 
-  // --- 16. FLOATING ACTION BUTTON (FAB) & NAVIGASI (ASAL STABIL) ---
+  // --- 16. FLOATING ACTION BUTTON (FAB) & NAVIGASI DOCK ---
   const fabContainer = document.getElementById('fab-container');
   const fabTrigger = document.getElementById('fab-trigger');
   const fabDock = document.getElementById('fab-dock');
@@ -1048,6 +1122,9 @@ END:VCALENDAR`;
     resetScrollTimeout();
   }
 
+  window.openDock = openDock;
+  window.closeDock = closeDock;
+
   if (fabTrigger) {
     fabTrigger.addEventListener('click', (e) => { e.stopPropagation(); isOpen ? closeDock() : openDock(); });
   }
@@ -1110,7 +1187,7 @@ END:VCALENDAR`;
     }).catch(err => console.error('Gagal menyalin teks:', err));
   };
   
-  // --- 18. APLIKASI CONFIG TAMBAHAN (BANK, QR CODE FIX & ALAMAT) ---
+  // --- 18. APLIKASI CONFIG TAMBAHAN (BANK, QR CODE & ALAMAT) ---
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -1131,7 +1208,6 @@ END:VCALENDAR`;
       }
     }
 
-    // Pembaikan QR Code Google Drive
     const qrSection = document.getElementById('qr-section');
     const qrControl = config.control_qr;
     if (qrSection) {
