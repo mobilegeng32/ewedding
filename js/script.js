@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.59)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.60)
  * =================================================================
  */
 
@@ -578,7 +578,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & AUTO AUTO-HIDE ALERT)
+  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & CLEAR STUCK DATA)
   // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -630,15 +630,15 @@ END:VCALENDAR`;
               rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
               rsvpSubmitBtn.innerText = "RSVP DITUTUP";
             }
-            if (rsvpNameInput) rsvpNameInput.disabled = true;
-            if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
+            // KOSONGKAN DATA YANG TERSTUCK DI DALAM KOTAK INPUT SERTA-MERTA
+            if (rsvpNameInput) { rsvpNameInput.value = ''; rsvpNameInput.disabled = true; }
+            if (rsvpPhoneInput) { rsvpPhoneInput.value = ''; rsvpPhoneInput.disabled = true; }
             if (rsvpStatusInput) rsvpStatusInput.disabled = true;
             if (rsvpPaxInput) rsvpPaxInput.disabled = true;
 
             if (alertBox) {
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup oleh pengantin.`;
               alertBox.classList.remove('hidden');
-              // AUTO HILANG SELEPAS 5 SAAT
               setTimeout(() => {
                 alertBox.classList.add('hidden');
               }, 5000);
@@ -752,7 +752,6 @@ END:VCALENDAR`;
             if (galleryAlert) {
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Fungsi muat naik gambar telah ditutup oleh pengantin.`;
               galleryAlert.classList.remove('hidden');
-              // AUTO HILANG SELEPAS 5 SAAT
               setTimeout(() => {
                 galleryAlert.classList.add('hidden');
               }, 5000);
@@ -948,7 +947,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 14. BUKU HAJAT & UCAPAN
+  // 14. BUKU HAJAT & UCAPAN (REAL-TIME LIVE CHECK & CLEAR STUCK DATA)
   // =========================================================================
   let defaultWishes = [];
   window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
@@ -1060,13 +1059,13 @@ END:VCALENDAR`;
                 wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
                 wishSubmitBtn.innerText = "UCAPAN DITUTUP";
               }
-              if (nameInput) nameInput.disabled = true;
-              if (msgInput) msgInput.disabled = true;
+              // KOSONGKAN DATA UCAPAN YANG TERSTUCK SERTA-MERTA
+              if (nameInput) { nameInput.value = ''; nameInput.disabled = true; }
+              if (msgInput) { msgInput.value = ''; msgInput.disabled = true; }
 
               if (wishAlert) {
                 wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
                 wishAlert.classList.remove('hidden');
-                // AUTO HILANG SELEPAS 5 SAAT
                 setTimeout(() => {
                   wishAlert.classList.add('hidden');
                 }, 5000);
@@ -1167,7 +1166,10 @@ END:VCALENDAR`;
       }
       ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.disabled = true;
+        if (el) {
+          el.value = ''; // Kosongkan nilai awal jika ditutup dari awal muat turun
+          el.disabled = true;
+        }
       });
     }
 
@@ -1193,7 +1195,10 @@ END:VCALENDAR`;
       }
       ['wish-name', 'wish-message'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.disabled = true;
+        if (el) {
+          el.value = ''; // Kosongkan nilai awal jika ditutup dari awal muat turun
+          el.disabled = true;
+        }
       });
     }
   }
