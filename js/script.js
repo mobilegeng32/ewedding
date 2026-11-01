@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.61)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.62)
  * =================================================================
  */
 
@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC ---
+  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC (BEHAVIOR ASAL) ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -306,40 +306,133 @@ document.addEventListener('DOMContentLoaded', () => {
   const fabContainer = document.getElementById('fab-container');
   const fabTrigger = document.getElementById('fab-trigger');
   const fabDock = document.getElementById('fab-dock');
+  const fabLinks = document.querySelectorAll('.fab-link');
   const moreMenuBtn = document.getElementById('more-menu-btn');
   const morePopover = document.getElementById('more-popover');
+  const sections = document.querySelectorAll('section[id]');
+
+  let isOpen = false;
+  let lastScrollY = window.scrollY;
+  let closeTimer = null;
+  let scrollTimeout = null;
+
+  function updateActiveSection() {
+    let scrollPosition = window.scrollY + window.innerHeight / 3;
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        fabLinks.forEach(link => {
+          if (link.getAttribute('data-target') === sectionId) {
+            link.classList.remove('text-purpleTheme-900/60');
+            link.classList.add('text-purpleTheme-900', 'font-bold', 'scale-110');
+          } else {
+            link.classList.remove('text-purpleTheme-900', 'font-bold', 'scale-110');
+            link.classList.add('text-purpleTheme-900/60');
+          }
+        });
+      }
+    });
+  }
+
+  function resetCloseTimer() {
+    if (closeTimer) clearTimeout(closeTimer);
+    if (isOpen) closeTimer = setTimeout(closeDock, 5000);
+  }
+
+  function resetScrollTimeout() {
+    clearTimeout(scrollTimeout);
+    if (!isOpen && window.scrollY > 300) {
+      scrollTimeout = setTimeout(() => {
+        if (!isOpen && window.scrollY > 300 && fabContainer) {
+          fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        }
+      }, 3500);
+    }
+  }
 
   window.addEventListener('scroll', () => {
-    if (!fabContainer || !fabDock) return;
-    if (window.scrollY > 250) {
-      fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
-      fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
-      fabDock.classList.add('scale-100', 'opacity-100');
+    let currentScrollY = window.scrollY;
+    updateActiveSection();
+
+    if (currentScrollY > 300) {
+      if (fabContainer) {
+        fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+      if (isOpen && Math.abs(currentScrollY - lastScrollY) > 40) closeDock();
+      resetScrollTimeout();
     } else {
-      fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-      fabDock.classList.remove('scale-100', 'opacity-100');
-      fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
-      if (morePopover) morePopover.classList.add('hidden');
+      if (fabContainer) {
+        fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      }
+      closeDock();
     }
+    lastScrollY = currentScrollY;
   });
 
+  function openDock() {
+    isOpen = true;
+    if (fabContainer) {
+      fabContainer.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      fabContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+    }
+    if (fabDock) {
+      fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+    resetCloseTimer();
+  }
+
+  function closeDock() {
+    isOpen = false;
+    if (closeTimer) clearTimeout(closeTimer);
+    if (fabDock) {
+      fabDock.classList.add('scale-75', 'opacity-0', 'pointer-events-none');
+      fabDock.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+    }
+    if (window.scrollY > 300 && fabContainer) {
+      fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+      fabContainer.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    }
+    if (morePopover) {
+      morePopover.classList.add('hidden');
+      morePopover.classList.remove('flex');
+    }
+    resetScrollTimeout();
+  }
+
   if (fabTrigger) {
-    fabTrigger.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    fabTrigger.addEventListener('click', (e) => { e.stopPropagation(); isOpen ? closeDock() : openDock(); });
   }
 
   if (moreMenuBtn && morePopover) {
     moreMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       morePopover.classList.toggle('hidden');
-    });
-    document.addEventListener('click', (e) => {
-      if (!moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
-        morePopover.classList.add('hidden');
-      }
+      morePopover.classList.toggle('flex');
+      resetCloseTimer();
     });
   }
+
+  window.addEventListener('click', (e) => {
+    if (morePopover && moreMenuBtn && !moreMenuBtn.contains(e.target) && !morePopover.contains(e.target)) {
+      morePopover.classList.add('hidden');
+      morePopover.classList.remove('flex');
+    }
+    if (isOpen && fabContainer && fabDock && !fabContainer.contains(e.target) && !fabDock.contains(e.target)) {
+      closeDock();
+    } else if (isOpen) {
+      resetCloseTimer();
+    }
+  });
+
+  fabLinks.forEach(link => { link.addEventListener('click', closeDock); });
+  updateActiveSection();
 
   // --- 7. AUDIO & MUZIK LATAR BELAKANG ---
   const bgMusic = document.getElementById('bg-music');
@@ -396,6 +489,11 @@ document.addEventListener('DOMContentLoaded', () => {
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Trigger buka dock sebentar supaya tetamu nampak kedudukan butang FAB
+      setTimeout(() => {
+        if (typeof openDock === 'function') openDock();
+      }, 600);
     });
   }
 
@@ -489,6 +587,7 @@ END:VCALENDAR`;
   function openGiftModal() {
     if (giftModal) giftModal.classList.remove('hidden');
     if (morePopover) morePopover.classList.add('hidden');
+    closeDock();
   }
   function closeGiftModal() {
     if (giftModal) giftModal.classList.add('hidden');
@@ -630,7 +729,6 @@ END:VCALENDAR`;
               rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
               rsvpSubmitBtn.innerText = "RSVP DITUTUP";
             }
-            // KOSONGKAN NILAI INPUT SERTA-MERTA SUPAYA TIADA DATA TERSTUCK
             if (rsvpNameInput) { rsvpNameInput.value = ''; rsvpNameInput.disabled = true; }
             if (rsvpPhoneInput) { rsvpPhoneInput.value = ''; rsvpPhoneInput.disabled = true; }
             if (rsvpStatusInput) { rsvpStatusInput.value = 'Hadir'; rsvpStatusInput.disabled = true; }
@@ -1058,7 +1156,6 @@ END:VCALENDAR`;
               wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
               wishSubmitBtn.innerText = "UCAPAN DITUTUP";
             }
-            // KOSONGKAN NILAI INPUT UCAPAN SERTA-MERTA SUPAYA TIADA DATA TERSTUCK
             if (nameInput) { nameInput.value = ''; nameInput.disabled = true; }
             if (msgInput) { msgInput.value = ''; msgInput.disabled = true; }
 
@@ -1111,7 +1208,7 @@ END:VCALENDAR`;
     });
   }
 
-  // --- 15. APPLY SITE CONFIG (LOAD AWAL) ---
+  // --- 15. APPLY SITE CONFIG (LOAD AWAL & PEMBETULAN PAPARAN QR CODE) ---
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -1132,6 +1229,7 @@ END:VCALENDAR`;
       }
     }
 
+    // PEMBETULAN QR CODE GOOGLE DRIVE (MENYOKONG ID / PAUTAN PENUH & PROKSI WSRV.NL)
     const qrSection = document.getElementById('qr-section');
     if (qrSection) {
       const qrControl = config.control_qr;
@@ -1139,8 +1237,24 @@ END:VCALENDAR`;
         qrSection.style.display = 'none';
       } else {
         qrSection.style.display = 'block';
-        if (config.qr_image_url && document.getElementById('dyn-qr-image')) {
-          document.getElementById('dyn-qr-image').src = config.qr_image_url;
+        const qrImg = document.getElementById('dyn-qr-image') || document.getElementById('qr-image');
+        if (qrImg) {
+          const rawInput = config.qr_image_url ? String(config.qr_image_url).trim() : '';
+          let fileId = rawInput;
+
+          if (rawInput.includes('drive.google.com')) {
+            const match1 = rawInput.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            const match2 = rawInput.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (match1 && match1[1]) fileId = match1[1];
+            else if (match2 && match2[1]) fileId = match2[1];
+          }
+
+          if (fileId) {
+            const targetUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            qrImg.src = `https://wsrv.nl/?url=${encodeURIComponent(targetUrl)}`;
+          } else {
+            qrImg.src = '';
+          }
         }
       }
     }
