@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.54)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.55)
  * =================================================================
  */
 
@@ -186,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Jalankan fungsi pengesahan status butang secara automatik semasa load
         applySiteConfig(config);
       })
       .catch(err => console.error("Gagal ambil Config:", err));
@@ -283,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 6. SMOOTH SCROLL & ROBUST FLOATING DOCK LOGIC ---
+  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -298,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Floating Trigger & Dock Behaviours (Dipertingkat agar sentiasa responsif)
   const fabContainer = document.getElementById('fab-container');
   const fabTrigger = document.getElementById('fab-trigger');
   const fabDock = document.getElementById('fab-dock');
@@ -307,7 +305,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', () => {
     if (!fabContainer || !fabDock) return;
-    // Munculkan apabila skrol melebihi 250px dari atas (melepasi Hero Section)
     if (window.scrollY > 250) {
       fabContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
       fabDock.classList.remove('scale-75', 'opacity-0', 'pointer-events-none');
@@ -477,7 +474,6 @@ END:VCALENDAR`;
     });
   }
 
-  // Gift Modal Open/Close Controls
   const giftModal = document.getElementById('gift-modal');
   const dockGiftBtn = document.getElementById('dock-gift-btn');
   const popoverGiftBtn = document.getElementById('popover-gift-btn');
@@ -502,7 +498,6 @@ END:VCALENDAR`;
     });
   }
 
-  // Global Copy to Clipboard Function
   window.copyToClipboard = function(text, btnElement) {
     navigator.clipboard.writeText(text).then(() => {
       const originalHTML = btnElement.innerHTML;
@@ -577,7 +572,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 11. RSVP SUBMIT
+  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & AUTO LOCK)
   // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -589,35 +584,90 @@ END:VCALENDAR`;
       const rsvpNameInput = document.getElementById('rsvp-name');
       const rsvpPhoneInput = document.getElementById('rsvp-phone');
       const rsvpStatusInput = document.getElementById('rsvp-status');
+      const rsvpPaxInput = document.getElementById('rsvp-pax');
+      const alertBox = document.getElementById('rsvp-alert');
 
-      showConfirmDialog("Hantar Pengesahan RSVP?", "Adakah anda pasti maklumat kehadiran sudah betul?", () => {
-        setButtonCooldown(rsvpSubmitBtn, window.rsvpCd || 5, "Sila tunggu");
+      if (rsvpSubmitBtn) {
+        rsvpSubmitBtn.disabled = true;
+        rsvpSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak status terkini...`;
+      }
 
-        const formData = new URLSearchParams();
-        formData.append('action', 'rsvp');
-        formData.append('name', rsvpNameInput.value);
-        formData.append('phone', rsvpPhoneInput.value);
-        formData.append('status', rsvpStatusInput.value);
-        formData.append('pax', document.getElementById('rsvp-pax').value);
-        
-        fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
-          .then(response => response.json())
-          .then(data => {
-            const alertBox = document.getElementById('rsvp-alert');
-            if (alertBox) {
-              alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
-              alertBox.classList.remove('hidden');
-              setTimeout(() => alertBox.classList.add('hidden'), 5000);
-              if (data.status !== "error") rsvpForm.reset();
+      // SEMAK DATABASE LIVE SAAT KALI INI DIHANTAR
+      const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
+
+      fetch(configCheckUrl)
+        .then(res => res.text())
+        .then(text => {
+          const startIdx = text.indexOf('setResponse(');
+          let isRsvpActive = true;
+
+          if (startIdx !== -1) {
+            const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
+            json.table.rows.forEach(r => {
+              if (r && r.c && r.c[0] && String(r.c[0].v).trim().toLowerCase() === 'control_rsvp') {
+                let val = r.c[1] ? String(r.c[1].v).trim().toUpperCase() : 'TRUE';
+                if (val === 'FALSE') isRsvpActive = false;
+              }
+            });
+          }
+
+          // JIKA ADMIN DAH TUTUP DI SHEET: KUNCI (DISABLE) TERUS TANPA REFRESH
+          if (!isRsvpActive) {
+            if (rsvpSubmitBtn) {
+              rsvpSubmitBtn.disabled = true;
+              rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              rsvpSubmitBtn.innerText = "RSVP DITUTUP";
             }
-          })
-          .catch(error => console.error('RSVP Error:', error));
-      });
+            if (rsvpNameInput) rsvpNameInput.disabled = true;
+            if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
+            if (rsvpStatusInput) rsvpStatusInput.disabled = true;
+            if (rsvpPaxInput) rsvpPaxInput.disabled = true;
+
+            if (alertBox) {
+              alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup oleh pengantin.`;
+              alertBox.classList.remove('hidden');
+            }
+            return;
+          }
+
+          // JIKA MASIH BUKA: TERUSKAN PROSES HANTAR
+          if (rsvpSubmitBtn) {
+            rsvpSubmitBtn.disabled = false;
+            rsvpSubmitBtn.innerHTML = "Hantar Pengesahan";
+          }
+
+          showConfirmDialog("Hantar Pengesahan RSVP?", "Adakah anda pasti maklumat kehadiran sudah betul?", () => {
+            setButtonCooldown(rsvpSubmitBtn, window.rsvpCd || 5, "Sila tunggu");
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'rsvp');
+            formData.append('name', rsvpNameInput.value);
+            formData.append('phone', rsvpPhoneInput.value);
+            formData.append('status', rsvpStatusInput.value);
+            formData.append('pax', rsvpPaxInput.value);
+            
+            fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+              .then(response => response.json())
+              .then(data => {
+                if (alertBox) {
+                  alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
+                  alertBox.classList.remove('hidden');
+                  setTimeout(() => alertBox.classList.add('hidden'), 5000);
+                  if (data.status !== "error") rsvpForm.reset();
+                }
+              })
+              .catch(error => console.error('RSVP Error:', error));
+          });
+        })
+        .catch(err => {
+          console.error("Gagal semak config RSVP:", err);
+          if (rsvpSubmitBtn) { rsvpSubmitBtn.disabled = false; rsvpSubmitBtn.innerHTML = "Hantar Pengesahan"; }
+        });
     });
   }
 
   // =========================================================================
-  // 12. GALERI & UPLOAD
+  // 12. GALERI & UPLOAD (REAL-TIME LIVE CHECK & AUTO LOCK)
   // =========================================================================
   const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
   let defaultGallery = [];
@@ -648,7 +698,49 @@ END:VCALENDAR`;
 
   if (btnUploadGallery && photoUploadInput) {
     btnUploadGallery.addEventListener('click', () => {
-      photoUploadInput.click();
+      if (!SPREADSHEET_ID) return;
+
+      btnUploadGallery.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak...`;
+      const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
+
+      fetch(configCheckUrl)
+        .then(res => res.text())
+        .then(text => {
+          const startIdx = text.indexOf('setResponse(');
+          let isGalleryActive = true;
+
+          if (startIdx !== -1) {
+            const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
+            json.table.rows.forEach(r => {
+              if (r && r.c && r.c[0] && String(r.c[0].v).trim().toLowerCase() === 'control_gallery') {
+                let val = r.c[1] ? String(r.c[1].v).trim().toUpperCase() : 'TRUE';
+                if (val === 'FALSE') isGalleryActive = false;
+              }
+            });
+          }
+
+          // JIKA ADMIN DAH TUTUP: KUNCI (DISABLE) TERUS TANPA REFRESH
+          if (!isGalleryActive) {
+            btnUploadGallery.disabled = true;
+            btnUploadGallery.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
+            btnUploadGallery.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
+            photoUploadInput.disabled = true;
+
+            const galleryAlert = document.getElementById('gallery-alert');
+            if (galleryAlert) {
+              galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Fungsi muat naik gambar telah ditutup oleh pengantin.`;
+              galleryAlert.classList.remove('hidden');
+            }
+            return;
+          }
+
+          btnUploadGallery.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik`;
+          photoUploadInput.click();
+        })
+        .catch(err => {
+          console.error("Gagal semak config galeri:", err);
+          btnUploadGallery.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik`;
+        });
     });
 
     photoUploadInput.addEventListener('change', (event) => {
@@ -831,7 +923,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 14. BUKU HAJAT & UCAPAN
+  // 14. BUKU HAJAT & UCAPAN (REAL-TIME LIVE CHECK & AUTO LOCK)
   // =========================================================================
   let defaultWishes = [];
   window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
@@ -901,39 +993,89 @@ END:VCALENDAR`;
       const nameInput = document.getElementById('wish-name');
       const msgInput = document.getElementById('wish-message');
       const wishSubmitBtn = document.getElementById('btn-submit-wish');
+      const wishAlert = document.getElementById('wish-alert');
 
       if (nameInput.value && msgInput.value) {
         if (!SPREADSHEET_ID) return;
 
-        showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
-          setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
+        if (wishSubmitBtn) {
+          wishSubmitBtn.disabled = true;
+          wishSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak status terkini...`;
+        }
 
-          const formData = new URLSearchParams();
-          formData.append('action', 'wishes');
-          formData.append('name', nameInput.value);
-          formData.append('message', msgInput.value);
-          
-          fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
-            .then(res => res.json())
-            .then(data => {
-              const wishAlert = document.getElementById('wish-alert');
-              if (wishAlert) {
-                wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan. 🤍`;
-                wishAlert.classList.remove('hidden');
-                setTimeout(() => wishAlert.classList.add('hidden'), 5000);
+        const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
+
+        fetch(configCheckUrl)
+          .then(res => res.text())
+          .then(text => {
+            const startIdx = text.indexOf('setResponse(');
+            let isWishActive = true;
+
+            if (startIdx !== -1) {
+              const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
+              json.table.rows.forEach(r => {
+                if (r && r.c && r.c[0] && String(r.c[0].v).trim().toLowerCase() === 'control_wish') {
+                  let val = r.c[1] ? String(r.c[1].v).trim().toUpperCase() : 'TRUE';
+                  if (val === 'FALSE') isWishActive = false;
+                }
+              });
+            }
+
+            // JIKA ADMIN DAH TUTUP: KUNCI (DISABLE) TERUS TANPA REFRESH
+            if (!isWishActive) {
+              if (wishSubmitBtn) {
+                wishSubmitBtn.disabled = true;
+                wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+                wishSubmitBtn.innerText = "UCAPAN DITUTUP";
               }
-              if (data.status !== "error") { nameInput.value = ''; msgInput.value = ''; fetchWishes(); }
+              if (nameInput) nameInput.disabled = true;
+              if (msgInput) msgInput.disabled = true;
+
+              if (wishAlert) {
+                wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
+                wishAlert.classList.remove('hidden');
+              }
+              return;
+            }
+
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = false;
+              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+            }
+
+            showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
+              setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
+
+              const formData = new URLSearchParams();
+              formData.append('action', 'wishes');
+              formData.append('name', nameInput.value);
+              formData.append('message', msgInput.value);
+              
+              fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+                .then(res => res.json())
+                .then(data => {
+                  if (wishAlert) {
+                    wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan. 🤍`;
+                    wishAlert.classList.remove('hidden');
+                    setTimeout(() => wishAlert.classList.add('hidden'), 5000);
+                  }
+                  if (data.status !== "error") { nameInput.value = ''; msgInput.value = ''; fetchWishes(); }
+                });
             });
-        });
+          })
+          .catch(err => {
+            console.error("Gagal semak config Wish:", err);
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = false;
+              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+            }
+          });
       }
     });
   }
 
-  // =========================================================================
-  // 15. APPLY SITE CONFIG & AUTO GREY OUT BUTTONS (DIKEMASKINI)
-  // =========================================================================
+  // --- 15. APPLY SITE CONFIG (LOAD AWAL) ---
   function applySiteConfig(config) {
-    // 1. Kawalan Butang / Seksyen Gift (Salam Kasih)
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
     if (dockGiftBtnEl) {
@@ -979,8 +1121,7 @@ END:VCALENDAR`;
       }
     }
 
-    // 2. KAWALAN AUTOMATIK "GREY OUT" BUTANG BERDASARKAN DATABASE CONFIG
-    // - Kawalan RSVP
+    // Lock RSVP jika database letak FALSE dari awal muat turun
     const rsvpControl = config.control_rsvp;
     if (rsvpControl === false || String(rsvpControl).trim().toUpperCase() === "FALSE") {
       const rsvpBtn = document.getElementById('rsvp-submit');
@@ -995,7 +1136,7 @@ END:VCALENDAR`;
       });
     }
 
-    // - Kawalan Galeri / Muat Naik
+    // Lock Galeri jika database letak FALSE dari awal muat turun
     const galleryControl = config.control_gallery;
     if (galleryControl === false || String(galleryControl).trim().toUpperCase() === "FALSE") {
       const uploadBtn = document.getElementById('btn-upload-gallery');
@@ -1008,7 +1149,7 @@ END:VCALENDAR`;
       if (photoInput) photoInput.disabled = true;
     }
 
-    // - Kawalan Buku Hajat / Ucapan
+    // Lock Buku Hajat jika database letak FALSE dari awal muat turun
     const wishControl = config.control_wish;
     if (wishControl === false || String(wishControl).trim().toUpperCase() === "FALSE") {
       const wishBtn = document.getElementById('btn-submit-wish');
