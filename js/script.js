@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="space-y-2.5 pt-2">
             <!-- 1. Apple Calendar (iPhone / Mac) -->
             <button type="button" id="cal-apple-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
-              <i class="fab fa-apple text-base text-purpleTheme-700"></i> Apple / iPhone Calendar
+              <i class="fab fa-apple text-base text-purpleTheme-700"></i> Apple Calendar
             </button>
 
             <!-- 2. Google Calendar -->
@@ -701,7 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             <!-- 3. Download Fail .ics Manual -->
             <button type="button" id="cal-download-btn" class="w-full py-3 px-4 rounded-xl bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-butter-300 cursor-pointer">
-              <i class="fas fa-download text-base text-purpleTheme-700"></i> Muat Turun Fail .ics
+              <i class="fas fa-download text-base text-purpleTheme-700"></i> Muat Turun Fail (.ics)
             </button>
           </div>
         </div>
