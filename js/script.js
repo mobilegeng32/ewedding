@@ -17,6 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI';
   let weddingDate = null; // 100% dari database, tiada fallback
+
+  // Konfigurasi lalai untuk Kalendar (.ics) - Akan ditimpa oleh Database
+  let icsDataConfig = {
+    title: "Majlis Nikah Utrias & Hazim",
+    description: "Undangan Majlis Akad Nikah Utrias & Hazim",
+    location: "Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia",
+    start: "20270522T030000Z",
+    end: "20270522T070000Z"
+  };
   
   // --- 1. FUNGSI BANTUAN GVIZ ---
   function fetchSheetDataViaGViz(sheetName, callback) {
@@ -189,6 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
             deadlineEl.classList.add('text-red-500', 'font-medium');
           }
         }
+
+        // --- AMBIL DATA CONFIG UNTUK .ICS DINAMIK ---
+        if (config.ics_title) icsDataConfig.title = config.ics_title;
+        if (config.ics_description) icsDataConfig.description = config.ics_description;
+        if (config.ics_location) icsDataConfig.location = config.ics_location;
+        if (config.ics_start) icsDataConfig.start = config.ics_start;
+        if (config.ics_end) icsDataConfig.end = config.ics_end;															   
 		
         if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
@@ -642,7 +658,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- 9. IMPORT KE KALENDAR (.ICS) & GIFT MODAL LOGIC ---
+  // --- 9. IMPORT KE KALENDAR (.ICS) DINAMIK DARI DATABASE ---
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', () => {
@@ -651,18 +667,18 @@ document.addEventListener('DOMContentLoaded', () => {
 VERSION:2.0
 PRODID:-//Digital Wedding Invitation//EN
 BEGIN:VEVENT
-SUMMARY:Majlis Nikah Utrias & Hazim
-DESCRIPTION:Undangan Majlis Akad Nikah Utrias & Hazim
-LOCATION:Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia
-DTSTART:20270522T030000Z
-DTEND:20270522T070000Z
+SUMMARY:${icsDataConfig.title}
+DESCRIPTION:${icsDataConfig.description}
+LOCATION:${icsDataConfig.location}
+DTSTART:${icsDataConfig.start}
+DTEND:${icsDataConfig.end}
 END:VEVENT
 END:VCALENDAR`;
 
       const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.setAttribute('download', 'Majlis_Nikah_Utrias_Hazim.ics');
+      link.setAttribute('download', 'Majlis_Pernikahan.ics');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
