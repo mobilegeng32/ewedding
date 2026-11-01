@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error("Data rsvp_deadline tidak dijumpai dalam database!");
           const deadlineEl = document.getElementById('dyn-rsvp-deadline');
           if (deadlineEl) {
-            deadlineEl.innerText = "⚠️ Gagal memuatkan tarikh tutup RSVP dari pangkalan data.";
+            deadlineEl.innerText = "--/--/----";
             deadlineEl.classList.add('text-red-500', 'font-medium');
           }
         }
