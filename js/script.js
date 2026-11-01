@@ -1147,7 +1147,7 @@ END:VCALENDAR`;
       console.error("Gagal simpan ke localStorage:", e);
     }
   }
-
+  
   function openMyPhotosModal() {
     if (!myPhotosGrid || !myPhotosModal) return;
     try {
@@ -1155,14 +1155,31 @@ END:VCALENDAR`;
       if (myUploads.length === 0) {
         myPhotosGrid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-purpleTheme-800/70 italic">Tiada rekod gambar dimuat naik dari peranti ini.</div>`;
       } else {
-        myPhotosGrid.innerHTML = myUploads.map(item => `
-          <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm">
-            <img src="${item.url}" alt="My Upload" class="w-full h-full object-cover">
+        myPhotosGrid.innerHTML = myUploads.map((item, index) => `
+          <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm cursor-pointer my-photo-item" data-url="${item.url}" data-caption="${item.caption}">
+            <img src="${item.url}" alt="My Upload" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white">
               <p class="text-[10px] truncate font-light">${item.caption}</p>
             </div>
           </div>
         `).join('');
+
+        // Tambah event listener supaya bila klik gambar peribadi, ia buka lightbox penuh
+        document.querySelectorAll('.my-photo-item').forEach(el => {
+          el.addEventListener('click', () => {
+            const imgUrl = el.getAttribute('data-url');
+            const imgCaption = el.getAttribute('data-caption');
+            
+            if (lightboxImg && lightboxModal) {
+              lightboxImg.src = imgUrl;
+              if (lightboxCaption) {
+                lightboxCaption.innerText = imgCaption;
+              }
+              lightboxModal.classList.remove('hidden');
+              lightboxModal.classList.add('flex');
+            }
+          });
+        });
       }
       myPhotosModal.classList.remove('hidden');
     } catch (e) {
