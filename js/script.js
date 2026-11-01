@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.58)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.59)
  * =================================================================
  */
 
@@ -638,7 +638,7 @@ END:VCALENDAR`;
             if (alertBox) {
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup oleh pengantin.`;
               alertBox.classList.remove('hidden');
-              // TAMBAHKAN TIMEOUT SUPAYA ALERT HILANG SENDIRI SELEPAS 5 SAAT
+              // AUTO HILANG SELEPAS 5 SAAT
               setTimeout(() => {
                 alertBox.classList.add('hidden');
               }, 5000);
@@ -752,7 +752,7 @@ END:VCALENDAR`;
             if (galleryAlert) {
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Fungsi muat naik gambar telah ditutup oleh pengantin.`;
               galleryAlert.classList.remove('hidden');
-              // TAMBAHKAN TIMEOUT UNTUK GALERI ALERT
+              // AUTO HILANG SELEPAS 5 SAAT
               setTimeout(() => {
                 galleryAlert.classList.add('hidden');
               }, 5000);
@@ -1066,7 +1066,7 @@ END:VCALENDAR`;
               if (wishAlert) {
                 wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
                 wishAlert.classList.remove('hidden');
-                // TAMBAHKAN TIMEOUT UNTUK WISH ALERT
+                // AUTO HILANG SELEPAS 5 SAAT
                 setTimeout(() => {
                   wishAlert.classList.add('hidden');
                 }, 5000);
