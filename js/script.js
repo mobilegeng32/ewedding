@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.55)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.56)
  * =================================================================
  */
 
@@ -161,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const wazeLink = document.getElementById('dyn-waze-link');
         if (wazeLink && config.waze_url) { wazeLink.href = config.waze_url; wazeLink.onclick = (e) => { e.preventDefault(); window.open(config.waze_url, '_blank'); }; }
 
-        // Maklumat Hubungi (Contact 1 & 2)
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
           document.getElementById('dyn-c1-rel').innerText = config.contact1_rel || '';
@@ -572,7 +571,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & AUTO LOCK)
+  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & AUTO PERMANENT LOCK)
   // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -592,7 +591,6 @@ END:VCALENDAR`;
         rsvpSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak status terkini...`;
       }
 
-      // SEMAK DATABASE LIVE SAAT KALI INI DIHANTAR
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 
       fetch(configCheckUrl)
@@ -611,7 +609,7 @@ END:VCALENDAR`;
             });
           }
 
-          // JIKA ADMIN DAH TUTUP DI SHEET: KUNCI (DISABLE) TERUS TANPA REFRESH
+          // JIKA FALSE: TERUS KUNCI KEKAL (DISABLE & GREY OUT) TANPA PERLU REFRESH
           if (!isRsvpActive) {
             if (rsvpSubmitBtn) {
               rsvpSubmitBtn.disabled = true;
@@ -630,7 +628,6 @@ END:VCALENDAR`;
             return;
           }
 
-          // JIKA MASIH BUKA: TERUSKAN PROSES HANTAR
           if (rsvpSubmitBtn) {
             rsvpSubmitBtn.disabled = false;
             rsvpSubmitBtn.innerHTML = "Hantar Pengesahan";
@@ -667,7 +664,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 12. GALERI & UPLOAD (REAL-TIME LIVE CHECK & AUTO LOCK)
+  // 12. GALERI & UPLOAD (REAL-TIME LIVE CHECK & AUTO PERMANENT LOCK)
   // =========================================================================
   const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
   let defaultGallery = [];
@@ -719,7 +716,7 @@ END:VCALENDAR`;
             });
           }
 
-          // JIKA ADMIN DAH TUTUP: KUNCI (DISABLE) TERUS TANPA REFRESH
+          // JIKA FALSE: TERUS KUNCI KEKAL (DISABLE & GREY OUT)
           if (!isGalleryActive) {
             btnUploadGallery.disabled = true;
             btnUploadGallery.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
@@ -826,7 +823,6 @@ END:VCALENDAR`;
   if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModal);
   if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
 
-  // --- 13. LOCALSTORAGE GAMBAR SAYA ---
   function saveMyUploadedPhotoToLocal(photoUrl, captionText) {
     try {
       let myUploads = JSON.parse(localStorage.getItem('my_wedding_uploads') || '[]');
@@ -923,7 +919,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 14. BUKU HAJAT & UCAPAN (REAL-TIME LIVE CHECK & AUTO LOCK)
+  // 14. BUKU HAJAT & UCAPAN (REAL-TIME LIVE CHECK & AUTO PERMANENT LOCK)
   // =========================================================================
   let defaultWishes = [];
   window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
@@ -1021,7 +1017,7 @@ END:VCALENDAR`;
               });
             }
 
-            // JIKA ADMIN DAH TUTUP: KUNCI (DISABLE) TERUS TANPA REFRESH
+            // JIKA FALSE: TERUS KUNCI KEKAL (DISABLE & GREY OUT)
             if (!isWishActive) {
               if (wishSubmitBtn) {
                 wishSubmitBtn.disabled = true;
@@ -1121,7 +1117,6 @@ END:VCALENDAR`;
       }
     }
 
-    // Lock RSVP jika database letak FALSE dari awal muat turun
     const rsvpControl = config.control_rsvp;
     if (rsvpControl === false || String(rsvpControl).trim().toUpperCase() === "FALSE") {
       const rsvpBtn = document.getElementById('rsvp-submit');
@@ -1136,7 +1131,6 @@ END:VCALENDAR`;
       });
     }
 
-    // Lock Galeri jika database letak FALSE dari awal muat turun
     const galleryControl = config.control_gallery;
     if (galleryControl === false || String(galleryControl).trim().toUpperCase() === "FALSE") {
       const uploadBtn = document.getElementById('btn-upload-gallery');
@@ -1149,7 +1143,6 @@ END:VCALENDAR`;
       if (photoInput) photoInput.disabled = true;
     }
 
-    // Lock Buku Hajat jika database letak FALSE dari awal muat turun
     const wishControl = config.control_wish;
     if (wishControl === false || String(wishControl).trim().toUpperCase() === "FALSE") {
       const wishBtn = document.getElementById('btn-submit-wish');
