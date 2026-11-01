@@ -1507,4 +1507,38 @@ END:VCALENDAR`;
       });
     }
   }
+  
+  // --- LIGHTBOX / PAPARAN GAMBAR PENUH GALERI ---
+  const slideshowContainer = document.getElementById('slideshow-container');
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const closeLightboxBtn = document.getElementById('close-lightbox');
+
+  if (slideshowContainer && lightboxModal && lightboxImg) {
+    slideshowContainer.addEventListener('click', (e) => {
+      // Elakkan daripada trigger lightbox jika pengguna klik butang next/prev slide
+      if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;
+      
+      if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
+        lightboxImg.src = slideImg.src;
+        if (lightboxCaption && slideCaption) {
+          lightboxCaption.innerText = slideCaption.innerText;
+        }
+        lightboxModal.classList.remove('hidden');
+      }
+    });
+
+    if (closeLightboxBtn) {
+      closeLightboxBtn.addEventListener('click', () => {
+        lightboxModal.classList.add('hidden');
+      });
+    }
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        lightboxModal.classList.add('hidden');
+      }
+    });
+  }
 });
