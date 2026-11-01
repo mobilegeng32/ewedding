@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // --- 8. AUDIO & MUZIK LATAR BELAKANG ---
+  // --- 8. AUDIO & MUZIK LATAR BELAKANG & TRIGGER FAB DOCK ---
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
@@ -426,8 +426,17 @@ document.addEventListener('DOMContentLoaded', () => {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
       isPlaying ? pauseAudioTrack() : playAudioTrack();
+      
+      // Skrol ke bahagian undangan
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Buka Dock Menu secara automatik untuk tetamu nampak, kemudian auto-hide selepas beberapa saat
+      setTimeout(() => {
+        if (typeof openDock === 'function') {
+          openDock();
+        }
+      }, 600); // Berikan sedikit masa selepas lancar skrol
     });
   }
 
