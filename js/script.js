@@ -15,7 +15,8 @@ window.addEventListener('load', () => {
 document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
-  const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
+  const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI';
+  let weddingDate = null; // 100% dari database, tiada fallback
   
   // --- 1. FUNGSI BANTUAN GVIZ ---
   function fetchSheetDataViaGViz(sheetName, callback) {
@@ -159,6 +160,42 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.groom_desc && document.getElementById('dyn-groom-desc')) document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
 
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
+		
+        // Ambil tarikh untuk countdown secara strict dari Database
+        if (config.event_date) {
+          let cleanDateStr = config.event_date.replace(/^[A-Za-z]+,\s*/, ''); 
+          let fullDateTimeStr = `${cleanDateStr} 10:00:00`; 
+          let parsedTime = new Date(fullDateTimeStr).getTime();
+          
+          if (!isNaN(parsedTime)) {
+            weddingDate = parsedTime;
+          } else {
+            console.error("Format tarikh dari database tidak sah!");
+            showCountdownError();
+          }
+        } else {
+          console.error("Data event_date tidak dijumpai dalam database!");
+          showCountdownError();
+        }
+		
+								 
+													 
+				
+													  
+																											   
+					
+																	 
+					 
+											   
+											
+																															  
+									  
+	  
+																																
+	 
+	
+   
+  
         if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
@@ -433,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   fabLinks.forEach(link => { 
     link.addEventListener('click', (e) => {
-      // Kecualikan butang muzik supaya dock tidak tertutup
+														   
       if (link.id === 'dock-music-btn' || link.closest('#dock-music-btn')) return;
       closeDock();
     }); 
@@ -490,10 +527,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-	if (heroOpenBtn) {
+  if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      // Pastikan ia hanya memulakan muzik sekiranya belum dimainkan (bukan toggle play/pause)
+																							  
       if (!isPlaying) {
         playAudioTrack();
       }
@@ -524,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
       
-      // Batalkan timer penutupan supaya dock kekal stabil
+														  
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
       
@@ -534,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-  // Fungsi khas untuk kawal muzik dari popover tanpa tutup menu/dock
+																	 
   window.toggleMusicFromPopover = function(event) {
     if (event) {
       event.stopPropagation();
@@ -551,20 +588,28 @@ document.addEventListener('DOMContentLoaded', () => {
       resetCloseTimer();
     }
   };
-
+  
   // --- 8. COUNTDOWN TIMER ---
-  const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
 
   function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = weddingDate - now;
-
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');
     const minutesEl = document.getElementById('cd-minutes');
     const secondsEl = document.getElementById('cd-seconds');
 
     if (!daysEl) return;
+
+													  
+    if (!weddingDate) {
+      daysEl.innerText = "--";
+      hoursEl.innerText = "--";
+      minutesEl.innerText = "--";
+      secondsEl.innerText = "--";
+      return;
+    }
+
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
 
     if (distance < 0) {
       daysEl.innerText = "00"; hoursEl.innerText = "00"; minutesEl.innerText = "00"; secondsEl.innerText = "00";
@@ -584,6 +629,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(updateCountdown, 1000);
   updateCountdown();
+
+  // Fungsi pembantu untuk paparan ralat countdown
+  function showCountdownError() {
+    const daysEl = document.getElementById('cd-days');
+    if (daysEl) {
+      const container = daysEl.closest('#countdown-section') || daysEl.parentElement.parentElement.parentElement;
+      if (container) {
+        let alertDiv = document.getElementById('countdown-error-alert');
+        if (!alertDiv) {
+          alertDiv = document.createElement('div');
+          alertDiv.id = 'countdown-error-alert';
+          alertDiv.className = 'mt-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs font-medium text-center';
+          container.appendChild(alertDiv);
+        }
+        alertDiv.innerHTML = `<i class="fas fa-exclamation-triangle mr-1"></i> Gagal memuatkan tarikh majlis dari pangkalan data.`;
+      }
+    }
+  }
 
   // --- 9. IMPORT KE KALENDAR (.ICS) & GIFT MODAL LOGIC ---
   const calBtn = document.getElementById('add-calendar-btn');
