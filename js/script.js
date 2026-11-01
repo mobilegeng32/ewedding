@@ -430,8 +430,15 @@ document.addEventListener('DOMContentLoaded', () => {
       resetCloseTimer();
     }
   });
-
-  fabLinks.forEach(link => { link.addEventListener('click', closeDock); });
+  
+  fabLinks.forEach(link => { 
+    link.addEventListener('click', (e) => {
+      // Kecualikan butang muzik supaya dock tidak tertutup
+      if (link.id === 'dock-music-btn' || link.closest('#dock-music-btn')) return;
+      closeDock();
+    }); 
+  });
+  
   updateActiveSection();
 
   // --- 7. AUDIO & MUZIK LATAR BELAKANG ---
@@ -510,37 +517,36 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
   
   if (dockMusicBtn && bgMusic) {
-  dockMusicBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
+    dockMusicBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      
+      isPlaying ? pauseAudioTrack() : playAudioTrack();
+      hasInteracted = true;
+      
+      // Batalkan timer penutupan supaya dock kekal stabil
+      if (closeTimer) clearTimeout(closeTimer);
+      isOpen = true;
+      
+      if (typeof resetCloseTimer === 'function') {
+        resetCloseTimer();
+      }
+    });
+  }
+  
+  // Fungsi khas untuk kawal muzik dari popover tanpa tutup menu/dock
+  window.toggleMusicFromPopover = function(event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
     isPlaying ? pauseAudioTrack() : playAudioTrack();
     hasInteracted = true;
 
-    // Paksa supaya timer penutupan dibatalkan sepenuhnya dan menu kekal terbuka
-    if (typeof closeTimer !== 'undefined' && closeTimer) {
-      clearTimeout(closeTimer);
-    }
-    if (typeof isOpen !== 'undefined') {
-      isOpen = true; // Kekalkan state terbuka
-    }
+    if (closeTimer) clearTimeout(closeTimer);
+    isOpen = true;
 
-    // Panggil semula reset timer jika ada
-    if (typeof resetCloseTimer === 'function') {
-      resetCloseTimer();
-    }
-  });
-}
-  
-  // Fungsi khas untuk kawal muzik dari popover tanpa tutup menu
-  window.toggleMusicFromPopover = function(event) {
-    if (event) event.stopPropagation();
-
-    // Trigger klik pada butang muzik utama dock
-    const mainMusicBtn = document.getElementById('dock-music-btn');
-    if (mainMusicBtn) {
-      mainMusicBtn.click();
-    }
-
-    // Pastikan timer reset supaya menu FAB tidak hilang
     if (typeof resetCloseTimer === 'function') {
       resetCloseTimer();
     }
