@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.57)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.58)
  * =================================================================
  */
 
@@ -130,20 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         rows.forEach(r => {
           if (!r || !r.c) return;
-          // Lajur A (Index 0) & B (Index 1)
           const k1 = extractCellVal(r.c[0]);
           const v1 = extractCellVal(r.c[1]);
           if (k1 && typeof k1 === 'string' && k1.toLowerCase() !== 'key') {
             config[k1.trim().toLowerCase()] = v1;
-            config[k1.trim()] = v1; // Simpan juga format asal (cth: control_RSVP)
+            config[k1.trim()] = v1;
           }
 
-          // Lajur F (Index 5) & G (Index 6)
           const k2 = extractCellVal(r.c[5]);
           const v2 = extractCellVal(r.c[6]);
           if (k2 && typeof k2 === 'string' && k2.toLowerCase() !== 'key') {
             config[k2.trim().toLowerCase()] = v2;
-            config[k2.trim()] = v2; // Simpan format asal (cth: control_RSVP)
+            config[k2.trim()] = v2;
           }
         });
 
@@ -580,7 +578,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & AUTO PERMANENT LOCK)
+  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & AUTO AUTO-HIDE ALERT)
   // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -612,14 +610,13 @@ END:VCALENDAR`;
             const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
             json.table.rows.forEach(r => {
               if (r && r.c) {
-                // Semak kedua-dua Lajur A (c[0]) dan Lajur F (c[5]) untuk sokongan huruf besar/kecil
                 [0, 5].forEach(colIdx => {
                   if (r.c[colIdx] && r.c[colIdx].v !== undefined) {
                     let keyName = String(r.c[colIdx].v).trim().toLowerCase();
                     if (keyName === 'control_rsvp') {
-                      let valCell = r.c[colIdx + 1]; // Lajur B atau Lajur G
+                      let valCell = r.c[colIdx + 1];
                       let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
-                      if (val === 'FALSE' || val === 'FALSE' || val === 'FALSE') isRsvpActive = false;
+                      if (val === 'FALSE') isRsvpActive = false;
                     }
                   }
                 });
@@ -627,7 +624,6 @@ END:VCALENDAR`;
             });
           }
 
-          // JIKA FALSE: KUNCI KEKAL (DISABLE & GREY OUT)
           if (!isRsvpActive) {
             if (rsvpSubmitBtn) {
               rsvpSubmitBtn.disabled = true;
@@ -642,6 +638,10 @@ END:VCALENDAR`;
             if (alertBox) {
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup oleh pengantin.`;
               alertBox.classList.remove('hidden');
+              // TAMBAHKAN TIMEOUT SUPAYA ALERT HILANG SENDIRI SELEPAS 5 SAAT
+              setTimeout(() => {
+                alertBox.classList.add('hidden');
+              }, 5000);
             }
             return;
           }
@@ -752,6 +752,10 @@ END:VCALENDAR`;
             if (galleryAlert) {
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Fungsi muat naik gambar telah ditutup oleh pengantin.`;
               galleryAlert.classList.remove('hidden');
+              // TAMBAHKAN TIMEOUT UNTUK GALERI ALERT
+              setTimeout(() => {
+                galleryAlert.classList.add('hidden');
+              }, 5000);
             }
             return;
           }
@@ -1062,6 +1066,10 @@ END:VCALENDAR`;
               if (wishAlert) {
                 wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
                 wishAlert.classList.remove('hidden');
+                // TAMBAHKAN TIMEOUT UNTUK WISH ALERT
+                setTimeout(() => {
+                  wishAlert.classList.add('hidden');
+                }, 5000);
               }
               return;
             }
