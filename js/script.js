@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - MAIN SCRIPT (FULL UPDATED)
+ * DIGITAL WEDDING INVITATION - SCRIPT (JIT CONFIG & AUTO GREY-OUT)
  * =================================================================
  */
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI'; 
   
-  // --- 1. FUNGSI BANTUAN GVIZ (BACA DATA DARI SHEET) ---
+  // --- 1. FUNGSI BANTUAN GVIZ ---
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
@@ -52,15 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  // --- 2. FUNGSI BANTUAN COOLDOWN BUTANG ---
+  // --- 2. FUNGSI BANTUAN COOLDOWN ---
   function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
     if (!buttonEl) return;
-    
     const btnId = buttonEl.id || 'btn_generic';
     const storageKey = `cooldown_expiry_${btnId}`;
     const now = Date.now();
     const savedExpiry = localStorage.getItem(storageKey);
-    
     let remainingTime = durationInSeconds;
     
     if (savedExpiry && savedExpiry > now) {
@@ -92,21 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  setTimeout(() => {
-    ['rsvp-submit', 'btn-upload-gallery', 'btn-submit-wish', 'refresh-wishes-btn'].forEach(id => {
-      const btn = document.getElementById(id);
-      if (btn) {
-        const savedExpiry = localStorage.getItem(`cooldown_expiry_${id}`);
-        if (savedExpiry && savedExpiry > Date.now()) {
-          const activeDuration = Math.ceil((savedExpiry - Date.now()) / 1000);
-          const customTxt = id === 'btn-upload-gallery' ? 'Memuat Naik' : (id === 'refresh-wishes-btn' ? 'Memuat' : 'Sila tunggu');
-          setButtonCooldown(btn, activeDuration, customTxt);
-        }
-      }
-    });
-  }, 300);
-
-  // --- 3. FETCH SITE CONFIG & INITIAL UI SYNC ---
+  // --- 3. FETCH CONFIG UTAMA (ON-LOAD AWAL) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -132,14 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!r || !r.c) return;
           const k1 = extractCellVal(r.c[0]);
           const v1 = extractCellVal(r.c[1]);
-          if (k1 && typeof k1 === 'string' && k1.toLowerCase() !== 'key') {
-            config[k1.trim().toLowerCase()] = v1;
-          }
+          if (k1 && typeof k1 === 'string' && k1.toLowerCase() !== 'key') config[k1.trim().toLowerCase()] = v1;
           const k2 = extractCellVal(r.c[5]);
           const v2 = extractCellVal(r.c[6]);
-          if (k2 && typeof k2 === 'string' && k2.toLowerCase() !== 'key') {
-            config[k2.trim().toLowerCase()] = v2;
-          }
+          if (k2 && typeof k2 === 'string' && k2.toLowerCase() !== 'key') config[k2.trim().toLowerCase()] = v2;
         });
 
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
@@ -151,157 +131,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderWishes();
 
-        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) {
-          document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
-        }
-        if (config.bride_desc && document.getElementById('dyn-bride-desc')) {
-          document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
-        }
-        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) {
-          document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
-        }
-        if (config.groom_desc && document.getElementById('dyn-groom-desc')) {
-          document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
-        }
+        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
+        if (config.bride_desc && document.getElementById('dyn-bride-desc')) document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
+        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
+        if (config.groom_desc && document.getElementById('dyn-groom-desc')) document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
 
-        if (config.event_date && document.getElementById('dyn-event-date')) {
-          document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
-        }
-        if (config.event_time && document.getElementById('dyn-event-time')) {
-          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
-        }
-        if (config.event_location && document.getElementById('dyn-event-location')) {
-          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
-        }
+        if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
+        if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
+        if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
         const gmapsLink = document.getElementById('dyn-gmaps-link');
-        if (gmapsLink) {
-          const gmapsUrl = config.gmaps_url ? String(config.gmaps_url).trim() : '#';
-          gmapsLink.href = gmapsUrl;
-          gmapsLink.onclick = (e) => { e.preventDefault(); if (gmapsUrl !== '#') window.open(gmapsUrl, '_blank'); };
-        }
+        if (gmapsLink && config.gmaps_url) { gmapsLink.href = config.gmaps_url; gmapsLink.onclick = (e) => { e.preventDefault(); window.open(config.gmaps_url, '_blank'); }; }
 
         const wazeLink = document.getElementById('dyn-waze-link');
-        if (wazeLink) {
-          const wazeUrl = config.waze_url ? String(config.waze_url).trim() : '#';
-          wazeLink.href = wazeUrl;
-          wazeLink.onclick = (e) => { e.preventDefault(); if (wazeUrl !== '#') window.open(wazeUrl, '_blank'); };
-        }
+        if (wazeLink && config.waze_url) { wazeLink.href = config.waze_url; wazeLink.onclick = (e) => { e.preventDefault(); window.open(config.waze_url, '_blank'); }; }
 
-        // Kemaskini Status Butang On-Load
-        const rsvpSubmitBtn = document.getElementById('rsvp-submit');
-        if (config.control_rsvp !== undefined && rsvpSubmitBtn) {
-          const isRsvpActive = config.control_rsvp === true || String(config.control_rsvp).trim().toUpperCase() === 'TRUE';
-          if (!isRsvpActive) {
-            rsvpSubmitBtn.disabled = true;
-            rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-            rsvpSubmitBtn.innerText = "RSVP DITUTUP";
+        const maxPax = parseInt(config.max_pax) || 5;
+        const paxSelect = document.getElementById('rsvp-pax');
+        if (paxSelect) {
+          paxSelect.innerHTML = ''; 
+          for (let i = 1; i <= maxPax; i++) {
+            const opt = document.createElement('option');
+            opt.value = i; opt.textContent = `${i} Orang`;
+            paxSelect.appendChild(opt);
           }
         }
-
-        const uploadBtn = document.getElementById('btn-upload-gallery');
-        if (config.control_gallery !== undefined && uploadBtn) {
-          const isGalleryActive = config.control_gallery === true || String(config.control_gallery).trim().toUpperCase() === 'TRUE';
-          if (!isGalleryActive) {
-            uploadBtn.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
-            uploadBtn.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
-          }
-        }
-
-        const wishSubmitBtn = document.getElementById('btn-submit-wish');
-        if (config.control_wish !== undefined && wishSubmitBtn) {
-          const isWishActive = config.control_wish === true || String(config.control_wish).trim().toUpperCase() === 'TRUE';
-          if (!isWishActive) {
-            wishSubmitBtn.disabled = true;
-            wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-            wishSubmitBtn.innerText = "UCAPAN DITUTUP";
-          }
-        }
-
         applySiteConfig(config);
       })
       .catch(err => console.error("Gagal ambil Config:", err));
   }
 
-  setTimeout(() => { fetchSiteConfig(); }, 200);
-  setTimeout(() => { fetchTentative(); }, 600);
-  setTimeout(() => { fetchGalleryImages(); }, 1000);
-  setTimeout(() => { fetchWishes(); }, 1400);
+  setTimeout(fetchSiteConfig, 200);
+  setTimeout(fetchTentative, 600);
+  setTimeout(fetchGalleryImages, 1000);
+  setTimeout(fetchWishes, 1400);
 
-  // --- 4. TENTATIVE MAJLIS ---
+  // --- TENTATIVE ---
   function fetchTentative() {
     if (!SPREADSHEET_ID) return;
-    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
-
-    fetch(url)
-      .then(res => res.text())
-      .then(text => {
-        const startIdx = text.indexOf('setResponse(');
-        if (startIdx === -1) return;
-        
-        const jsonString = text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')'));
-        const json = JSON.parse(jsonString);
-        const rows = json.table.rows;
-
-        const container = document.getElementById('dyn-tentative-container');
-        const scrollBox = document.getElementById('tentative-scroll-box');
-        const scrollIndicator = document.getElementById('tentative-scroll-indicator');
-
-        if (!container) return;
-
-        if (rows && rows.length > 0) {
-          container.innerHTML = rows.map(row => {
-            if (!row || !row.c) return '';
-            const cellTime = row.c[0];
-            const cellDesc = row.c[1];
-
-            let rawTime = '';
-            if (cellTime && cellTime.v !== undefined && cellTime.v !== null) rawTime = String(cellTime.v);
-
-            let displayTime = rawTime;
-            if (rawTime.startsWith('Date(')) {
-              const nums = rawTime.match(/\d+/g);
-              if (nums && nums.length >= 5) {
-                let hour = parseInt(nums[3], 10);
-                let minute = parseInt(nums[4], 10);
-                let ampm = hour >= 12 ? 'PM' : 'AM';
-                hour = hour % 12 || 12;
-                let minStr = minute < 10 ? '0' + minute : minute;
-                displayTime = `${hour}:${minStr} ${ampm}`;
-              }
-            }
-
-            let description = cellDesc && cellDesc.v !== undefined && cellDesc.v !== null ? String(cellDesc.v) : '';
-            if (!displayTime && !description) return '';
-
-            return `
-              <div class="relative">
-                <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
-                <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
-                <p class="text-sm font-medium text-purpleTheme-900 mt-1">${description}</p>
-              </div>
-            `;
-          }).join('');
-
-          if (scrollBox && scrollIndicator) {
-            scrollIndicator.classList.toggle('hidden', scrollBox.scrollHeight <= scrollBox.clientHeight);
-            scrollBox.addEventListener('scroll', () => {
-              scrollIndicator.style.opacity = (scrollBox.scrollTop + scrollBox.clientHeight >= scrollBox.scrollHeight - 10) ? '0' : '1';
-            });
-          }
-        } else {
-          container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
-          if (scrollIndicator) scrollIndicator.classList.add('hidden');
-        }
-      })
-      .catch(err => console.error("Gagal ambil Tentative:", err));
+    fetchSheetDataViaGViz('Tentative', function(rows) {
+      const container = document.getElementById('dyn-tentative-container');
+      const scrollIndicator = document.getElementById('tentative-scroll-indicator');
+      if (!container) return;
+      if (rows && rows.length > 0) {
+        container.innerHTML = rows.map(row => {
+          let displayTime = row.time || row.masa || '';
+          let description = row.description || row.penerangan || row.aktiviti || '';
+          if (!displayTime && !description) return '';
+          return `
+            <div class="relative">
+              <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
+              <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
+              <p class="text-sm font-medium text-purpleTheme-900 mt-1">${description}</p>
+            </div>
+          `;
+        }).join('');
+      } else {
+        container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
+        if (scrollIndicator) scrollIndicator.classList.add('hidden');
+      }
+    });
   }
 
-  // --- 5. RSVP STATUS & PAX TOGGLE ---
+  // --- RSVP STATUS PAX TOGGLE ---
   const rsvpStatus = document.getElementById('rsvp-status');
   const paxContainer = document.getElementById('pax-container');
   const rsvpPax = document.getElementById('rsvp-pax');
-
   if (rsvpStatus && paxContainer) {
     rsvpStatus.addEventListener('change', () => {
       if (rsvpStatus.value === 'Hadir') {
@@ -313,31 +208,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-  
-  // --- 6. SMOOTH SCROLL ---
+
+  // --- SMOOTH SCROLL & AUDIO ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
       if (!targetId || !targetId.startsWith('#')) return;
-
       e.preventDefault();
-      if (targetId === '#' || targetId === '#hero-section') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+      if (targetId === '#' || targetId === '#hero-section') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
       const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-  
-  // --- 7. AUDIO & MUZIK LATAR BELAKANG ---
+
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
   let hasInteracted = false;
-
   const dockMusicBtn = document.getElementById('dock-music-btn');
   const dockMusicIcon = document.getElementById('dock-music-icon');
   const dockMusicText = document.getElementById('dock-music-text');
@@ -346,39 +233,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isPlaying) {
       if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-high text-purpleTheme-700 group-hover:scale-110 transition-transform';
       if (dockMusicText) dockMusicText.textContent = 'Musik';
-      if (dockMusicBtn) {
-        dockMusicBtn.classList.remove('text-purpleTheme-900/60');
-        dockMusicBtn.classList.add('text-purpleTheme-900');
-      }
+      if (dockMusicBtn) { dockMusicBtn.classList.remove('text-purpleTheme-900/60'); dockMusicBtn.classList.add('text-purpleTheme-900'); }
     } else {
       if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-xmark text-purpleTheme-900/60 group-hover:scale-110 transition-transform';
       if (dockMusicText) dockMusicText.textContent = 'Musik';
-      if (dockMusicBtn) {
-        dockMusicBtn.classList.remove('text-purpleTheme-900');
-        dockMusicBtn.classList.add('text-purpleTheme-900/60');
-      }
+      if (dockMusicBtn) { dockMusicBtn.classList.remove('text-purpleTheme-900'); dockMusicBtn.classList.add('text-purpleTheme-900/60'); }
     }
   }
 
   function playAudioTrack() {
-    if (bgMusic) {
-      bgMusic.play().then(() => {
-        isPlaying = true;
-        hasInteracted = true;
-        updateDockMusicUI();
-      }).catch((error) => {
-        isPlaying = false;
-        updateDockMusicUI();
-      });
-    }
+    if (bgMusic) { bgMusic.play().then(() => { isPlaying = true; hasInteracted = true; updateDockMusicUI(); }).catch(() => { isPlaying = false; updateDockMusicUI(); }); }
   }
-
   function pauseAudioTrack() {
-    if (bgMusic) {
-      bgMusic.pause();
-      isPlaying = false;
-      updateDockMusicUI();
-    }
+    if (bgMusic) { bgMusic.pause(); isPlaying = false; updateDockMusicUI(); }
   }
 
   if (heroOpenBtn) {
@@ -398,80 +265,34 @@ document.addEventListener('DOMContentLoaded', () => {
       window.removeEventListener('touchstart', triggerAudioOnFirstInteraction);
     }
   }
-
   window.addEventListener('click', triggerAudioOnFirstInteraction);
   window.addEventListener('scroll', triggerAudioOnFirstInteraction);
   window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
-  
+
   if (dockMusicBtn && bgMusic) {
-    dockMusicBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      isPlaying ? pauseAudioTrack() : playAudioTrack();
-      hasInteracted = true;
-    });
+    dockMusicBtn.addEventListener('click', (e) => { e.stopPropagation(); isPlaying ? pauseAudioTrack() : playAudioTrack(); hasInteracted = true; });
   }
 
-  // --- 8. COUNTDOWN TIMER ---
+  // --- COUNTDOWN TIMER ---
   const weddingDate = new Date('May 22, 2027 10:00:00').getTime();
-
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = weddingDate - now;
-
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');
     const minutesEl = document.getElementById('cd-minutes');
     const secondsEl = document.getElementById('cd-seconds');
-
     if (!daysEl) return;
-
-    if (distance < 0) {
-      daysEl.innerText = "00"; hoursEl.innerText = "00"; minutesEl.innerText = "00"; secondsEl.innerText = "00";
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    daysEl.innerText = days < 10 ? '0' + days : days;
-    hoursEl.innerText = hours < 10 ? '0' + hours : hours;
-    minutesEl.innerText = minutes < 10 ? '0' + minutes : minutes;
-    secondsEl.innerText = seconds < 10 ? '0' + seconds : seconds;
+    if (distance < 0) { daysEl.innerText = "00"; hoursEl.innerText = "00"; minutesEl.innerText = "00"; secondsEl.innerText = "00"; return; }
+    daysEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+    hoursEl.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutesEl.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    secondsEl.innerText = Math.floor((distance % (1000 * 60)) / 1000);
   }
-
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // --- 9. IMPORT KE KALENDAR (.ICS) ---
-  const calBtn = document.getElementById('add-calendar-btn');
-  if (calBtn) {
-    calBtn.addEventListener('click', () => {
-      const icsData = 
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Digital Wedding Invitation//EN
-BEGIN:VEVENT
-SUMMARY:Majlis Nikah Utrias & Hazim
-DESCRIPTION:Undangan Majlis Akad Nikah Utrias & Hazim
-LOCATION:Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia
-DTSTART:20270522T030000Z
-DTEND:20270522T070000Z
-END:VEVENT
-END:VCALENDAR`;
-
-      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.setAttribute('download', 'Majlis_Nikah_Utrias_Hazim.ics');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-  }
-  
-  // --- 10. MODAL & CUSTOM CONFIRM DIALOG ---
+  // --- MODAL & CONFIRM DIALOG ---
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -484,18 +305,11 @@ END:VCALENDAR`;
   if (dialogYesBtn) {
     dialogYesBtn.addEventListener('click', () => {
       if (confirmModal) confirmModal.classList.add('hidden');
-      if (typeof currentConfirmCallback === 'function') {
-        currentConfirmCallback();
-        currentConfirmCallback = null;
-      }
+      if (typeof currentConfirmCallback === 'function') { currentConfirmCallback(); currentConfirmCallback = null; }
     });
   }
-
   if (dialogCancelBtn) {
-    dialogCancelBtn.addEventListener('click', () => {
-      if (confirmModal) confirmModal.classList.add('hidden');
-      currentConfirmCallback = null;
-    });
+    dialogCancelBtn.addEventListener('click', () => { if (confirmModal) confirmModal.classList.add('hidden'); currentConfirmCallback = null; });
   }
 
   function showConfirmDialog(title, desc, onConfirm, isAlertOnly = false, iconType = 'question') {
@@ -507,13 +321,13 @@ END:VCALENDAR`;
     if (isAlertOnly) {
       if (dialogCancelBtn) dialogCancelBtn.classList.add('hidden');
       if (dialogYesBtn) {
-        dialogYesBtn.className = "w-full py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer";
+        dialogYesBtn.className = "w-full py-3.5 rounded-xl bg-purpleTheme-900 text-butter-100 text-xs font-semibold uppercase cursor-pointer";
         dialogYesBtn.innerText = "FAHAM";
       }
     } else {
       if (dialogCancelBtn) dialogCancelBtn.classList.remove('hidden');
       if (dialogYesBtn) {
-        dialogYesBtn.className = "w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer";
+        dialogYesBtn.className = "w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 text-butter-100 text-xs font-semibold uppercase cursor-pointer";
         dialogYesBtn.innerText = "YA, PASTI";
       }
     }
@@ -530,13 +344,26 @@ END:VCALENDAR`;
     confirmModal.classList.remove('hidden');
   }
 
-  // --- 11. RSVP SUBMIT DENGAN JIT VALIDATION ---
+  // =========================================================================
+  // 11. RSVP SUBMIT DENGAN JIT LIVE CHECK & AUTO GREY OUT
+  // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!SPREADSHEET_ID) return;
-      
+
+      const rsvpSubmitBtn = document.getElementById('rsvp-submit');
+      const rsvpNameInput = document.getElementById('rsvp-name');
+      const rsvpPhoneInput = document.getElementById('rsvp-phone');
+      const rsvpStatusInput = document.getElementById('rsvp-status');
+
+      // Tunjuk loading ringkas pada butang tanda sedang semak status
+      if (rsvpSubmitBtn) {
+        rsvpSubmitBtn.disabled = true;
+        rsvpSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak status...`;
+      }
+
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
       fetch(configCheckUrl)
         .then(res => res.text())
@@ -552,52 +379,61 @@ END:VCALENDAR`;
               }
             });
 
+            // JIKA ADMIN TUTUP (UNTICK DI CONFIG): GREY OUT BUTTON SERTA-MERTA & PAPAR POPUP
             if (!isRsvpActive) {
-              const rsvpSubmitBtn = document.getElementById('rsvp-submit');
               if (rsvpSubmitBtn) {
                 rsvpSubmitBtn.disabled = true;
                 rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
                 rsvpSubmitBtn.innerText = "RSVP DITUTUP";
               }
+              if (rsvpNameInput) rsvpNameInput.disabled = true;
+              if (rsvpPhoneInput) rsvpPhoneInput.disabled = true;
+              if (rsvpStatusInput) rsvpStatusInput.disabled = true;
+
               showConfirmDialog("RSVP Ditutup", "Maaf, pihak pengantin telah menutup pengesahan RSVP.", () => {}, true, 'error');
               return;
             }
           }
 
-          showConfirmDialog(
-            "Hantar Pengesahan RSVP?",
-            "Adakah anda pasti maklumat kehadiran yang dimasukkan sudah betul?",
-            () => {
-              const submitBtn = document.getElementById('rsvp-submit');
-              setButtonCooldown(submitBtn, window.rsvpCd || 5, "Sila tunggu");
+          // JIKA MASIH AKTIF: KEMBALIKAN TEXT BUTANG & TERUSKAN HANTAR
+          if (rsvpSubmitBtn) {
+            rsvpSubmitBtn.disabled = false;
+            rsvpSubmitBtn.innerHTML = "Hantar Pengesahan";
+          }
 
-              const formData = new URLSearchParams();
-              formData.append('action', 'rsvp');
-              formData.append('name', document.getElementById('rsvp-name').value);
-              formData.append('phone', document.getElementById('rsvp-phone').value);
-              formData.append('status', document.getElementById('rsvp-status').value);
-              formData.append('pax', document.getElementById('rsvp-pax').value);
-              
-              fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+          showConfirmDialog("Hantar Pengesahan RSVP?", "Adakah anda pasti maklumat kehadiran sudah betul?", () => {
+            setButtonCooldown(rsvpSubmitBtn, window.rsvpCd || 5, "Sila tunggu");
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'rsvp');
+            formData.append('name', rsvpNameInput.value);
+            formData.append('phone', rsvpPhoneInput.value);
+            formData.append('status', rsvpStatusInput.value);
+            formData.append('pax', document.getElementById('rsvp-pax').value);
+            
+            fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
               .then(response => response.json())
               .then(data => {
                 const alertBox = document.getElementById('rsvp-alert');
                 if (alertBox) {
-                  alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! Pengesahan RSVP anda telah berjaya disimpan.`;
+                  alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
                   alertBox.classList.remove('hidden');
-                  setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
+                  setTimeout(() => alertBox.classList.add('hidden'), 5000);
                   if (data.status !== "error") rsvpForm.reset();
                 }
-              })
-              .catch(error => console.error('RSVP Error:', error));
-            }
-          );
+              });
+          });
         })
-        .catch(err => console.error("Gagal semak config RSVP:", err));
+        .catch(err => {
+          console.error("Ralat semak config:", err);
+          if (rsvpSubmitBtn) { rsvpSubmitBtn.disabled = false; rsvpSubmitBtn.innerHTML = "Hantar Pengesahan"; }
+        });
     });
   }
 
-  // --- 12. GALERI & UPLOAD DENGAN JIT VALIDATION ---
+  // =========================================================================
+  // 12. GALERI & UPLOAD DENGAN JIT LIVE CHECK & AUTO GREY OUT
+  // =========================================================================
   const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
   let defaultGallery = [];
   let currentSlide = 0;
@@ -629,8 +465,10 @@ END:VCALENDAR`;
   if (btnUploadGallery && photoUploadInput) {
     btnUploadGallery.addEventListener('click', () => {
       if (!SPREADSHEET_ID) return;
-      const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 
+      btnUploadGallery.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak...`;
+
+      const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
       fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
@@ -645,16 +483,24 @@ END:VCALENDAR`;
               }
             });
 
+            // JIKA ADMIN TUTUP: GREY OUT BUTTON SERTA-MERTA & PAPAR POPUP
             if (!isGalleryActive) {
               btnUploadGallery.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed', 'bg-gray-300', 'text-gray-600', 'border-gray-400');
               btnUploadGallery.innerHTML = `<i class="fas fa-lock text-base"></i> Muat Naik Ditutup`;
+              if (photoUploadInput) photoUploadInput.disabled = true;
+
               showConfirmDialog("Muat Naik Ditutup", "Maaf, pihak pengantin telah menutup fungsi muat naik gambar.", () => {}, true, 'error');
               return;
             }
           }
+
+          btnUploadGallery.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik`;
           photoUploadInput.click();
         })
-        .catch(err => console.error("Gagal semak config galeri:", err));
+        .catch(err => {
+          console.error("Ralat semak config galeri:", err);
+          btnUploadGallery.innerHTML = `<i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik`;
+        });
     });
 
     photoUploadInput.addEventListener('change', (event) => {
@@ -725,7 +571,7 @@ END:VCALENDAR`;
   if (closeUploadModalBtn) closeUploadModalBtn.addEventListener('click', closeUploadModal);
   if (cancelUploadBtn) cancelUploadBtn.addEventListener('click', closeUploadModal);
 
-  // --- 13. SIMPAN & PAPAR GAMBAR SAYA (LOCALSTORAGE) ---
+  // --- LOCALSTORAGE GAMBAR SAYA ---
   function saveMyUploadedPhotoToLocal(photoUrl, captionText) {
     try {
       let myUploads = JSON.parse(localStorage.getItem('my_wedding_uploads') || '[]');
@@ -741,11 +587,7 @@ END:VCALENDAR`;
     try {
       let myUploads = JSON.parse(localStorage.getItem('my_wedding_uploads') || '[]');
       if (myUploads.length === 0) {
-        myPhotosGrid.innerHTML = `
-          <div class="col-span-full py-8 text-center text-xs text-purpleTheme-800/70 italic">
-            Tiada rekod gambar dimuat naik dari peranti ini buat masa sedemikian.
-          </div>
-        `;
+        myPhotosGrid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-purpleTheme-800/70 italic">Tiada rekod gambar dimuat naik dari peranti ini.</div>`;
       } else {
         myPhotosGrid.innerHTML = myUploads.map(item => `
           <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm">
@@ -763,9 +605,8 @@ END:VCALENDAR`;
   }
 
   if (btnMyPhotos) btnMyPhotos.addEventListener('click', openMyPhotosModal);
-  if (closeMyPhotosModalBtn) closeMyPhotosModalBtn.addEventListener('click', () => { myPhotosModal.classList.add('hidden'); });
-  if (btnCloseMyPhotos) btnCloseMyPhotos.addEventListener('click', () => { myPhotosModal.classList.add('hidden'); });
-  if (myPhotosModal) myPhotosModal.addEventListener('click', (e) => { if (e.target === myPhotosModal) myPhotosModal.classList.add('hidden'); });
+  if (closeMyPhotosModalBtn) closeMyPhotosModalBtn.addEventListener('click', () => myPhotosModal.classList.add('hidden'));
+  if (btnCloseMyPhotos) btnCloseMyPhotos.addEventListener('click', () => myPhotosModal.classList.add('hidden'));
 
   if (confirmUploadBtn) {
     confirmUploadBtn.addEventListener('click', () => {
@@ -779,61 +620,56 @@ END:VCALENDAR`;
       }
       if (uploadModal) uploadModal.classList.add('hidden');
 
-      showConfirmDialog(
-        "Muat Naik Gambar?",
-        "Adakah anda pasti mahu memuat naik gambar ini?",
-        () => {
-          setButtonCooldown(btnUploadGallery, window.galleryCd || 5, "Memuat Naik");
-          const galleryAlert = document.getElementById('gallery-alert');
-          if (galleryAlert) {
-            galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses gambar...`;
-            galleryAlert.classList.remove('hidden');
-          }
+      showConfirmDialog("Muat Naik Gambar?", "Adakah anda pasti mahu memuat naik gambar ini?", () => {
+        setButtonCooldown(btnUploadGallery, window.galleryCd || 5, "Memuat Naik");
+        const galleryAlert = document.getElementById('gallery-alert');
+        if (galleryAlert) {
+          galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses gambar...`;
+          galleryAlert.classList.remove('hidden');
+        }
 
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onload = function() {
-              const canvas = document.createElement('canvas');
-              canvas.width = img.width; canvas.height = img.height;
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(img, 0, 0);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width; canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
 
-              const base64String = canvas.toDataURL('image/jpeg', 1.0).split(',')[1];
-              const formData = new URLSearchParams();
-              formData.append('action', 'gallery');
-              formData.append('fileName', selectedFileForUpload.name.replace(/\.[^/.]+$/, "") + ".jpg");
-              formData.append('mimeType', 'image/jpeg');
-              formData.append('fileData', base64String);
-              formData.append('name', uploaderName);
-              formData.append('caption', imageCaption);
-              
-              fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+            const base64String = canvas.toDataURL('image/jpeg', 1.0).split(',')[1];
+            const formData = new URLSearchParams();
+            formData.append('action', 'gallery');
+            formData.append('fileName', selectedFileForUpload.name.replace(/\.[^/.]+$/, "") + ".jpg");
+            formData.append('mimeType', 'image/jpeg');
+            formData.append('fileData', base64String);
+            formData.append('name', uploaderName);
+            formData.append('caption', imageCaption);
+            
+            fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
               .then(res => res.json())
               .then(data => {
                 if (galleryAlert) {
                   galleryAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih.`;
                   setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
                 }
-                
                 if (data.status !== "error" && data.url) {
                   saveMyUploadedPhotoToLocal(data.url, imageCaption);
                 }
-
                 closeUploadModal();
                 fetchGalleryImages();
-              })
-              .catch(err => { console.error('Upload error:', err); closeUploadModal(); });
-            };
+              });
           };
-          reader.readAsDataURL(selectedFileForUpload);
-        }
-      );
+        };
+        reader.readAsDataURL(selectedFileForUpload);
+      });
     });
   }
 
-  // --- 14. BUKU HAJAT / UCAPAN DENGAN JIT VALIDATION ---
+  // =========================================================================
+  // 14. BUKU HAJAT / UCAPAN DENGAN JIT LIVE CHECK & AUTO GREY OUT
+  // =========================================================================
   let defaultWishes = [];
   window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
 
@@ -893,11 +729,17 @@ END:VCALENDAR`;
       e.preventDefault();
       const nameInput = document.getElementById('wish-name');
       const msgInput = document.getElementById('wish-message');
+      const wishSubmitBtn = document.getElementById('btn-submit-wish');
 
       if (nameInput.value && msgInput.value) {
         if (!SPREADSHEET_ID) return;
-        const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 
+        if (wishSubmitBtn) {
+          wishSubmitBtn.disabled = true;
+          wishSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak...`;
+        }
+
+        const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
         fetch(configCheckUrl)
           .then(res => res.text())
           .then(text => {
@@ -912,55 +754,59 @@ END:VCALENDAR`;
                 }
               });
 
+              // JIKA ADMIN TUTUP: GREY OUT BUTTON SERTA-MERTA & PAPAR POPUP
               if (!isWishActive) {
-                const wishSubmitBtn = document.getElementById('btn-submit-wish');
                 if (wishSubmitBtn) {
                   wishSubmitBtn.disabled = true;
                   wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
                   wishSubmitBtn.innerText = "UCAPAN DITUTUP";
                 }
+                if (nameInput) nameInput.disabled = true;
+                if (msgInput) msgInput.disabled = true;
+
                 showConfirmDialog("Ucapan Ditutup", "Maaf, pihak pengantin telah menutup ruangan ucapan.", () => {}, true, 'error');
                 return;
               }
             }
 
-            showConfirmDialog(
-              "Hantar Ucapan & Doa?",
-              "Adakah anda pasti mahu menghantar ucapan ini?",
-              () => {
-                const submitBtn = document.getElementById('btn-submit-wish');
-                setButtonCooldown(submitBtn, window.wishCd || 5, "Sila tunggu");
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = false;
+              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+            }
 
-                const formData = new URLSearchParams();
-                formData.append('action', 'wishes');
-                formData.append('name', nameInput.value);
-                formData.append('message', msgInput.value);
-                
-                fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+            showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
+              setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
+
+              const formData = new URLSearchParams();
+              formData.append('action', 'wishes');
+              formData.append('name', nameInput.value);
+              formData.append('message', msgInput.value);
+              
+              fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
                 .then(res => res.json())
                 .then(data => {
                   const wishAlert = document.getElementById('wish-alert');
                   if (wishAlert) {
-                    wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan. 🤍`;
+                    wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan. 🤍`;
                     wishAlert.classList.remove('hidden');
-                    setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+                    setTimeout(() => wishAlert.classList.add('hidden'), 5000);
                   }
-                  if (data.status !== "error") {
-                    nameInput.value = ''; 
-                    msgInput.value = '';
-                    fetchWishes();
-                  }
-                })
-                .catch(err => console.error('Wish Error:', err));
-              }
-            );
+                  if (data.status !== "error") { nameInput.value = ''; msgInput.value = ''; fetchWishes(); }
+                });
+            });
           })
-          .catch(err => console.error("Gagal semak config Wish:", err));
+          .catch(err => {
+            console.error("Ralat semak config wish:", err);
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = false;
+              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+            }
+          });
       }
     });
   }
 
-  // --- 15. APPLY SITE CONFIG (BANK, QR, ADDRESS) ---
+  // --- 15. APPLY SITE CONFIG (BANK, QR, ETC) ---
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
