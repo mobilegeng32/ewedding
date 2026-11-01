@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.60)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.61)
  * =================================================================
  */
 
@@ -630,11 +630,11 @@ END:VCALENDAR`;
               rsvpSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
               rsvpSubmitBtn.innerText = "RSVP DITUTUP";
             }
-            // KOSONGKAN DATA YANG TERSTUCK DI DALAM KOTAK INPUT SERTA-MERTA
+            // KOSONGKAN NILAI INPUT SERTA-MERTA SUPAYA TIADA DATA TERSTUCK
             if (rsvpNameInput) { rsvpNameInput.value = ''; rsvpNameInput.disabled = true; }
             if (rsvpPhoneInput) { rsvpPhoneInput.value = ''; rsvpPhoneInput.disabled = true; }
-            if (rsvpStatusInput) rsvpStatusInput.disabled = true;
-            if (rsvpPaxInput) rsvpPaxInput.disabled = true;
+            if (rsvpStatusInput) { rsvpStatusInput.value = 'Hadir'; rsvpStatusInput.disabled = true; }
+            if (rsvpPaxInput) { rsvpPaxInput.value = '1'; rsvpPaxInput.disabled = true; }
 
             if (alertBox) {
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup oleh pengantin.`;
@@ -1019,93 +1019,95 @@ END:VCALENDAR`;
       const wishSubmitBtn = document.getElementById('btn-submit-wish');
       const wishAlert = document.getElementById('wish-alert');
 
-      if (nameInput.value && msgInput.value) {
-        if (!SPREADSHEET_ID) return;
+      if (!SPREADSHEET_ID) return;
 
-        if (wishSubmitBtn) {
-          wishSubmitBtn.disabled = true;
-          wishSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak status terkini...`;
-        }
-
-        const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
-
-        fetch(configCheckUrl)
-          .then(res => res.text())
-          .then(text => {
-            const startIdx = text.indexOf('setResponse(');
-            let isWishActive = true;
-
-            if (startIdx !== -1) {
-              const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
-              json.table.rows.forEach(r => {
-                if (r && r.c) {
-                  [0, 5].forEach(colIdx => {
-                    if (r.c[colIdx] && r.c[colIdx].v !== undefined) {
-                      let keyName = String(r.c[colIdx].v).trim().toLowerCase();
-                      if (keyName === 'control_wish') {
-                        let valCell = r.c[colIdx + 1];
-                        let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
-                        if (val === 'FALSE') isWishActive = false;
-                      }
-                    }
-                  });
-                }
-              });
-            }
-
-            if (!isWishActive) {
-              if (wishSubmitBtn) {
-                wishSubmitBtn.disabled = true;
-                wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-                wishSubmitBtn.innerText = "UCAPAN DITUTUP";
-              }
-              // KOSONGKAN DATA UCAPAN YANG TERSTUCK SERTA-MERTA
-              if (nameInput) { nameInput.value = ''; nameInput.disabled = true; }
-              if (msgInput) { msgInput.value = ''; msgInput.disabled = true; }
-
-              if (wishAlert) {
-                wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
-                wishAlert.classList.remove('hidden');
-                setTimeout(() => {
-                  wishAlert.classList.add('hidden');
-                }, 5000);
-              }
-              return;
-            }
-
-            if (wishSubmitBtn) {
-              wishSubmitBtn.disabled = false;
-              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
-            }
-
-            showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
-              setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
-
-              const formData = new URLSearchParams();
-              formData.append('action', 'wishes');
-              formData.append('name', nameInput.value);
-              formData.append('message', msgInput.value);
-              
-              fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
-                .then(res => res.json())
-                .then(data => {
-                  if (wishAlert) {
-                    wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan. 🤍`;
-                    wishAlert.classList.remove('hidden');
-                    setTimeout(() => wishAlert.classList.add('hidden'), 5000);
-                  }
-                  if (data.status !== "error") { nameInput.value = ''; msgInput.value = ''; fetchWishes(); }
-                });
-            });
-          })
-          .catch(err => {
-            console.error("Gagal semak config Wish:", err);
-            if (wishSubmitBtn) {
-              wishSubmitBtn.disabled = false;
-              wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
-            }
-          });
+      if (wishSubmitBtn) {
+        wishSubmitBtn.disabled = true;
+        wishSubmitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak status terkini...`;
       }
+
+      const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
+
+      fetch(configCheckUrl)
+        .then(res => res.text())
+        .then(text => {
+          const startIdx = text.indexOf('setResponse(');
+          let isWishActive = true;
+
+          if (startIdx !== -1) {
+            const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
+            json.table.rows.forEach(r => {
+              if (r && r.c) {
+                [0, 5].forEach(colIdx => {
+                  if (r.c[colIdx] && r.c[colIdx].v !== undefined) {
+                    let keyName = String(r.c[colIdx].v).trim().toLowerCase();
+                    if (keyName === 'control_wish') {
+                      let valCell = r.c[colIdx + 1];
+                      let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
+                      if (val === 'FALSE') isWishActive = false;
+                    }
+                  }
+                });
+              }
+            });
+          }
+
+          if (!isWishActive) {
+            if (wishSubmitBtn) {
+              wishSubmitBtn.disabled = true;
+              wishSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+              wishSubmitBtn.innerText = "UCAPAN DITUTUP";
+            }
+            // KOSONGKAN NILAI INPUT UCAPAN SERTA-MERTA SUPAYA TIADA DATA TERSTUCK
+            if (nameInput) { nameInput.value = ''; nameInput.disabled = true; }
+            if (msgInput) { msgInput.value = ''; msgInput.disabled = true; }
+
+            if (wishAlert) {
+              wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan telah ditutup oleh pengantin.`;
+              wishAlert.classList.remove('hidden');
+              setTimeout(() => {
+                wishAlert.classList.add('hidden');
+              }, 5000);
+            }
+            return;
+          }
+
+          if (wishSubmitBtn) {
+            wishSubmitBtn.disabled = false;
+            wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+          }
+
+          if (!nameInput.value || !msgInput.value) {
+            return;
+          }
+
+          showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
+            setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
+
+            const formData = new URLSearchParams();
+            formData.append('action', 'wishes');
+            formData.append('name', nameInput.value);
+            formData.append('message', msgInput.value);
+            
+            fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
+              .then(res => res.json())
+              .then(data => {
+                if (wishAlert) {
+                  wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan. 🤍`;
+                  wishAlert.classList.remove('hidden');
+                  setTimeout(() => wishAlert.classList.add('hidden'), 5000);
+                }
+                if (data.status !== "error") { nameInput.value = ''; msgInput.value = ''; fetchWishes(); }
+              });
+          });
+        })
+        .catch(err => {
+          console.error("Gagal semak config Wish:", err);
+          if (wishSubmitBtn) {
+            wishSubmitBtn.disabled = false;
+            wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+          }
+        });
     });
   }
 
@@ -1167,7 +1169,7 @@ END:VCALENDAR`;
       ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-          el.value = ''; // Kosongkan nilai awal jika ditutup dari awal muat turun
+          el.value = (id === 'rsvp-status') ? 'Hadir' : ((id === 'rsvp-pax') ? '1' : '');
           el.disabled = true;
         }
       });
@@ -1196,7 +1198,7 @@ END:VCALENDAR`;
       ['wish-name', 'wish-message'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-          el.value = ''; // Kosongkan nilai awal jika ditutup dari awal muat turun
+          el.value = '';
           el.disabled = true;
         }
       });
