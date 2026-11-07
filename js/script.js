@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-hero-date').innerText = config.hero_date_text;
         
         if (config.start_button && document.getElementById('dyn-start-button')) 
-          document.getElementById('dyn-start-button').innerText = $config.start_button;
+          document.getElementById('dyn-start-button').innerText = config.start_button;
 
         // 2. TIMERS & COOLDOWNS
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
