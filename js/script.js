@@ -288,6 +288,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.wish_refresh_text && document.getElementById('dyn-wish-refresh-text')) 
           document.getElementById('dyn-wish-refresh-text').innerText = config.wish_refresh_text;
+	  
+	  // 7. COUNTDOWN SECTION TEXTS (Dinamik)
+        if (config.cd_badge && document.getElementById('dyn-cd-badge')) 
+          document.getElementById('dyn-cd-badge').innerText = config.cd_badge;
+        if (config.cd_title && document.getElementById('dyn-cd-title')) 
+          document.getElementById('dyn-cd-title').innerText = config.cd_title;
+        if (config.cd_subtitle && document.getElementById('dyn-cd-subtitle')) 
+          document.getElementById('dyn-cd-subtitle').innerText = config.cd_subtitle;
+        if (config.cd_label_days && document.getElementById('dyn-cd-label-days')) 
+          document.getElementById('dyn-cd-label-days').innerText = config.cd_label_days;
+        if (config.cd_label_hours && document.getElementById('dyn-cd-label-hours')) 
+          document.getElementById('dyn-cd-label-hours').innerText = config.cd_label_hours;
+        if (config.cd_label_mins && document.getElementById('dyn-cd-label-mins')) 
+          document.getElementById('dyn-cd-label-mins').innerText = config.cd_label_mins;
+        if (config.cd_label_secs && document.getElementById('dyn-cd-label-secs')) 
+          document.getElementById('dyn-cd-label-secs').innerText = config.cd_label_secs;
+	  
+	  // 8. GIFT / SALAM KASIH MODAL TEXTS (Dinamik)
+        if (config.gift_modal_title && document.getElementById('dyn-gift-modal-title')) 
+          document.getElementById('dyn-gift-modal-title').innerText = config.gift_modal_title;
+        if (config.gift_modal_subtitle && document.getElementById('dyn-gift-modal-subtitle')) 
+          document.getElementById('dyn-gift-modal-subtitle').innerText = config.gift_modal_subtitle;
+        if (config.qr_title && document.getElementById('dyn-qr-title')) 
+          document.getElementById('dyn-qr-title').innerText = config.qr_title;
+        if (config.qr_subtitle && document.getElementById('dyn-qr-subtitle')) 
+          document.getElementById('dyn-qr-subtitle').innerText = config.qr_subtitle;
+        if (config.address_title && document.getElementById('dyn-address-title')) 
+          document.getElementById('dyn-address-title').innerText = config.address_title;
+        if (config.address_subtitle && document.getElementById('dyn-address-subtitle')) 
+          document.getElementById('dyn-address-subtitle').innerText = config.address_subtitle;
+        if (config.gift_close_text && document.getElementById('dyn-gift-close-text')) 
+          document.getElementById('dyn-gift-close-text').innerText = config.gift_close_text;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
