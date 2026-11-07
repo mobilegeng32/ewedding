@@ -1008,7 +1008,7 @@ END:VCALENDAR`;
 
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 	  
-	  fetch(configCheckUrl)
+      fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
           const startIdx = text.indexOf('setResponse(');
@@ -1023,12 +1023,10 @@ END:VCALENDAR`;
                   let valCell = r.c[2];
                   let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
                   if (val === 'FALSE') isRsvpActive = false;
-				  }
-				 }
-				});
-			}
-		});
-	}
+                }
+              }
+            });
+          }
 
           if (!isRsvpActive) {
             if (rsvpSubmitBtn) {
@@ -1128,7 +1126,7 @@ END:VCALENDAR`;
       btnUploadGallery.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak...`;
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 	  
-	  fetch(configCheckUrl)
+      fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
           const startIdx = text.indexOf('setResponse(');
@@ -1147,8 +1145,6 @@ END:VCALENDAR`;
               }
             });
           }
-         });
-        }
 
           if (!isGalleryActive) {
             btnUploadGallery.disabled = true;
@@ -1449,7 +1445,7 @@ END:VCALENDAR`;
 
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
 	  
-	  fetch(configCheckUrl)
+      fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
           const startIdx = text.indexOf('setResponse(');
@@ -1467,9 +1463,7 @@ END:VCALENDAR`;
                 }
               }
             });
-           }
-          });
-         }
+          }
 
           if (!isWishActive) {
             if (wishSubmitBtn) {
