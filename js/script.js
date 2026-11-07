@@ -513,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateActiveSection();
 
-  // --- 7. AUDIO & MUZIK LATAR BELAKANG ---
+// --- 7. AUDIO & MUZIK LATAR BELAKANG ---
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
@@ -562,31 +562,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
+  // Muzik HANYA akan bermula apabila butang Buka Undangan ditekan
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-																							  
+      
+      // HANYA play jika lagu belum dimainkan. Jika sudah main, biarkan terus berjalan tanpa henti!
       if (!isPlaying) {
         playAudioTrack();
       }
+      
       hasInteracted = true;
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 
-  function triggerAudioOnFirstInteraction() {
-    if (!hasInteracted && bgMusic) {
-      playAudioTrack();
-      window.removeEventListener('click', triggerAudioOnFirstInteraction);
-      window.removeEventListener('scroll', triggerAudioOnFirstInteraction);
-      window.removeEventListener('touchstart', triggerAudioOnFirstInteraction);
-    }
-  }
-
-  window.addEventListener('click', triggerAudioOnFirstInteraction);
-  window.addEventListener('scroll', triggerAudioOnFirstInteraction);
-  window.addEventListener('touchstart', triggerAudioOnFirstInteraction);
+  // KOD INTRO AUTOMATIK (SCROLL/TOUCH UMUM) TELAH DIBUANG SUPAYA TIDAK 'TRIGGER' LAGU SECARA TIDAK SENGAJA
   
   if (dockMusicBtn && bgMusic) {
     dockMusicBtn.addEventListener('click', (e) => {
@@ -596,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
       
-														  
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
       
@@ -606,7 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
-																	 
   window.toggleMusicFromPopover = function(event) {
     if (event) {
       event.stopPropagation();
