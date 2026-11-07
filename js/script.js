@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 		
 		// 8. PAX OPTIONS
-        const maxPax = parseInt(config.max_pax) || 5;
+        const maxPax = parseInt(config.max_pax) || ;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
           paxSelect.innerHTML = '<option value="" disabled selected hidden>Sila Pilih Bilangan</option>'; 
