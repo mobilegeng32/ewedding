@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.hero_date_text && document.getElementById('dyn-hero-date')) 
           document.getElementById('dyn-hero-date').innerText = config.hero_date_text;
         
-        if (config.site_version && document.getElementById('dyn-start-button')) 
+        if (config.start_button && document.getElementById('dyn-start-button')) 
           document.getElementById('dyn-start-button').innerText = $config.start_button;
 
         // 2. TIMERS & COOLDOWNS
