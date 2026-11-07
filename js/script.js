@@ -241,6 +241,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.rsvp_button_text && document.getElementById('dyn-rsvp-submit-btn')) 
           document.getElementById('dyn-rsvp-submit-btn').innerText = config.rsvp_button_text;
+	  
+	  // 5. GALLERY SECTION TEXTS (Dinamik)
+        if (config.gallery_badge && document.getElementById('dyn-gallery-badge')) 
+          document.getElementById('dyn-gallery-badge').innerText = config.gallery_badge;
+
+        if (config.gallery_title && document.getElementById('dyn-gallery-title')) 
+          document.getElementById('dyn-gallery-title').innerText = config.gallery_title;
+
+        if (config.gallery_subtitle && document.getElementById('dyn-gallery-subtitle')) 
+          document.getElementById('dyn-gallery-subtitle').innerText = config.gallery_subtitle;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
