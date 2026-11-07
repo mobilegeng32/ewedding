@@ -504,7 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error("Gagal ambil Tentative:", err));
   }
   
-										
   const rsvpStatus = document.getElementById('rsvp-status');
   const paxContainer = document.getElementById('pax-container');
   const rsvpPax = document.getElementById('rsvp-pax');
@@ -512,12 +511,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rsvpStatus && paxContainer) {
     rsvpStatus.addEventListener('change', () => {
       if (rsvpStatus.value === 'Hadir') {
-        paxContainer.classList.remove('hidden');
-					  
+        paxContainer.classList.remove('hidden'); // Munculkan pax
         if (rsvpPax) rsvpPax.required = true;
-		 
       } else {
-        paxContainer.classList.add('hidden');
+        paxContainer.classList.add('hidden'); // Sorokkan pax jika Tak Hadir / Belum Pasti
         if (rsvpPax) {
           rsvpPax.required = false;
           rsvpPax.value = ""; 
@@ -1134,7 +1131,13 @@ END:VCALENDAR`;
                   alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
                   alertBox.classList.remove('hidden');
                   setTimeout(() => alertBox.classList.add('hidden'), 5000);
-                  if (data.status !== "error") rsvpForm.reset();
+                  if (data.status !== "error") {
+					  rsvpForm.reset();
+					  const paxContainer = document.getElementById('pax-container');
+					  if (paxContainer) {
+						  paxContainer.classList.add('hidden'); // Sembunyikan semula kotak pax
+						}
+					}
                 }
               })
               .catch(error => console.error('RSVP Error:', error));
