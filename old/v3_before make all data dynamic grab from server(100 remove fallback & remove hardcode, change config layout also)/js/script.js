@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.ics_description) icsDataConfig.description = config.ics_description;
         if (config.ics_location) icsDataConfig.location = config.ics_location;
         if (config.ics_start) icsDataConfig.start = config.ics_start;
-        if (config.ics_end) icsDataConfig.end = config.ics_end;
+        if (config.ics_end) icsDataConfig.end = config.ics_end;															   
 		
         if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
@@ -480,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   fabLinks.forEach(link => { 
     link.addEventListener('click', (e) => {
+														   
       if (link.id === 'dock-music-btn' || link.closest('#dock-music-btn')) return;
       closeDock();
     }); 
@@ -539,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
+																							  
       if (!isPlaying) {
         playAudioTrack();
       }
@@ -569,6 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
       
+														  
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
       
@@ -578,6 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   
+																	 
   window.toggleMusicFromPopover = function(event) {
     if (event) {
       event.stopPropagation();
@@ -596,6 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   // --- 8. COUNTDOWN TIMER ---
+
   function updateCountdown() {
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');
@@ -604,6 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!daysEl) return;
 
+													  
     if (!weddingDate) {
       daysEl.innerText = "--";
       hoursEl.innerText = "--";
@@ -651,12 +657,95 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
-  // --- 9. IMPORT KE KALENDAR (.ICS) DINAMIK DARI DATABASE ---
+  
+  // --- 9. IMPORT KE KALENDAR (MULTI-PLATFORM SELECTOR) ---
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
-    calBtn.addEventListener('click', () => {
-      const icsData = 
+    calBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showCalendarOptionsModal();
+    });
+  }
+
+  // Fungsi untuk memaparkan modal pilihan platform kalendar
+  function showCalendarOptionsModal() {
+    let existingModal = document.getElementById('calendar-options-modal');
+    if (existingModal) {
+      existingModal.remove();
+    }
+
+    const modalHTML = `
+      <div id="calendar-options-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-4 text-center relative bg-white animate-fade-in">
+          <button type="button" onclick="document.getElementById('calendar-options-modal').remove()" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">&times;</button>
+          
+          <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm">
+            <i class="far fa-calendar-plus"></i>
+          </div>
+
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-purpleTheme-900">Simpan ke Kalendar</h3>
+            <p class="text-xs text-purpleTheme-800/70 font-light">Pilih platform kalendar pilihan anda:</p>
+          </div>
+
+          <div class="space-y-2.5 pt-2">
+            <!-- 1. Apple Calendar (iPhone / Mac) -->
+            <button type="button" id="cal-apple-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
+              <i class="fab fa-apple text-base text-purpleTheme-700"></i> Apple Calendar
+            </button>
+
+            <!-- 2. Google Calendar -->
+            <button type="button" id="cal-google-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
+              <i class="fab fa-google text-base text-purpleTheme-700"></i> Google Calendar
+            </button>
+
+            <!-- 3. Download Fail .ics Manual -->
+            <button type="button" id="cal-download-btn" class="w-full py-3 px-4 rounded-xl bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-butter-300 cursor-pointer">
+              <i class="fas fa-download text-base text-purpleTheme-700"></i> Muat Turun Fail (.ics)
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Event Listener untuk Apple / iPhone
+    document.getElementById('cal-apple-btn').addEventListener('click', () => {
+      triggerIcsDownload();
+      document.getElementById('calendar-options-modal').remove();
+    });
+
+    // Event Listener untuk Google Calendar
+    document.getElementById('cal-google-btn').addEventListener('click', () => {
+	const title = encodeURIComponent(icsDataConfig.title);
+	const details = encodeURIComponent(icsDataConfig.description);
+	const location = encodeURIComponent(icsDataConfig.location);
+		
+	let rawStart = icsDataConfig.start;
+	let rawEnd = icsDataConfig.end;
+	
+	const formatDateForWeb = (utcStr) => {
+        return `${utcStr.substring(0,4)}-${utcStr.substring(4,6)}-${utcStr.substring(6,8)}T${utcStr.substring(9,11)}:${utcStr.substring(11,13)}:${utcStr.substring(13,15)}Z`;
+      };
+	  
+	const startDateISO = formatDateForWeb(rawStart);
+	const endDateISO = formatDateForWeb(rawEnd);
+	const gCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateISO.replace(/[-:]/g,'')}/${endDateISO.replace(/[-:]/g,'')}&details=${details}&location=${location}`;
+      window.open(gCalendarUrl, '_blank');
+      document.getElementById('calendar-options-modal').remove();
+    });
+
+    // Event Listener untuk Muat Turun Fail .ics Manual
+    document.getElementById('cal-download-btn').addEventListener('click', () => {
+      triggerIcsDownload();
+      document.getElementById('calendar-options-modal').remove();
+    });
+  }
+
+// Fungsi pembantu untuk menjana dan memuat turun fail .ics secara 100% dinamik dari database
+  function triggerIcsDownload() {
+    const icsData = 
 `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Digital Wedding Invitation//EN
@@ -669,14 +758,13 @@ DTEND:${icsDataConfig.end}
 END:VEVENT
 END:VCALENDAR`;
 
-      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.setAttribute('download', 'Majlis_Pernikahan.ics');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
+    const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute('download', 'Majlis_Pernikahan.ics');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   const giftModal = document.getElementById('gift-modal');
@@ -1059,7 +1147,7 @@ END:VCALENDAR`;
       console.error("Gagal simpan ke localStorage:", e);
     }
   }
-
+  
   function openMyPhotosModal() {
     if (!myPhotosGrid || !myPhotosModal) return;
     try {
@@ -1067,14 +1155,31 @@ END:VCALENDAR`;
       if (myUploads.length === 0) {
         myPhotosGrid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-purpleTheme-800/70 italic">Tiada rekod gambar dimuat naik dari peranti ini.</div>`;
       } else {
-        myPhotosGrid.innerHTML = myUploads.map(item => `
-          <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm">
-            <img src="${item.url}" alt="My Upload" class="w-full h-full object-cover">
+        myPhotosGrid.innerHTML = myUploads.map((item, index) => `
+          <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm cursor-pointer my-photo-item" data-url="${item.url}" data-caption="${item.caption}">
+            <img src="${item.url}" alt="My Upload" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white">
               <p class="text-[10px] truncate font-light">${item.caption}</p>
             </div>
           </div>
         `).join('');
+
+        // Tambah event listener supaya bila klik gambar peribadi, ia buka lightbox penuh
+        document.querySelectorAll('.my-photo-item').forEach(el => {
+          el.addEventListener('click', () => {
+            const imgUrl = el.getAttribute('data-url');
+            const imgCaption = el.getAttribute('data-caption');
+            
+            if (lightboxImg && lightboxModal) {
+              lightboxImg.src = imgUrl;
+              if (lightboxCaption) {
+                lightboxCaption.innerText = imgCaption;
+              }
+              lightboxModal.classList.remove('hidden');
+              lightboxModal.classList.add('flex');
+            }
+          });
+        });
       }
       myPhotosModal.classList.remove('hidden');
     } catch (e) {
@@ -1419,5 +1524,38 @@ END:VCALENDAR`;
       });
     }
   }
+  
+  // --- LIGHTBOX / PAPARAN GAMBAR PENUH GALERI ---
+  const slideshowContainer = document.getElementById('slideshow-container');
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const closeLightboxBtn = document.getElementById('close-lightbox');
 
+  if (slideshowContainer && lightboxModal && lightboxImg) {
+    slideshowContainer.addEventListener('click', (e) => {
+      // Elakkan daripada trigger lightbox jika pengguna klik butang next/prev slide
+      if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;
+      
+      if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
+        lightboxImg.src = slideImg.src;
+        if (lightboxCaption && slideCaption) {
+          lightboxCaption.innerText = slideCaption.innerText;
+        }
+        lightboxModal.classList.remove('hidden');
+      }
+    });
+
+    if (closeLightboxBtn) {
+      closeLightboxBtn.addEventListener('click', () => {
+        lightboxModal.classList.add('hidden');
+      });
+    }
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        lightboxModal.classList.add('hidden');
+      }
+    });
+  }
 });

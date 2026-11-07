@@ -115,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, 300);
-
-  // --- 3. FETCH SITE CONFIG (CONFIG AWAL & KAWALAN BUTANG LIVE) ---
+  
+  // --- 3. FETCH SITE CONFIG (DINAMIK DENGAN LOADER & SEMUA KEY BARU) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -132,47 +132,65 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = json.table.rows;
         
         let config = {};
+
         function extractCellVal(cell) {
           if (!cell) return '';
           if (cell.v !== undefined && cell.v !== null) return cell.v;
           return '';
         }
 
+        // Pembacaan Lajur Baharu: Kolom B (Index 1) = Key, Kolom C (Index 2) = Value
         rows.forEach(r => {
           if (!r || !r.c) return;
-          const k1 = extractCellVal(r.c[0]);
-          const v1 = extractCellVal(r.c[1]);
-          if (k1 && typeof k1 === 'string' && k1.toLowerCase() !== 'key') {
-            config[k1.trim().toLowerCase()] = v1;
-            config[k1.trim()] = v1;
-          }
-
-          const k2 = extractCellVal(r.c[5]);
-          const v2 = extractCellVal(r.c[6]);
-          if (k2 && typeof k2 === 'string' && k2.toLowerCase() !== 'key') {
-            config[k2.trim().toLowerCase()] = v2;
-            config[k2.trim()] = v2;
+          const k = extractCellVal(r.c[1]); // Kolom B
+          const v = extractCellVal(r.c[2]); // Kolom C
+          
+          if (k && typeof k === 'string' && k.toLowerCase() !== 'key') {
+            config[k.trim().toLowerCase()] = v;
+            config[k.trim()] = v;
           }
         });
 
+        // 1. HERO SECTION (DYNAMIC FETCH)
+        if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
+          document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
+        
+        if (config.hero_tagline && document.getElementById('dyn-hero-tagline')) 
+          document.getElementById('dyn-hero-tagline').innerText = `"${String(config.hero_tagline).replace(/^"|"$/g, '')}"`;
+        
+        if (config.hero_date_text && document.getElementById('dyn-hero-date')) 
+          document.getElementById('dyn-hero-date').innerText = config.hero_date_text;
+        
+        if (config.site_version && document.getElementById('dyn-site-version')) 
+          document.getElementById('dyn-site-version').innerText = `Buka Undangan ${config.site_version}`;
+
+        // LOADER CONTROL: HILANGKAN LOADER & MUNCULKAN HERO SECTION PENUH
+        const heroLoader = document.getElementById('hero-loader');
+        const heroContentBox = document.getElementById('hero-content-box');
+        if (heroLoader) heroLoader.remove();
+        if (heroContentBox) heroContentBox.classList.remove('opacity-0');
+
+        // 2. TIMERS & COOLDOWNS
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
+        window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 18;
         window.galleryQuotaLimit = config.gallery_limit ? parseInt(config.gallery_limit) : 20;
         window.systemWishInfoMsg = config.system_wish_info || config.wish_system_info || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
 
         renderWishes();
 
+        // 3. BRIDE & GROOM
         if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
         if (config.bride_desc && document.getElementById('dyn-bride-desc')) document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
         if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
         if (config.groom_desc && document.getElementById('dyn-groom-desc')) document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
 
+        // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
 		
-        // Ambil tarikh untuk countdown secara strict dari Database
         if (config.event_date) {
-          let cleanDateStr = config.event_date.replace(/^[A-Za-z]+,\s*/, ''); 
+          let cleanDateStr = String(config.event_date).replace(/^[A-Za-z]+,\s*/, ''); 
           let fullDateTimeStr = `${cleanDateStr} 10:00:00`; 
           let parsedTime = new Date(fullDateTimeStr).getTime();
           
@@ -187,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
           showCountdownError();
         }
 		
-        // --- TAMBAHAN: RSVP DEADLINE DARI DATABASE (STRICT) ---
+        // 5. RSVP DEADLINE
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
         } else {
@@ -199,16 +217,17 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // --- AMBIL DATA CONFIG UNTUK .ICS DINAMIK ---
+        // 6. ICS CALENDAR CONFIG
         if (config.ics_title) icsDataConfig.title = config.ics_title;
         if (config.ics_description) icsDataConfig.description = config.ics_description;
         if (config.ics_location) icsDataConfig.location = config.ics_location;
         if (config.ics_start) icsDataConfig.start = config.ics_start;
-        if (config.ics_end) icsDataConfig.end = config.ics_end;															   
+        if (config.ics_end) icsDataConfig.end = config.ics_end;
 		
         if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
+        // 7. MAPS & CONTACTS
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink && config.gmaps_url) { gmapsLink.href = config.gmaps_url; gmapsLink.onclick = (e) => { e.preventDefault(); window.open(config.gmaps_url, '_blank'); }; }
 
@@ -217,17 +236,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
-          document.getElementById('dyn-c1-rel').innerText = config.contact1_rel || '';
+          document.getElementById('dyn-c1-rel').innerText = config.contact1_relation || config.contact1_rel || '';
           document.getElementById('dyn-c1-tel').href = `tel:${config.contact1_phone || ''}`;
           document.getElementById('dyn-c1-wa').href = `https://wa.me/${(config.contact1_phone || '').replace(/[^0-9]/g, '')}`;
         }
         if (config.contact2_name && document.getElementById('dyn-c2-name')) {
           document.getElementById('dyn-c2-name').innerText = config.contact2_name;
-          document.getElementById('dyn-c2-rel').innerText = config.contact2_rel || '';
+          document.getElementById('dyn-c2-rel').innerText = config.contact2_relation || config.contact2_rel || '';
           document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone || ''}`;
           document.getElementById('dyn-c2-wa').href = `https://wa.me/${(config.contact2_phone || '').replace(/[^0-9]/g, '')}`;
         }
 
+        // 8. PAX OPTIONS
         const maxPax = parseInt(config.max_pax) || 5;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
