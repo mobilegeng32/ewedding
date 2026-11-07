@@ -5,13 +5,13 @@
  */
 
 if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
+  history.scrollRestoration = 'auto';
 }
-
+/*
 window.addEventListener('load', () => {
   window.scrollTo(0, 0);
 });
-
+*/
 document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
