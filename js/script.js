@@ -260,6 +260,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         applySiteConfig(config);
+		
+		const heroLoader = document.getElementById('hero-loader');
+        const heroContentBox = document.getElementById('hero-content-box');
+        const heroArrowDown = document.getElementById('hero-arrow-down');
+
+        if (heroLoader) heroLoader.remove();
+        if (heroContentBox) heroContentBox.classList.remove('opacity-0');
+        if (heroArrowDown) heroArrowDown.classList.remove('hidden');
+
+        // Buka semula kunci scroll pada body
+        document.body.classList.remove('overflow-hidden');
       })
       .catch(err => console.error("Gagal ambil Config:", err));
   }
