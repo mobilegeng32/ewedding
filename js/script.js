@@ -251,6 +251,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.gallery_subtitle && document.getElementById('dyn-gallery-subtitle')) 
           document.getElementById('dyn-gallery-subtitle').innerText = config.gallery_subtitle;
+	  
+	  // 6. WISHES SECTION TEXTS (100% DINAMIK SEPENUHNYA)
+        if (config.wishes_badge && document.getElementById('dyn-wishes-badge')) 
+          document.getElementById('dyn-wishes-badge').innerText = config.wishes_badge;
+
+        if (config.wishes_title && document.getElementById('dyn-wishes-title')) 
+          document.getElementById('dyn-wishes-title').innerText = config.wishes_title;
+
+        if (config.wishes_subtitle && document.getElementById('dyn-wishes-subtitle')) 
+          document.getElementById('dyn-wishes-subtitle').innerText = config.wishes_subtitle;
+
+        if (config.wish_label_name && document.getElementById('dyn-wish-label-name')) 
+          document.getElementById('dyn-wish-label-name').innerHTML = `${config.wish_label_name} <span class="text-purpleTheme-500">*</span>`;
+
+        if (config.wish_placeholder_name && document.getElementById('wish-name')) 
+          document.getElementById('wish-name').placeholder = config.wish_placeholder_name;
+
+        if (config.wish_label_msg && document.getElementById('dyn-wish-label-msg')) 
+          document.getElementById('dyn-wish-label-msg').innerHTML = `${config.wish_label_msg} <span class="text-purpleTheme-500">*</span>`;
+
+        if (config.wish_placeholder_msg && document.getElementById('wish-message')) 
+          document.getElementById('wish-message').placeholder = config.wish_placeholder_msg;
+
+        if (config.wish_button_text && document.getElementById('dyn-wish-btn-text')) 
+          document.getElementById('dyn-wish-btn-text').innerText = config.wish_button_text;
+
+        if (config.wish_success_msg && document.getElementById('dyn-wish-success-msg')) 
+          document.getElementById('dyn-wish-success-msg').innerText = config.wish_success_msg;
+
+        if (config.wishes_list_title && document.getElementById('dyn-wishes-list-title')) 
+          document.getElementById('dyn-wishes-list-title').innerText = config.wishes_list_title;
+
+        if (config.wish_refresh_text && document.getElementById('dyn-wish-refresh-text')) 
+          document.getElementById('dyn-wish-refresh-text').innerText = config.wish_refresh_text;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;

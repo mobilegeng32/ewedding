@@ -345,11 +345,14 @@
   <!-- 6. BUKU HAJAT SECTION -->
   <section id="wishes-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Buku Hajat</span>
-      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Ucapan &amp; Doa Restu</h2>
-      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light max-w-md mx-auto">
-        Titipkan sepotong doa, pesanan, atau kata-kata indah buat pengantin.
-      </p>
+      <!-- Tajuk Kecil Dinamik -->
+      <span id="dyn-wishes-badge" class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold"></span>
+      
+      <!-- Tajuk Besar Dinamik -->
+      <h2 id="dyn-wishes-title" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900"></h2>
+      
+      <!-- Sub-teks Dinamik -->
+      <p id="dyn-wishes-subtitle" class="text-xs sm:text-sm text-purpleTheme-800/70 font-light max-w-md mx-auto"></p>
     </div>
 
     <div class="glass-card rounded-3xl pt-2 pb-6 px-6 sm:pt-3 sm:pb-8 sm:px-10 custom-shadow border border-purpleTheme-100 space-y-6 relative overflow-hidden">
@@ -358,46 +361,56 @@
       <div class="space-y-6 relative z-10 text-left">
         <form id="wish-form" class="space-y-4">
           <div class="space-y-1.5">
-            <label for="wish-name" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Nama Anda <span class="text-purpleTheme-500">*</span></label>
+            <!-- Label Nama Dinamik -->
+            <label for="wish-name" id="dyn-wish-label-name" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Nama Anda</label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-purpleTheme-700/50">
                 <i class="fas fa-user text-xs"></i>
               </span>
+              <!-- Placeholder Nama Dinamik -->
               <input type="text" id="wish-name" required placeholder="Nama penuh atau panggilan" class="w-full pl-10 pr-4 py-3 rounded-xl border border-purpleTheme-200/80 bg-white text-sm text-purpleTheme-900 placeholder:text-purpleTheme-900/30 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 transition-all shadow-inner">
             </div>
           </div>
 
           <div class="space-y-1.5">
-            <label for="wish-message" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">Titipkan Ucapan &amp; Doa <span class="text-purpleTheme-500">*</span></label>
+            <!-- Label Ucapan Dinamik -->
+            <label for="wish-message" id="dyn-wish-label-msg" class="block text-[11px] font-bold uppercase tracking-wider text-purpleTheme-900">...</label>
             <div class="relative">
               <span class="absolute top-3.5 left-3.5 flex items-start pointer-events-none text-purpleTheme-700/50">
                 <i class="fas fa-comment-alt text-xs"></i>
               </span>
+              <!-- Placeholder Ucapan Dinamik -->
               <textarea id="wish-message" required rows="3" placeholder="Tuliskan ucapan tahniah dan doa buat pengantin..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-purpleTheme-200/80 bg-white text-sm text-purpleTheme-900 placeholder:text-purpleTheme-900/30 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 transition-all shadow-inner resize-y"></textarea>
             </div>
           </div>
 
           <div class="pt-1">
+            <!-- Butang Hantar Ucapan Dinamik -->
             <button id="btn-submit-wish" type="submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer border border-butter-300/30 group">
-              <span>Hantar Ucapan</span>
+              <span id="dyn-wish-btn-text">Loading...</span>
               <i class="fas fa-paper-plane text-xs transition-transform duration-300 group-hover:translate-x-1"></i>
             </button>
           </div>
         </form>
 
+        <!-- Mesej Kejayaan / Alert Dinamik -->
         <div id="wish-alert" class="hidden p-4 rounded-2xl bg-butter-100 border border-butter-300 text-purpleTheme-900 text-center text-sm font-medium shadow-sm animate-fade-in">
-          Terima kasih! Ucapan dan doa restu anda telah berjaya direkodkan untuk pengantin. 🤍
+          <span id="dyn-wish-success-msg">...</span>
         </div>
         
         <div class="w-full h-[1px] bg-purpleTheme-100/80 my-4"></div>
 
         <div class="space-y-3">
           <div class="flex items-center justify-between px-1">
-            <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
+            <!-- Tajuk Senarai Ucapan Dinamik -->
+            <span id="dyn-wishes-list-title" class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">...</span>
+            
+            <!-- Butang Refresh Dinamik -->
             <button id="refresh-wishes-btn" type="button" class="text-[10px] text-purpleTheme-700 bg-butter-200 hover:bg-butter-300 px-2.5 py-1 rounded-lg font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <i class="fas fa-sync-alt text-[9px]"></i> <span>Muat Semula</span>
+              <i class="fas fa-sync-alt text-[9px]"></i> <span id="dyn-wish-refresh-text">Loading...</span>
             </button>
           </div>
+          
           <div id="wishes-container" class="max-h-[380px] overflow-y-auto space-y-3 pr-2 custom-scrollbar">
           </div>
         </div>
