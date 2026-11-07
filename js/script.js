@@ -264,12 +264,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.wishes_subtitle && document.getElementById('dyn-wishes-subtitle')) 
           document.getElementById('dyn-wishes-subtitle').innerText = config.wishes_subtitle;
-
-        if (config.wish_label_name && document.getElementById('dyn-wish-label-name')) 
-          document.getElementById('dyn-wish-label-name').innerHTML = config.wish_label_name;
+	  
+		if (config.wish_label_name && document.getElementById('dyn-wish-label-name')) 
+          document.getElementById('dyn-wish-label-name').innerText = config.wish_label_name;
 
         if (config.wish_label_msg && document.getElementById('dyn-wish-label-msg')) 
-          document.getElementById('dyn-wish-label-msg').innerHTML = config.wish_label_msg;
+          document.getElementById('dyn-wish-label-msg').innerText = config.wish_label_msg;
 
         if (config.wish_placeholder_name && document.getElementById('wish-name')) 
           document.getElementById('wish-name').placeholder = config.wish_placeholder_name;
