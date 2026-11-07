@@ -1656,22 +1656,22 @@ END:VCALENDAR`;
       }
     }
 
-    const rsvpControl = config.control_RSVP !== undefined ? config.control_RSVP : config.control_rsvp;
-    if (rsvpControl === false || String(rsvpControl).trim().toUpperCase() === "FALSE") {
-      const rsvpBtn = document.getElementById('rsvp-submit');
-      if (rsvpBtn) {
-        rsvpBtn.disabled = true;
-        rsvpBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-        rsvpBtn.innerText = "RSVP DITUTUP";
-      }
-      ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.value = (id === 'rsvp-status') ? 'Hadir' : ((id === 'rsvp-pax') ? '1' : '');
-          el.disabled = true;
-        }
-      });
+  const rsvpControl = config.control_rsvp !== undefined ? config.control_rsvp : config.control_RSVP;
+  if (rsvpControl === false || String(rsvpControl).trim().toUpperCase() === "FALSE") {
+    const rsvpBtn = document.getElementById('rsvp-submit') || document.getElementById('dyn-rsvp-submit-btn');
+    if (rsvpBtn) {
+      rsvpBtn.disabled = true;
+      rsvpBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+      rsvpBtn.innerText = "RSVP DITUTUP";
     }
+    ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.value = '';
+        el.disabled = true;
+      }
+    });
+  }
 
     const galleryControl = config.control_gallery;
     if (galleryControl === false || String(galleryControl).trim().toUpperCase() === "FALSE") {
