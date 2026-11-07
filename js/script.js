@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
   
-  // --- 3. FETCH SITE CONFIG (DINAMIK DENGAN LOADER & SEMUA KEY BARU) ---
+  // --- 3. FETCH SITE CONFIG (100% DINAMIK & STABIL) ---
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return '';
         }
 
-        // Pembacaan Lajur Baharu: Kolom B (Index 1) = Key, Kolom C (Index 2) = Value
+        // Membaca Kolom B (Index 1) sebagai Key dan Kolom C (Index 2) sebagai Value
         rows.forEach(r => {
           if (!r || !r.c) return;
           const k = extractCellVal(r.c[1]); // Kolom B
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.site_version && document.getElementById('dyn-site-version')) 
           document.getElementById('dyn-site-version').innerText = `Buka Undangan ${config.site_version}`;
 
-        // LOADER CONTROL: HILANGKAN LOADER & MUNCULKAN HERO SECTION PENUH
+        // HILANGKAN LOADER HERO & MUNCULKAN HERO SECTION PENUH
         const heroLoader = document.getElementById('hero-loader');
         const heroContentBox = document.getElementById('hero-content-box');
         if (heroLoader) heroLoader.remove();
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
         window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 18;
         window.galleryQuotaLimit = config.gallery_limit ? parseInt(config.gallery_limit) : 20;
-        window.systemWishInfoMsg = config.system_wish_info || config.wish_system_info || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
+        window.systemWishInfoMsg = config.system_wish_info || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
 
         renderWishes();
 
