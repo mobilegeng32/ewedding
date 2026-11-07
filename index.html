@@ -8,7 +8,7 @@
   <link rel="icon" type="image/jpeg" href="images/logo2-nobg.png">
   <link rel="apple-touch-icon" href="images/logo2-nobg.png">
   
-  <title>Walimatulurus | Utrias & Hazim v1.0</title>
+  <title>Walimatulurus | Utrias & Hazim</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -50,25 +50,19 @@
 
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased overflow-hidden selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
+<body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
 
   <audio id="bg-music" loop preload="auto">
     <source src="music/background-sound.mp3" type="audio/mpeg">
     Pelayar anda tidak menyokong elemen audio.
   </audio>
   
-<!-- 1. HERO SECTION -->
+  <!-- 1. HERO SECTION -->
   <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center relative px-6 py-20 text-center overflow-hidden bg-[#FAF8F5]">
     
-    <!-- Indikator Loading Tunggal untuk Hero Section -->
-    <div id="hero-loader" class="flex flex-col items-center justify-center space-y-3">
-      <div class="w-10 h-10 border-4 border-purpleTheme-700 border-t-transparent rounded-full animate-spin"></div>
-      <p class="text-xs uppercase tracking-widest text-purpleTheme-700 font-semibold">Memuatkan Maklumat Majlis...</p>
-    </div>
-
-    <!-- Kandungan Penuh Hero (Disembunyikan dulusampai data siap) -->
-    <div id="hero-content-box" class="max-w-3xl mx-auto z-10 space-y-6 opacity-0 transition-opacity duration-700">
-      <span id="dyn-hero-badge" class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-5 py-2 rounded-full border border-butter-300 shadow-sm"></span>
+    <!-- Kandungan Penuh Hero -->
+    <div id="hero-content-box" class="max-w-3xl mx-auto z-10 space-y-6">
+      <span id="dyn-hero-badge" class="inline-block tracking-[0.3em] uppercase text-xs sm:text-sm font-semibold text-purpleTheme-700 bg-butter-200/80 px-5 py-2 rounded-full border border-butter-300 shadow-sm">WALIMATULURUS / UNDANGAN MAJLIS NIKAH</span>
 
       <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-normal tracking-tight text-purpleTheme-900 leading-tight">
         Utrias <span class="italic font-light text-purpleTheme-700">&amp;</span> Hazim
@@ -91,9 +85,9 @@
       </div>
     </div>
 	
-	<a id="hero-arrow-down" href="#invitation-section" class="hidden absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
-		<i class="fas fa-chevron-down text-lg"></i>
-	</a>
+    <a id="hero-arrow-down" href="#invitation-section" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
+      <i class="fas fa-chevron-down text-lg"></i>
+    </a>
   </section>
   
   <!-- 2. INVITATION SECTION -->
@@ -313,7 +307,6 @@
             <i class="fas fa-user-clock text-purpleTheme-700"></i> Gambar Saya
           </button>
 
-          <!-- Butang Muat Naik Asal -->
           <button id="btn-upload-gallery" type="button" class="cursor-pointer bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 font-medium px-5 py-3 rounded-xl text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 shadow-sm border border-butter-300 shrink-0">
             <i class="fas fa-cloud-upload-alt text-base"></i> Muat Naik
           </button>
@@ -337,7 +330,7 @@
       </p>
     </div>
 
-	<div class="glass-card rounded-3xl pt-2 pb-6 px-6 sm:pt-3 sm:pb-8 sm:px-10 custom-shadow border border-purpleTheme-100 space-y-6 relative overflow-hidden">
+    <div class="glass-card rounded-3xl pt-2 pb-6 px-6 sm:pt-3 sm:pb-8 sm:px-10 custom-shadow border border-purpleTheme-100 space-y-6 relative overflow-hidden">
       <div class="absolute -top-16 -left-16 w-36 h-36 bg-purpleTheme-100/40 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="space-y-6 relative z-10 text-left">
@@ -377,12 +370,12 @@
         <div class="w-full h-[1px] bg-purpleTheme-100/80 my-4"></div>
 
         <div class="space-y-3">
-			<div class="flex items-center justify-between px-1">
-			  <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
-			  <button id="refresh-wishes-btn" type="button" class="text-[10px] text-purpleTheme-700 bg-butter-200 hover:bg-butter-300 px-2.5 py-1 rounded-lg font-medium transition-all flex items-center gap-1 cursor-pointer">
-				<i class="fas fa-sync-alt text-[9px]"></i> <span>Muat Semula</span>
-			  </button>
-			</div>
+          <div class="flex items-center justify-between px-1">
+            <span class="text-xs uppercase tracking-widest text-purpleTheme-800 font-bold">Senarai Ucapan Tetamu</span>
+            <button id="refresh-wishes-btn" type="button" class="text-[10px] text-purpleTheme-700 bg-butter-200 hover:bg-butter-300 px-2.5 py-1 rounded-lg font-medium transition-all flex items-center gap-1 cursor-pointer">
+              <i class="fas fa-sync-alt text-[9px]"></i> <span>Muat Semula</span>
+            </button>
+          </div>
           <div id="wishes-container" class="max-h-[380px] overflow-y-auto space-y-3 pr-2 custom-scrollbar">
           </div>
         </div>
@@ -448,7 +441,7 @@
       </div>
 
       <div class="space-y-4">
-		<div>
+        <div>
           <label for="modal-uploader-name" class="block text-xs font-semibold text-purpleTheme-900 uppercase tracking-wider mb-1.5">
             Nama Anda <span class="text-purpleTheme-500">*</span>
           </label>
@@ -503,7 +496,6 @@
       </div>
 
       <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1 no-scrollbar">
-        <!-- 1. KAD AKAUN BANK (Dikawal oleh control_bank) -->
         <div id="bank-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
           <div>
             <h4 id="bank-name" class="font-serif text-lg font-semibold text-purpleTheme-900">--</h4>
@@ -517,18 +509,16 @@
           </div>
         </div>
 		
-		<!-- 2. KAD QR CODE (Dikawal oleh control_qr) -->
-		<div id="qr-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
-		  <div>
-			<h4 class="font-serif text-lg font-semibold text-purpleTheme-900">QR Code DuitNow / Bank</h4>
-			<p class="text-[11px] text-purpleTheme-700/80 font-medium">Imbas untuk transfer</p>
-		  </div>
-		  <div class="w-48 h-48 mx-auto bg-butter-50 p-2 rounded-xl border border-butter-200 shadow-sm flex items-center justify-center">
-			<img id="dyn-qr-image" src="" alt="QR Code" class="w-full h-full object-contain rounded-lg">
-		  </div>
-		</div>
+        <div id="qr-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
+          <div>
+            <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">QR Code DuitNow / Bank</h4>
+            <p class="text-[11px] text-purpleTheme-700/80 font-medium">Imbas untuk transfer</p>
+          </div>
+          <div class="w-48 h-48 mx-auto bg-butter-50 p-2 rounded-xl border border-butter-200 shadow-sm flex items-center justify-center">
+            <img id="dyn-qr-image" src="" alt="QR Code" class="w-full h-full object-contain rounded-lg">
+          </div>
+        </div>
 
-        <!-- 3. KAD ALAMAT FIZIKAL (Dikawal oleh control_address) -->
         <div id="address-section" class="bg-white/90 p-4 rounded-2xl border border-purpleTheme-100 space-y-3 text-center shadow-sm">
           <div>
             <h4 class="font-serif text-lg font-semibold text-purpleTheme-900">Kirim Hadiah Fizikal</h4>
@@ -558,44 +548,36 @@
   
   <!-- NAVIGATION DOCK -->
   <div id="fab-dock" class="glass-card border border-butter-300 shadow-2xl rounded-full px-4 py-3 flex items-center justify-center gap-2 sm:gap-3 bg-white/95 transition-all duration-500 ease-out fixed left-1/2 -translate-x-1/2 bottom-6 scale-75 opacity-0 pointer-events-none w-max max-w-[95vw] origin-bottom z-50">
-    
-    <!-- Utama (Hanya papar penuh pada skrin besar) -->
     <a href="#hero-section" data-target="hero-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Utama">
       <i class="fas fa-home text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Utama</span>
     </a>
 
-    <!-- 1. Undangan (Sentiasa ada pada semua saiz skrin) -->
     <a href="#invitation-section" data-target="invitation-section" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Undangan">
       <i class="fas fa-envelope-open-text text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Undangan</span>
     </a>
 
-    <!-- 2. Lokasi (Sentiasa ada pada semua saiz skrin) -->
     <a href="#details-section" data-target="details-section" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Lokasi">
       <i class="fas fa-map-marker-alt text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Lokasi</span>
     </a>
 
-    <!-- 3. RSVP (Sentiasa ada pada semua saiz skrin) -->
     <a href="#rsvp-section" data-target="rsvp-section" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="RSVP">
       <i class="fas fa-clipboard-check text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">RSVP</span>
     </a>
 
-    <!-- Galeri (Hanya papar penuh pada skrin besar) -->
     <a href="#gallery-section" data-target="gallery-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Galeri">
       <i class="fas fa-images text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Galeri</span>
     </a>
 
-    <!-- Ucapan (Hanya papar penuh pada skrin besar) -->
     <a href="#wishes-section" data-target="wishes-section" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group" title="Ucapan">
       <i class="fas fa-heart text-base group-hover:scale-110 transition-transform"></i>
       <span class="text-[9px] font-semibold mt-0.5">Ucapan</span>
     </a>
 
-    <!-- 4. Salam Kasih (Sentiasa ada pada semua saiz skrin) -->
     <button id="dock-gift-btn" type="button" class="fab-link flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Salam Kasih">
       <div class="h-6 flex items-center justify-center mb-0.5">
         <i class="fas fa-gift text-base group-hover:scale-110 transition-transform"></i>
@@ -603,7 +585,6 @@
       <span class="text-[9px] font-semibold tracking-tight">Salam Kasih</span>
     </button>
 
-    <!-- Musik (Hanya papar penuh pada skrin besar) -->
     <button id="dock-music-btn" type="button" class="fab-link menu-item-collapse flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Musik">
       <div class="h-6 flex items-center justify-center mb-0.5">
         <i id="dock-music-icon" class="fas fa-volume-xmark text-base group-hover:scale-110 transition-transform"></i>
@@ -611,32 +592,25 @@
       <span id="dock-music-text" class="text-[9px] font-semibold tracking-tight">Musik</span>
     </button>
 
-    <!-- 5. Menu Lagi (3 Dot) - HANYA MUNCUL PADA SKRIN KECIL (MOBILE) -->
     <div id="more-menu-container" class="relative hidden">
       <button id="more-menu-btn" type="button" class="flex flex-col items-center px-1.5 text-purpleTheme-900/60 hover:text-purpleTheme-700 transition-all group cursor-pointer" title="Lagi">
         <i class="fas fa-ellipsis-h text-base group-hover:scale-110 transition-transform"></i>
         <span class="text-[9px] font-semibold mt-0.5">Lagi</span>
       </button>
 	  
-	  <!-- Popover Senarai Menu di Dalam 3 Dot -->
       <div id="more-popover" class="absolute bottom-14 right-0 bg-white/95 backdrop-blur-md border border-butter-300 shadow-xl rounded-2xl p-3 hidden flex-col gap-2.5 w-36 z-50 animate-fade-in">
-        
-        <!-- Utama -->
         <a href="#hero-section" data-target="hero-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
           <i class="fas fa-home w-4 text-center"></i> Utama
         </a>
 
-        <!-- Galeri -->
         <a href="#gallery-section" data-target="gallery-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
           <i class="fas fa-images w-4 text-center"></i> Galeri
         </a>
 
-        <!-- Ucapan -->
         <a href="#wishes-section" data-target="wishes-section" class="fab-link flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all">
           <i class="fas fa-heart w-4 text-center"></i> Ucapan
         </a>
 
-        <!-- Musik (Bila tekan, terus trigger butang musik utama & kekalkan popover) -->
         <button id="popover-music-btn" type="button" onclick="toggleMusicFromPopover(event)" class="w-full flex items-center gap-2.5 text-xs text-purpleTheme-900 hover:text-purpleTheme-700 p-1.5 rounded-lg hover:bg-butter-100 transition-all text-left cursor-pointer">
           <i class="fas fa-volume-high w-4 text-center"></i> <span id="popover-music-text">Musik</span>
         </button>
@@ -657,23 +631,21 @@
         <p class="text-xs text-purpleTheme-800/70 font-light">Senarai gambar yang pernah anda muat naik dari peranti ini.</p>
       </div>
 
-      <!-- Kontena Grid Gambar Peribadi -->
       <div id="my-photos-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 overflow-y-auto pr-1 no-scrollbar flex-1 p-1">
-        <!-- Javascript akan masukkan senarai gambar di sini secara dinamik -->
       </div>
 
       <button id="btn-close-my-photos" type="button" class="w-full py-3.5 rounded-xl bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 text-xs font-semibold tracking-wider uppercase shadow-md transition-all cursor-pointer shrink-0">TUTUP</button>
     </div>
   </div>
   
-	<!-- MODAL: PAPARAN GAMBAR PENUH (LIGHTBOX) -->
-	<div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center hidden p-4 transition-all">
-	  <button id="close-lightbox" type="button" class="absolute top-6 right-6 text-white hover:text-butter-200 text-3xl font-bold cursor-pointer z-50">&times;</button>
-	  <div class="relative max-w-4xl max-h-[90vh] w-full flex flex-col items-center justify-center">
-		<img id="lightbox-img" src="" alt="Full Image" class="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-white/10">
-		<p id="lightbox-caption" class="text-white text-xs sm:text-sm mt-4 text-center font-light italic px-4"></p>
-	  </div>
-	</div>
+  <!-- MODAL: PAPARAN GAMBAR PENUH (LIGHTBOX) -->
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center hidden p-4 transition-all">
+    <button id="close-lightbox" type="button" class="absolute top-6 right-6 text-white hover:text-butter-200 text-3xl font-bold cursor-pointer z-50">&times;</button>
+    <div class="relative max-w-4xl max-h-[90vh] w-full flex flex-col items-center justify-center">
+      <img id="lightbox-img" src="" alt="Full Image" class="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-white/10">
+      <p id="lightbox-caption" class="text-white text-xs sm:text-sm mt-4 text-center font-light italic px-4"></p>
+    </div>
+  </div>
   
   <script src="js/script.js"></script>
 </body>

@@ -1,6 +1,6 @@
 /**
  * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (FIXED v2.62)
+ * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (CLEAN REVERT)
  * =================================================================
  */
 
@@ -254,17 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         applySiteConfig(config);
-		
-		const heroLoader = document.getElementById('hero-loader');
-        const heroContentBox = document.getElementById('hero-content-box');
-        const heroArrowDown = document.getElementById('hero-arrow-down');
-
-        if (heroLoader) heroLoader.remove();
-        if (heroContentBox) heroContentBox.classList.remove('opacity-0');
-        if (heroArrowDown) heroArrowDown.classList.remove('hidden');
-
-        // Buka semula kunci scroll pada body
-        document.body.classList.remove('overflow-hidden');
       })
       .catch(err => console.error("Gagal ambil Config:", err));
   }
@@ -360,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC (BEHAVIOR ASAL) ---
+  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC ---
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -505,7 +494,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   fabLinks.forEach(link => { 
     link.addEventListener('click', (e) => {
-														   
       if (link.id === 'dock-music-btn' || link.closest('#dock-music-btn')) return;
       closeDock();
     }); 
@@ -513,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateActiveSection();
 
-// --- 7. AUDIO & MUZIK LATAR BELAKANG ---
+  // --- 7. AUDIO & MUZIK LATAR BELAKANG (DIKAWAL PINTAR & SELAMAT) ---
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
@@ -562,24 +550,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // Muzik HANYA akan bermula apabila butang Buka Undangan ditekan
+  // HANYA mainkan lagu jika belum main. Jika sudah main, kekalkan tanpa terhenti!
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      // HANYA play jika lagu belum dimainkan. Jika sudah main, biarkan terus berjalan tanpa henti!
       if (!isPlaying) {
         playAudioTrack();
       }
-      
       hasInteracted = true;
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 
-  // KOD INTRO AUTOMATIK (SCROLL/TOUCH UMUM) TELAH DIBUANG SUPAYA TIDAK 'TRIGGER' LAGU SECARA TIDAK SENGAJA
-  
   if (dockMusicBtn && bgMusic) {
     dockMusicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -615,7 +598,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   // --- 8. COUNTDOWN TIMER ---
-
   function updateCountdown() {
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');
@@ -624,7 +606,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!daysEl) return;
 
-													  
     if (!weddingDate) {
       daysEl.innerText = "--";
       hoursEl.innerText = "--";
@@ -655,7 +636,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
-  // Fungsi pembantu untuk paparan ralat countdown
   function showCountdownError() {
     const daysEl = document.getElementById('cd-days');
     if (daysEl) {
@@ -673,7 +653,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // --- 9. IMPORT KE KALENDAR (MULTI-PLATFORM SELECTOR) ---
+  // --- 9. IMPORT KE KALENDAR ---
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', (e) => {
@@ -682,7 +662,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Fungsi untuk memaparkan modal pilihan platform kalendar
   function showCalendarOptionsModal() {
     let existingModal = document.getElementById('calendar-options-modal');
     if (existingModal) {
@@ -704,17 +683,14 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
 
           <div class="space-y-2.5 pt-2">
-            <!-- 1. Apple Calendar (iPhone / Mac) -->
             <button type="button" id="cal-apple-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
               <i class="fab fa-apple text-base text-purpleTheme-700"></i> Apple Calendar
             </button>
 
-            <!-- 2. Google Calendar -->
             <button type="button" id="cal-google-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
               <i class="fab fa-google text-base text-purpleTheme-700"></i> Google Calendar
             </button>
 
-            <!-- 3. Download Fail .ics Manual -->
             <button type="button" id="cal-download-btn" class="w-full py-3 px-4 rounded-xl bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-butter-300 cursor-pointer">
               <i class="fas fa-download text-base text-purpleTheme-700"></i> Muat Turun Fail (.ics)
             </button>
@@ -725,40 +701,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-    // Event Listener untuk Apple / iPhone
     document.getElementById('cal-apple-btn').addEventListener('click', () => {
       triggerIcsDownload();
       document.getElementById('calendar-options-modal').remove();
     });
 
-    // Event Listener untuk Google Calendar
     document.getElementById('cal-google-btn').addEventListener('click', () => {
-	const title = encodeURIComponent(icsDataConfig.title);
-	const details = encodeURIComponent(icsDataConfig.description);
-	const location = encodeURIComponent(icsDataConfig.location);
-		
-	let rawStart = icsDataConfig.start;
-	let rawEnd = icsDataConfig.end;
-	
-	const formatDateForWeb = (utcStr) => {
+      const title = encodeURIComponent(icsDataConfig.title);
+      const details = encodeURIComponent(icsDataConfig.description);
+      const location = encodeURIComponent(icsDataConfig.location);
+          
+      let rawStart = icsDataConfig.start;
+      let rawEnd = icsDataConfig.end;
+      
+      const formatDateForWeb = (utcStr) => {
         return `${utcStr.substring(0,4)}-${utcStr.substring(4,6)}-${utcStr.substring(6,8)}T${utcStr.substring(9,11)}:${utcStr.substring(11,13)}:${utcStr.substring(13,15)}Z`;
       };
-	  
-	const startDateISO = formatDateForWeb(rawStart);
-	const endDateISO = formatDateForWeb(rawEnd);
-	const gCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateISO.replace(/[-:]/g,'')}/${endDateISO.replace(/[-:]/g,'')}&details=${details}&location=${location}`;
+      
+      const startDateISO = formatDateForWeb(rawStart);
+      const endDateISO = formatDateForWeb(rawEnd);
+      const gCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateISO.replace(/[-:]/g,'')}/${endDateISO.replace(/[-:]/g,'')}&details=${details}&location=${location}`;
       window.open(gCalendarUrl, '_blank');
       document.getElementById('calendar-options-modal').remove();
     });
 
-    // Event Listener untuk Muat Turun Fail .ics Manual
     document.getElementById('cal-download-btn').addEventListener('click', () => {
       triggerIcsDownload();
       document.getElementById('calendar-options-modal').remove();
     });
   }
 
-// Fungsi pembantu untuk menjana dan memuat turun fail .ics secara 100% dinamik dari database
   function triggerIcsDownload() {
     const icsData = 
 `BEGIN:VCALENDAR
@@ -881,7 +853,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 11. RSVP SUBMIT (REAL-TIME LIVE CHECK & CLEAR STUCK DATA)
+  // 11. RSVP SUBMIT
   // =========================================================================
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
@@ -1179,7 +1151,6 @@ END:VCALENDAR`;
           </div>
         `).join('');
 
-        // Tambah event listener supaya bila klik gambar peribadi, ia buka lightbox penuh
         document.querySelectorAll('.my-photo-item').forEach(el => {
           el.addEventListener('click', () => {
             const imgUrl = el.getAttribute('data-url');
@@ -1266,7 +1237,7 @@ END:VCALENDAR`;
   }
 
   // =========================================================================
-  // 14. BUKU HAJAT & UCAPAN (REAL-TIME LIVE CHECK & CLEAR STUCK DATA)
+  // 14. BUKU HAJAT & UCAPAN
   // =========================================================================
   let defaultWishes = [];
   window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
@@ -1429,7 +1400,7 @@ END:VCALENDAR`;
     });
   }
 
-  // --- 15. APPLY SITE CONFIG (LOAD AWAL & PEMBETULAN PAPARAN QR CODE) ---
+  // --- 15. APPLY SITE CONFIG ---
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -1450,7 +1421,6 @@ END:VCALENDAR`;
       }
     }
 
-    // PEMBETULAN QR CODE GOOGLE DRIVE (MENYOKONG ID / PAUTAN PENUH & PROKSI WSRV.NL)
     const qrSection = document.getElementById('qr-section');
     if (qrSection) {
       const qrControl = config.control_qr;
@@ -1540,7 +1510,7 @@ END:VCALENDAR`;
     }
   }
   
-  // --- LIGHTBOX / PAPARAN GAMBAR PENUH GALERI ---
+  // --- LIGHTBOX ---
   const slideshowContainer = document.getElementById('slideshow-container');
   const lightboxModal = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -1549,7 +1519,6 @@ END:VCALENDAR`;
 
   if (slideshowContainer && lightboxModal && lightboxImg) {
     slideshowContainer.addEventListener('click', (e) => {
-      // Elakkan daripada trigger lightbox jika pengguna klik butang next/prev slide
       if (e.target.closest('#prev-slide') || e.target.closest('#next-slide')) return;
       
       if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
