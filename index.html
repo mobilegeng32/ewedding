@@ -100,23 +100,30 @@
       <div class="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-purpleTheme-700/20 rounded-tl-lg pointer-events-none"></div>
       <div class="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-purpleTheme-700/20 rounded-br-lg pointer-events-none"></div>
 	  
-      <div class="text-purpleTheme-800 font-arabic text-2xl sm:text-4xl font-medium tracking-wide drop-shadow-sm leading-loose py-2">
-        السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ ٱللَّهِ وَبَرَكاتُهُ
+      <!-- Ayat Arab Dinamik -->
+      <div id="dyn-inv-arabic" class="text-purpleTheme-800 font-arabic text-2xl sm:text-4xl font-medium tracking-wide drop-shadow-sm leading-loose py-2">
+        ...
       </div>
 
       <div class="space-y-3 text-xs sm:text-sm text-purpleTheme-800/80 leading-relaxed font-light max-w-md mx-auto">
-        <p class="italic">"Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Tanpa mengurangi rasa hormat, seiring memohon rahmat dan rida Allah SWT, kami bermaksud mengundang:"</p>
+        <!-- Ayat Mukadimah Dinamik -->
+        <p id="dyn-inv-prelude" class="italic">...</p>
+        
         <div class="inline-block bg-butter-100/90 border border-butter-300/80 px-5 py-1.5 rounded-full my-2 shadow-sm">
-          <p class="font-medium text-purpleTheme-900 text-xs sm:text-sm tracking-wide">Bapak / Ibu / Saudara / i</p>
+          <!-- Gelaran Tetamu Dinamik -->
+          <p id="dyn-inv-salutation" class="font-medium text-purpleTheme-900 text-xs sm:text-sm tracking-wide">...</p>
         </div>
-        <p>untuk hadir dan memberikan doa restu pada syukuran pernikahan putra-putri kami:</p>
+        
+        <!-- Ayat Penutup Jemputan Dinamik -->
+        <p id="dyn-inv-closing">...</p>
       </div>
 
       <div class="space-y-8 pt-2">
+        <!-- Pengantin Lelaki -->
         <div class="space-y-2">
-          <h3 id="dyn-bride-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide">Memuat data...</h3>
+          <h3 id="dyn-groom-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide"></h3>
           <div class="w-12 h-[1px] bg-butter-400 mx-auto opacity-70"></div>
-          <p id="dyn-bride-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4">...</p>
+          <p id="dyn-groom-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4"></p>
         </div>
 
         <div class="flex justify-center items-center py-0">
@@ -125,10 +132,11 @@
           </span>
         </div>
 
+        <!-- Pengantin Perempuan -->
         <div class="space-y-2">
-          <h3 id="dyn-groom-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide">Memuat data...</h3>
+          <h3 id="dyn-bride-fullname" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-normal tracking-wide"></h3>
           <div class="w-12 h-[1px] bg-butter-400 mx-auto opacity-70"></div>
-          <p id="dyn-groom-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4">...</p>
+          <p id="dyn-bride-desc" class="text-xs sm:text-sm text-purpleTheme-700/90 font-light italic px-4"></p>
         </div>
       </div>
 
@@ -139,7 +147,7 @@
       </div>
     </div>
   </section>
-
+  
   <!-- 3. DETAILS & MAJLIS SECTION -->
   <section id="details-section" class="py-16 px-6 max-w-5xl mx-auto space-y-16">
     <div class="text-center space-y-3">

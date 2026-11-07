@@ -183,10 +183,35 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWishes();
 
         // 3. BRIDE & GROOM
-        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
-        if (config.bride_desc && document.getElementById('dyn-bride-desc')) document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
-        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
-        if (config.groom_desc && document.getElementById('dyn-groom-desc')) document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
+		//if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
+		//if (config.bride_desc && document.getElementById('dyn-bride-desc')) document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
+		//if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
+        //if (config.groom_desc && document.getElementById('dyn-groom-desc')) document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
+		
+		// 2. INVITATION SECTION (MUKADIMAH & NAMA PENUH)
+        if (config.invitation_arabic && document.getElementById('dyn-inv-arabic')) 
+          document.getElementById('dyn-inv-arabic').innerText = config.invitation_arabic;
+
+        if (config.invitation_prelude && document.getElementById('dyn-inv-prelude')) 
+          document.getElementById('dyn-inv-prelude').innerText = `"${String(config.invitation_prelude).replace(/^"|"$/g, '')}"`;
+
+        if (config.invitation_salutation && document.getElementById('dyn-inv-salutation')) 
+          document.getElementById('dyn-inv-salutation').innerText = config.invitation_salutation;
+
+        if (config.invitation_closing && document.getElementById('dyn-inv-closing')) 
+          document.getElementById('dyn-inv-closing').innerText = config.invitation_closing;
+
+        if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) 
+          document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
+          
+        if (config.groom_desc && document.getElementById('dyn-groom-desc')) 
+          document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
+
+        if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) 
+          document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
+          
+        if (config.bride_desc && document.getElementById('dyn-bride-desc')) 
+          document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
