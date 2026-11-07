@@ -161,8 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.hero_date_text && document.getElementById('dyn-hero-date')) 
           document.getElementById('dyn-hero-date').innerText = config.hero_date_text;
         
-        if (config.site_version && document.getElementById('dyn-site-version')) 
-          document.getElementById('dyn-site-version').innerText = `Buka Undangan ${config.site_version}`;
+        if (config.site_version && document.getElementById('dyn-start-button')) 
+          document.getElementById('dyn-start-button').innerText = $config.start_button;
 
         // 2. TIMERS & COOLDOWNS
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
