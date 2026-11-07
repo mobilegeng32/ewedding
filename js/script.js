@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-wish-refresh-text').innerText = config.wish_refresh_text;
 	  
 	  // 7. COUNTDOWN SECTION TEXTS (Dinamik)
-        if (config.cd_badge && document.getElementById('dyn-cd-badge')) 
+		if (config.cd_badge && document.getElementById('dyn-cd-badge')) 
           document.getElementById('dyn-cd-badge').innerText = config.cd_badge;
         if (config.cd_title && document.getElementById('dyn-cd-title')) 
           document.getElementById('dyn-cd-title').innerText = config.cd_title;
@@ -306,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-cd-label-secs').innerText = config.cd_label_secs;
 	  
 	  // 8. GIFT / SALAM KASIH MODAL TEXTS (Dinamik)
-        if (config.gift_modal_title && document.getElementById('dyn-gift-modal-title')) 
+		if (config.gift_modal_title && document.getElementById('dyn-gift-modal-title')) 
           document.getElementById('dyn-gift-modal-title').innerText = config.gift_modal_title;
         if (config.gift_modal_subtitle && document.getElementById('dyn-gift-modal-subtitle')) 
           document.getElementById('dyn-gift-modal-subtitle').innerText = config.gift_modal_subtitle;
@@ -318,8 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-address-title').innerText = config.address_title;
         if (config.address_subtitle && document.getElementById('dyn-address-subtitle')) 
           document.getElementById('dyn-address-subtitle').innerText = config.address_subtitle;
-        if (config.gift_close_text && document.getElementById('dyn-gift-close-text')) 
-          document.getElementById('dyn-gift-close-text').innerText = config.gift_close_text;
+        if (config.gift_close_button && document.getElementById('dyn-gift-close-text')) 
+          document.getElementById('dyn-gift-close-text').innerText = config.gift_close_button;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
