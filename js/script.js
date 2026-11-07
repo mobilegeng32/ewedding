@@ -212,6 +212,22 @@ document.addEventListener('DOMContentLoaded', () => {
           
         if (config.bride_desc && document.getElementById('dyn-bride-desc')) 
           document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
+	  
+	  // 3. DETAILS & MAJLIS SECTION TEXTS (Dinamik)
+        if (config.details_badge && document.getElementById('dyn-details-badge')) 
+          document.getElementById('dyn-details-badge').innerText = config.details_badge;
+
+        if (config.details_title && document.getElementById('dyn-details-title')) 
+          document.getElementById('dyn-details-title').innerText = config.details_title;
+
+        if (config.location_card_title && document.getElementById('dyn-location-card-title')) 
+          document.getElementById('dyn-location-card-title').innerText = config.location_card_title;
+
+        if (config.contact_heading && document.getElementById('dyn-contact-heading')) 
+          document.getElementById('dyn-contact-heading').innerText = config.contact_heading;
+
+        if (config.tentative_card_title && document.getElementById('dyn-tentative-card-title')) 
+          document.getElementById('dyn-tentative-card-title').innerText = config.tentative_card_title;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
