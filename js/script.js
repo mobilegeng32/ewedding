@@ -5,7 +5,7 @@ window.addEventListener('load', () => {
   window.scrollTo(0, 0);
 });		
 	
-	
+ 
 document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
-    if (!buttonEl) return;
+  function setButtonCooldown(buttonEl, durationInSeconds, customText = "Sila tunggu") {
+    if (!buttonEl || isNaN(durationInSeconds) || durationInSeconds <= 0) return;
     
     const btnId = buttonEl.id || 'btn_generic';
     const storageKey = `cooldown_expiry_${btnId}`;
@@ -101,6 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedExpiry && savedExpiry > Date.now()) {
           const activeDuration = Math.ceil((savedExpiry - Date.now()) / 1000);
           const customTxt = id === 'btn-upload-gallery' ? 'Memuat Naik' : 'Sila tunggu';
+          let cdVal = 0;
+          if (id === 'rsvp-submit') cdVal = window.rsvpCd;
+          else if (id === 'btn-upload-gallery') cdVal = window.galleryCd;
+          else if (id === 'btn-submit-wish') cdVal = window.wishCd;
           setButtonCooldown(btn, activeDuration, customTxt);
         }
       }
@@ -158,11 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.start_button && document.getElementById('dyn-start-button')) 
           document.getElementById('dyn-start-button').innerText = config.start_button;
 	  
-        window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
-        window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
-        window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
-        window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 18;
-        window.galleryQuotaLimit = config.gallery_limit ? parseInt(config.gallery_limit) : 20;
+        window.rsvpCd = parseInt(config.rsvp_cd);
+        window.galleryCd = parseInt(config.gallery_cd);
+        window.wishCd = parseInt(config.wish_cd);
+        window.wishManualCd = parseInt(config.wish_manual_cd);
+        window.galleryQuotaLimit = parseInt(config.gallery_limit);
         
         window.systemWishEmptyTitle = config.wish_empty_title || "";
         window.systemWishInfoMsg = config.wish_empty_subtitle || "";
@@ -319,21 +323,21 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!isNaN(parsedTime)) {
             weddingDate = parsedTime;
           } else {
-																	
+				 
             showCountdownError();
           }
-        } 
+        } else {
+  
 		
-		else {
           showCountdownError();
         }
 		
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
-																					
+					 
           document.getElementById('dyn-rsvp-deadline').classList.add('font-bold');
         } else {
-																			 
+					
           const deadlineEl = document.getElementById('dyn-rsvp-deadline');
           if (deadlineEl) {
             deadlineEl.innerText = "Date Missing";
@@ -919,7 +923,7 @@ END:VCALENDAR`;
     });
   };
   
-											  
+			 
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -1045,7 +1049,7 @@ END:VCALENDAR`;
               setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
 
             }
-			return;
+            return;
           }
 
           if (rsvpSubmitBtn) {
@@ -1054,7 +1058,7 @@ END:VCALENDAR`;
           }
 
           showConfirmDialog("Hantar Pengesahan RSVP?", "Adakah anda pasti maklumat kehadiran sudah betul?", () => {
-            setButtonCooldown(rsvpSubmitBtn, window.rsvpCd || 5, "Sila tunggu");
+            setButtonCooldown(rsvpSubmitBtn, window.rsvpCd, "Sila tunggu");
 
             const formData = new URLSearchParams();
             formData.append('action', 'rsvp');
@@ -1065,7 +1069,7 @@ END:VCALENDAR`;
             
             fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData })
               .then(response => response.json())
-                .then(data => {
+              .then(data => {
                 if (alertBox) {
                   alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
                   alertBox.classList.remove('hidden');
@@ -1197,7 +1201,7 @@ END:VCALENDAR`;
 
         if (fetchedGallery.length > 0) {
           let shuffled = fetchedGallery.sort(() => 0.5 - Math.random());
-          let quotaLimit = window.galleryQuotaLimit ? parseInt(window.galleryQuotaLimit) : 20;
+          let quotaLimit = window.galleryQuotaLimit;
           defaultGallery = shuffled.slice(0, quotaLimit);
           isUsingFallback = false;
           currentSlide = 0;
@@ -1287,9 +1291,9 @@ END:VCALENDAR`;
             
             if (lightboxImg && lightboxModal) {
               lightboxImg.src = imgUrl;
-									
+		 
               if (lightboxCaption) lightboxCaption.innerText = imgCaption;
-			   
+	  
               lightboxModal.classList.remove('hidden');
               lightboxModal.classList.add('flex');
             }
@@ -1319,7 +1323,7 @@ END:VCALENDAR`;
       if (uploadModal) uploadModal.classList.add('hidden');
 
       showConfirmDialog("Muat Naik Gambar?", "Adakah anda pasti mahu memuat naik gambar ini?", () => {
-        setButtonCooldown(btnUploadGallery, window.galleryCd || 5, "Memuat Naik");
+        setButtonCooldown(btnUploadGallery, window.galleryCd, "Memuat Naik");
         const galleryAlert = document.getElementById('gallery-alert');
         if (galleryAlert) {
           galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses gambar...`;
@@ -1385,7 +1389,7 @@ END:VCALENDAR`;
           <div class="w-10 h-10 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
             <i class="fas fa-heart"></i>
           </div>
-																			  
+					 
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${window.systemWishEmptyTitle}</h4>
           <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg}</p>
         </div>
@@ -1422,7 +1426,7 @@ END:VCALENDAR`;
   const refreshWishesBtn = document.getElementById('refresh-wishes-btn');
   if (refreshWishesBtn) {
     refreshWishesBtn.addEventListener('click', () => {
-      setButtonCooldown(refreshWishesBtn, window.wishManualCd || 5, "Memuat");
+      setButtonCooldown(refreshWishesBtn, window.wishManualCd, "Memuat");
       fetchWishes();
     });
   }
@@ -1491,7 +1495,7 @@ END:VCALENDAR`;
           if (!nameInput.value || !msgInput.value) return;
 
           showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
-            setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
+            setButtonCooldown(wishSubmitBtn, window.wishCd, "Sila tunggu");
 
             const formData = new URLSearchParams();
             formData.append('action', 'wishes');
@@ -1582,23 +1586,23 @@ END:VCALENDAR`;
       }
     }
 
-  const rsvpControl = config.control_rsvp !== undefined ? config.control_rsvp : config.control_RSVP;
-  if (rsvpControl === false || String(rsvpControl).trim().toUpperCase() === "FALSE") {
-    const rsvpBtn = document.getElementById('rsvp-submit') || document.getElementById('dyn-rsvp-submit-btn');
-    if (rsvpBtn) {
-      rsvpBtn.disabled = true;
-      rsvpBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
-      rsvpBtn.innerText = "RSVP DITUTUP";
-    }
-    
-	['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.value = '';
-        el.disabled = true;
+    const rsvpControl = config.control_rsvp !== undefined ? config.control_rsvp : config.control_RSVP;
+    if (rsvpControl === false || String(rsvpControl).trim().toUpperCase() === "FALSE") {
+      const rsvpBtn = document.getElementById('rsvp-submit') || document.getElementById('dyn-rsvp-submit-btn');
+      if (rsvpBtn) {
+        rsvpBtn.disabled = true;
+        rsvpBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
+        rsvpBtn.innerText = "RSVP DITUTUP";
       }
-    });
-  }
+	
+      ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.value = '';
+          el.disabled = true;
+        }
+      });
+    }
 
     const galleryControl = config.control_gallery;
     if (galleryControl === false || String(galleryControl).trim().toUpperCase() === "FALSE") {
@@ -1642,9 +1646,9 @@ END:VCALENDAR`;
       
       if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
         lightboxImg.src = slideImg.src;
-											  
+			 
         if (lightboxCaption && slideCaption) lightboxCaption.innerText = slideCaption.innerText;
-		 
+   
         lightboxModal.classList.remove('hidden');
       }
     });
