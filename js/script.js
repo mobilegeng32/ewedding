@@ -274,11 +274,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // 5. RSVP DEADLINE
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
+		  // Tambah class bold di sini juga jika mahu teks tarikh dari database jadi tebal
+		  document.getElementById('dyn-rsvp-deadline').classList.add('font-bold');
         } else {
           console.error("Data rsvp_deadline tidak dijumpai dalam database!");
           const deadlineEl = document.getElementById('dyn-rsvp-deadline');
           if (deadlineEl) {
-            deadlineEl.innerText = "--/--/----";
+            deadlineEl.innerText = "Date Missing";
             deadlineEl.classList.add('text-red-500', 'font-medium');
           }
         }
