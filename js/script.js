@@ -228,6 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (config.tentative_card_title && document.getElementById('dyn-tentative-card-title')) 
           document.getElementById('dyn-tentative-card-title').innerText = config.tentative_card_title;
+	  
+	  // 4. RSVP SECTION TEXTS (Dinamik)
+        if (config.rsvp_badge && document.getElementById('dyn-rsvp-badge')) 
+          document.getElementById('dyn-rsvp-badge').innerText = config.rsvp_badge;
+
+        if (config.rsvp_title && document.getElementById('dyn-rsvp-title')) 
+          document.getElementById('dyn-rsvp-title').innerText = config.rsvp_title;
+
+        if (config.rsvp_subtitle && document.getElementById('dyn-rsvp-subtitle')) 
+          document.getElementById('dyn-rsvp-subtitle').innerText = config.rsvp_subtitle;
+
+        if (config.rsvp_button_text && document.getElementById('dyn-rsvp-submit-btn')) 
+          document.getElementById('dyn-rsvp-submit-btn').innerText = config.rsvp_button_text;
 
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
@@ -289,12 +302,12 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-c2-tel').href = `tel:${config.contact2_phone || ''}`;
           document.getElementById('dyn-c2-wa').href = `https://wa.me/${(config.contact2_phone || '').replace(/[^0-9]/g, '')}`;
         }
-
-        // 8. PAX OPTIONS
+		
+		// 8. PAX OPTIONS
         const maxPax = parseInt(config.max_pax) || 5;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
-          paxSelect.innerHTML = ''; 
+          paxSelect.innerHTML = '<option value="" disabled selected hidden>Sila Pilih Bilangan</option>'; 
           for (let i = 1; i <= maxPax; i++) {
             const opt = document.createElement('option');
             opt.value = i; opt.textContent = `${i} Orang`;
@@ -380,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => console.error("Gagal ambil Tentative:", err));
   }
-
+  
   // --- 5. RSVP STATUS & PAX TOGGLE ---
   const rsvpStatus = document.getElementById('rsvp-status');
   const paxContainer = document.getElementById('pax-container');
@@ -390,10 +403,15 @@ document.addEventListener('DOMContentLoaded', () => {
     rsvpStatus.addEventListener('change', () => {
       if (rsvpStatus.value === 'Hadir') {
         paxContainer.classList.remove('hidden');
-        if (rsvpPax) rsvpPax.value = "1";
+        if (rsvpPax) {
+          rsvpPax.required = true; // Wajib pilih bilangan jika status 'Hadir'
+        }
       } else {
         paxContainer.classList.add('hidden');
-        if (rsvpPax) rsvpPax.value = "0"; 
+        if (rsvpPax) {
+          rsvpPax.required = false; // Tidak wajib jika Tidak Hadir / Belum Pasti
+          rsvpPax.value = ""; 
+        }
       }
     });
   }
@@ -900,7 +918,7 @@ END:VCALENDAR`;
     }
     confirmModal.classList.remove('hidden');
   }
-
+  
   // =========================================================================
   // 11. RSVP SUBMIT
   // =========================================================================
@@ -910,12 +928,26 @@ END:VCALENDAR`;
       e.preventDefault();
       if (!SPREADSHEET_ID) return;
       
-      const rsvpSubmitBtn = document.getElementById('rsvp-submit');
+      const rsvpSubmitBtn = document.getElementById('rsvp-submit') || document.getElementById('dyn-rsvp-submit-btn');
       const rsvpNameInput = document.getElementById('rsvp-name');
       const rsvpPhoneInput = document.getElementById('rsvp-phone');
       const rsvpStatusInput = document.getElementById('rsvp-status');
       const rsvpPaxInput = document.getElementById('rsvp-pax');
       const alertBox = document.getElementById('rsvp-alert');
+
+      // -----------------------------------------------------------------
+      // SEMAKAN MANDATORY (VALIDATION): WAJIB PILIH STATUS & PAX
+      // -----------------------------------------------------------------
+      if (!rsvpStatusInput || !rsvpStatusInput.value) {
+        showConfirmDialog("Maklumat Tidak Lengkap", "Sila pilih Status Kehadiran anda terlebih dahulu!", () => {}, true, 'error');
+        return;
+      }
+
+      if (rsvpStatusInput.value === 'Hadir' && (!rsvpPaxInput || !rsvpPaxInput.value)) {
+        showConfirmDialog("Maklumat Tidak Lengkap", "Sila pilih Bilangan Tetamu yang akan hadir!", () => {}, true, 'error');
+        return;
+      }
+      // -----------------------------------------------------------------
 
       if (rsvpSubmitBtn) {
         rsvpSubmitBtn.disabled = true;
@@ -956,8 +988,8 @@ END:VCALENDAR`;
             }
             if (rsvpNameInput) { rsvpNameInput.value = ''; rsvpNameInput.disabled = true; }
             if (rsvpPhoneInput) { rsvpPhoneInput.value = ''; rsvpPhoneInput.disabled = true; }
-            if (rsvpStatusInput) { rsvpStatusInput.value = 'Hadir'; rsvpStatusInput.disabled = true; }
-            if (rsvpPaxInput) { rsvpPaxInput.value = '1'; rsvpPaxInput.disabled = true; }
+            if (rsvpStatusInput) { rsvpStatusInput.value = ''; rsvpStatusInput.disabled = true; }
+            if (rsvpPaxInput) { rsvpPaxInput.value = ''; rsvpPaxInput.disabled = true; }
 
             if (alertBox) {
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup buat masa kini.`;
@@ -969,9 +1001,10 @@ END:VCALENDAR`;
             return;
           }
 
+          const defaultBtnText = config.rsvp_button_text || "Hantar Pengesahan";
           if (rsvpSubmitBtn) {
             rsvpSubmitBtn.disabled = false;
-            rsvpSubmitBtn.innerHTML = "Hantar Pengesahan";
+            rsvpSubmitBtn.innerHTML = defaultBtnText;
           }
 
           showConfirmDialog("Hantar Pengesahan RSVP?", "Adakah anda pasti maklumat kehadiran sudah betul?", () => {

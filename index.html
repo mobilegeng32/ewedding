@@ -235,20 +235,27 @@
       </div>
     </div>
   </section>
-
+  
   <!-- 4. RSVP SECTION -->
   <section id="rsvp-section" class="py-16 px-6 max-w-3xl mx-auto space-y-8">
     <div class="text-center space-y-2">
-      <span class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Kehadiran</span>
-      <h2 class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">Pengesahan RSVP</h2>
-      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Sila sahkan kehadiran anda sebelum <span id="dyn-rsvp-deadline">Memuatkan...</span></p>
+      <!-- Tajuk Kecil Dinamik -->
+      <span id="dyn-rsvp-badge" class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Kehadiran</span>
+      
+      <!-- Tajuk Besar Dinamik -->
+      <h2 id="dyn-rsvp-title" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900">...</h2>
+      
+      <!-- Sub-teks Tarikh Tutup RSVP Dinamik -->
+      <p class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">
+        <span id="dyn-rsvp-subtitle">Sila sahkan kehadiran anda sebelum</span> <span id="dyn-rsvp-deadline">...</span>
+      </p>
     </div>
 
     <div class="glass-card rounded-3xl p-8 sm:p-12 custom-shadow border border-purpleTheme-100 space-y-6">
       <form id="rsvp-form" class="space-y-4 text-left">
         <div>
           <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nama Penuh *</label>
-          <input type="text" id="rsvp-name" required placeholder="Contoh: Ahmad Razak" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
+          <input type="text" id="rsvp-name" required placeholder="Contoh: Muhammad Ali" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
         </div>
 
         <div class="grid sm:grid-cols-2 gap-4">
@@ -256,10 +263,11 @@
             <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Nombor Telefon *</label>
             <input type="tel" id="rsvp-phone" required inputmode="numeric" pattern="[0-9]*" maxlength="13" placeholder="Contoh: 0123456789" oninput="this.value = this.value.replace(/[^0-9]/g, '');" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30">
           </div>
-
-          <div>
+		  
+		  <div>
             <label class="block text-xs font-semibold uppercase text-purpleTheme-800 mb-1.5">Status Kehadiran *</label>
             <select id="rsvp-status" required class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer">
+              <option value="" disabled selected hidden>Sila Pilih Status</option>
               <option value="Hadir">Hadir</option>
               <option value="Tidak Hadir">Tidak Hadir</option>
               <option value="Belum Pasti">Belum Pasti</option>
@@ -272,7 +280,8 @@
           <select id="rsvp-pax" class="w-full px-4 py-3 rounded-xl border border-purpleTheme-200 bg-white/80 text-sm text-purpleTheme-900 focus:outline-none focus:ring-2 focus:ring-purpleTheme-700/30 cursor-pointer"></select>
         </div>
 
-        <button type="submit" id="rsvp-submit" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer border border-butter-300/30">
+        <!-- Butang Hantar Dinamik -->
+        <button type="submit" id="dyn-rsvp-submit-btn" class="w-full bg-purpleTheme-900 hover:bg-purpleTheme-800 text-butter-100 font-semibold py-3.5 rounded-xl text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer border border-butter-300/30">
           Hantar Pengesahan
         </button>
       </form>
