@@ -1,9 +1,3 @@
-   
-																	
-																	 
-																	
-   
-
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'auto';
 }
@@ -18,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI';
   let weddingDate = null;
 
-															   
   let icsDataConfig = {
     title: "",
     description: "",
@@ -27,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     end: ""
   };
   
-								   
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
@@ -62,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-									  
   function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
     if (!buttonEl) return;
     
@@ -116,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
   
-														 
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -139,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
           return '';
         }
 
-																					
         rows.forEach(r => {
           if (!r || !r.c) return;
           const k = extractCellVal(r.c[1]);
@@ -151,15 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 		
-									
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
         
-											 
         if (config.groom_name && document.getElementById('dyn-hero-groom')) 
           document.getElementById('dyn-hero-groom').innerText = config.groom_name;
 
-											 
         if (config.bride_name && document.getElementById('dyn-hero-bride')) 
           document.getElementById('dyn-hero-bride').innerText = config.bride_name;
 
@@ -172,27 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.start_button && document.getElementById('dyn-start-button')) 
           document.getElementById('dyn-start-button').innerText = config.start_button;
 	  
-																
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
         window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 18;
         window.galleryQuotaLimit = config.gallery_limit ? parseInt(config.gallery_limit) : 20;
         
-																  
         window.systemWishEmptyTitle = config.wish_empty_title || "";
         window.systemWishInfoMsg = config.wish_empty_subtitle || "";
 
         renderWishes();
-
-						   
-																																								
-																																				
-																																								
-																																					  
-  
-												   
-        if (config.invitation_arabic && document.getElementById('dyn-inv-arabic')) 
+		
+		if (config.invitation_arabic && document.getElementById('dyn-inv-arabic')) 
           document.getElementById('dyn-inv-arabic').innerText = config.invitation_arabic;
 
         if (config.invitation_prelude && document.getElementById('dyn-inv-prelude')) 
@@ -216,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.bride_desc && document.getElementById('dyn-bride-desc')) 
           document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
 	  
-												 
         if (config.details_badge && document.getElementById('dyn-details-badge')) 
           document.getElementById('dyn-details-badge').innerText = config.details_badge;
 
@@ -232,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.tentative_card_title && document.getElementById('dyn-tentative-card-title')) 
           document.getElementById('dyn-tentative-card-title').innerText = config.tentative_card_title;
 	  
-									 
         if (config.rsvp_badge && document.getElementById('dyn-rsvp-badge')) 
           document.getElementById('dyn-rsvp-badge').innerText = config.rsvp_badge;
 
@@ -245,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.rsvp_button_text && document.getElementById('dyn-rsvp-submit-btn')) 
           document.getElementById('dyn-rsvp-submit-btn').innerText = config.rsvp_button_text;
 	  
-										
         if (config.gallery_badge && document.getElementById('dyn-gallery-badge')) 
           document.getElementById('dyn-gallery-badge').innerText = config.gallery_badge;
 
@@ -255,7 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.gallery_subtitle && document.getElementById('dyn-gallery-subtitle')) 
           document.getElementById('dyn-gallery-subtitle').innerText = config.gallery_subtitle;
 	  
-													   
         if (config.wishes_badge && document.getElementById('dyn-wishes-badge')) 
           document.getElementById('dyn-wishes-badge').innerText = config.wishes_badge;
 
@@ -289,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.wish_refresh_text && document.getElementById('dyn-wish-refresh-text')) 
           document.getElementById('dyn-wish-refresh-text').innerText = config.wish_refresh_text;
 	  
-										  
         if (config.cd_badge && document.getElementById('dyn-cd-badge')) 
           document.getElementById('dyn-cd-badge').innerText = config.cd_badge;
         if (config.cd_title && document.getElementById('dyn-cd-title')) 
@@ -305,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.cd_label_secs && document.getElementById('dyn-cd-label-secs')) 
           document.getElementById('dyn-cd-label-secs').innerText = config.cd_label_secs;
 	  
-												 
         if (config.gift_modal_title && document.getElementById('dyn-gift-modal-title')) 
           document.getElementById('dyn-gift-modal-title').innerText = config.gift_modal_title;
         if (config.gift_modal_subtitle && document.getElementById('dyn-gift-modal-subtitle')) 
@@ -321,20 +292,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.gift_close_button && document.getElementById('dyn-gift-close-text')) 
           document.getElementById('dyn-gift-close-text').innerText = config.gift_close_button;
 	  
-									   
-																	
         const footerTitleEl = document.getElementById('dyn-footer-title');
         if (footerTitleEl && config.groom_name && config.bride_name) {
           footerTitleEl.innerHTML = `${config.groom_name} &amp; ${config.bride_name}`;
         }
 
-														 
         const footerMsgEl = document.getElementById('dyn-footer-message');
         if (footerMsgEl && config.footer_message) {
           footerMsgEl.innerText = config.footer_message;
         }
 
-												
         const footerTextEl = document.getElementById('dyn-footer-text');
         if (footerTextEl) {
           const prefixText = config.footer_copyright || "";
@@ -342,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
           footerTextEl.innerHTML = `${prefixText} &copy; ${currentYear}`;
         }
 		
-									   
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
 		
         if (config.event_date) {
@@ -356,12 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
 																	
             showCountdownError();
           }
-        } else {
-																		  
+        } 
+		
+		else {
           showCountdownError();
         }
 		
-						   
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
 																					
@@ -375,8 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 		
-												   
-        if (config.ics_title) icsDataConfig.title = config.ics_title;
+		if (config.ics_title) icsDataConfig.title = config.ics_title;
         if (config.ics_description) icsDataConfig.description = config.ics_description;
         if (config.ics_location) icsDataConfig.location = config.ics_location;
         if (config.ics_start) icsDataConfig.start = config.ics_start;
@@ -387,7 +352,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.event_location && document.getElementById('dyn-event-location')) 
           document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
-							 
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink && config.gmaps_url) { 
           gmapsLink.href = config.gmaps_url; 
@@ -413,7 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-c2-wa').href = `https://wa.me/${(config.contact2_phone || '').replace(/[^0-9]/g, '')}`;
         }
 		
-				   
         const maxPax = parseInt(config.max_pax) || 0;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
@@ -435,7 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(fetchGalleryImages, 1000);
   setTimeout(fetchWishes, 1400);
 
-						 
   function fetchTentative() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
@@ -523,7 +485,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-												   
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -675,7 +636,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateActiveSection();
 
-																	   
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
@@ -724,7 +684,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-																				  
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -748,7 +707,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
 	  
-												  
       resetCloseTimer();
 	   
     });
@@ -766,12 +724,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeTimer) clearTimeout(closeTimer);
     isOpen = true;
 
-												
     resetCloseTimer();
-	 
   };
   
-							   
   function updateCountdown() {
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');
@@ -827,7 +782,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-								  
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', (e) => {
@@ -838,9 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showCalendarOptionsModal() {
     let existingModal = document.getElementById('calendar-options-modal');
-						
     if (existingModal) existingModal.remove();
-	 
 
     const modalHTML = `
       <div id="calendar-options-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
@@ -1025,10 +977,7 @@ END:VCALENDAR`;
     }
     confirmModal.classList.remove('hidden');
   }
-  
-																			  
-					
-																			  
+
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -1042,9 +991,6 @@ END:VCALENDAR`;
       const rsvpPaxInput = document.getElementById('rsvp-pax');
       const alertBox = document.getElementById('rsvp-alert');
 
-																		  
-																 
-																		  
       if (!rsvpStatusInput || !rsvpStatusInput.value) {
         showConfirmDialog("Maklumat Tidak Lengkap", "Sila pilih Status Kehadiran anda terlebih dahulu!", () => {}, true, 'error');
         return;
@@ -1054,7 +1000,6 @@ END:VCALENDAR`;
         showConfirmDialog("Maklumat Tidak Lengkap", "Sila pilih Bilangan Tetamu yang akan hadir!", () => {}, true, 'error');
         return;
       }
-																		  
 
       if (rsvpSubmitBtn) {
         rsvpSubmitBtn.disabled = true;
@@ -1062,8 +1007,8 @@ END:VCALENDAR`;
       }
 
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
-
-      fetch(configCheckUrl)
+	  
+	  fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
           const startIdx = text.indexOf('setResponse(');
@@ -1072,20 +1017,18 @@ END:VCALENDAR`;
           if (startIdx !== -1) {
             const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
             json.table.rows.forEach(r => {
-              if (r && r.c) {
-                [0, 5].forEach(colIdx => {
-                  if (r.c[colIdx] && r.c[colIdx].v !== undefined) {
-                    let keyName = String(r.c[colIdx].v).trim().toLowerCase();
-                    if (keyName === 'control_rsvp') {
-                      let valCell = r.c[colIdx + 1];
-                      let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
-                      if (val === 'FALSE') isRsvpActive = false;
-                    }
-                  }
-                });
-              }
-            });
-          }
+              if (r && r.c && r.c[1] && r.c[1].v !== undefined) {
+                let keyName = String(r.c[1].v).trim().toLowerCase();
+                if (keyName === 'control_rsvp') {
+                  let valCell = r.c[2];
+                  let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
+                  if (val === 'FALSE') isRsvpActive = false;
+				  }
+				 }
+				});
+			}
+		});
+	}
 
           if (!isRsvpActive) {
             if (rsvpSubmitBtn) {
@@ -1102,13 +1045,11 @@ END:VCALENDAR`;
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup buat masa kini.`;
               alertBox.classList.remove('hidden');
               setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
-												 
-					   
+
             }
-            return;
+			return;
           }
 
-																				
           if (rsvpSubmitBtn) {
             rsvpSubmitBtn.disabled = false;
             rsvpSubmitBtn.innerHTML = "Hantar Pengesahan";
@@ -1153,9 +1094,6 @@ END:VCALENDAR`;
     });
   }
 
-																			  
-						
-																			  
   const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
   let defaultGallery = [];
   let currentSlide = 0;
@@ -1189,8 +1127,8 @@ END:VCALENDAR`;
 
       btnUploadGallery.innerHTML = `<i class="fas fa-spinner fa-spin mr-1.5"></i> Menyemak...`;
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
-
-      fetch(configCheckUrl)
+	  
+	  fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
           const startIdx = text.indexOf('setResponse(');
@@ -1199,20 +1137,18 @@ END:VCALENDAR`;
           if (startIdx !== -1) {
             const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
             json.table.rows.forEach(r => {
-              if (r && r.c) {
-                [0, 5].forEach(colIdx => {
-                  if (r.c[colIdx] && r.c[colIdx].v !== undefined) {
-                    let keyName = String(r.c[colIdx].v).trim().toLowerCase();
-                    if (keyName === 'control_gallery') {
-                      let valCell = r.c[colIdx + 1];
-                      let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
-                      if (val === 'FALSE') isGalleryActive = false;
-                    }
-                  }
-                });
+              if (r && r.c && r.c[1] && r.c[1].v !== undefined) {
+                let keyName = String(r.c[1].v).trim().toLowerCase();
+                if (keyName === 'control_gallery') {
+                  let valCell = r.c[2];
+                  let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
+                  if (val === 'FALSE') isGalleryActive = false;
+                }
               }
             });
           }
+         });
+        }
 
           if (!isGalleryActive) {
             btnUploadGallery.disabled = true;
@@ -1225,8 +1161,7 @@ END:VCALENDAR`;
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Muat naik foto ditutup buat masa kini.`;
               galleryAlert.classList.remove('hidden');
               setTimeout(() => { galleryAlert.classList.add('hidden'); }, 5000);
-													 
-					   
+
             }
             return;
           }
@@ -1434,9 +1369,6 @@ END:VCALENDAR`;
     });
   }
 
-																			  
-							
-																			  
   let defaultWishes = [];
   window.systemWishInfoMsg = "";
 
@@ -1516,8 +1448,8 @@ END:VCALENDAR`;
       }
 
       const configCheckUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
-
-      fetch(configCheckUrl)
+	  
+	  fetch(configCheckUrl)
         .then(res => res.text())
         .then(text => {
           const startIdx = text.indexOf('setResponse(');
@@ -1526,20 +1458,18 @@ END:VCALENDAR`;
           if (startIdx !== -1) {
             const json = JSON.parse(text.substring(startIdx + 'setResponse('.length, text.lastIndexOf(')')));
             json.table.rows.forEach(r => {
-              if (r && r.c) {
-                [0, 5].forEach(colIdx => {
-                  if (r.c[colIdx] && r.c[colIdx].v !== undefined) {
-                    let keyName = String(r.c[colIdx].v).trim().toLowerCase();
-                    if (keyName === 'control_wish') {
-                      let valCell = r.c[colIdx + 1];
-                      let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
-                      if (val === 'FALSE') isWishActive = false;
-                    }
-                  }
-                });
+              if (r && r.c && r.c[1] && r.c[1].v !== undefined) {
+                let keyName = String(r.c[1].v).trim().toLowerCase();
+                if (keyName === 'control_wish') {
+                  let valCell = r.c[2];
+                  let val = valCell && valCell.v !== undefined ? String(valCell.v).trim().toUpperCase() : 'TRUE';
+                  if (val === 'FALSE') isWishActive = false;
+                }
               }
             });
-          }
+           }
+          });
+         }
 
           if (!isWishActive) {
             if (wishSubmitBtn) {
@@ -1554,8 +1484,7 @@ END:VCALENDAR`;
               wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan ditutup buat masa kini.`;
               wishAlert.classList.remove('hidden');
               setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
-												  
-					   
+
             }
             return;
           }
@@ -1566,8 +1495,6 @@ END:VCALENDAR`;
           }
 
           if (!nameInput.value || !msgInput.value) return;
-				   
-		   
 
           showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
             setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
@@ -1599,7 +1526,6 @@ END:VCALENDAR`;
     });
   }
 
-								  
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -1670,7 +1596,8 @@ END:VCALENDAR`;
       rsvpBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
       rsvpBtn.innerText = "RSVP DITUTUP";
     }
-    ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
+    
+	['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.value = '';
@@ -1709,7 +1636,6 @@ END:VCALENDAR`;
     }
   }
   
-					 
   const slideshowContainer = document.getElementById('slideshow-container');
   const lightboxModal = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
