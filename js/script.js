@@ -150,11 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
             config[k.trim()] = v;
           }
         });
-
-        // 1. HERO SECTION (DYNAMIC FETCH)
+		
+		// 1. HERO SECTION (DYNAMIC FETCH)
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
         
+        // Baca groom_name dari Google Sheets
+        if (config.groom_name && document.getElementById('dyn-hero-groom')) 
+          document.getElementById('dyn-hero-groom').innerText = config.groom_name;
+
+        // Baca bride_name dari Google Sheets
+        if (config.bride_name && document.getElementById('dyn-hero-bride')) 
+          document.getElementById('dyn-hero-bride').innerText = config.bride_name;
+
         if (config.hero_tagline && document.getElementById('dyn-hero-tagline')) 
           document.getElementById('dyn-hero-tagline').innerText = `"${String(config.hero_tagline).replace(/^"|"$/g, '')}"`;
         
