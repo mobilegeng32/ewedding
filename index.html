@@ -50,7 +50,7 @@
 
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
+<body class="bg-[#FAF8F5] text-purpleTheme-900 font-sans antialiased overflow-hidden selection:bg-butter-200 selection:text-purpleTheme-900 min-h-screen">
 
   <audio id="bg-music" loop preload="auto">
     <source src="music/background-sound.mp3" type="audio/mpeg">
@@ -90,10 +90,10 @@
         </a>
       </div>
     </div>
-
-    <a href="#invitation-section" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
-      <i class="fas fa-chevron-down text-lg"></i>
-    </a>
+	
+	<a id="hero-arrow-down" href="#invitation-section" class="hidden absolute bottom-6 left-1/2 -translate-x-1/2 text-purpleTheme-700/50 hover:text-purpleTheme-700 transition-colors duration-300 animate-bounce">
+		<i class="fas fa-chevron-down text-lg"></i>
+	</a>
   </section>
   
   <!-- 2. INVITATION SECTION -->
