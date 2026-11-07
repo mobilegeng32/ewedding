@@ -320,7 +320,28 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-address-subtitle').innerText = config.address_subtitle;
         if (config.gift_close_button && document.getElementById('dyn-gift-close-text')) 
           document.getElementById('dyn-gift-close-text').innerText = config.gift_close_button;
+	  
+	  // --- FOOTER DYNAMIC ELEMENTS ---  
+        // 1. Tajuk nama pengantin di footer (Re-use dari data atas)
+        const footerTitleEl = document.getElementById('dyn-footer-title');
+        if (footerTitleEl && config.groom_name && config.bride_name) {
+          footerTitleEl.innerHTML = `${config.groom_name} &amp; ${config.bride_name}`;
+        }
 
+        // 2. Ayat ucapan terima kasih dari Google Sheets
+        const footerMsgEl = document.getElementById('dyn-footer-message');
+        if (footerMsgEl && config.footer_message) {
+          footerMsgEl.innerText = config.footer_message;
+        }
+
+        // 3. Copyright teks + Tahun semasa auto
+        const footerTextEl = document.getElementById('dyn-footer-text');
+        if (footerTextEl) {
+          const prefixText = config.footer_copyright || "";
+          const currentYear = new Date().getFullYear();
+          footerTextEl.innerHTML = `${prefixText} &copy; ${currentYear}`;
+        }
+		
         // 4. EVENT DETAILS & COUNTDOWN
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
 		
