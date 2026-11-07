@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI';
   let weddingDate = null; // 100% dari database, tiada fallback
 
-  // Konfigurasi lalai untuk Kalendar (.ics) - Akan ditimpa oleh Database
+// Konfigurasi lalai untuk Kalendar (.ics) - 100% dari Database
   let icsDataConfig = {
-    title: "Majlis Nikah Utrias & Hazim",
-    description: "Undangan Majlis Akad Nikah Utrias & Hazim",
-    location: "Jl. Lalang Buaya Remojing Binangun, Kemojing, Binangun, Cilacap Regency, Central Java 53281, Indonesia",
-    start: "20270522T030000Z",
-    end: "20270522T070000Z"
+    title: "",
+    description: "",
+    location: "",
+    start: "",
+    end: ""
   };
   
   // --- 1. FUNGSI BANTUAN GVIZ ---
@@ -353,8 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
             deadlineEl.classList.add('text-red-500', 'font-medium');
           }
         }
-
-        // 6. ICS CALENDAR CONFIG
+		
+		// 6. ICS CALENDAR CONFIG (Dinamik dari Database)
         if (config.ics_title) icsDataConfig.title = config.ics_title;
         if (config.ics_description) icsDataConfig.description = config.ics_description;
         if (config.ics_location) icsDataConfig.location = config.ics_location;
