@@ -1,24 +1,24 @@
-/**
- * =================================================================
- * DIGITAL WEDDING INVITATION - ULTIMATE MASTER SCRIPT (CLEAN REVERT)
- * =================================================================
- */
+   
+																	
+																	 
+																	
+   
 
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'auto';
 }
-/*
 window.addEventListener('load', () => {
   window.scrollTo(0, 0);
-});
-*/
+});		
+	
+	
 document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
   const SPREADSHEET_ID = '1JGP59v8YPvFqp64lUHgaVfdxKUZ5x8S4Mu_ujcxNsyI';
-  let weddingDate = null; // 100% dari database, tiada fallback
+  let weddingDate = null;
 
-// Konfigurasi lalai untuk Kalendar (.ics) - 100% dari Database
+															   
   let icsDataConfig = {
     title: "",
     description: "",
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     end: ""
   };
   
-  // --- 1. FUNGSI BANTUAN GVIZ ---
+								   
   function fetchSheetDataViaGViz(sheetName, callback) {
     if (!SPREADSHEET_ID || SPREADSHEET_ID.includes('MASUKKAN')) return;
 
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error(`Gagal ambil data ${sheetName} via GViz:`, err));
   }
   
-  // --- 2. FUNGSI COOLDOWN BUTANG ---
+									  
   function setButtonCooldown(buttonEl, durationInSeconds = 5, customText = "Sila tunggu") {
     if (!buttonEl) return;
     
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
   
-  // --- 3. FETCH SITE CONFIG (100% DINAMIK & STABIL) ---
+														 
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Config`;
@@ -139,11 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
           return '';
         }
 
-        // Membaca Kolom B (Index 1) sebagai Key dan Kolom C (Index 2) sebagai Value
+																					
         rows.forEach(r => {
           if (!r || !r.c) return;
-          const k = extractCellVal(r.c[1]); // Kolom B
-          const v = extractCellVal(r.c[2]); // Kolom C
+          const k = extractCellVal(r.c[1]);
+          const v = extractCellVal(r.c[2]);
           
           if (k && typeof k === 'string' && k.toLowerCase() !== 'key') {
             config[k.trim().toLowerCase()] = v;
@@ -151,15 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 		
-		// 1. HERO SECTION (DYNAMIC FETCH)
+									
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
         
-        // Baca groom_name dari Google Sheets
+											 
         if (config.groom_name && document.getElementById('dyn-hero-groom')) 
           document.getElementById('dyn-hero-groom').innerText = config.groom_name;
 
-        // Baca bride_name dari Google Sheets
+											 
         if (config.bride_name && document.getElementById('dyn-hero-bride')) 
           document.getElementById('dyn-hero-bride').innerText = config.bride_name;
 
@@ -172,26 +172,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.start_button && document.getElementById('dyn-start-button')) 
           document.getElementById('dyn-start-button').innerText = config.start_button;
 	  
-	  // 2. TIMERS & COOLDOWNS & WISHES CONFIG (100% Dari Database)
+																
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
         window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 18;
         window.galleryQuotaLimit = config.gallery_limit ? parseInt(config.gallery_limit) : 20;
         
-        // Ambil terus dari database tanpa nilai sandaran hardcode
+																  
         window.systemWishEmptyTitle = config.wish_empty_title || "";
         window.systemWishInfoMsg = config.wish_empty_subtitle || "";
 
         renderWishes();
 
-        // 3. BRIDE & GROOM
-		//if (config.bride_fullname && document.getElementById('dyn-bride-fullname')) document.getElementById('dyn-bride-fullname').innerText = config.bride_fullname;
-		//if (config.bride_desc && document.getElementById('dyn-bride-desc')) document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
-		//if (config.groom_fullname && document.getElementById('dyn-groom-fullname')) document.getElementById('dyn-groom-fullname').innerText = config.groom_fullname;
-        //if (config.groom_desc && document.getElementById('dyn-groom-desc')) document.getElementById('dyn-groom-desc').innerText = config.groom_desc;
-		
-		// 2. INVITATION SECTION (MUKADIMAH & NAMA PENUH)
+						   
+																																								
+																																				
+																																								
+																																					  
+  
+												   
         if (config.invitation_arabic && document.getElementById('dyn-inv-arabic')) 
           document.getElementById('dyn-inv-arabic').innerText = config.invitation_arabic;
 
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.bride_desc && document.getElementById('dyn-bride-desc')) 
           document.getElementById('dyn-bride-desc').innerText = config.bride_desc;
 	  
-	  // 3. DETAILS & MAJLIS SECTION TEXTS (Dinamik)
+												 
         if (config.details_badge && document.getElementById('dyn-details-badge')) 
           document.getElementById('dyn-details-badge').innerText = config.details_badge;
 
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.tentative_card_title && document.getElementById('dyn-tentative-card-title')) 
           document.getElementById('dyn-tentative-card-title').innerText = config.tentative_card_title;
 	  
-	  // 4. RSVP SECTION TEXTS (Dinamik)
+									 
         if (config.rsvp_badge && document.getElementById('dyn-rsvp-badge')) 
           document.getElementById('dyn-rsvp-badge').innerText = config.rsvp_badge;
 
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.rsvp_button_text && document.getElementById('dyn-rsvp-submit-btn')) 
           document.getElementById('dyn-rsvp-submit-btn').innerText = config.rsvp_button_text;
 	  
-	  // 5. GALLERY SECTION TEXTS (Dinamik)
+										
         if (config.gallery_badge && document.getElementById('dyn-gallery-badge')) 
           document.getElementById('dyn-gallery-badge').innerText = config.gallery_badge;
 
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.gallery_subtitle && document.getElementById('dyn-gallery-subtitle')) 
           document.getElementById('dyn-gallery-subtitle').innerText = config.gallery_subtitle;
 	  
-	  // 6. WISHES SECTION TEXTS (100% DINAMIK SEPENUHNYA)
+													   
         if (config.wishes_badge && document.getElementById('dyn-wishes-badge')) 
           document.getElementById('dyn-wishes-badge').innerText = config.wishes_badge;
 
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.wishes_subtitle && document.getElementById('dyn-wishes-subtitle')) 
           document.getElementById('dyn-wishes-subtitle').innerText = config.wishes_subtitle;
 	  
-		if (config.wish_label_name && document.getElementById('dyn-wish-label-name')) 
+        if (config.wish_label_name && document.getElementById('dyn-wish-label-name')) 
           document.getElementById('dyn-wish-label-name').innerText = config.wish_label_name;
 
         if (config.wish_label_msg && document.getElementById('dyn-wish-label-msg')) 
@@ -289,8 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.wish_refresh_text && document.getElementById('dyn-wish-refresh-text')) 
           document.getElementById('dyn-wish-refresh-text').innerText = config.wish_refresh_text;
 	  
-	  // 7. COUNTDOWN SECTION TEXTS (Dinamik)
-		if (config.cd_badge && document.getElementById('dyn-cd-badge')) 
+										  
+        if (config.cd_badge && document.getElementById('dyn-cd-badge')) 
           document.getElementById('dyn-cd-badge').innerText = config.cd_badge;
         if (config.cd_title && document.getElementById('dyn-cd-title')) 
           document.getElementById('dyn-cd-title').innerText = config.cd_title;
@@ -305,8 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.cd_label_secs && document.getElementById('dyn-cd-label-secs')) 
           document.getElementById('dyn-cd-label-secs').innerText = config.cd_label_secs;
 	  
-	  // 8. GIFT / SALAM KASIH MODAL TEXTS (Dinamik)
-		if (config.gift_modal_title && document.getElementById('dyn-gift-modal-title')) 
+												 
+        if (config.gift_modal_title && document.getElementById('dyn-gift-modal-title')) 
           document.getElementById('dyn-gift-modal-title').innerText = config.gift_modal_title;
         if (config.gift_modal_subtitle && document.getElementById('dyn-gift-modal-subtitle')) 
           document.getElementById('dyn-gift-modal-subtitle').innerText = config.gift_modal_subtitle;
@@ -321,20 +321,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.gift_close_button && document.getElementById('dyn-gift-close-text')) 
           document.getElementById('dyn-gift-close-text').innerText = config.gift_close_button;
 	  
-	  // --- FOOTER DYNAMIC ELEMENTS ---  
-        // 1. Tajuk nama pengantin di footer (Re-use dari data atas)
+									   
+																	
         const footerTitleEl = document.getElementById('dyn-footer-title');
         if (footerTitleEl && config.groom_name && config.bride_name) {
           footerTitleEl.innerHTML = `${config.groom_name} &amp; ${config.bride_name}`;
         }
 
-        // 2. Ayat ucapan terima kasih dari Google Sheets
+														 
         const footerMsgEl = document.getElementById('dyn-footer-message');
         if (footerMsgEl && config.footer_message) {
           footerMsgEl.innerText = config.footer_message;
         }
 
-        // 3. Copyright teks + Tahun semasa auto
+												
         const footerTextEl = document.getElementById('dyn-footer-text');
         if (footerTextEl) {
           const prefixText = config.footer_copyright || "";
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
           footerTextEl.innerHTML = `${prefixText} &copy; ${currentYear}`;
         }
 		
-        // 4. EVENT DETAILS & COUNTDOWN
+									   
         if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
 		
         if (config.event_date) {
@@ -353,21 +353,21 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!isNaN(parsedTime)) {
             weddingDate = parsedTime;
           } else {
-            console.error("Format tarikh dari database tidak sah!");
+																	
             showCountdownError();
           }
         } else {
-          console.error("Data event_date tidak dijumpai dalam database!");
+																		  
           showCountdownError();
         }
 		
-        // 5. RSVP DEADLINE
+						   
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
-		  // Tambah class bold di sini juga jika mahu teks tarikh dari database jadi tebal
-		  document.getElementById('dyn-rsvp-deadline').classList.add('font-bold');
+																					
+          document.getElementById('dyn-rsvp-deadline').classList.add('font-bold');
         } else {
-          console.error("Data rsvp_deadline tidak dijumpai dalam database!");
+																			 
           const deadlineEl = document.getElementById('dyn-rsvp-deadline');
           if (deadlineEl) {
             deadlineEl.innerText = "Date Missing";
@@ -375,22 +375,30 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 		
-		// 6. ICS CALENDAR CONFIG (Dinamik dari Database)
+												   
         if (config.ics_title) icsDataConfig.title = config.ics_title;
         if (config.ics_description) icsDataConfig.description = config.ics_description;
         if (config.ics_location) icsDataConfig.location = config.ics_location;
         if (config.ics_start) icsDataConfig.start = config.ics_start;
         if (config.ics_end) icsDataConfig.end = config.ics_end;
 		
-        if (config.event_time && document.getElementById('dyn-event-time')) document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
-        if (config.event_location && document.getElementById('dyn-event-location')) document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
+        if (config.event_time && document.getElementById('dyn-event-time')) 
+          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
+        if (config.event_location && document.getElementById('dyn-event-location')) 
+          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
-        // 7. MAPS & CONTACTS
+							 
         const gmapsLink = document.getElementById('dyn-gmaps-link');
-        if (gmapsLink && config.gmaps_url) { gmapsLink.href = config.gmaps_url; gmapsLink.onclick = (e) => { e.preventDefault(); window.open(config.gmaps_url, '_blank'); }; }
+        if (gmapsLink && config.gmaps_url) { 
+          gmapsLink.href = config.gmaps_url; 
+          gmapsLink.onclick = (e) => { e.preventDefault(); window.open(config.gmaps_url, '_blank'); }; 
+        }
 
         const wazeLink = document.getElementById('dyn-waze-link');
-        if (wazeLink && config.waze_url) { wazeLink.href = config.waze_url; wazeLink.onclick = (e) => { e.preventDefault(); window.open(config.waze_url, '_blank'); }; }
+        if (wazeLink && config.waze_url) { 
+          wazeLink.href = config.waze_url; 
+          wazeLink.onclick = (e) => { e.preventDefault(); window.open(config.waze_url, '_blank'); }; 
+        }
 
         if (config.contact1_name && document.getElementById('dyn-c1-name')) {
           document.getElementById('dyn-c1-name').innerText = config.contact1_name;
@@ -405,8 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-c2-wa').href = `https://wa.me/${(config.contact2_phone || '').replace(/[^0-9]/g, '')}`;
         }
 		
-		// 8. PAX OPTIONS
-        const maxPax = parseInt(config.max_pax) || ;
+				   
+        const maxPax = parseInt(config.max_pax) || 0;
         const paxSelect = document.getElementById('rsvp-pax');
         if (paxSelect) {
           paxSelect.innerHTML = '<option value="" disabled selected hidden>Sila Pilih Bilangan</option>'; 
@@ -427,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(fetchGalleryImages, 1000);
   setTimeout(fetchWishes, 1400);
 
-  // --- 4. TENTATIVE ---
+						 
   function fetchTentative() {
     if (!SPREADSHEET_ID) return;
     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=Tentative`;
@@ -496,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error("Gagal ambil Tentative:", err));
   }
   
-  // --- 5. RSVP STATUS & PAX TOGGLE ---
+										
   const rsvpStatus = document.getElementById('rsvp-status');
   const paxContainer = document.getElementById('pax-container');
   const rsvpPax = document.getElementById('rsvp-pax');
@@ -505,20 +513,20 @@ document.addEventListener('DOMContentLoaded', () => {
     rsvpStatus.addEventListener('change', () => {
       if (rsvpStatus.value === 'Hadir') {
         paxContainer.classList.remove('hidden');
-        if (rsvpPax) {
-          rsvpPax.required = true; // Wajib pilih bilangan jika status 'Hadir'
-        }
+					  
+        if (rsvpPax) rsvpPax.required = true;
+		 
       } else {
         paxContainer.classList.add('hidden');
         if (rsvpPax) {
-          rsvpPax.required = false; // Tidak wajib jika Tidak Hadir / Belum Pasti
+          rsvpPax.required = false;
           rsvpPax.value = ""; 
         }
       }
     });
   }
 
-  // --- 6. SMOOTH SCROLL & FLOATING DOCK LOGIC ---
+												   
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -670,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateActiveSection();
 
-  // --- 7. AUDIO & MUZIK LATAR BELAKANG (DIKAWAL PINTAR & SELAMAT) ---
+																	   
   const bgMusic = document.getElementById('bg-music');
   const heroOpenBtn = document.getElementById('hero-open-btn');
   let isPlaying = false;
@@ -719,13 +727,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // HANYA mainkan lagu jika belum main. Jika sudah main, kekalkan tanpa terhenti!
+																				  
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (!isPlaying) {
-        playAudioTrack();
-      }
+					   
+      if (!isPlaying) playAudioTrack();
+	   
       hasInteracted = true;
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -736,16 +744,16 @@ document.addEventListener('DOMContentLoaded', () => {
     dockMusicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       e.preventDefault();
-      
+	  
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
-      
+	  
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
-      
-      if (typeof resetCloseTimer === 'function') {
-        resetCloseTimer();
-      }
+	  
+												  
+      resetCloseTimer();
+	   
     });
   }
   
@@ -761,12 +769,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeTimer) clearTimeout(closeTimer);
     isOpen = true;
 
-    if (typeof resetCloseTimer === 'function') {
-      resetCloseTimer();
-    }
+												
+    resetCloseTimer();
+	 
   };
   
-  // --- 8. COUNTDOWN TIMER ---
+							   
   function updateCountdown() {
     const daysEl = document.getElementById('cd-days');
     const hoursEl = document.getElementById('cd-hours');
@@ -808,7 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function showCountdownError() {
     const daysEl = document.getElementById('cd-days');
     if (daysEl) {
-      const container = daysEl.closest('#countdown-section') || daysEl.parentElement.parentElement.parentElement;
+      const container = daysEl.closest('#countdown-section');
       if (container) {
         let alertDiv = document.getElementById('countdown-error-alert');
         if (!alertDiv) {
@@ -822,7 +830,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // --- 9. IMPORT KE KALENDAR ---
+								  
   const calBtn = document.getElementById('add-calendar-btn');
   if (calBtn) {
     calBtn.addEventListener('click', (e) => {
@@ -833,9 +841,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showCalendarOptionsModal() {
     let existingModal = document.getElementById('calendar-options-modal');
-    if (existingModal) {
-      existingModal.remove();
-    }
+						
+    if (existingModal) existingModal.remove();
+	 
 
     const modalHTML = `
       <div id="calendar-options-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
@@ -962,7 +970,7 @@ END:VCALENDAR`;
     });
   };
   
-  // --- 10. CUSTOM MODAL & CONFIRM DIALOG ---
+											  
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -1021,9 +1029,9 @@ END:VCALENDAR`;
     confirmModal.classList.remove('hidden');
   }
   
-  // =========================================================================
-  // 11. RSVP SUBMIT
-  // =========================================================================
+																			  
+					
+																			  
   const rsvpForm = document.getElementById('rsvp-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', (e) => {
@@ -1037,9 +1045,9 @@ END:VCALENDAR`;
       const rsvpPaxInput = document.getElementById('rsvp-pax');
       const alertBox = document.getElementById('rsvp-alert');
 
-      // -----------------------------------------------------------------
-      // SEMAKAN MANDATORY (VALIDATION): WAJIB PILIH STATUS & PAX
-      // -----------------------------------------------------------------
+																		  
+																 
+																		  
       if (!rsvpStatusInput || !rsvpStatusInput.value) {
         showConfirmDialog("Maklumat Tidak Lengkap", "Sila pilih Status Kehadiran anda terlebih dahulu!", () => {}, true, 'error');
         return;
@@ -1049,7 +1057,7 @@ END:VCALENDAR`;
         showConfirmDialog("Maklumat Tidak Lengkap", "Sila pilih Bilangan Tetamu yang akan hadir!", () => {}, true, 'error');
         return;
       }
-      // -----------------------------------------------------------------
+																		  
 
       if (rsvpSubmitBtn) {
         rsvpSubmitBtn.disabled = true;
@@ -1096,17 +1104,17 @@ END:VCALENDAR`;
             if (alertBox) {
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup buat masa kini.`;
               alertBox.classList.remove('hidden');
-              setTimeout(() => {
-                alertBox.classList.add('hidden');
-              }, 5000);
+              setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
+												 
+					   
             }
             return;
           }
 
-          const defaultBtnText = config.rsvp_button_text || "Hantar Pengesahan";
+																				
           if (rsvpSubmitBtn) {
             rsvpSubmitBtn.disabled = false;
-            rsvpSubmitBtn.innerHTML = defaultBtnText;
+            rsvpSubmitBtn.innerHTML = "Hantar Pengesahan";
           }
 
           showConfirmDialog("Hantar Pengesahan RSVP?", "Adakah anda pasti maklumat kehadiran sudah betul?", () => {
@@ -1139,9 +1147,9 @@ END:VCALENDAR`;
     });
   }
 
-  // =========================================================================
-  // 12. GALERI & UPLOAD
-  // =========================================================================
+																			  
+						
+																			  
   const fallbackGallery = [{ url: "images/Coming-Soon.jpg", caption: "Detik Manis Bersama Bermula Disini..." }];
   let defaultGallery = [];
   let currentSlide = 0;
@@ -1210,9 +1218,9 @@ END:VCALENDAR`;
             if (galleryAlert) {
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Muat naik foto ditutup buat masa kini.`;
               galleryAlert.classList.remove('hidden');
-              setTimeout(() => {
-                galleryAlert.classList.add('hidden');
-              }, 5000);
+              setTimeout(() => { galleryAlert.classList.add('hidden'); }, 5000);
+													 
+					   
             }
             return;
           }
@@ -1326,7 +1334,7 @@ END:VCALENDAR`;
       if (myUploads.length === 0) {
         myPhotosGrid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-purpleTheme-800/70 italic">Tiada rekod gambar dimuat naik dari peranti ini.</div>`;
       } else {
-        myPhotosGrid.innerHTML = myUploads.map((item, index) => `
+        myPhotosGrid.innerHTML = myUploads.map((item) => `
           <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm cursor-pointer my-photo-item" data-url="${item.url}" data-caption="${item.caption}">
             <img src="${item.url}" alt="My Upload" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white">
@@ -1342,9 +1350,9 @@ END:VCALENDAR`;
             
             if (lightboxImg && lightboxModal) {
               lightboxImg.src = imgUrl;
-              if (lightboxCaption) {
-                lightboxCaption.innerText = imgCaption;
-              }
+									
+              if (lightboxCaption) lightboxCaption.innerText = imgCaption;
+			   
               lightboxModal.classList.remove('hidden');
               lightboxModal.classList.add('flex');
             }
@@ -1420,11 +1428,11 @@ END:VCALENDAR`;
     });
   }
 
-  // =========================================================================
-  // 14. BUKU HAJAT & UCAPAN
-  // =========================================================================
+																			  
+							
+																			  
   let defaultWishes = [];
-  window.systemWishInfoMsg = "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
+  window.systemWishInfoMsg = "";
 
   function formatSubmitTime(timestamp) {
     if (!timestamp) return "";
@@ -1443,7 +1451,7 @@ END:VCALENDAR`;
           <div class="w-10 h-10 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
             <i class="fas fa-heart"></i>
           </div>
-          <!-- Gantikan bahagian ini dengan variable dinamik dari database -->
+																			  
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${window.systemWishEmptyTitle}</h4>
           <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg}</p>
         </div>
@@ -1539,9 +1547,9 @@ END:VCALENDAR`;
             if (wishAlert) {
               wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan ditutup buat masa kini.`;
               wishAlert.classList.remove('hidden');
-              setTimeout(() => {
-                wishAlert.classList.add('hidden');
-              }, 5000);
+              setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+												  
+					   
             }
             return;
           }
@@ -1551,9 +1559,9 @@ END:VCALENDAR`;
             wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
           }
 
-          if (!nameInput.value || !msgInput.value) {
-            return;
-          }
+          if (!nameInput.value || !msgInput.value) return;
+				   
+		   
 
           showConfirmDialog("Hantar Ucapan & Doa?", "Adakah anda pasti mahu menghantar ucapan ini?", () => {
             setButtonCooldown(wishSubmitBtn, window.wishCd || 5, "Sila tunggu");
@@ -1585,7 +1593,7 @@ END:VCALENDAR`;
     });
   }
 
-  // --- 15. APPLY SITE CONFIG ---
+								  
   function applySiteConfig(config) {
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
@@ -1695,7 +1703,7 @@ END:VCALENDAR`;
     }
   }
   
-  // --- LIGHTBOX ---
+					 
   const slideshowContainer = document.getElementById('slideshow-container');
   const lightboxModal = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -1708,9 +1716,9 @@ END:VCALENDAR`;
       
       if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
         lightboxImg.src = slideImg.src;
-        if (lightboxCaption && slideCaption) {
-          lightboxCaption.innerText = slideCaption.innerText;
-        }
+											  
+        if (lightboxCaption && slideCaption) lightboxCaption.innerText = slideCaption.innerText;
+		 
         lightboxModal.classList.remove('hidden');
       }
     });
