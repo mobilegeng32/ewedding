@@ -266,13 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('dyn-wishes-subtitle').innerText = config.wishes_subtitle;
 
         if (config.wish_label_name && document.getElementById('dyn-wish-label-name')) 
-          document.getElementById('dyn-wish-label-name').innerHTML = `${config.wish_label_name} <span class="text-purpleTheme-500">*</span>`;
+          document.getElementById('dyn-wish-label-name').innerHTML = config.wish_label_name;
+
+        if (config.wish_label_msg && document.getElementById('dyn-wish-label-msg')) 
+          document.getElementById('dyn-wish-label-msg').innerHTML = config.wish_label_msg;
 
         if (config.wish_placeholder_name && document.getElementById('wish-name')) 
           document.getElementById('wish-name').placeholder = config.wish_placeholder_name;
-
-        if (config.wish_label_msg && document.getElementById('dyn-wish-label-msg')) 
-          document.getElementById('dyn-wish-label-msg').innerHTML = `${config.wish_label_msg} <span class="text-purpleTheme-500">*</span>`;
 
         if (config.wish_placeholder_msg && document.getElementById('wish-message')) 
           document.getElementById('wish-message').placeholder = config.wish_placeholder_msg;
