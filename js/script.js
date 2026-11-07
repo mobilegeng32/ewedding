@@ -171,14 +171,17 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (config.start_button && document.getElementById('dyn-start-button')) 
           document.getElementById('dyn-start-button').innerText = config.start_button;
-
-        // 2. TIMERS & COOLDOWNS
+	  
+	  // 2. TIMERS & COOLDOWNS & WISHES CONFIG (100% Dari Database)
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
         window.wishCd = config.wish_cd ? parseInt(config.wish_cd) : 5;
         window.wishManualCd = config.wish_manual_cd ? parseInt(config.wish_manual_cd) : 18;
         window.galleryQuotaLimit = config.gallery_limit ? parseInt(config.gallery_limit) : 20;
-        window.systemWishInfoMsg = config.system_wish_info || "Titipkan sepotong doa, pesanan, atau hajat buat pengantin di ruangan di atas!";
+        
+        // Ambil terus dari database tanpa nilai sandaran hardcode
+        window.systemWishEmptyTitle = config.wish_empty_title || "";
+        window.systemWishInfoMsg = config.wish_empty_subtitle || "";
 
         renderWishes();
 
