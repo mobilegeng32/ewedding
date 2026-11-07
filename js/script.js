@@ -164,12 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.site_version && document.getElementById('dyn-site-version')) 
           document.getElementById('dyn-site-version').innerText = `Buka Undangan ${config.site_version}`;
 
-        // HILANGKAN LOADER HERO & MUNCULKAN HERO SECTION PENUH
-        const heroLoader = document.getElementById('hero-loader');
-        const heroContentBox = document.getElementById('hero-content-box');
-        if (heroLoader) heroLoader.remove();
-        if (heroContentBox) heroContentBox.classList.remove('opacity-0');
-
         // 2. TIMERS & COOLDOWNS
         window.rsvpCd = config.rsvp_cd ? parseInt(config.rsvp_cd) : 5;
         window.galleryCd = config.gallery_cd ? parseInt(config.gallery_cd) : 5;
