@@ -1379,7 +1379,7 @@ END:VCALENDAR`;
     if (isNaN(date.getTime())) return timestamp; 
     return date.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
-
+  
   function renderWishes() {
     const container = document.getElementById('wishes-container');
     if (!container) return;
@@ -1390,7 +1390,8 @@ END:VCALENDAR`;
           <div class="w-10 h-10 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
             <i class="fas fa-heart"></i>
           </div>
-          <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">Belum Ada Ucapan</h4>
+          <!-- Gantikan bahagian ini dengan variable dinamik dari database -->
+          <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${window.systemWishEmptyTitle}</h4>
           <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg}</p>
         </div>
       `;
