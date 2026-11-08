@@ -59,10 +59,16 @@ body {
    CUSTOM GLASSMORPHISM & COMPONENTS
    ========================================================== */
 .glass-card {
-  background-color: var(--theme-surface);
-  border: 1px solid var(--theme-border);
+  background-color: var(--theme-surface) !important;
+  border: 1px solid var(--theme-border) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Pastikan semua seksyen mengikut tona dinamik gelap/cerah secara penuh */
+section {
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-text-main) !important;
 }
 
 /* Custom Scrollbar untuk kotak kandungan dinamik */
