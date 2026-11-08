@@ -1060,3 +1060,85 @@ footer p#dyn-footer-text {
   opacity: 0.5;
   letter-spacing: 0.2em !important;
 }
+
+/* =========================================================
+   FASA 9: LUXURY FLOATING DOCK & FAB MENU (BLACK GOLD)
+   ========================================================= */
+
+/* 1. Butang Utama Terapung (FAB Trigger) */
+#fab-trigger {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: 1px solid #F3E5AB !important;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+  transition: all 0.3s ease;
+}
+
+#fab-trigger:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+  transform: scale(1.08);
+}
+
+/* 2. Bar Dock Terapung Panjang (Glassmorphism Gelap) */
+#fab-dock {
+  background: rgba(22, 22, 22, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.08) !important;
+}
+
+/* 3. Butang / Pautan di Dalam Dock */
+.fab-link {
+  color: rgba(244, 232, 193, 0.6) !important;
+  transition: all 0.3s ease;
+}
+
+.fab-link:hover,
+.fab-link.text-purpleTheme-900 {
+  color: var(--theme-secondary, #D4AF37) !important;
+}
+
+.fab-link i {
+  color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.8;
+  transition: transform 0.3s ease;
+}
+
+.fab-link:hover i,
+.fab-link.font-bold i {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.fab-link span {
+  color: var(--theme-primary, #F4E8C1) !important;
+  font-size: 9px !important;
+  letter-spacing: 0.05em;
+}
+
+/* 4. Popover Menu "Lagi" (...) */
+#more-popover {
+  background: rgba(22, 22, 22, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9) !important;
+}
+
+#more-popover a,
+#more-popover button {
+  color: var(--theme-primary, #F4E8C1) !important;
+  transition: all 0.2s ease;
+}
+
+#more-popover a:hover,
+#more-popover button:hover {
+  background: rgba(212, 175, 55, 0.15) !important;
+  color: var(--theme-secondary, #D4AF37) !important;
+}
+
+#more-popover i {
+  color: var(--theme-secondary, #D4AF37) !important;
+}
