@@ -117,3 +117,26 @@ h1, h2, h3, h4, h5, h6,
     display: block !important;
   }
 }
+
+/* Menyelaraskan kotak input borang (RSVP, Ucapan, dll) agar ikut tema gelap/aksen */
+input[type="text"],
+input[type="tel"],
+select,
+textarea {
+  background-color: var(--theme-accent) !important;
+  color: var(--theme-primary) !important;
+  border-color: var(--theme-secondary) !important;
+}
+
+input[type="text"]::placeholder,
+input[type="tel"]::placeholder,
+textarea::placeholder {
+  color: var(--theme-primary) !important;
+  opacity: 0.5;
+}
+
+/* Memastikan teks pilihan dalam dropdown select kelihatan jelas */
+select option {
+  background-color: var(--theme-accent);
+  color: var(--theme-primary);
+}
