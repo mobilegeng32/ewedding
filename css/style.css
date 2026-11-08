@@ -6,16 +6,12 @@
   --theme-bg: #0c0c0c;
 }
 
-/* 1. Global Latar Belakang & Teks */
-html {
+/* 1. Global Latar Belakang & Teks Utama */
+html, body {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
-}
-
-body {
-  background-color: var(--theme-bg) !important;
-  background-image: none !important;
   color: var(--theme-primary) !important;
+  font-family: 'Montserrat', sans-serif;
 }
 
 /* 2. Custom Scrollbar */
@@ -30,55 +26,48 @@ body {
   border-radius: 3px;
 }
 
-/* 3. Kad Kaca (Glass Card) & Kotak Utama */
+/* 3. Kad Kaca (Glass Card) - Kekalkan Estetik Elegan */
 .glass-card {
-  background: rgba(22, 22, 22, 0.9) !important;
+  background: rgba(22, 22, 22, 0.88) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--theme-secondary) !important;
+  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+}
+
+/* 4. Tajuk & Teks Utama */
+h1, h2, h3, h4, h5, h6, 
+.font-serif {
   color: var(--theme-primary) !important;
 }
 
-/* 4. OVERRIDE MENYELURUH: Menghapuskan semua sisa warna ungu/purple pada teks */
-h1, h2, h3, h4, h5, h6,
-p, span, label, a, li, div,
-.text-purpleTheme-900,
-.text-purpleTheme-800,
-.text-purpleTheme-700 {
-  color: var(--theme-primary) !important;
-}
-
-/* Kecuali untuk teks kecil/penerangan yang kita mahu nampak lebih lembut (opacity dikurangkan sedikit) */
-p.text-xs, p.text-sm, .font-light, span[id*="subtitle"], span[id*="desc"] {
-  color: var(--theme-primary) !important;
-  opacity: 0.85;
-}
-
-/* 5. Butang Utama */
-.bg-purpleTheme-900,
-.bg-purpleTheme-800,
-.bg-purpleTheme-700 {
+/* 5. Butang Utama (Primary Buttons) */
+#hero-open-btn,
+#dyn-rsvp-submit-btn,
+#btn-submit-wish,
+#btn-close-gift,
+#confirm-upload-btn,
+#modal-btn-yes {
   background-color: var(--theme-primary) !important;
+  color: var(--theme-bg) !important;
+  border: 1px solid var(--theme-secondary) !important;
+}
+
+#hero-open-btn:hover,
+#dyn-rsvp-submit-btn:hover,
+#btn-submit-wish:hover {
+  background-color: var(--theme-secondary) !important;
   color: var(--theme-bg) !important;
 }
 
-.bg-purpleTheme-900:hover,
-.bg-purpleTheme-800:hover {
-  background-color: var(--theme-secondary) !important;
-}
-
-/* 6. Kotak Aksen, Input Borang & Dropdown */
-.bg-butter-50,
-.bg-butter-100,
-.bg-butter-200,
-.bg-butter-300,
+/* 6. Kotak Borang, Input & Dropdown */
 input[type="text"],
 input[type="tel"],
 select,
 textarea {
-  background-color: var(--theme-accent) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
   color: var(--theme-primary) !important;
-  border-color: var(--theme-secondary) !important;
+  border: 1px solid var(--theme-secondary) !important;
 }
 
 input::placeholder,
@@ -92,23 +81,20 @@ select option {
   color: var(--theme-primary);
 }
 
-/* 7. Sempadan (Border) & Bayang */
-.border-butter-100,
-.border-butter-200,
-.border-butter-300,
-.border-purpleTheme-100,
-.border-purpleTheme-200 {
-  border-color: var(--theme-secondary) !important;
+/* 7. Senarai Ucapan Tetamu & Kad Kecil */
+#wishes-container > div {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--theme-secondary) !important;
 }
 
-.custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+/* 8. Garis Timeline / Pembahagi Atur Cara */
+#dyn-tentative-container::before {
+  background-color: var(--theme-secondary) !important;
 }
 
-/* Membuang kesan cahaya/blur ungu di belakang elemen */
-.blur-2xl, .blur-3xl {
-  opacity: 0.15;
-  filter: blur(40px);
+#dyn-tentative-container span.rounded-full {
+  background-color: var(--theme-primary) !important;
+  border-color: var(--theme-bg) !important;
 }
 
 /* Responsif Menu */
@@ -120,40 +106,4 @@ select option {
 @media (max-width: 768px) {
   .menu-item-collapse { display: none !important; }
   #more-menu-container { display: block !important; }
-}
-
-/* 1. Paksa garis timeline / pembahagi atur cara majlis ikut warna sekunder tema */
-#dyn-tentative-container::before,
-.before\:bg-butter-300,
-.border-purpleTheme-50,
-.border-purpleTheme-100 {
-  border-color: var(--theme-secondary) !important;
-  background-color: var(--theme-secondary) !important;
-}
-
-/* 2. Paksa kotak-kotak senarai ucapan tetamu & kad kecil ikut warna aksen gelap */
-#wishes-container > div,
-.bg-white,
-.bg-white\/80,
-.bg-white\/85,
-.bg-white\/90,
-.bg-white\/95 {
-  background-color: var(--theme-accent) !important;
-  border-color: var(--theme-secondary) !important;
-  color: var(--theme-primary) !important;
-}
-
-/* 3. Pastikan teks nama dan masa dalam senarai ucapan jelas */
-#wishes-container h4 {
-  color: var(--theme-primary) !important;
-}
-
-#wishes-container span {
-  color: var(--theme-primary) !important;
-  opacity: 0.7;
-}
-
-#wishes-container p {
-  color: var(--theme-primary) !important;
-  opacity: 0.9;
 }
