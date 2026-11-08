@@ -1065,7 +1065,26 @@ footer p#dyn-footer-text {
    FASA 9: LUXURY FLOATING DOCK & FAB MENU (BLACK GOLD)
    ========================================================= */
 
-/* 1. Bar Dock Terapung Panjang (Glassmorphism Gelap) */
+/* 1. Butang Utama Terapung (FAB Trigger) - Gold Metallic */
+#fab-trigger {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: 1px solid #F3E5AB !important;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4) !important;
+  transition: all 0.3s ease;
+}
+
+#fab-trigger i {
+  color: #0c0c0c !important;
+}
+
+#fab-trigger:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.6) !important;
+  transform: scale(1.08);
+}
+
+/* 2. Bar Dock Terapung Panjang (Glassmorphism Gelap) */
 #fab-dock {
   background: rgba(22, 22, 22, 0.85) !important;
   backdrop-filter: blur(16px) !important;
@@ -1074,7 +1093,7 @@ footer p#dyn-footer-text {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.08) !important;
 }
 
-/* 2. Pautan Asas di Dalam Dock */
+/* 3. Pautan Asas di Dalam Dock */
 .fab-link {
   color: rgba(244, 232, 193, 0.5) !important;
   transition: all 0.3s ease;
@@ -1093,7 +1112,7 @@ footer p#dyn-footer-text {
   opacity: 0.7;
 }
 
-/* 3. Pautan yang Sedang Aktif (Current Section Highlight) */
+/* 4. Pautan yang Sedang Aktif (Current Section Highlight) */
 .fab-link.text-purpleTheme-900,
 .fab-link.font-bold {
   color: var(--theme-secondary, #D4AF37) !important;
@@ -1113,22 +1132,24 @@ footer p#dyn-footer-text {
   font-weight: 600 !important;
 }
 
-/* 4. Butang "Lagi" (...) */
-#more-menu-btn,
-#more-menu-btn i,
-#more-menu-btn span {
+/* 5. Butang "Lagi" (...) & Perbezaan Tona Teks/Ikon */
+#more-menu-btn i {
   color: var(--theme-secondary, #D4AF37) !important;
-  opacity: 0.7 !important;
+  opacity: 0.9 !important;
 }
 
-#more-menu-btn:hover,
+#more-menu-btn span {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.75 !important;
+}
+
 #more-menu-btn:hover i,
 #more-menu-btn:hover span {
   opacity: 1 !important;
-  color: var(--theme-primary, #F4E8C1) !important;
+  color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* 5. Popover Menu "Lagi" (...) */
+/* 6. Popover Menu "Lagi" (...) */
 #more-popover {
   background: rgba(22, 22, 22, 0.95) !important;
   backdrop-filter: blur(16px) !important;
