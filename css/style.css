@@ -237,7 +237,7 @@ body {
 }
 
 /* =========================================================
-   FASA 3 (FIXED): LUXURY DETAILS & TENTATIVE SECTION
+   FASA 3 (REFINED): LUXURY DETAILS & TENTATIVE SECTION
    ========================================================= */
 
 /* Tajuk Utama Seksyen Lokasi & Atur Cara */
@@ -254,10 +254,11 @@ body {
 
 #details-section .w-12.h-\[1px\] {
   background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
-  opacity: 0.6;
+  height: 1px !important;
+  opacity: 0.5;
 }
 
-/* 1. Kad Utama (Glassmorphism Gelap Mewah & Sudut Vektor) */
+/* 1. Kad Utama (Glassmorphism Gelap Mewah) */
 #details-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -275,7 +276,7 @@ body {
   box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.15);
 }
 
-/* Tajuk Dalam Kad (Masa & Lokasi / Atur Cara Majlis) */
+/* Tajuk Dalam Kad */
 #details-section h3#dyn-location-card-title,
 #details-section h3#dyn-tentative-card-title {
   color: var(--theme-secondary, #D4AF37) !important;
@@ -293,6 +294,11 @@ body {
 #details-section #dyn-event-time i,
 #details-section #dyn-event-location i {
   color: var(--theme-secondary, #D4AF37) !important;
+}
+
+/* Garisan Pemisah Dalam Kad Kiri (Betulkan supaya halus & eksklusif) */
+#details-section .border-t {
+  border-color: rgba(212, 175, 55, 0.2) !important;
 }
 
 /* Butang Google Maps & Waze */
@@ -338,8 +344,8 @@ body {
 }
 
 #details-section .bg-white\/80 {
-  background: rgba(0, 0, 0, 0.5) !important;
-  border: 1px solid rgba(212, 175, 55, 0.25) !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
 }
 #details-section p#dyn-c1-name,
 #details-section p#dyn-c2-name {
@@ -351,7 +357,7 @@ body {
   opacity: 0.6;
 }
 
-/* Butang Telefon & WhatsApp Contact */
+/* Butang Telefon & WhatsApp Contact (Bersihkan warna asal) */
 #details-section .w-7.h-7.rounded-lg {
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
 }
@@ -363,14 +369,35 @@ body {
   background: var(--theme-secondary, #D4AF37) !important;
   color: #0c0c0c !important;
 }
+/* Tetapkan butang WhatsApp supaya serasi warna gelap */
+#details-section a.bg-emerald-500, 
+#details-section a.bg-emerald-600 {
+  background: rgba(16, 185, 129, 0.2) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  color: #34d399 !important;
+}
+#details-section a.bg-emerald-500:hover, 
+#details-section a.bg-emerald-600:hover {
+  background: #10b981 !important;
+  color: #ffffff !important;
+}
 
-/* Atur Cara Majlis (Tentative Timeline List - Buang unsur ungu) */
+/* Atur Cara Majlis (Timeline - Betulkan ketebalan garisan & titik) */
 #details-section #dyn-tentative-container {
-  border-left: 2px solid rgba(212, 175, 55, 0.4) !important;
+  position: relative;
+}
+#details-section #dyn-tentative-container.before\:bg-butter-300::before,
+#details-section #dyn-tentative-container::before {
+  width: 1px !important;
+  background: rgba(212, 175, 55, 0.4) !important;
+  left: 6px !important;
 }
 #details-section #dyn-tentative-container div.relative span.absolute {
+  width: 9px !important;
+  height: 9px !important;
   background: var(--theme-secondary, #D4AF37) !important;
   border: 2px solid #0c0c0c !important;
+  left: -17px !important;
 }
 #details-section #dyn-tentative-container span.bg-butter-100 {
   background: rgba(212, 175, 55, 0.12) !important;
@@ -382,8 +409,11 @@ body {
   opacity: 0.9;
 }
 
-/* Skrol Indikator di Bawah Tentative */
+/* Skrol Indikator di Bawah Tentative (Buang warna ungu) */
 #details-section #tentative-scroll-indicator {
-  color: rgba(212, 175, 55, 0.6) !important;
+  color: rgba(212, 175, 55, 0.7) !important;
   border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+#details-section #tentative-scroll-indicator i {
+  color: var(--theme-secondary, #D4AF37) !important;
 }
