@@ -976,3 +976,87 @@ body {
 #wishes-container .border-purpleTheme-50 {
   border-color: rgba(212, 175, 55, 0.15) !important;
 }
+
+/* =========================================================
+   FASA 8: LUXURY COUNTDOWN & FOOTER SECTION
+   ========================================================= */
+
+/* 1. Seksyen Countdown */
+#countdown-section #dyn-cd-badge {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.3em !important;
+}
+
+#countdown-section h2#dyn-cd-title {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#countdown-section #dyn-cd-subtitle {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.8;
+}
+
+/* Kad Utama Countdown (Glassmorphism Gelap) */
+#countdown-section .glass-card {
+  background: var(--theme-accent, #161616) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+/* Kotak Kecil Nombor Countdown (Hari, Jam, Minit, Saat) */
+#countdown-section .grid > div {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+#countdown-section .grid > div:hover {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Angka Nombor Countdown */
+#countdown-section .grid span[id^="cd-"] {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700 !important;
+}
+
+/* Label Kecil di Bawah Angka (Hari, Jam, Minit, Saat) */
+#countdown-section .grid span[id^="dyn-cd-label-"] {
+  color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.85;
+  letter-spacing: 0.1em !important;
+}
+
+
+/* 2. Bahagian Footer (Salam Kasih / Penutup) */
+footer {
+  background-color: var(--theme-bg, #121212) !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+  position: relative;
+}
+
+footer h3#dyn-footer-title {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+footer p#dyn-footer-message {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.75;
+}
+
+footer p#dyn-footer-text {
+  color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.5;
+  letter-spacing: 0.2em !important;
+}
