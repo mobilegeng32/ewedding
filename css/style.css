@@ -181,8 +181,8 @@ body {
 }
 
 										   
-#invitation-section .bg-butter-200\/40,
-#invitation-section .bg-purpleTheme-100\/40 {
+#invitation-section .bg-paletteA-200\/40,
+#invitation-section .bg-paletteB-100\/40 {
   background: rgba(212, 175, 55, 0.06) !important;
   filter: blur(30px);
 }
@@ -202,7 +202,7 @@ body {
 }
 
 												  
-#invitation-section .inline-block.bg-butter-100\/90 {
+#invitation-section .inline-block.bg-paletteA-100\/90 {
   background: rgba(212, 175, 55, 0.1) !important;
   border: 1px solid rgba(212, 175, 55, 0.35) !important;
 }
@@ -231,11 +231,11 @@ body {
   background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
   opacity: 0.5;
 }
-#invitation-section span.rounded-full.bg-butter-100 {
+#invitation-section span.rounded-full.bg-paletteA-100 {
   background: #1A1818 !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
 }
-#invitation-section span.italic.text-purpleTheme-700 {
+#invitation-section span.italic.text-paletteB-700 {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
@@ -364,11 +364,11 @@ body {
 #details-section .w-7.h-7.rounded-lg {
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
 }
-#details-section .w-7.h-7.rounded-lg.bg-butter-200 {
+#details-section .w-7.h-7.rounded-lg.bg-paletteA-200 {
   background: rgba(212, 175, 55, 0.15) !important;
   color: var(--theme-secondary, #D4AF37) !important;
 }
-#details-section .w-7.h-7.rounded-lg.bg-butter-200:hover {
+#details-section .w-7.h-7.rounded-lg.bg-paletteA-200:hover {
   background: var(--theme-secondary, #D4AF37) !important;
   color: #0c0c0c !important;
 }
@@ -418,7 +418,7 @@ body {
   z-index: 2 !important;
 }
 
-#details-section #dyn-tentative-container span.bg-butter-100,
+#details-section #dyn-tentative-container span.bg-paletteA-100,
 #details-section #dyn-tentative-container .text-xs.font-semibold {
   background: transparent !important;
   border: none !important;
@@ -431,7 +431,7 @@ body {
   margin-bottom: 2px !important;
 }
 
-#details-section #dyn-tentative-container p.text-purpleTheme-900,
+#details-section #dyn-tentative-container p.text-paletteB-900,
 #details-section #dyn-tentative-container p {
   color: var(--theme-primary, #F4E8C1) !important;
   font-size: 0.95rem !important;
@@ -479,7 +479,7 @@ body {
 }
 
 				   
-#rsvp-section p.text-purpleTheme-800\/70,
+#rsvp-section p.text-paletteB-800\/70,
 #rsvp-section #dyn-rsvp-subtitle {
   color: var(--theme-primary, #F4E8C1) !important;
   font-size: 0.95rem !important;
@@ -636,11 +636,11 @@ body {
 }
 
 							   
-#gallery-section p.text-xs.text-purpleTheme-800\/70 {
+#gallery-section p.text-xs.text-paletteB-800\/70 {
   color: var(--theme-primary, #F4E8C1) !important;
   opacity: 0.75;
 }
-#gallery-section p.text-xs.text-purpleTheme-800\/70 i {
+#gallery-section p.text-xs.text-paletteB-800\/70 i {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
@@ -756,7 +756,7 @@ body {
   background: rgba(0, 0, 0, 0.4) !important;
   border: 1px solid rgba(212, 175, 55, 0.2) !important;
 }
-#gift-modal .bg-butter-50 {
+#gift-modal .bg-paletteA-50 {
   background: rgba(22, 22, 22, 0.8) !important;
   border-color: rgba(212, 175, 55, 0.25) !important;
 }
@@ -784,7 +784,7 @@ body {
 #custom-confirm-modal button#modal-btn-yes,
 #gift-modal button#btn-close-gift,
 #my-photos-modal button#btn-close-my-photos,
-#calendar-options-modal button.bg-butter-200 {
+#calendar-options-modal button.bg-paletteA-200 {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
   border: 1px solid #F3E5AB !important;
@@ -868,8 +868,8 @@ body {
 
 																   
 #wishes-section .w-full.h-\[1px\],
-#wishes-section .w-full.h-\[1px\].bg-purpleTheme-100\/85,
-#wishes-section .w-full.h-\[1px\].bg-purpleTheme-100\/80 {
+#wishes-section .w-full.h-\[1px\].bg-paletteB-100\/85,
+#wishes-section .w-full.h-\[1px\].bg-paletteB-100\/80 {
   height: 2px !important;
   background: linear-gradient(to right, transparent 0%, rgba(212, 175, 55, 0.2) 20%, rgba(212, 175, 55, 0.8) 50%, rgba(212, 175, 55, 0.2) 80%, transparent 100%) !important;
   border: none !important;
@@ -973,7 +973,7 @@ body {
   opacity: 0.9;
 }
 
-#wishes-container .border-purpleTheme-50 {
+#wishes-container .border-paletteB-50 {
   border-color: rgba(212, 175, 55, 0.15) !important;
 }
 
@@ -1113,19 +1113,19 @@ footer p#dyn-footer-text {
 }
 
 															 
-.fab-link.text-purpleTheme-900,
+.fab-link.text-paletteB-900,
 .fab-link.font-bold {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-.fab-link.text-purpleTheme-900 i,
+.fab-link.text-paletteB-900 i,
 .fab-link.font-bold i {
   color: var(--theme-secondary, #D4AF37) !important;
   opacity: 1 !important;
   transform: scale(1.15);
 }
 
-.fab-link.text-purpleTheme-900 span,
+.fab-link.text-paletteB-900 span,
 .fab-link.font-bold span {
   color: var(--theme-secondary, #D4AF37) !important;
   opacity: 1 !important;
