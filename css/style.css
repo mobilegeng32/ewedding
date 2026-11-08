@@ -1,6 +1,4 @@
-/* ================================================================= */
-/* DYNAMIC DESIGN TOKENS (Dikawal 100% dari Database / Google Sheets) */
-/* ================================================================= */
+/* Tetapan Asas & Fallback Warna Dinamik */
 :root {
   --theme-primary: #261042;
   --theme-secondary: #583083;
@@ -8,9 +6,7 @@
   --theme-bg: #FAF8F5;
 }
 
-/* ================================================================= */
-/* GLOBAL STYLES & BASE SETUP                                      */
-/* ================================================================= */
+/* Smooth Scrolling Global */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
@@ -18,12 +14,11 @@ html {
 
 body {
   background-color: var(--theme-bg) !important;
+  background-image: none !important;
   color: var(--theme-primary) !important;
-  font-family: 'Montserrat', sans-serif;
-  overflow-x: hidden;
 }
 
-/* Scrollbar Dinamik mengikut Tema */
+/* Custom Scrollbar Mengikut Tema Dinamik */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -32,12 +27,14 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--theme-secondary);
+  opacity: 0.5;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--theme-primary);
 }
 
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -46,41 +43,23 @@ body {
   scrollbar-width: none;
 }
 
-/* ================================================================= */
-/* COMPONENTS & REUSABLE ELEMENTS (Eksklusif & Soft Touch Asal)      */
-/* ================================================================= */
-
-/* Kad Glassmorphism Mewah berlayer halus */
+/* Kemas kini Glass Card supaya sokong tema gelap/cerah secara dinamik */
 .glass-card {
-  background-color: var(--theme-accent) !important;
-  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--theme-accent, rgba(255, 255, 255, 0.9)) !important;
+  backdrop-filter: blur(10px);
   border: 1px solid var(--theme-secondary);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 0 15px rgba(0, 0, 0, 0.05);
+  border-opacity: 0.2;
 }
 
 .smooth-transition {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .custom-shadow {
-  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
 }
 
-/* Animasi Halus */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-/* ================================================================= */
-/* RESPONSIVE NAVIGATION DOCK & MENU                                 */
-/* ================================================================= */
+/* Responsif Menu (Desktop vs Mobile) */
 @media (min-width: 769px) {
   .menu-item-collapse {
     display: flex !important;
@@ -97,38 +76,4 @@ body {
   #more-menu-container {
     display: block !important;
   }
-}
-
-/* Floating Action Button (FAB) & Dock dengan Kesan Glow Lembut */
-#fab-trigger {
-  background-color: var(--theme-primary) !important;
-  color: var(--theme-accent) !important;
-  border: 1px solid var(--theme-secondary);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  transition: all 0.3s ease;
-}
-
-#fab-dock {
-  background-color: var(--theme-bg) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid var(--theme-secondary) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
-}
-
-.fab-link {
-  color: var(--theme-primary) !important;
-  opacity: 0.65;
-  transition: all 0.3s ease;
-}
-
-.fab-link:hover, 
-.fab-link.font-bold {
-  opacity: 1 !important;
-  color: var(--theme-secondary) !important;
-}
-
-#more-popover {
-  background-color: var(--theme-bg) !important;
-  border: 1px solid var(--theme-secondary) !important;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
 }
