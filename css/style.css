@@ -1,9 +1,9 @@
-/* Tetapan Asas Tema Dinamik */
+/* Tetapan Asas Tema Dinamik dari Google Sheets */
 :root {
-  --theme-primary: #261042;
-  --theme-secondary: #583083;
-  --theme-accent: #FFF9D6;
-  --theme-bg: #FAF8F5;
+  --theme-primary: #F4E8C1;    /* Warna utama / tajuk / butang (cth: #F4E8C1) */
+  --theme-secondary: #D4AF37;  /* Warna sekunder / aksen / garisan */
+  --theme-accent: #161616;     /* Warna latar kotak/kad atau ton lembut */
+  --theme-bg: #0c0c0c;         /* Warna latar belakang keseluruhan laman web */
 }
 
 /* 1. Latar Belakang & Teks Global */
@@ -27,7 +27,6 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--theme-secondary);
-  opacity: 0.5;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -42,53 +41,69 @@ body {
   scrollbar-width: none;
 }
 
-/* 3. Kad Kaca (Glass Card) Menyesuaikan Warna Tema & Border */
+/* 3. Kad Kaca (Glass Card & Kotak Utama) */
 .glass-card {
-  background: rgba(255, 255, 255, 0.88) !important;
+  background: rgba(22, 22, 22, 0.85) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--theme-secondary) !important;
-  border-opacity: 0.2;
-}
-
-/* 4. Tajuk, Teks Utama & Garisan Hiasan */
-h1, h2, h3, h4, h5, h6 {
   color: var(--theme-primary) !important;
 }
 
-/* Memastikan elemen dengan warna primer bertukar mengikut Google Sheets */
-.text-purpleTheme-900 {
+/* 4. Pemetaan Menyeluruh Kelas Tailwind Lama kepada Tema Dinamik */
+/* Menukar semua teks bertema purple/dark kepada warna primary tema baru */
+h1, h2, h3, h4, h5, h6,
+.text-purpleTheme-900,
+.text-purpleTheme-800,
+.text-purpleTheme-700 {
   color: var(--theme-primary) !important;
 }
 
-.text-purpleTheme-700, .text-purpleTheme-800 {
-  color: var(--theme-secondary) !important;
-}
-
-/* 5. Butang Utama & Aksen (Butter / Accent) */
-.bg-purpleTheme-900 {
+/* Menukar butang utama dan elemen gelap kepada warna primary */
+.bg-purpleTheme-900,
+.bg-purpleTheme-800,
+.bg-purpleTheme-700 {
   background-color: var(--theme-primary) !important;
+  color: var(--theme-bg) !important;
 }
 
-.bg-purpleTheme-900:hover {
+.bg-purpleTheme-900:hover,
+.bg-purpleTheme-800:hover {
   background-color: var(--theme-secondary) !important;
 }
 
-.bg-butter-100, .bg-butter-200 {
+/* Menukar elemen butter/accent kepada warna aksen/sekunder */
+.bg-butter-50,
+.bg-butter-100,
+.bg-butter-200,
+.bg-butter-300 {
   background-color: var(--theme-accent) !important;
+  color: var(--theme-primary) !important;
 }
 
-.border-butter-200, .border-butter-300 {
-  border-color: var(--theme-accent) !important;
+.border-butter-100,
+.border-butter-200,
+.border-butter-300,
+.border-purpleTheme-100,
+.border-purpleTheme-200 {
+  border-color: var(--theme-secondary) !important;
 }
 
-/* Transisi Lancar */
+/* Kotak-kotak kecil di dalam (seperti countdown & item senarai) */
+.grid div[class*="bg-butter"],
+.grid div[class*="bg-white"] {
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-secondary) !important;
+  color: var(--theme-primary) !important;
+}
+
+/* Transisi & Bayang */
 .smooth-transition {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
 }
 
 /* Responsif Menu (Desktop vs Mobile) */
