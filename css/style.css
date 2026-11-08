@@ -824,3 +824,138 @@ body {
 #my-photos-modal button#close-my-photos-modal:hover {
   opacity: 1;
 }
+
+/* =========================================================
+   FASA 7: LUXURY WISHES & MESSAGES SECTION
+   ========================================================= */
+
+/* Tajuk & Badge Ucapan */
+#wishes-section #dyn-wishes-badge {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.3em !important;
+  font-size: 0.8rem !important;
+  margin-bottom: 0.5rem !important;
+  display: inline-block;
+}
+
+#wishes-section h2#dyn-wishes-title {
+  font-size: 2.5rem !important;
+  line-height: 1.2 !important;
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem !important;
+}
+
+#wishes-section #dyn-wishes-subtitle {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.8;
+}
+
+/* Kad Utama Ucapan (Glassmorphism Gelap) */
+#wishes-section .glass-card {
+  background: var(--theme-accent, #161616) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+/* Label Borang Ucapan */
+#wishes-section label {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.1em !important;
+  font-size: 0.75rem !important;
+}
+
+/* Icon dalam Input Nama & Mesej */
+#wishes-section .relative span.pointer-events-none {
+  color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.7;
+}
+
+/* Kotak Input Nama & Textarea Mesej */
+#wishes-section input[type="text"],
+#wishes-section textarea {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+#wishes-section input::placeholder,
+#wishes-section textarea::placeholder {
+  color: rgba(244, 232, 193, 0.3) !important;
+}
+
+#wishes-section input:focus,
+#wishes-section textarea:focus {
+  border-color: var(--theme-secondary, #D4AF37) !important;
+  outline: none !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Butang 'Hantar Ucapan' (Gold Metallic Gradient) */
+#wishes-section button#btn-submit-wish {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: 1px solid #F3E5AB !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+  transition: all 0.3s ease;
+}
+
+#wishes-section button#btn-submit-wish:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
+}
+
+/* Kotak Amaran Kejayaan Hantar Ucapan */
+#wishes-section #wish-alert {
+  background: rgba(212, 175, 55, 0.15) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+
+/* Bahagian Senarai Ucapan (*Wishes Container List*) */
+#wishes-section span#dyn-wishes-list-title {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.15em !important;
+}
+
+/* Butang 'Refresh' Senarai Ucapan */
+#wishes-section button#refresh-wishes-btn {
+  background: rgba(212, 175, 55, 0.1) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  color: var(--theme-secondary, #D4AF37) !important;
+  transition: all 0.3s ease;
+}
+#wishes-section button#refresh-wishes-btn:hover {
+  background: var(--theme-secondary, #D4AF37) !important;
+  color: #0c0c0c !important;
+}
+
+/* Kad-kad Individual Ucapan Tetamu */
+#wishes-container > div {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+#wishes-container h4 {
+  color: var(--theme-secondary, #D4AF37) !important;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+#wishes-container span.text-\[10px\] {
+  color: rgba(244, 232, 193, 0.5) !important;
+}
+
+#wishes-container p {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.9;
+}
+
+#wishes-container .border-purpleTheme-50 {
+  border-color: rgba(212, 175, 55, 0.15) !important;
+}
