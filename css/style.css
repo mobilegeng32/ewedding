@@ -456,10 +456,10 @@ body {
 }
 
 /* =========================================================
-   FASA 4 (POLISHED): LUXURY RSVP SECTION
+   FASA 4 (FINAL REVISED): LUXURY RSVP SECTION
    ========================================================= */
 
-/* Tajuk & Badge RSVP (Besarkan & Serlahkan) */
+/* Tajuk & Badge RSVP */
 #rsvp-section #dyn-rsvp-badge {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.3em !important;
@@ -470,13 +470,15 @@ body {
 
 #rsvp-section h2#dyn-rsvp-title {
   font-size: 2.5rem !important;
+  line-height: 1.2 !important; /* Fix supaya huruf 'g' tidak terpotong */
+  padding-bottom: 4px !important;
   background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem !important;
 }
 
-/* Subtitle & Serlahkan Tarikh Deadline supaya "Striking" */
+/* Subtitle RSVP */
 #rsvp-section p.text-purpleTheme-800\/70,
 #rsvp-section #dyn-rsvp-subtitle {
   color: var(--theme-primary, #F4E8C1) !important;
@@ -484,16 +486,16 @@ body {
   opacity: 0.85;
 }
 
-/* Tarikh Deadline Diberikan Warna Emas & Background Halus supaya Tetamu Perasan */
+/* Tarikh Deadline: Teks Biasa Tanpa Kotak, tetapi Berona Emas Terang & Jelas */
 #rsvp-section #dyn-rsvp-deadline {
   color: var(--theme-secondary, #D4AF37) !important;
   font-weight: 700 !important;
-  background: rgba(212, 175, 55, 0.12);
-  padding: 2px 8px;
-  border-radius: 6px;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  display: inline-block;
-  margin-top: 4px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  display: inline !important;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); /* Tambah sedikit glow supaya menonjol tanpa kotak */
 }
 
 /* Kad Utama Borang RSVP (Glassmorphism Gelap) */
@@ -520,10 +522,10 @@ body {
   border: 1px solid rgba(212, 175, 55, 0.25) !important;
   color: var(--theme-primary, #F4E8C1) !important;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-  padding-right: 2.5rem !important; /* Ruang untuk dropdown arrow */
+  padding-right: 2.5rem !important;
 }
 
-/* Fix Dropdown Arrow supaya tidak rapat sangat ke kanan & tukar warna jadi emas */
+/* Dropdown Arrow Styling yang kemas di sebelah kanan */
 #rsvp-section select {
   appearance: none;
   -webkit-appearance: none;
