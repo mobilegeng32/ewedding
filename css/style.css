@@ -43,12 +43,12 @@ body {
   scrollbar-width: none;
 }
 
-/* Glass Card Style dengan Sokongan Border Dinamik */
+/* Kemas kini Glass Card supaya sokong tema gelap/cerah secara dinamik */
 .glass-card {
-  background: rgba(255, 255, 255, 0.9) !important;
+  background: var(--theme-accent, rgba(255, 255, 255, 0.9)) !important;
   backdrop-filter: blur(10px);
   border: 1px solid var(--theme-secondary);
-  border-opacity: 0.15;
+  border-opacity: 0.2;
 }
 
 .smooth-transition {
