@@ -144,18 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 		
-        if (config.theme_primary) {
-          document.documentElement.style.setProperty('--theme-primary', config.theme_primary);
-        }
-        if (config.theme_secondary) {
-          document.documentElement.style.setProperty('--theme-secondary', config.theme_secondary);
-        }
-        if (config.theme_accent) {
-          document.documentElement.style.setProperty('--theme-accent', config.theme_accent);
-        }
-        if (config.theme_bg) {
-          document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
-        }
+		function hexToRgb(hex) {
+		  let cleanedHex = hex.replace('#', '');
+		  if (cleanedHex.length === 3) {
+			cleanedHex = cleanedHex.split('').map(char => char + char).join('');
+		  }
+		  const num = parseInt(cleanedHex, 16);
+		  return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
+		}
+
+		if (config.theme_primary) {
+		  document.documentElement.style.setProperty('--theme-primary-rgb', hexToRgb(config.theme_primary));
+		}
+		if (config.theme_secondary) {
+		  document.documentElement.style.setProperty('--theme-secondary-rgb', hexToRgb(config.theme_secondary));
+		}
+		if (config.theme_accent) {
+		  document.documentElement.style.setProperty('--theme-accent-rgb', hexToRgb(config.theme_accent));
+		}
+		if (config.theme_bg) {
+		  document.documentElement.style.setProperty('--theme-bg-rgb', hexToRgb(config.theme_bg));
+		}
 		
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
