@@ -1519,7 +1519,7 @@ END:VCALENDAR`;
               .then(res => res.json())
               .then(data => {
                 if (wishAlert) {
-                  wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan. 🤍`;
+                  wishAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `Terima kasih! Ucapan berjaya direkodkan.`;
                   wishAlert.classList.remove('hidden');
                   setTimeout(() => wishAlert.classList.add('hidden'), 5000);
                 }
@@ -1531,7 +1531,7 @@ END:VCALENDAR`;
           console.error("Gagal semak config Wish:", err);
           if (wishSubmitBtn) {
             wishSubmitBtn.disabled = false;
-            wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span> <i class="fas fa-paper-plane text-xs"></i>`;
+            wishSubmitBtn.innerHTML = `<span>Hantar Ucapan</span>`;
           }
         });
     });
