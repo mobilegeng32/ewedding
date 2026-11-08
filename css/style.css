@@ -6,7 +6,7 @@
   --theme-bg: #0c0c0c;
 }
 
-/* Smooth Scrolling Global & Warna Latar Belakang Utama */
+/* 1. Global Latar Belakang & Teks */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
@@ -18,7 +18,7 @@ body {
   color: var(--theme-primary) !important;
 }
 
-/* Custom Scrollbar Mengikut Tema Dinamik */
+/* 2. Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -29,37 +29,32 @@ body {
   background: var(--theme-secondary);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-primary);
-}
 
-/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Glass Card Style (Kad Kaca) */
+/* 3. Kad Kaca (Glass Card) & Kotak Utama */
 .glass-card {
-  background: rgba(22, 22, 22, 0.85) !important;
+  background: rgba(22, 22, 22, 0.9) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--theme-secondary) !important;
   color: var(--theme-primary) !important;
 }
 
-/* Penyelarasan Menyeluruh Teks dan Tajuk */
+/* 4. OVERRIDE MENYELURUH: Menghapuskan semua sisa warna ungu/purple pada teks */
 h1, h2, h3, h4, h5, h6,
+p, span, label, a, li, div,
 .text-purpleTheme-900,
 .text-purpleTheme-800,
 .text-purpleTheme-700 {
   color: var(--theme-primary) !important;
 }
 
-/* Butang Utama & Interaktif */
+/* Kecuali untuk teks kecil/penerangan yang kita mahu nampak lebih lembut (opacity dikurangkan sedikit) */
+p.text-xs, p.text-sm, .font-light, span[id*="subtitle"], span[id*="desc"] {
+  color: var(--theme-primary) !important;
+  opacity: 0.85;
+}
+
+/* 5. Butang Utama */
 .bg-purpleTheme-900,
 .bg-purpleTheme-800,
 .bg-purpleTheme-700 {
@@ -72,53 +67,11 @@ h1, h2, h3, h4, h5, h6,
   background-color: var(--theme-secondary) !important;
 }
 
-/* Kotak Aksen / Butter */
+/* 6. Kotak Aksen, Input Borang & Dropdown */
 .bg-butter-50,
 .bg-butter-100,
 .bg-butter-200,
-.bg-butter-300 {
-  background-color: var(--theme-accent) !important;
-  color: var(--theme-primary) !important;
-}
-
-/* Garisan Sempadan (Border) */
-.border-butter-100,
-.border-butter-200,
-.border-butter-300,
-.border-purpleTheme-100,
-.border-purpleTheme-200 {
-  border-color: var(--theme-secondary) !important;
-}
-
-/* Transisi & Bayang */
-.smooth-transition {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
-}
-
-/* Responsif Menu (Desktop vs Mobile) */
-@media (min-width: 769px) {
-  .menu-item-collapse {
-    display: flex !important;
-  }
-  #more-menu-container {
-    display: none !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .menu-item-collapse {
-    display: none !important;
-  }
-  #more-menu-container {
-    display: block !important;
-  }
-}
-
-/* Menyelaraskan kotak input borang (RSVP, Ucapan, dll) agar ikut tema gelap/aksen */
+.bg-butter-300,
 input[type="text"],
 input[type="tel"],
 select,
@@ -128,15 +81,43 @@ textarea {
   border-color: var(--theme-secondary) !important;
 }
 
-input[type="text"]::placeholder,
-input[type="tel"]::placeholder,
+input::placeholder,
 textarea::placeholder {
   color: var(--theme-primary) !important;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
-/* Memastikan teks pilihan dalam dropdown select kelihatan jelas */
 select option {
   background-color: var(--theme-accent);
   color: var(--theme-primary);
+}
+
+/* 7. Sempadan (Border) & Bayang */
+.border-butter-100,
+.border-butter-200,
+.border-butter-300,
+.border-purpleTheme-100,
+.border-purpleTheme-200 {
+  border-color: var(--theme-secondary) !important;
+}
+
+.custom-shadow {
+  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+}
+
+/* Membuang kesan cahaya/blur ungu di belakang elemen */
+.blur-2xl, .blur-3xl {
+  opacity: 0.15;
+  filter: blur(40px);
+}
+
+/* Responsif Menu */
+@media (min-width: 769px) {
+  .menu-item-collapse { display: flex !important; }
+  #more-menu-container { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .menu-item-collapse { display: none !important; }
+  #more-menu-container { display: block !important; }
 }
