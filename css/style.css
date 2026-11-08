@@ -1,4 +1,4 @@
-/* Tetapan Asas & Pembolehubah Dinamik (Fallback Default) */
+															
 :root {
   --theme-primary: #F4E8C1;
   --theme-secondary: #D4AF37;
@@ -6,8 +6,8 @@
   --theme-bg: #121212;
 }
 
-/* Smooth Scrolling Global */
-/* Tetapan Asas Latar Belakang Global dengan Ambient Lighting Berterusan */
+							 
+																		   
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
@@ -15,7 +15,7 @@ html {
 
 body {
   background-color: var(--theme-bg) !important;
-  /* Ambient lighting global yang merentasi keseluruhan skrin dari atas ke bawah */
+																				   
   background-image: 
     radial-gradient(circle at 50% 15%, rgba(212, 175, 55, 0.10) 0%, transparent 50%),
     radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
@@ -24,7 +24,7 @@ body {
   color: var(--theme-primary) !important;
 }
 
-/* Custom Scrollbar Mengikut Tema */
+									
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -39,7 +39,7 @@ body {
   background: var(--theme-primary);
 }
 
-/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+													  
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -48,7 +48,7 @@ body {
   scrollbar-width: none;
 }
 
-/* Glass Card Style Dinamik (Ikut Database Accent & Border Emas) */
+																   
 .glass-card {
   background: var(--theme-accent) !important;
   backdrop-filter: blur(12px);
@@ -64,7 +64,7 @@ body {
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
 }
 
-/* Responsif Menu (Desktop vs Mobile) */
+										
 @media (min-width: 769px) {
   .menu-item-collapse {
     display: flex !important;
@@ -83,18 +83,18 @@ body {
   }
 }
 
-/* =========================================================
-   FASA 1 (IMPROVED): LUXURY DARK & GOLD ENGINE (DYNAMIC)
-   ========================================================= */
+															
+														 
+															   
 
-/* 1. Latar Belakang + Ambient Lighting di Tengah */
+													
 #hero-section {
-  background-color: transparent !important; /* Biar nampak ambient global dari body */
+  background-color: transparent !important;
   background-image: none !important;
   color: var(--theme-primary) !important;
 }
 
-/* 2. Kesan Metallic Gold Gradient pada Nama Pengantin */
+														 
 #hero-section #dyn-hero-groom,
 #hero-section #dyn-hero-bride,
 #hero-section span.italic {
@@ -105,7 +105,7 @@ body {
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
 }
 
-/* 3. Badge Atas (Dark Glassmorphism dengan Border Emas Nipis) */
+																 
 #hero-section #dyn-hero-badge {
   background: rgba(22, 22, 22, 0.7) !important;
   color: var(--theme-secondary) !important;
@@ -114,7 +114,7 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.1);
 }
 
-/* 4. Tagline & Tarikh */
+						 
 #hero-section #dyn-hero-tagline {
   color: var(--theme-primary) !important;
   opacity: 0.8;
@@ -125,14 +125,14 @@ body {
   letter-spacing: 0.25em;
 }
 
-/* 5. Garisan Pemisah Melintang (Gradient Divider) */
+													 
 #hero-section .w-16 {
   height: 1px !important;
   background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
   opacity: 0.6;
 }
 
-/* 6. Butang 'Buka Undangan' (Gold Metallic Gradient & Glow) */
+															   
 #hero-section #hero-open-btn {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -145,23 +145,23 @@ body {
   box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
 }
 
-/* Bulatan Icon Kecil Dalam Butang */
+									 
 #hero-section #hero-open-btn span span {
   background: rgba(12, 12, 12, 0.35) !important;
   color: var(--theme-secondary) !important;
 }
 
-/* 7. Icon Anak Panah Skrol Bawah */
+									
 #hero-section #hero-arrow-down {
   color: var(--theme-secondary) !important;
   opacity: 0.7;
 }
 
-/* =========================================================
-   FASA 2: LUXURY INVITATION SECTION (DYNAMIC MAPPING)
-   ========================================================= */
+															
+													  
+															   
 
-/* Latar Belakang Kad Utama (Glassmorphism Gelap Mewah) */
+														  
 #invitation-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -170,7 +170,7 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
-/* Sudut Vektor Emas pada Kad (*Corner Ornaments*) */
+													 
 #invitation-section .absolute.top-4.left-4 {
   border-color: var(--theme-secondary, #D4AF37) !important;
   opacity: 0.6;
@@ -180,28 +180,28 @@ body {
   opacity: 0.6;
 }
 
-/* Cahaya Latar Belakang Lembut (*Glow*) */
+										   
 #invitation-section .bg-butter-200\/40,
 #invitation-section .bg-purpleTheme-100\/40 {
   background: rgba(212, 175, 55, 0.06) !important;
   filter: blur(30px);
 }
 
-/* Kaligrafi Arab (Bismillah) */
+								
 #invitation-section #dyn-inv-arabic {
   background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Teks Mukaddimah & Penutup */
+							   
 #invitation-section #dyn-inv-prelude,
 #invitation-section #dyn-inv-closing {
   color: var(--theme-primary, #F4E8C1) !important;
   opacity: 0.8;
 }
 
-/* Kotak Salutation (Bapak / Ibu / Saudara / i) */
+												  
 #invitation-section .inline-block.bg-butter-100\/90 {
   background: rgba(212, 175, 55, 0.1) !important;
   border: 1px solid rgba(212, 175, 55, 0.35) !important;
@@ -211,7 +211,7 @@ body {
   letter-spacing: 0.1em;
 }
 
-/* Nama Penuh Pengantin (Groom & Bride) */
+										  
 #invitation-section h3#dyn-groom-fullname,
 #invitation-section h3#dyn-bride-fullname {
   background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
@@ -219,14 +219,14 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Penerangan Perihal Pengantin (Anak kepada...) */
+												   
 #invitation-section #dyn-groom-desc,
 #invitation-section #dyn-bride-desc {
   color: var(--theme-primary, #F4E8C1) !important;
   opacity: 0.75;
 }
 
-/* Garisan Pemisah & Bulatan Simbol "&" di Tengah */
+													
 #invitation-section .w-12.h-\[1px\] {
   background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
   opacity: 0.5;
@@ -239,11 +239,11 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* =========================================================
-   FASA 3 (FINAL): LUXURY DETAILS & TENTATIVE SECTION
-   ========================================================= */
+															
+													 
+															   
 
-/* Tajuk Utama Seksyen Lokasi & Atur Cara */
+											
 #details-section #dyn-details-badge {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.3em !important;
@@ -261,7 +261,7 @@ body {
   opacity: 0.5;
 }
 
-/* 1. Kad Utama (Glassmorphism Gelap Mewah) */
+											  
 #details-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -271,7 +271,7 @@ body {
   position: relative;
 }
 
-/* Icon Masjid & Icon List di Atas Kad */
+										 
 #details-section .w-12.h-12.rounded-full {
   background: rgba(212, 175, 55, 0.1) !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
@@ -279,14 +279,14 @@ body {
   box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.15);
 }
 
-/* Tajuk Dalam Kad */
+					 
 #details-section h3#dyn-location-card-title,
 #details-section h3#dyn-tentative-card-title {
   color: var(--theme-secondary, #D4AF37) !important;
   font-family: 'Cormorant Garamond', serif;
 }
 
-/* Maklumat Tarikh, Masa & Lokasi Teks */
+										 
 #details-section #dyn-event-date,
 #details-section #dyn-event-time,
 #details-section #dyn-event-location {
@@ -299,12 +299,12 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* Garisan Pemisah Dalam Kad Kiri */
+									
 #details-section .border-t {
   border-color: rgba(212, 175, 55, 0.2) !important;
 }
 
-/* Butang Google Maps & Waze */
+							   
 #details-section a#dyn-gmaps-link,
 #details-section a#dyn-waze-link {
   background: rgba(212, 175, 55, 0.05) !important;
@@ -327,7 +327,7 @@ body {
   color: #0c0c0c !important;
 }
 
-/* Butang 'Simpan ke Kalendar' (Gold Metallic Gradient) */
+														  
 #details-section button#add-calendar-btn {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -340,7 +340,7 @@ body {
   box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
 }
 
-/* Bahagian Hubungi / Pertanyaan (Contact Persons) */
+													 
 #details-section span#dyn-contact-heading {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.2em !important;
@@ -360,7 +360,7 @@ body {
   opacity: 0.6;
 }
 
-/* Butang Telefon & WhatsApp Contact */
+									   
 #details-section .w-7.h-7.rounded-lg {
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
 }
@@ -384,9 +384,9 @@ body {
   color: #ffffff !important;
 }
 
-/* =========================================================
-   TENTATIVE TIMELINE FIX (Clean, Centered & Unboxed Time)
-   ========================================================= */
+															
+														  
+															   
 #details-section #dyn-tentative-container {
   position: relative !important;
   padding-left: 24px !important;
@@ -455,11 +455,11 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* =========================================================
-   FASA 4 (FINAL REVISED): LUXURY RSVP SECTION
-   ========================================================= */
+															
+											  
+															   
 
-/* Tajuk & Badge RSVP */
+						
 #rsvp-section #dyn-rsvp-badge {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.3em !important;
@@ -470,7 +470,7 @@ body {
 
 #rsvp-section h2#dyn-rsvp-title {
   font-size: 2.5rem !important;
-  line-height: 1.2 !important; /* Fix supaya huruf 'g' tidak terpotong */
+  line-height: 1.2 !important;
   padding-bottom: 4px !important;
   background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
   -webkit-background-clip: text;
@@ -478,7 +478,7 @@ body {
   margin-bottom: 0.5rem !important;
 }
 
-/* Subtitle RSVP */
+				   
 #rsvp-section p.text-purpleTheme-800\/70,
 #rsvp-section #dyn-rsvp-subtitle {
   color: var(--theme-primary, #F4E8C1) !important;
@@ -486,7 +486,7 @@ body {
   opacity: 0.85;
 }
 
-/* Tarikh Deadline: Teks Biasa Tanpa Kotak, tetapi Berona Emas Terang & Jelas */
+																				
 #rsvp-section #dyn-rsvp-deadline {
   color: var(--theme-secondary, #D4AF37) !important;
   font-weight: 700 !important;
@@ -495,10 +495,10 @@ body {
   padding: 0 !important;
   display: inline !important;
   letter-spacing: 0.05em;
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3); /* Tambah sedikit glow supaya menonjol tanpa kotak */
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* Kad Utama Borang RSVP (Glassmorphism Gelap) */
+												 
 #rsvp-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -507,14 +507,14 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
-/* Label Borang */
+				  
 #rsvp-section label {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.1em !important;
   font-size: 0.75rem !important;
 }
 
-/* Kotak Input & Select Pilihan */
+								  
 #rsvp-section input[type="text"],
 #rsvp-section input[type="tel"],
 #rsvp-section select {
@@ -525,7 +525,7 @@ body {
   padding-right: 2.5rem !important;
 }
 
-/* Dropdown Arrow Styling yang kemas di sebelah kanan */
+														
 #rsvp-section select {
   appearance: none;
   -webkit-appearance: none;
@@ -547,13 +547,13 @@ body {
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Dropdown Option Styling */
+							 
 #rsvp-section select option {
   background-color: #161616 !important;
   color: #F4E8C1 !important;
 }
 
-/* Butang Hantar RSVP (Gold Metallic Gradient) */
+												 
 #rsvp-section button#dyn-rsvp-submit-btn {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -568,7 +568,7 @@ body {
   box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
 }
 
-/* Kotak Amaran / Mesej Kejayaan */
+								   
 #rsvp-section #rsvp-alert {
   background: rgba(212, 175, 55, 0.15) !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
@@ -578,11 +578,11 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* =========================================================
-   FASA 5: LUXURY GALLERY SECTION
-   ========================================================= */
+															
+								 
+															   
 
-/* Tajuk & Badge Galeri */
+						  
 #gallery-section #dyn-gallery-badge {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.3em !important;
@@ -605,7 +605,7 @@ body {
   opacity: 0.8;
 }
 
-/* Kad Utama Galeri (Glassmorphism Gelap) */
+											
 #gallery-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -614,13 +614,13 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
-/* Kotak Slideshow Gambar Utama */
+								  
 #slideshow-container {
   border: 1px solid rgba(212, 175, 55, 0.25) !important;
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
-/* Butang Navigasi Slideshow (Kiri & Kanan) */
+											  
 #prev-slide, #next-slide {
   background: rgba(22, 22, 22, 0.8) !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
@@ -635,7 +635,7 @@ body {
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-/* Teks Info Bawah Slideshow */
+							   
 #gallery-section p.text-xs.text-purpleTheme-800\/70 {
   color: var(--theme-primary, #F4E8C1) !important;
   opacity: 0.75;
@@ -644,7 +644,7 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* Butang 'Gambar Saya' */
+						  
 #gallery-section button#btn-my-photos {
   background: rgba(212, 175, 55, 0.05) !important;
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
@@ -662,7 +662,7 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* Butang 'Muat Naik' (Gold Metallic Gradient) */
+												 
 #gallery-section button#btn-upload-gallery {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -677,18 +677,18 @@ body {
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 
-/* Kotak Amaran Galeri (*Gallery Alert Box*) */
+											   
 #gallery-alert {
   background: rgba(212, 175, 55, 0.15) !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
   color: var(--theme-primary, #F4E8C1) !important;
 }
 
-/* =========================================================
-   FASA 6 (FINAL POLISH): GLOBAL CUSTOM MODAL LUXURY
-   ========================================================= */
+															
+													
+															   
 
-/* 1. Paksa Semua Kotak Modal Mengikut Tema Gelap Mewah (Glassmorphism) */
+																		  
 #upload-modal .glass-card,
 #custom-confirm-modal .glass-card,
 #gift-modal .glass-card,
@@ -703,7 +703,7 @@ body {
   color: var(--theme-primary, #F4E8C1) !important;
 }
 
-/* 2. Tajuk & Teks di Dalam Semua Modal */
+										  
 #upload-modal h3, #upload-modal p,
 #custom-confirm-modal h3, #custom-confirm-modal p,
 #gift-modal h3, #gift-modal p, #gift-modal h4,
@@ -718,7 +718,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* 3. Icon Bulat di Atas Modal */
+								 
 #upload-modal .w-12.h-12.rounded-full,
 #custom-confirm-modal #modal-icon-box,
 #gift-modal .w-12.h-12.rounded-full,
@@ -730,7 +730,7 @@ body {
   box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
-/* 4. Kotak Input & Label di Dalam Modal (Muat Naik & Lain-lain) */
+																   
 #upload-modal label,
 #gift-modal label {
   color: var(--theme-secondary, #D4AF37) !important;
@@ -749,7 +749,7 @@ body {
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* 5. Kotak Maklumat Bank & QR (Dalam Gift Modal) */
+													
 #gift-modal #bank-section,
 #gift-modal #qr-section,
 #gift-modal #address-section {
@@ -765,7 +765,7 @@ body {
   color: var(--theme-primary, #F4E8C1) !important;
 }
 
-/* 6. Butang Tindakan dalam Modal (Batal / Tutup / Ya) */
+														 
 #upload-modal button#cancel-upload-btn,
 #custom-confirm-modal button#modal-btn-no,
 #calendar-options-modal button[onclick*="remove"] {
@@ -779,7 +779,7 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* Butang Utama Pengesahan / Teruskan (Gold Gradient) */
+														
 #upload-modal button#confirm-upload-btn,
 #custom-confirm-modal button#modal-btn-yes,
 #gift-modal button#btn-close-gift,
@@ -792,7 +792,7 @@ body {
   box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
-/* 7. Butang Pilihan Kalendar Apple / Google */
+											   
 #calendar-options-modal button {
   background: rgba(0, 0, 0, 0.5) !important;
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
@@ -803,7 +803,7 @@ body {
   border-color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* 8. Butang 'Salin' (Copy) Nombor Akaun / Alamat */
+													
 #gift-modal button[onclick*="copyToClipboard"] {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -811,7 +811,7 @@ body {
   font-weight: 600 !important;
 }
 
-/* 9. Butang X (Tutup) di Penjuru Modal */
+										  
 #upload-modal button#close-upload-modal,
 #gift-modal button#close-gift-modal,
 #my-photos-modal button#close-my-photos-modal,
@@ -825,11 +825,11 @@ body {
   opacity: 1;
 }
 
-/* =========================================================
-   FASA 7: LUXURY WISHES & MESSAGES SECTION
-   ========================================================= */
+															
+										   
+															   
 
-/* Tajuk & Badge Ucapan */
+						  
 #wishes-section #dyn-wishes-badge {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.3em !important;
@@ -852,7 +852,7 @@ body {
   opacity: 0.8;
 }
 
-/* Kad Utama Ucapan (Glassmorphism Gelap) */
+											
 #wishes-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -861,12 +861,12 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
-/* Buang cahaya blur ungu/butter di penjuru kad ucapan */
+														 
 #wishes-section .glass-card .absolute.blur-3xl {
   display: none !important;
 }
 
-/* Garisan Pemisah Realistik: Tebal di Tengah, Runcing di Hujung */
+																   
 #wishes-section .w-full.h-\[1px\],
 #wishes-section .w-full.h-\[1px\].bg-purpleTheme-100\/85,
 #wishes-section .w-full.h-\[1px\].bg-purpleTheme-100\/80 {
@@ -878,20 +878,20 @@ body {
   margin-bottom: 1.5rem !important;
 }
 
-/* Label Borang Ucapan */
+						 
 #wishes-section label {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.1em !important;
   font-size: 0.75rem !important;
 }
 
-/* Icon dalam Input Nama & Mesej */
+								   
 #wishes-section .relative span.pointer-events-none {
   color: var(--theme-secondary, #D4AF37) !important;
   opacity: 0.7;
 }
 
-/* Kotak Input Nama & Textarea Mesej */
+									   
 #wishes-section input[type="text"],
 #wishes-section textarea {
   background: rgba(0, 0, 0, 0.5) !important;
@@ -912,7 +912,7 @@ body {
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Butang 'Hantar Ucapan' (Gold Metallic Gradient) */
+													 
 #wishes-section button#btn-submit-wish {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -927,20 +927,20 @@ body {
   box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
 }
 
-/* Kotak Amaran Kejayaan Hantar Ucapan */
+										 
 #wishes-section #wish-alert {
   background: rgba(212, 175, 55, 0.15) !important;
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
   color: var(--theme-primary, #F4E8C1) !important;
 }
 
-/* Bahagian Senarai Ucapan (*Wishes Container List*) */
+													   
 #wishes-section span#dyn-wishes-list-title {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.15em !important;
 }
 
-/* Butang 'Refresh' Senarai Ucapan */
+									 
 #wishes-section button#refresh-wishes-btn {
   background: rgba(212, 175, 55, 0.1) !important;
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
@@ -952,7 +952,7 @@ body {
   color: #0c0c0c !important;
 }
 
-/* Kad-kad Individual Ucapan Tetamu */
+									  
 #wishes-container > div {
   background: rgba(0, 0, 0, 0.4) !important;
   border: 1px solid rgba(212, 175, 55, 0.2) !important;
@@ -977,11 +977,11 @@ body {
   border-color: rgba(212, 175, 55, 0.15) !important;
 }
 
-/* =========================================================
-   FASA 8: LUXURY COUNTDOWN & FOOTER SECTION
-   ========================================================= */
+															
+											
+															   
 
-/* 1. Seksyen Countdown */
+						  
 #countdown-section #dyn-cd-badge {
   color: var(--theme-secondary, #D4AF37) !important;
   letter-spacing: 0.3em !important;
@@ -998,7 +998,7 @@ body {
   opacity: 0.8;
 }
 
-/* Kad Utama Countdown (Glassmorphism Gelap) */
+											   
 #countdown-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
@@ -1007,7 +1007,7 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
-/* Kotak Kecil Nombor Countdown (Hari, Jam, Minit, Saat) */
+														   
 #countdown-section .grid > div {
   background: rgba(0, 0, 0, 0.5) !important;
   border: 1px solid rgba(212, 175, 55, 0.25) !important;
@@ -1020,7 +1020,7 @@ body {
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Angka Nombor Countdown */
+							
 #countdown-section .grid span[id^="cd-"] {
   background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
   -webkit-background-clip: text;
@@ -1028,7 +1028,7 @@ body {
   font-weight: 700 !important;
 }
 
-/* Label Kecil di Bawah Angka (Hari, Jam, Minit, Saat) */
+														 
 #countdown-section .grid span[id^="dyn-cd-label-"] {
   color: var(--theme-secondary, #D4AF37) !important;
   opacity: 0.85;
@@ -1036,7 +1036,7 @@ body {
 }
 
 
-/* 2. Bahagian Footer (Salam Kasih / Penutup) */
+												
 footer {
   background-color: var(--theme-bg, #121212) !important;
   border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
@@ -1061,11 +1061,11 @@ footer p#dyn-footer-text {
   letter-spacing: 0.2em !important;
 }
 
-/* =========================================================
-   FASA 9: LUXURY FLOATING DOCK & FAB MENU (BLACK GOLD)
-   ========================================================= */
+															
+													   
+															   
 
-/* 1. Butang Utama Terapung (FAB Trigger) - Gold Metallic */
+															
 #fab-trigger {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
@@ -1084,7 +1084,7 @@ footer p#dyn-footer-text {
   transform: scale(1.08);
 }
 
-/* 2. Bar Dock Terapung Panjang (Glassmorphism Gelap) */
+														
 #fab-dock {
   background: rgba(22, 22, 22, 0.85) !important;
   backdrop-filter: blur(16px) !important;
@@ -1093,7 +1093,7 @@ footer p#dyn-footer-text {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.08) !important;
 }
 
-/* 3. Pautan Asas di Dalam Dock */
+								  
 .fab-link {
   color: rgba(244, 232, 193, 0.5) !important;
   transition: all 0.3s ease;
@@ -1112,7 +1112,7 @@ footer p#dyn-footer-text {
   opacity: 0.7;
 }
 
-/* 4. Pautan yang Sedang Aktif (Current Section Highlight) */
+															 
 .fab-link.text-purpleTheme-900,
 .fab-link.font-bold {
   color: var(--theme-secondary, #D4AF37) !important;
@@ -1132,7 +1132,7 @@ footer p#dyn-footer-text {
   font-weight: 600 !important;
 }
 
-/* 5. Butang "Lagi" (...) & Perbezaan Tona Teks/Ikon */
+													   
 #more-menu-btn i {
   color: var(--theme-secondary, #D4AF37) !important;
   opacity: 0.9 !important;
@@ -1149,7 +1149,7 @@ footer p#dyn-footer-text {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* 6. Popover Menu "Lagi" (...) */
+								  
 #more-popover {
   background: rgba(22, 22, 22, 0.95) !important;
   backdrop-filter: blur(16px) !important;
