@@ -683,3 +683,144 @@ body {
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
   color: var(--theme-primary, #F4E8C1) !important;
 }
+
+/* =========================================================
+   FASA 6 (FINAL POLISH): GLOBAL CUSTOM MODAL LUXURY
+   ========================================================= */
+
+/* 1. Paksa Semua Kotak Modal Mengikut Tema Gelap Mewah (Glassmorphism) */
+#upload-modal .glass-card,
+#custom-confirm-modal .glass-card,
+#gift-modal .glass-card,
+#my-photos-modal.glass-card,
+#my-photos-modal > div,
+#calendar-options-modal > div {
+  background: var(--theme-accent, #161616) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.08) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+
+/* 2. Tajuk & Teks di Dalam Semua Modal */
+#upload-modal h3, #upload-modal p,
+#custom-confirm-modal h3, #custom-confirm-modal p,
+#gift-modal h3, #gift-modal p, #gift-modal h4,
+#my-photos-modal h3, #my-photos-modal p,
+#calendar-options-modal h3, #calendar-options-modal p {
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+
+#upload-modal h3, #custom-confirm-modal h3, #gift-modal h3, #my-photos-modal h3, #calendar-options-modal h3 {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 3. Icon Bulat di Atas Modal */
+#upload-modal .w-12.h-12.rounded-full,
+#custom-confirm-modal #modal-icon-box,
+#gift-modal .w-12.h-12.rounded-full,
+#my-photos-modal .w-12.h-12.rounded-full,
+#calendar-options-modal .w-12.h-12.rounded-full {
+  background: rgba(212, 175, 55, 0.15) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  color: var(--theme-secondary, #D4AF37) !important;
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+/* 4. Kotak Input & Label di Dalam Modal (Muat Naik & Lain-lain) */
+#upload-modal label,
+#gift-modal label {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.1em !important;
+}
+
+#upload-modal input[type="text"] {
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+#upload-modal input[type="text"]:focus {
+  border-color: var(--theme-secondary, #D4AF37) !important;
+  outline: none !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* 5. Kotak Maklumat Bank & QR (Dalam Gift Modal) */
+#gift-modal #bank-section,
+#gift-modal #qr-section,
+#gift-modal #address-section {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+#gift-modal .bg-butter-50 {
+  background: rgba(22, 22, 22, 0.8) !important;
+  border-color: rgba(212, 175, 55, 0.25) !important;
+}
+#gift-modal span#bank-account,
+#gift-modal p#gift-address {
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+
+/* 6. Butang Tindakan dalam Modal (Batal / Tutup / Ya) */
+#upload-modal button#cancel-upload-btn,
+#custom-confirm-modal button#modal-btn-no,
+#calendar-options-modal button[onclick*="remove"] {
+  background: rgba(212, 175, 55, 0.05) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+#upload-modal button#cancel-upload-btn:hover,
+#custom-confirm-modal button#modal-btn-no:hover {
+  background: rgba(212, 175, 55, 0.15) !important;
+  color: var(--theme-secondary, #D4AF37) !important;
+}
+
+/* Butang Utama Pengesahan / Teruskan (Gold Gradient) */
+#upload-modal button#confirm-upload-btn,
+#custom-confirm-modal button#modal-btn-yes,
+#gift-modal button#btn-close-gift,
+#my-photos-modal button#btn-close-my-photos,
+#calendar-options-modal button.bg-butter-200 {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: 1px solid #F3E5AB !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+/* 7. Butang Pilihan Kalendar Apple / Google */
+#calendar-options-modal button {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+#calendar-options-modal button:hover {
+  background: rgba(212, 175, 55, 0.15) !important;
+  border-color: var(--theme-secondary, #D4AF37) !important;
+}
+
+/* 8. Butang 'Salin' (Copy) Nombor Akaun / Alamat */
+#gift-modal button[onclick*="copyToClipboard"] {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+/* 9. Butang X (Tutup) di Penjuru Modal */
+#upload-modal button#close-upload-modal,
+#gift-modal button#close-gift-modal,
+#my-photos-modal button#close-my-photos-modal,
+#calendar-options-modal button[onclick*="remove"] {
+  color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.8;
+}
+#upload-modal button#close-upload-modal:hover,
+#gift-modal button#close-gift-modal:hover,
+#my-photos-modal button#close-my-photos-modal:hover {
+  opacity: 1;
+}
