@@ -1,109 +1,101 @@
-/* Tetapan Asas Tema Dinamik dari Google Sheets */
+/* ==========================================================
+   MULTI-THEME DYNAMIC DESIGN TOKENS (0 FALLBACK STRICT MODE)
+   (Semua nilai wajib ditumpu/di-override secara dinamik dari Google Sheets)
+   ========================================================== */
 :root {
-  --theme-primary: #F4E8C1;
-  --theme-secondary: #D4AF37;
-  --theme-accent: #161616;
-  --theme-bg: #0c0c0c;
+  --theme-bg: ;
+  --theme-surface: ;
+  --theme-text-main: ;
+  --theme-text-muted: ;
+  --theme-primary: ;
+  --theme-border: ;
 }
 
-/* 1. Global Latar Belakang & Teks Utama */
-html, body {
+/* ==========================================================
+   BASE & GLOBAL STYLES
+   ========================================================== */
+html {
   scroll-behavior: smooth;
-  background-color: var(--theme-bg) !important;
-  color: var(--theme-primary) !important;
-  font-family: 'Montserrat', sans-serif;
+  scroll-restoration: manual;
 }
 
-/* 2. Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--theme-bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--theme-secondary);
-  border-radius: 3px;
+body {
+  background-color: var(--theme-bg);
+  color: var(--theme-text-main);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 3. Kad Kaca (Glass Card) - Kekalkan Estetik Elegan */
-.glass-card {
-  background: rgba(22, 22, 22, 0.88) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--theme-secondary) !important;
-  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.15);
+/* ==========================================================
+   DYNAMIC THEME UTILITY CLASSES
+   ========================================================== */
+.dyn-bg {
+  background-color: var(--theme-bg);
 }
 
-/* 4. Tajuk & Teks Utama */
-h1, h2, h3, h4, h5, h6, 
-.font-serif {
-  color: var(--theme-primary) !important;
+.dyn-surface {
+  background-color: var(--theme-surface);
+  border: 1px solid var(--theme-border);
 }
 
-/* 5. Butang Utama (Primary Buttons) */
-#hero-open-btn,
-#dyn-rsvp-submit-btn,
-#btn-submit-wish,
-#btn-close-gift,
-#confirm-upload-btn,
-#modal-btn-yes {
-  background-color: var(--theme-primary) !important;
-  color: var(--theme-bg) !important;
-  border: 1px solid var(--theme-secondary) !important;
+.dyn-text-main {
+  color: var(--theme-text-main);
 }
 
-#hero-open-btn:hover,
-#dyn-rsvp-submit-btn:hover,
-#btn-submit-wish:hover {
-  background-color: var(--theme-secondary) !important;
-  color: var(--theme-bg) !important;
+.dyn-text-muted {
+  color: var(--theme-text-muted);
 }
 
-/* 6. Kotak Borang, Input & Dropdown */
-input[type="text"],
-input[type="tel"],
-select,
-textarea {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  color: var(--theme-primary) !important;
-  border: 1px solid var(--theme-secondary) !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--theme-primary) !important;
-  opacity: 0.4;
-}
-
-select option {
-  background-color: var(--theme-accent);
+.dyn-primary {
   color: var(--theme-primary);
 }
 
-/* 7. Senarai Ucapan Tetamu & Kad Kecil */
-#wishes-container > div {
-  background-color: rgba(255, 255, 255, 0.03) !important;
-  border: 1px solid var(--theme-secondary) !important;
+.dyn-border {
+  border-color: var(--theme-border);
 }
 
-/* 8. Garis Timeline / Pembahagi Atur Cara */
-#dyn-tentative-container::before {
-  background-color: var(--theme-secondary) !important;
+/* ==========================================================
+   CUSTOM GLASSMORPHISM & COMPONENTS
+   ========================================================== */
+.glass-card {
+  background-color: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-#dyn-tentative-container span.rounded-full {
-  background-color: var(--theme-primary) !important;
-  border-color: var(--theme-bg) !important;
+/* Custom Scrollbar untuk kotak kandungan dinamik */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }
 
-/* Responsif Menu */
-@media (min-width: 769px) {
-  .menu-item-collapse { display: flex !important; }
-  #more-menu-container { display: none !important; }
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-@media (max-width: 768px) {
-  .menu-item-collapse { display: none !important; }
-  #more-menu-container { display: block !important; }
+::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-primary);
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

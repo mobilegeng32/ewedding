@@ -143,27 +143,24 @@ document.addEventListener('DOMContentLoaded', () => {
             config[k.trim()] = v;
           }
         });
-		
-		function hexToRgb(hex) {
-		  let cleanedHex = hex.replace('#', '');
-		  if (cleanedHex.length === 3) {
-			cleanedHex = cleanedHex.split('').map(char => char + char).join('');
-		  }
-		  const num = parseInt(cleanedHex, 16);
-		  return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
-		}
 
-		if (config.theme_primary) {
-          document.documentElement.style.setProperty('--theme-primary', config.theme_primary);
-        }
-        if (config.theme_secondary) {
-          document.documentElement.style.setProperty('--theme-secondary', config.theme_secondary);
-        }
-        if (config.theme_accent) {
-          document.documentElement.style.setProperty('--theme-accent', config.theme_accent);
-        }
         if (config.theme_bg) {
           document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
+        }
+        if (config.theme_surface) {
+          document.documentElement.style.setProperty('--theme-surface', config.theme_surface);
+        }
+        if (config.theme_text_main) {
+          document.documentElement.style.setProperty('--theme-text-main', config.theme_text_main);
+        }
+        if (config.theme_text_muted) {
+          document.documentElement.style.setProperty('--theme-text-muted', config.theme_text_muted);
+        }
+        if (config.theme_primary) {
+          document.documentElement.style.setProperty('--theme-primary', config.theme_primary);
+        }
+        if (config.theme_border) {
+          document.documentElement.style.setProperty('--theme-border', config.theme_border);
         }
 		
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
