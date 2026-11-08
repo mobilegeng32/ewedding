@@ -22,19 +22,6 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-/* ================================================================= */
-/* COMPONENTS & REUSABLE ELEMENTS                                    */
-/* ================================================================= */
-
-/* Custom Glassmorphism Card menggunakan Token Murni */
-.glass-card {
-  background-color: var(--theme-accent) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--theme-secondary);
-  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.3);
-}
-
 /* Scrollbar Dinamik mengikut Tema */
 ::-webkit-scrollbar {
   width: 6px;
@@ -56,6 +43,19 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ================================================================= */
+/* COMPONENTS & REUSABLE ELEMENTS                                    */
+/* ================================================================= */
+
+/* Custom Glassmorphism Card menggunakan Token Murni */
+.glass-card {
+  background-color: var(--theme-accent) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--theme-secondary) !important;
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.3);
 }
 
 .smooth-transition {
@@ -113,4 +113,9 @@ body {
 .fab-link.font-bold {
   opacity: 1 !important;
   color: var(--theme-secondary) !important;
+}
+
+#more-popover {
+  background-color: var(--theme-bg) !important;
+  border: 1px solid var(--theme-secondary) !important;
 }
