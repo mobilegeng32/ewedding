@@ -418,41 +418,45 @@
 		  
   </section>
   
-	<section id="countdown-section" class="py-16 px-4 text-center">
+	<section id="countdown-section" class="py-20 px-4 text-center">
 	  <div class="max-w-xl mx-auto space-y-6">
 		<!-- Header Tajuk -->
-		<div class="space-y-1">
-		  <span id="dyn-cd-badge" class="text-xs uppercase tracking-widest text-purpleTheme-700 font-medium">Menghitung Hari</span>
-		  <h2 id="dyn-cd-title" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-medium">Menuju Hari Bahagia</h2>
+		<div class="space-y-1.5">
+		  <span id="dyn-cd-badge" class="text-xs uppercase tracking-[0.25em] text-purpleTheme-700 font-semibold">Menghitung Hari</span>
+		  <h2 id="dyn-cd-title" class="font-serif text-3xl sm:text-4xl text-purpleTheme-900 font-medium tracking-wide">Menuju Hari Bahagia</h2>
 		  <p id="dyn-cd-subtitle" class="text-xs sm:text-sm text-purpleTheme-800/70 font-light">Menuju ikatan suci perkahwinan kami</p>
 		</div>
 
-		<!-- Kad Countdown Glassmorphism dengan Label di Dalam Kotak -->
-		<div class="glass-card rounded-3xl p-6 sm:p-8 border border-purpleTheme-100 shadow-xl bg-white/80 backdrop-blur-md">
+		<!-- Kad Countdown Luxury Minimalist -->
+		<div class="relative bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-6 sm:p-8 border border-purpleTheme-100 shadow-2xl shadow-purpleTheme-900/5">
+		  
+		  <!-- Hiasan Garisan Halus Atas -->
+		  <div class="absolute top-0 inset-x-16 h-[2px] bg-gradient-to-r from-transparent via-purpleTheme-300/50 to-transparent"></div>
+
 		  <div class="grid grid-cols-4 gap-2 sm:gap-4">
 			
 			<!-- Hari -->
-			<div class="w-full bg-butter-100/90 border border-butter-200 rounded-2xl py-3.5 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all hover:shadow-md">
-			  <span id="cd-days" class="font-sans font-bold text-xl sm:text-3xl text-purpleTheme-900 tracking-tight leading-none mb-1">--</span>
-			  <span id="dyn-cd-label-days" class="text-[9px] sm:text-[11px] uppercase tracking-wider text-purpleTheme-700 font-semibold opacity-80">Hari</span>
+			<div class="group relative bg-gradient-to-b from-butter-50 to-butter-100/60 border border-butter-200/80 rounded-2xl py-4 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+			  <span id="cd-days" class="font-sans font-extrabold text-2xl sm:text-4xl text-purpleTheme-900 tracking-tight leading-none mb-1.5">--</span>
+			  <span id="dyn-cd-label-days" class="text-[9px] sm:text-[10px] uppercase tracking-widest text-purpleTheme-700/80 font-medium">Hari</span>
 			</div>
 
 			<!-- Jam -->
-			<div class="w-full bg-butter-100/90 border border-butter-200 rounded-2xl py-3.5 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all hover:shadow-md">
-			  <span id="cd-hours" class="font-sans font-bold text-xl sm:text-3xl text-purpleTheme-900 tracking-tight leading-none mb-1">--</span>
-			  <span id="dyn-cd-label-hours" class="text-[9px] sm:text-[11px] uppercase tracking-wider text-purpleTheme-700 font-semibold opacity-80">Jam</span>
+			<div class="group relative bg-gradient-to-b from-butter-50 to-butter-100/60 border border-butter-200/80 rounded-2xl py-4 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+			  <span id="cd-hours" class="font-sans font-extrabold text-2xl sm:text-4xl text-purpleTheme-900 tracking-tight leading-none mb-1.5">--</span>
+			  <span id="dyn-cd-label-hours" class="text-[9px] sm:text-[10px] uppercase tracking-widest text-purpleTheme-700/80 font-medium">Jam</span>
 			</div>
 
 			<!-- Minit -->
-			<div class="w-full bg-butter-100/90 border border-butter-200 rounded-2xl py-3.5 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all hover:shadow-md">
-			  <span id="cd-minutes" class="font-sans font-bold text-xl sm:text-3xl text-purpleTheme-900 tracking-tight leading-none mb-1">--</span>
-			  <span id="dyn-cd-label-mins" class="text-[9px] sm:text-[11px] uppercase tracking-wider text-purpleTheme-700 font-semibold opacity-80">Minit</span>
+			<div class="group relative bg-gradient-to-b from-butter-50 to-butter-100/60 border border-butter-200/80 rounded-2xl py-4 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+			  <span id="cd-minutes" class="font-sans font-extrabold text-2xl sm:text-4xl text-purpleTheme-900 tracking-tight leading-none mb-1.5">--</span>
+			  <span id="dyn-cd-label-mins" class="text-[9px] sm:text-[10px] uppercase tracking-widest text-purpleTheme-700/80 font-medium">Minit</span>
 			</div>
 
 			<!-- Saat -->
-			<div class="w-full bg-butter-100/90 border border-butter-200 rounded-2xl py-3.5 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all hover:shadow-md">
-			  <span id="cd-seconds" class="font-sans font-bold text-xl sm:text-3xl text-purpleTheme-900 tracking-tight leading-none mb-1">--</span>
-			  <span id="dyn-cd-label-secs" class="text-[9px] sm:text-[11px] uppercase tracking-wider text-purpleTheme-700 font-semibold opacity-80">Saat</span>
+			<div class="group relative bg-gradient-to-b from-butter-50 to-butter-100/60 border border-butter-200/80 rounded-2xl py-4 sm:py-5 px-1 flex flex-col items-center justify-center shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
+			  <span id="cd-seconds" class="font-sans font-extrabold text-2xl sm:text-4xl text-purpleTheme-900 tracking-tight leading-none mb-1.5">--</span>
+			  <span id="dyn-cd-label-secs" class="text-[9px] sm:text-[10px] uppercase tracking-widest text-purpleTheme-700/80 font-medium">Str / Saat</span>
 			</div>
 
 		  </div>
