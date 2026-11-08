@@ -454,3 +454,94 @@ body {
 #details-section #tentative-scroll-indicator i {
   color: var(--theme-secondary, #D4AF37) !important;
 }
+
+/* =========================================================
+   FASA 4: LUXURY RSVP SECTION (DYNAMIC & FORM STYLING)
+   ========================================================= */
+
+/* Tajuk & Badge RSVP */
+#rsvp-section #dyn-rsvp-badge {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.3em !important;
+}
+
+#rsvp-section h2#dyn-rsvp-title {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#rsvp-section p.text-purpleTheme-800\/70,
+#rsvp-section #dyn-rsvp-subtitle,
+#rsvp-section #dyn-rsvp-deadline {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.75;
+}
+
+/* Kad Utama Borang RSVP (Glassmorphism Gelap) */
+#rsvp-section .glass-card {
+  background: var(--theme-accent, #161616) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+/* Label Borang */
+#rsvp-section label {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.1em !important;
+  font-size: 0.75rem !important;
+}
+
+/* Kotak Input & Select Pilihan (Tukar jadi tema gelap mewah) */
+#rsvp-section input[type="text"],
+#rsvp-section input[type="tel"],
+#rsvp-section select {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+#rsvp-section input::placeholder {
+  color: rgba(244, 232, 193, 0.3) !important;
+}
+
+#rsvp-section input:focus,
+#rsvp-section select:focus {
+  border-color: var(--theme-secondary, #D4AF37) !important;
+  outline: none !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Dropdown Option Styling untuk pelayar */
+#rsvp-section select option {
+  background-color: #161616 !important;
+  color: #F4E8C1 !important;
+}
+
+/* Butang Hantar RSVP (Gold Metallic Gradient) */
+#rsvp-section button#dyn-rsvp-submit-btn {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: 1px solid #F3E5AB !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+  transition: all 0.3s ease;
+}
+
+#rsvp-section button#dyn-rsvp-submit-btn:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
+}
+
+/* Kotak Amaran / Mesej Kejayaan RSVP Berjaya Disimpan */
+#rsvp-section #rsvp-alert {
+  background: rgba(212, 175, 55, 0.15) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+}
+#rsvp-section #rsvp-alert i {
+  color: var(--theme-secondary, #D4AF37) !important;
+}
