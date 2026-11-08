@@ -1,12 +1,12 @@
 /* Tetapan Asas Tema Dinamik dari Google Sheets */
 :root {
-  --theme-primary: #F4E8C1;    /* Warna utama / tajuk / butang (cth: #F4E8C1) */
-  --theme-secondary: #D4AF37;  /* Warna sekunder / aksen / garisan */
-  --theme-accent: #161616;     /* Warna latar kotak/kad atau ton lembut */
-  --theme-bg: #0c0c0c;         /* Warna latar belakang keseluruhan laman web */
+  --theme-primary: #F4E8C1;
+  --theme-secondary: #D4AF37;
+  --theme-accent: #161616;
+  --theme-bg: #0c0c0c;
 }
 
-/* 1. Latar Belakang & Teks Global */
+/* Smooth Scrolling Global & Warna Latar Belakang Utama */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
@@ -18,7 +18,7 @@ body {
   color: var(--theme-primary) !important;
 }
 
-/* 2. Custom Scrollbar Mengikut Tema */
+/* Custom Scrollbar Mengikut Tema Dinamik */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -33,6 +33,7 @@ body {
   background: var(--theme-primary);
 }
 
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -41,7 +42,7 @@ body {
   scrollbar-width: none;
 }
 
-/* 3. Kad Kaca (Glass Card & Kotak Utama) */
+/* Glass Card Style (Kad Kaca) */
 .glass-card {
   background: rgba(22, 22, 22, 0.85) !important;
   backdrop-filter: blur(12px);
@@ -50,8 +51,7 @@ body {
   color: var(--theme-primary) !important;
 }
 
-/* 4. Pemetaan Menyeluruh Kelas Tailwind Lama kepada Tema Dinamik */
-/* Menukar semua teks bertema purple/dark kepada warna primary tema baru */
+/* Penyelarasan Menyeluruh Teks dan Tajuk */
 h1, h2, h3, h4, h5, h6,
 .text-purpleTheme-900,
 .text-purpleTheme-800,
@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6,
   color: var(--theme-primary) !important;
 }
 
-/* Menukar butang utama dan elemen gelap kepada warna primary */
+/* Butang Utama & Interaktif */
 .bg-purpleTheme-900,
 .bg-purpleTheme-800,
 .bg-purpleTheme-700 {
@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6,
   background-color: var(--theme-secondary) !important;
 }
 
-/* Menukar elemen butter/accent kepada warna aksen/sekunder */
+/* Kotak Aksen / Butter */
 .bg-butter-50,
 .bg-butter-100,
 .bg-butter-200,
@@ -81,20 +81,13 @@ h1, h2, h3, h4, h5, h6,
   color: var(--theme-primary) !important;
 }
 
+/* Garisan Sempadan (Border) */
 .border-butter-100,
 .border-butter-200,
 .border-butter-300,
 .border-purpleTheme-100,
 .border-purpleTheme-200 {
   border-color: var(--theme-secondary) !important;
-}
-
-/* Kotak-kotak kecil di dalam (seperti countdown & item senarai) */
-.grid div[class*="bg-butter"],
-.grid div[class*="bg-white"] {
-  background-color: var(--theme-accent) !important;
-  border-color: var(--theme-secondary) !important;
-  color: var(--theme-primary) !important;
 }
 
 /* Transisi & Bayang */
