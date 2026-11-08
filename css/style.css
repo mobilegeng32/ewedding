@@ -1,4 +1,4 @@
-/* Tetapan Asas & Fallback Warna Dinamik */
+/* Tetapan Asas Tema Dinamik */
 :root {
   --theme-primary: #261042;
   --theme-secondary: #583083;
@@ -6,7 +6,7 @@
   --theme-bg: #FAF8F5;
 }
 
-/* Smooth Scrolling Global */
+/* 1. Latar Belakang & Teks Global */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
@@ -18,7 +18,7 @@ body {
   color: var(--theme-primary) !important;
 }
 
-/* Custom Scrollbar Mengikut Tema Dinamik */
+/* 2. Custom Scrollbar Mengikut Tema */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -34,7 +34,6 @@ body {
   background: var(--theme-primary);
 }
 
-/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -43,19 +42,53 @@ body {
   scrollbar-width: none;
 }
 
-/* Glass Card Style */
+/* 3. Kad Kaca (Glass Card) Menyesuaikan Warna Tema & Border */
 .glass-card {
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(88, 48, 131, 0.1);
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--theme-secondary) !important;
+  border-opacity: 0.2;
 }
 
+/* 4. Tajuk, Teks Utama & Garisan Hiasan */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--theme-primary) !important;
+}
+
+/* Memastikan elemen dengan warna primer bertukar mengikut Google Sheets */
+.text-purpleTheme-900 {
+  color: var(--theme-primary) !important;
+}
+
+.text-purpleTheme-700, .text-purpleTheme-800 {
+  color: var(--theme-secondary) !important;
+}
+
+/* 5. Butang Utama & Aksen (Butter / Accent) */
+.bg-purpleTheme-900 {
+  background-color: var(--theme-primary) !important;
+}
+
+.bg-purpleTheme-900:hover {
+  background-color: var(--theme-secondary) !important;
+}
+
+.bg-butter-100, .bg-butter-200 {
+  background-color: var(--theme-accent) !important;
+}
+
+.border-butter-200, .border-butter-300 {
+  border-color: var(--theme-accent) !important;
+}
+
+/* Transisi Lancar */
 .smooth-transition {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
 }
 
 /* Responsif Menu (Desktop vs Mobile) */
