@@ -121,3 +121,39 @@ select option {
   .menu-item-collapse { display: none !important; }
   #more-menu-container { display: block !important; }
 }
+
+/* 1. Paksa garis timeline / pembahagi atur cara majlis ikut warna sekunder tema */
+#dyn-tentative-container::before,
+.before\:bg-butter-300,
+.border-purpleTheme-50,
+.border-purpleTheme-100 {
+  border-color: var(--theme-secondary) !important;
+  background-color: var(--theme-secondary) !important;
+}
+
+/* 2. Paksa kotak-kotak senarai ucapan tetamu & kad kecil ikut warna aksen gelap */
+#wishes-container > div,
+.bg-white,
+.bg-white\/80,
+.bg-white\/85,
+.bg-white\/90,
+.bg-white\/95 {
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-secondary) !important;
+  color: var(--theme-primary) !important;
+}
+
+/* 3. Pastikan teks nama dan masa dalam senarai ucapan jelas */
+#wishes-container h4 {
+  color: var(--theme-primary) !important;
+}
+
+#wishes-container span {
+  color: var(--theme-primary) !important;
+  opacity: 0.7;
+}
+
+#wishes-container p {
+  color: var(--theme-primary) !important;
+  opacity: 0.9;
+}
