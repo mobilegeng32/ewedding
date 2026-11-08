@@ -77,58 +77,78 @@ body {
   }
 }
 
-/* ==========================================
-   FASA 1: DYNAMIC MAPPING UNTUK HERO SECTION
-   ========================================== */
+/* =========================================================
+   FASA 1 (IMPROVED): LUXURY DARK & GOLD ENGINE (DYNAMIC)
+   ========================================================= */
+
+/* 1. Latar Belakang + Ambient Lighting di Tengah */
 #hero-section {
   background-color: var(--theme-bg) !important;
+  background-image: 
+    radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.12) 0%, transparent 65%),
+    radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 70%) !important;
+  background-attachment: fixed;
   color: var(--theme-primary) !important;
 }
 
-/* Badge Atas Tajuk */
-#hero-section #dyn-hero-badge {
-  background-color: var(--theme-secondary) !important;
-  color: var(--theme-bg) !important;
-  border-color: var(--theme-secondary) !important;
-  opacity: 0.95;
-}
-
-/* Nama Pengantin & Simbol & */
-#hero-section h1, 
+/* 2. Kesan Metallic Gold Gradient pada Nama Pengantin */
 #hero-section #dyn-hero-groom,
-#hero-section #dyn-hero-bride {
-  color: var(--theme-primary) !important;
-}
+#hero-section #dyn-hero-bride,
 #hero-section span.italic {
-  color: var(--theme-secondary) !important;
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 30%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
 }
 
-/* Tagline & Tarikh */
-#hero-section p, 
-#hero-section #dyn-hero-tagline,
-#hero-section #dyn-hero-date {
+/* 3. Badge Atas (Dark Glassmorphism dengan Border Emas Nipis) */
+#hero-section #dyn-hero-badge {
+  background: rgba(22, 22, 22, 0.7) !important;
+  color: var(--theme-secondary) !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+/* 4. Tagline & Tarikh */
+#hero-section #dyn-hero-tagline {
   color: var(--theme-primary) !important;
-  opacity: 0.85;
+  opacity: 0.8;
+  letter-spacing: 0.15em;
+}
+#hero-section #dyn-hero-date {
+  color: var(--theme-secondary) !important;
+  letter-spacing: 0.25em;
 }
 
-/* Garisan Pemisah Melintang */
+/* 5. Garisan Pemisah Melintang (Gradient Divider) */
 #hero-section .w-16 {
-  background-color: var(--theme-secondary) !important;
-  opacity: 0.4;
+  height: 1px !important;
+  background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
+  opacity: 0.6;
 }
 
-/* Butang 'Buka Undangan' */
+/* 6. Butang 'Buka Undangan' (Gold Metallic Gradient & Glow) */
 #hero-section #hero-open-btn {
-  background-color: var(--theme-secondary) !important;
-  color: var(--theme-bg) !important;
-  border-color: var(--theme-secondary) !important;
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
+  color: #0c0c0c !important;
+  border: 1px solid #F3E5AB !important;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+  font-weight: 700 !important;
 }
+#hero-section #hero-open-btn:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
+}
+
+/* Bulatan Icon Kecil Dalam Butang */
 #hero-section #hero-open-btn span span {
-  background-color: var(--theme-bg) !important;
+  background: rgba(12, 12, 12, 0.35) !important;
   color: var(--theme-secondary) !important;
 }
 
-/* Icon Anak Panah Bawah */
+/* 7. Icon Anak Panah Skrol Bawah */
 #hero-section #hero-arrow-down {
   color: var(--theme-secondary) !important;
   opacity: 0.7;
