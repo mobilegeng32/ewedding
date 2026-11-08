@@ -861,6 +861,23 @@ body {
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
+/* Buang cahaya blur ungu/butter di penjuru kad ucapan */
+#wishes-section .glass-card .absolute.blur-3xl {
+  display: none !important;
+}
+
+/* Garisan Pemisah Realistik: Tebal di Tengah, Runcing di Hujung */
+#wishes-section .w-full.h-\[1px\],
+#wishes-section .w-full.h-\[1px\].bg-purpleTheme-100\/85,
+#wishes-section .w-full.h-\[1px\].bg-purpleTheme-100\/80 {
+  height: 2px !important;
+  background: linear-gradient(to right, transparent 0%, rgba(212, 175, 55, 0.2) 20%, rgba(212, 175, 55, 0.8) 50%, rgba(212, 175, 55, 0.2) 80%, transparent 100%) !important;
+  border: none !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
 /* Label Borang Ucapan */
 #wishes-section label {
   color: var(--theme-secondary, #D4AF37) !important;
