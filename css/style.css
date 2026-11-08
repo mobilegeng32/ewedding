@@ -20,6 +20,7 @@ body {
   background-color: var(--theme-bg) !important;
   color: var(--theme-primary) !important;
   font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
 }
 
 /* Scrollbar Dinamik mengikut Tema */
@@ -46,24 +47,35 @@ body {
 }
 
 /* ================================================================= */
-/* COMPONENTS & REUSABLE ELEMENTS                                    */
+/* COMPONENTS & REUSABLE ELEMENTS (Eksklusif & Soft Touch Asal)      */
 /* ================================================================= */
 
-/* Custom Glassmorphism Card menggunakan Token Murni */
+/* Kad Glassmorphism Mewah berlayer halus */
 .glass-card {
   background-color: var(--theme-accent) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--theme-secondary) !important;
-  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-secondary);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 0 15px rgba(0, 0, 0, 0.05);
 }
 
 .smooth-transition {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.15);
+}
+
+/* Animasi Halus */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 /* ================================================================= */
@@ -87,25 +99,25 @@ body {
   }
 }
 
-/* Floating Action Button (FAB) & Dock */
+/* Floating Action Button (FAB) & Dock dengan Kesan Glow Lembut */
 #fab-trigger {
   background-color: var(--theme-primary) !important;
   color: var(--theme-accent) !important;
   border: 1px solid var(--theme-secondary);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease;
 }
 
 #fab-dock {
   background-color: var(--theme-bg) !important;
-  backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(20px) !important;
   border: 1px solid var(--theme-secondary) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
 }
 
 .fab-link {
   color: var(--theme-primary) !important;
-  opacity: 0.7;
+  opacity: 0.65;
   transition: all 0.3s ease;
 }
 
@@ -118,4 +130,5 @@ body {
 #more-popover {
   background-color: var(--theme-bg) !important;
   border: 1px solid var(--theme-secondary) !important;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
 }
