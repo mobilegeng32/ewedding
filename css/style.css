@@ -1142,3 +1142,17 @@ footer p#dyn-footer-text {
 #more-popover i {
   color: var(--theme-secondary, #D4AF37) !important;
 }
+
+#more-menu-btn,
+#more-menu-btn i,
+#more-menu-btn span {
+  color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.85 !important;
+}
+
+#more-menu-btn:hover,
+#more-menu-btn:hover i,
+#more-menu-btn:hover span {
+  opacity: 1 !important;
+  color: var(--theme-primary, #F4E8C1) !important;
+}
