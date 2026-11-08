@@ -144,24 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        if (config.theme_bg) {
-          document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
-        }
-        if (config.theme_surface) {
-          document.documentElement.style.setProperty('--theme-surface', config.theme_surface);
-        }
-        if (config.theme_text_main) {
-          document.documentElement.style.setProperty('--theme-text-main', config.theme_text_main);
-        }
-        if (config.theme_text_muted) {
-          document.documentElement.style.setProperty('--theme-text-muted', config.theme_text_muted);
-        }
-        if (config.theme_primary) {
-          document.documentElement.style.setProperty('--theme-primary', config.theme_primary);
-        }
-        if (config.theme_border) {
-          document.documentElement.style.setProperty('--theme-border', config.theme_border);
-        }
+		if (config) {
+		  if (config.theme_bg) {
+			document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
+		  }
+		  if (config.theme_surface) {
+			document.documentElement.style.setProperty('--theme-accent', config.theme_surface);
+			document.documentElement.style.setProperty('--theme-surface', config.theme_surface);
+		  }
+		  if (config.theme_text_main) {
+			document.documentElement.style.setProperty('--theme-primary', config.theme_text_main);
+		  }
+		  if (config.theme_text_muted) {
+			document.documentElement.style.setProperty('--theme-secondary', config.theme_text_muted);
+		  }
+		  if (config.theme_primary) {
+			document.documentElement.style.setProperty('--theme-secondary', config.theme_primary);
+		  }
+		  if (config.theme_border) {
+			document.documentElement.style.setProperty('--theme-accent-border', config.theme_border);
+		  }
+		}
 		
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
