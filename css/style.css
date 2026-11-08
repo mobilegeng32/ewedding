@@ -153,3 +153,85 @@ body {
   color: var(--theme-secondary) !important;
   opacity: 0.7;
 }
+
+/* =========================================================
+   FASA 2: LUXURY INVITATION SECTION (DYNAMIC MAPPING)
+   ========================================================= */
+
+/* Latar Belakang Kad Utama (Glassmorphism Gelap Mewah) */
+#invitation-section .glass-card {
+  background: var(--theme-accent, #161616) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+/* Sudut Vektor Emas pada Kad (*Corner Ornaments*) */
+#invitation-section .absolute.top-4.left-4 {
+  border-color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.6;
+}
+#invitation-section .absolute.bottom-4.right-4 {
+  border-color: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.6;
+}
+
+/* Cahaya Latar Belakang Lembut (*Glow*) */
+#invitation-section .bg-butter-200\/40,
+#invitation-section .bg-purpleTheme-100\/40 {
+  background: rgba(212, 175, 55, 0.06) !important;
+  filter: blur(30px);
+}
+
+/* Kaligrafi Arab (Bismillah) */
+#invitation-section #dyn-inv-arabic {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Teks Mukaddimah & Penutup */
+#invitation-section #dyn-inv-prelude,
+#invitation-section #dyn-inv-closing {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.8;
+}
+
+/* Kotak Salutation (Bapak / Ibu / Saudara / i) */
+#invitation-section .inline-block.bg-butter-100\/90 {
+  background: rgba(212, 175, 55, 0.1) !important;
+  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+}
+#invitation-section #dyn-inv-salutation {
+  color: var(--theme-secondary, #D4AF37) !important;
+  letter-spacing: 0.1em;
+}
+
+/* Nama Penuh Pengantin (Groom & Bride) */
+#invitation-section h3#dyn-groom-fullname,
+#invitation-section h3#dyn-bride-fullname {
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, var(--theme-secondary) 70%, #856404 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Penerangan Perihal Pengantin (Anak kepada...) */
+#invitation-section #dyn-groom-desc,
+#invitation-section #dyn-bride-desc {
+  color: var(--theme-primary, #F4E8C1) !important;
+  opacity: 0.75;
+}
+
+/* Garisan Pemisah & Bulatan Simbol "&" di Tengah */
+#invitation-section .w-12.h-\[1px\] {
+  background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
+  opacity: 0.5;
+}
+#invitation-section span.rounded-full.bg-butter-100 {
+  background: #1A1818 !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+}
+#invitation-section span.italic.text-purpleTheme-700 {
+  color: var(--theme-secondary, #D4AF37) !important;
+}
