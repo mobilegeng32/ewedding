@@ -237,7 +237,7 @@ body {
 }
 
 /* =========================================================
-   FASA 3: LUXURY DETAILS & TENTATIVE SECTION (DYNAMIC)
+   FASA 3 (FIXED): LUXURY DETAILS & TENTATIVE SECTION
    ========================================================= */
 
 /* Tajuk Utama Seksyen Lokasi & Atur Cara */
@@ -254,30 +254,32 @@ body {
 
 #details-section .w-12.h-\[1px\] {
   background: linear-gradient(to right, transparent, var(--theme-secondary), transparent) !important;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
-/* 1. Kad Utama (Glassmorphism Gelap Mewah) */
+/* 1. Kad Utama (Glassmorphism Gelap Mewah & Sudut Vektor) */
 #details-section .glass-card {
   background: var(--theme-accent, #161616) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.05);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.05);
+  position: relative;
 }
 
 /* Icon Masjid & Icon List di Atas Kad */
 #details-section .w-12.h-12.rounded-full {
   background: rgba(212, 175, 55, 0.1) !important;
-  border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
   color: var(--theme-secondary, #D4AF37) !important;
-  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1);
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.15);
 }
 
 /* Tajuk Dalam Kad (Masa & Lokasi / Atur Cara Majlis) */
 #details-section h3#dyn-location-card-title,
 #details-section h3#dyn-tentative-card-title {
   color: var(--theme-secondary, #D4AF37) !important;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 /* Maklumat Tarikh, Masa & Lokasi Teks */
@@ -303,9 +305,9 @@ body {
 }
 #details-section a#dyn-gmaps-link:hover,
 #details-section a#dyn-waze-link:hover {
-  background: var(--theme-secondary, #D4AF37) !important;
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
   color: #0c0c0c !important;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 #details-section a#dyn-gmaps-link i,
 #details-section a#dyn-waze-link i {
@@ -316,17 +318,17 @@ body {
   color: #0c0c0c !important;
 }
 
-/* Butang 'Simpan ke Kalendar' */
+/* Butang 'Simpan ke Kalendar' (Gold Metallic Gradient) */
 #details-section button#add-calendar-btn {
   background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%) !important;
   color: #0c0c0c !important;
   border: 1px solid #F3E5AB !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+  font-weight: 700 !important;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
 }
 #details-section button#add-calendar-btn:hover {
   background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%) !important;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.45);
 }
 
 /* Bahagian Hubungi / Pertanyaan (Contact Persons) */
@@ -336,8 +338,8 @@ body {
 }
 
 #details-section .bg-white\/80 {
-  background: rgba(0, 0, 0, 0.4) !important;
-  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
 }
 #details-section p#dyn-c1-name,
 #details-section p#dyn-c2-name {
@@ -350,10 +352,11 @@ body {
 }
 
 /* Butang Telefon & WhatsApp Contact */
-#details-section div.bg-black\/40 a.bg-gold-500\/20,
+#details-section .w-7.h-7.rounded-lg {
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
 #details-section .w-7.h-7.rounded-lg.bg-butter-200 {
   background: rgba(212, 175, 55, 0.15) !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
   color: var(--theme-secondary, #D4AF37) !important;
 }
 #details-section .w-7.h-7.rounded-lg.bg-butter-200:hover {
@@ -361,26 +364,26 @@ body {
   color: #0c0c0c !important;
 }
 
-/* Atur Cara Majlis (Tentative Timeline List) */
+/* Atur Cara Majlis (Tentative Timeline List - Buang unsur ungu) */
 #details-section #dyn-tentative-container {
-  border-left-color: rgba(212, 175, 55, 0.4) !important;
+  border-left: 2px solid rgba(212, 175, 55, 0.4) !important;
+}
+#details-section #dyn-tentative-container div.relative span.absolute {
+  background: var(--theme-secondary, #D4AF37) !important;
+  border: 2px solid #0c0c0c !important;
 }
 #details-section #dyn-tentative-container span.bg-butter-100 {
-  background: rgba(212, 175, 55, 0.1) !important;
+  background: rgba(212, 175, 55, 0.12) !important;
   color: var(--theme-secondary, #D4AF37) !important;
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 #details-section #dyn-tentative-container p.text-purpleTheme-900 {
   color: var(--theme-primary, #F4E8C1) !important;
   opacity: 0.9;
 }
-#details-section #dyn-tentative-container span.rounded-full {
-  background: var(--theme-secondary, #D4AF37) !important;
-  border-color: #0c0c0c !important;
-}
 
 /* Skrol Indikator di Bawah Tentative */
 #details-section #tentative-scroll-indicator {
   color: rgba(212, 175, 55, 0.6) !important;
-  border-top-color: rgba(212, 175, 55, 0.2) !important;
+  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
 }
