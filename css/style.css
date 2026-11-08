@@ -76,3 +76,60 @@ body {
     display: block !important;
   }
 }
+
+/* ==========================================
+   FASA 1: DYNAMIC MAPPING UNTUK HERO SECTION
+   ========================================== */
+#hero-section {
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-primary) !important;
+}
+
+/* Badge Atas Tajuk */
+#hero-section #dyn-hero-badge {
+  background-color: var(--theme-secondary) !important;
+  color: var(--theme-bg) !important;
+  border-color: var(--theme-secondary) !important;
+  opacity: 0.95;
+}
+
+/* Nama Pengantin & Simbol & */
+#hero-section h1, 
+#hero-section #dyn-hero-groom,
+#hero-section #dyn-hero-bride {
+  color: var(--theme-primary) !important;
+}
+#hero-section span.italic {
+  color: var(--theme-secondary) !important;
+}
+
+/* Tagline & Tarikh */
+#hero-section p, 
+#hero-section #dyn-hero-tagline,
+#hero-section #dyn-hero-date {
+  color: var(--theme-primary) !important;
+  opacity: 0.85;
+}
+
+/* Garisan Pemisah Melintang */
+#hero-section .w-16 {
+  background-color: var(--theme-secondary) !important;
+  opacity: 0.4;
+}
+
+/* Butang 'Buka Undangan' */
+#hero-section #hero-open-btn {
+  background-color: var(--theme-secondary) !important;
+  color: var(--theme-bg) !important;
+  border-color: var(--theme-secondary) !important;
+}
+#hero-section #hero-open-btn span span {
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-secondary) !important;
+}
+
+/* Icon Anak Panah Bawah */
+#hero-section #hero-arrow-down {
+  color: var(--theme-secondary) !important;
+  opacity: 0.7;
+}
