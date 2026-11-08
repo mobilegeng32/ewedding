@@ -237,7 +237,7 @@ body {
 }
 
 /* =========================================================
-   FASA 3 (REFINED): LUXURY DETAILS & TENTATIVE SECTION
+   FASA 3 (FINAL): LUXURY DETAILS & TENTATIVE SECTION
    ========================================================= */
 
 /* Tajuk Utama Seksyen Lokasi & Atur Cara */
@@ -296,7 +296,7 @@ body {
   color: var(--theme-secondary, #D4AF37) !important;
 }
 
-/* Garisan Pemisah Dalam Kad Kiri (Betulkan supaya halus & eksklusif) */
+/* Garisan Pemisah Dalam Kad Kiri */
 #details-section .border-t {
   border-color: rgba(212, 175, 55, 0.2) !important;
 }
@@ -357,7 +357,7 @@ body {
   opacity: 0.6;
 }
 
-/* Butang Telefon & WhatsApp Contact (Bersihkan warna asal) */
+/* Butang Telefon & WhatsApp Contact */
 #details-section .w-7.h-7.rounded-lg {
   border: 1px solid rgba(212, 175, 55, 0.3) !important;
 }
@@ -369,7 +369,6 @@ body {
   background: var(--theme-secondary, #D4AF37) !important;
   color: #0c0c0c !important;
 }
-/* Tetapkan butang WhatsApp supaya serasi warna gelap */
 #details-section a.bg-emerald-500, 
 #details-section a.bg-emerald-600 {
   background: rgba(16, 185, 129, 0.2) !important;
@@ -382,34 +381,69 @@ body {
   color: #ffffff !important;
 }
 
-/* Atur Cara Majlis (Timeline - Betulkan ketebalan garisan & titik) */
+/* =========================================================
+   TENTATIVE TIMELINE FIX (Clean, Centered & Unboxed Time)
+   ========================================================= */
 #details-section #dyn-tentative-container {
-  position: relative;
-}
-#details-section #dyn-tentative-container.before\:bg-butter-300::before,
-#details-section #dyn-tentative-container::before {
-  width: 1px !important;
-  background: rgba(212, 175, 55, 0.4) !important;
-  left: 6px !important;
-}
-#details-section #dyn-tentative-container div.relative span.absolute {
-  width: 9px !important;
-  height: 9px !important;
-  background: var(--theme-secondary, #D4AF37) !important;
-  border: 2px solid #0c0c0c !important;
-  left: -17px !important;
-}
-#details-section #dyn-tentative-container span.bg-butter-100 {
-  background: rgba(212, 175, 55, 0.12) !important;
-  color: var(--theme-secondary, #D4AF37) !important;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-}
-#details-section #dyn-tentative-container p.text-purpleTheme-900 {
-  color: var(--theme-primary, #F4E8C1) !important;
-  opacity: 0.9;
+  position: relative !important;
+  padding-left: 24px !important;
+  margin-left: 4px !important;
 }
 
-/* Skrol Indikator di Bawah Tentative (Buang warna ungu) */
+#details-section #dyn-tentative-container::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 6px !important;
+  top: 6px !important;
+  bottom: 6px !important;
+  width: 2px !important;
+  background: var(--theme-secondary, #D4AF37) !important;
+  opacity: 0.5 !important;
+}
+
+#details-section #dyn-tentative-container div.relative span.absolute,
+#details-section #dyn-tentative-container .relative > span:first-child {
+  position: absolute !important;
+  left: -21.5px !important;
+  top: 4px !important;
+  width: 11px !important;
+  height: 11px !important;
+  border-radius: 50% !important;
+  background: var(--theme-secondary, #D4AF37) !important;
+  border: 2px solid var(--theme-accent, #161616) !important;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.5) !important;
+  z-index: 2 !important;
+}
+
+#details-section #dyn-tentative-container span.bg-butter-100,
+#details-section #dyn-tentative-container .text-xs.font-semibold {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  display: inline-block !important;
+  color: var(--theme-secondary, #D4AF37) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 2px !important;
+}
+
+#details-section #dyn-tentative-container p.text-purpleTheme-900,
+#details-section #dyn-tentative-container p {
+  color: var(--theme-primary, #F4E8C1) !important;
+  font-size: 0.95rem !important;
+  font-weight: 300 !important;
+  opacity: 0.9 !important;
+  line-height: 1.5 !important;
+}
+
+#details-section #dyn-tentative-container > div {
+  margin-bottom: 1.5rem !important;
+}
+#details-section #dyn-tentative-container > div:last-child {
+  margin-bottom: 0 !important;
+}
+
 #details-section #tentative-scroll-indicator {
   color: rgba(212, 175, 55, 0.7) !important;
   border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
