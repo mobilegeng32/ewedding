@@ -1,17 +1,17 @@
 /* ==========================================================
-   DINAMIK COLOR THEME - 0 FALLBACK ARCHITECTURE
-   ================================================---------- */
+   PURE 0-FALLBACK THEME ARCHITECTURE (DIRECT FROM GVIZ DB)
+   ========================================================== */
 
 :root {
-  --theme-bg: transparent;
-  --theme-surface: transparent;
-  --theme-text-main: inherit;
-  --theme-text-muted: inherit;
-  --theme-primary: transparent;
-  --theme-border: transparent;
+  --theme-bg: ;
+  --theme-surface: ;
+  --theme-text-main: ;
+  --theme-text-muted: ;
+  --theme-primary: ;
+  --theme-border: ;
 }
 
-/* Smooth Scrolling Global */
+/* Global Base Reset */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
@@ -23,7 +23,7 @@ body.theme-body {
   background-image: none !important;
 }
 
-/* Custom Scrollbar Mengikut Warna Database */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -32,23 +32,17 @@ body.theme-body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--theme-primary);
-  opacity: 0.5;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--theme-primary);
 }
 
-/* Utility Class untuk Hilangkan Scrollbar tetapi Kekalkan Fungsi Skrol */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+/* Utility Classes */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Semantic Classes (Mengambil nilai terus dari CSS Variables --theme-*) */
+/* Dynamic Semantic Classes */
 .themed-card {
   background-color: var(--theme-surface) !important;
   border-color: var(--theme-border) !important;
@@ -102,21 +96,13 @@ body.theme-body {
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive Menu (Desktop vs Mobile) */
+/* Responsive Menu */
 @media (min-width: 769px) {
-  .menu-item-collapse {
-    display: flex !important;
-  }
-  #more-menu-container {
-    display: none !important;
-  }
+  .menu-item-collapse { display: flex !important; }
+  #more-menu-container { display: none !important; }
 }
 
 @media (max-width: 768px) {
-  .menu-item-collapse {
-    display: none !important;
-  }
-  #more-menu-container {
-    display: block !important;
-  }
+  .menu-item-collapse { display: none !important; }
+  #more-menu-container { display: block !important; }
 }

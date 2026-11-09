@@ -112,22 +112,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- FUNGSI UTAMA: MENGAMBIL & MENYUNTIK TEMA WARNA SECARA DINAMIK (0 FALLBACK) ---
   function applyDynamicThemeFromGViz(config) {
-    const themeKeys = [
-      'theme_bg',
-      'theme_surface',
-      'theme_text_main',
-      'theme_text_muted',
-      'theme_primary',
-      'theme_border'
-    ];
+	  const themeKeys = [
+		'theme_bg',
+		'theme_surface',
+		'theme_text_main',
+		'theme_text_muted',
+		'theme_primary',
+		'theme_border'
+	  ];
 
-    themeKeys.forEach(key => {
-      if (config[key]) {
-        // Terus suntik nilai mentah dari database ke CSS Custom Properties
-        document.documentElement.style.setProperty(`--${key.replace('_', '-')}`, config[key]);
-      }
-    });
-  }
+	  themeKeys.forEach(key => {
+		if (config[key]) {
+		  // Terus suntik nilai mentah ke pembolehubah CSS tanpa sebarang fallback
+		  document.documentElement.style.setProperty(`--${key.replace('_', '-')}`, config[key]);
+		}
+	  });
+	}
   
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
