@@ -3,12 +3,12 @@
    ========================================================== */
 
 :root {
-  --theme-bg: #FAF8F5;
-  --theme-surface: #FFFFFF;
-  --theme-text-main: #261042;
-  --theme-text-muted: #583083;
-  --theme-primary: #583083;
-  --theme-border: #E6D7F6;
+  --theme-bg: #0c0c0c;
+  --theme-surface: rgba(255, 255, 255, 0.05);
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: rgba(255, 255, 255, 0.7);
+  --theme-btn-primary: #ffffff;
+  --theme-btn-secondary: transparent;
 }
 
 /* Global Base Reset */
