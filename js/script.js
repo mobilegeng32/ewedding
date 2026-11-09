@@ -110,34 +110,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, 300);
 
-  // --- FUNGSI UTAMA: MENGAMBIL & MENYUNTIK TEMA WARNA SECARA DINAMIK (0 FALLBACK) ---
   function applyDynamicThemeFromGViz(config) {
-  if (!config) return;
+    if (!config) return;
 
-  const themeMapping = [
-    'theme_bg',
-    'theme_surface',
-    'theme_text_primary',
-    'theme_text_secondary',
-    'theme_btn_primary',
-    'theme_btn_secondary'
-  ];
+    const themeMapping = [
+      'theme_bg',
+      'theme_surface',
+      'theme_text_primary',
+      'theme_text_secondary',
+      'theme_btn_primary',
+      'theme_btn_secondary'
+    ];
 
-  themeMapping.forEach(key => {
-    if (config[key]) {
-      // Menimpa (override) pembolehubah CSS dari data Google Sheets
-      document.documentElement.style.setProperty(`--${key.replace(/_/g, '-')}`, config[key]);
+    themeMapping.forEach(key => {
+      if (config[key]) {
+        document.documentElement.style.setProperty(`--${key.replace(/_/g, '-')}`, config[key]);
+      }
+    });
+
+    if (config.theme_bg) {
+      document.body.style.backgroundColor = config.theme_bg;
     }
-  });
-
-  // Memastikan warna latar & teks utama body mengikut pembolehubah terkini
-  if (config.theme_bg) {
-    document.body.style.backgroundColor = config.theme_bg;
+    if (config.theme_text_primary) {
+      document.body.style.color = config.theme_text_primary;
+    }
   }
-  if (config.theme_text_primary) {
-    document.body.style.color = config.theme_text_primary;
-  }
-}
   
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
@@ -172,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 		
-        // Panggil fungsi suntikan tema warna (0 Fallback, direct dari DB)
         applyDynamicThemeFromGViz(config);
 		
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
@@ -344,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
           footerTextEl.innerHTML = `${prefixText} &copy; ${currentYear}`;
         }
 		
-        if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt themed-primary mr-2"></i> ${config.event_date}`;
+        if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt theme-text-secondary mr-2"></i> ${config.event_date}`;
 		
         if (config.event_date) {
           let cleanDateStr = String(config.event_date).replace(/^[A-Za-z]+,\s*/, ''); 
@@ -378,9 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.ics_end) icsDataConfig.end = config.ics_end;
 		
         if (config.event_time && document.getElementById('dyn-event-time')) 
-          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock themed-primary mr-2"></i> ${config.event_time}`;
+          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock theme-text-secondary mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) 
-          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt themed-primary mr-2"></i> ${config.event_location}`;
+          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt theme-text-secondary mr-2"></i> ${config.event_location}`;
 		
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink && config.gmaps_url) { 
