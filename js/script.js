@@ -5,6 +5,7 @@ window.addEventListener('load', () => {
   window.scrollTo(0, 0);
 });		
 	
+ 
 document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
@@ -109,32 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }, 300);
-
-  function applyDynamicThemeFromGViz(config) {
-    if (!config) return;
-
-    const themeMapping = [
-      'theme_bg',
-      'theme_surface',
-      'theme_text_primary',
-      'theme_text_secondary',
-      'theme_btn_primary',
-      'theme_btn_secondary'
-    ];
-
-    themeMapping.forEach(key => {
-      if (config[key]) {
-        document.documentElement.style.setProperty(`--${key.replace(/_/g, '-')}`, config[key]);
-      }
-    });
-
-    if (config.theme_bg) {
-      document.body.style.backgroundColor = config.theme_bg;
-    }
-    if (config.theme_text_primary) {
-      document.body.style.color = config.theme_text_primary;
-    }
-  }
   
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
@@ -169,7 +144,18 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 		
-        applyDynamicThemeFromGViz(config);
+        if (config.theme_primary) {
+          document.documentElement.style.setProperty('--theme-primary', config.theme_primary);
+        }
+        if (config.theme_secondary) {
+          document.documentElement.style.setProperty('--theme-secondary', config.theme_secondary);
+        }
+        if (config.theme_accent) {
+          document.documentElement.style.setProperty('--theme-accent', config.theme_accent);
+        }
+        if (config.theme_bg) {
+          document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
+        }
 		
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
@@ -340,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
           footerTextEl.innerHTML = `${prefixText} &copy; ${currentYear}`;
         }
 		
-        if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt theme-text-secondary mr-2"></i> ${config.event_date}`;
+        if (config.event_date && document.getElementById('dyn-event-date')) document.getElementById('dyn-event-date').innerHTML = `<i class="far fa-calendar-alt text-purpleTheme-700 mr-2"></i> ${config.event_date}`;
 		
         if (config.event_date) {
           let cleanDateStr = String(config.event_date).replace(/^[A-Za-z]+,\s*/, ''); 
@@ -350,16 +336,21 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!isNaN(parsedTime)) {
             weddingDate = parsedTime;
           } else {
+				 
             showCountdownError();
           }
         } else {
+  
+		
           showCountdownError();
         }
 		
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
+					 
           document.getElementById('dyn-rsvp-deadline').classList.add('font-bold');
         } else {
+					
           const deadlineEl = document.getElementById('dyn-rsvp-deadline');
           if (deadlineEl) {
             deadlineEl.innerText = "Date Missing";
@@ -367,16 +358,16 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 		
-        if (config.ics_title) icsDataConfig.title = config.ics_title;
+		if (config.ics_title) icsDataConfig.title = config.ics_title;
         if (config.ics_description) icsDataConfig.description = config.ics_description;
         if (config.ics_location) icsDataConfig.location = config.ics_location;
         if (config.ics_start) icsDataConfig.start = config.ics_start;
         if (config.ics_end) icsDataConfig.end = config.ics_end;
 		
         if (config.event_time && document.getElementById('dyn-event-time')) 
-          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock theme-text-secondary mr-2"></i> ${config.event_time}`;
+          document.getElementById('dyn-event-time').innerHTML = `<i class="far fa-clock text-purpleTheme-700 mr-2"></i> ${config.event_time}`;
         if (config.event_location && document.getElementById('dyn-event-location')) 
-          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt theme-text-secondary mr-2"></i> ${config.event_location}`;
+          document.getElementById('dyn-event-location').innerHTML = `<i class="fas fa-map-marker-alt text-purpleTheme-700 mr-2"></i> ${config.event_location}`;
 		
         const gmapsLink = document.getElementById('dyn-gmaps-link');
         if (gmapsLink && config.gmaps_url) { 
@@ -471,9 +462,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return `
               <div class="relative">
-                <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full themed-primary border-2 themed-card"></span>
-                <span class="text-xs font-semibold themed-primary themed-surface px-2 py-0.5 rounded border themed-border">${displayTime}</span>
-                <p class="text-sm font-medium themed-text-main mt-1">${description}</p>
+                <span class="absolute -left-[23px] top-1.5 w-3 h-3 rounded-full bg-purpleTheme-700 border-2 border-white"></span>
+                <span class="text-xs font-semibold text-purpleTheme-700 bg-butter-100 px-2 py-0.5 rounded">${displayTime}</span>
+                <p class="text-sm font-medium text-purpleTheme-900 mt-1">${description}</p>
               </div>
             `;
           }).join('');
@@ -485,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           }
         } else {
-          container.innerHTML = `<p class="text-xs themed-text-muted italic">Akan dikemaskini.</p>`;
+          container.innerHTML = `<p class="text-xs text-purpleTheme-700/60 italic">Akan dikemaskini.</p>`;
           if (scrollIndicator) scrollIndicator.classList.add('hidden');
         }
       })
@@ -548,11 +539,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
         fabLinks.forEach(link => {
           if (link.getAttribute('data-target') === sectionId) {
-            link.classList.remove('themed-text-muted');
-            link.classList.add('themed-text-main', 'font-bold', 'scale-110');
+            link.classList.remove('text-purpleTheme-900/60');
+            link.classList.add('text-purpleTheme-900', 'font-bold', 'scale-110');
           } else {
-            link.classList.remove('themed-text-main', 'font-bold', 'scale-110');
-            link.classList.add('themed-text-muted');
+            link.classList.remove('text-purpleTheme-900', 'font-bold', 'scale-110');
+            link.classList.add('text-purpleTheme-900/60');
           }
         });
       }
@@ -673,18 +664,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateDockMusicUI() {
     if (isPlaying) {
-      if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-high themed-primary group-hover:scale-110 transition-transform';
+      if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-high text-purpleTheme-700 group-hover:scale-110 transition-transform';
       if (dockMusicText) dockMusicText.textContent = 'Musik';
       if (dockMusicBtn) {
-        dockMusicBtn.classList.remove('themed-text-muted');
-        dockMusicBtn.classList.add('themed-text-main');
+        dockMusicBtn.classList.remove('text-purpleTheme-900/60');
+        dockMusicBtn.classList.add('text-purpleTheme-900');
       }
     } else {
-      if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-xmark themed-text-muted group-hover:scale-110 transition-transform';
+      if (dockMusicIcon) dockMusicIcon.className = 'fas fa-volume-xmark text-purpleTheme-900/60 group-hover:scale-110 transition-transform';
       if (dockMusicText) dockMusicText.textContent = 'Musik';
       if (dockMusicBtn) {
-        dockMusicBtn.classList.remove('themed-text-main');
-        dockMusicBtn.classList.add('themed-text-muted');
+        dockMusicBtn.classList.remove('text-purpleTheme-900');
+        dockMusicBtn.classList.add('text-purpleTheme-900/60');
       }
     }
   }
@@ -713,7 +704,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
+					   
       if (!isPlaying) playAudioTrack();
+	   
       hasInteracted = true;
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -724,11 +717,15 @@ document.addEventListener('DOMContentLoaded', () => {
     dockMusicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       e.preventDefault();
+	  
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
+	  
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
+	  
       resetCloseTimer();
+	   
     });
   }
   
@@ -737,10 +734,13 @@ document.addEventListener('DOMContentLoaded', () => {
       event.stopPropagation();
       event.preventDefault();
     }
+
     isPlaying ? pauseAudioTrack() : playAudioTrack();
     hasInteracted = true;
+
     if (closeTimer) clearTimeout(closeTimer);
     isOpen = true;
+
     resetCloseTimer();
   };
   
@@ -813,29 +813,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modalHTML = `
       <div id="calendar-options-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all">
-        <div class="themed-card rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl space-y-4 text-center relative animate-fade-in border">
-          <button type="button" onclick="document.getElementById('calendar-options-modal').remove()" class="absolute top-4 right-4 themed-text-muted text-xl font-bold cursor-pointer">&times;</button>
+        <div class="glass-card rounded-3xl p-6 sm:p-8 max-w-sm w-full border border-purpleTheme-100 shadow-2xl space-y-4 text-center relative bg-white animate-fade-in">
+          <button type="button" onclick="document.getElementById('calendar-options-modal').remove()" class="absolute top-4 right-4 text-purpleTheme-700/60 hover:text-purpleTheme-900 text-xl font-bold cursor-pointer">&times;</button>
           
-          <div class="w-12 h-12 rounded-full themed-surface border themed-primary mx-auto flex items-center justify-center text-xl mb-1 shadow-sm">
+          <div class="w-12 h-12 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm">
             <i class="far fa-calendar-plus"></i>
           </div>
 
           <div class="space-y-1">
-            <h3 class="font-serif text-2xl font-semibold themed-text-main">Simpan ke Kalendar</h3>
-            <p class="text-xs themed-text-muted font-light">Pilih platform kalendar pilihan anda:</p>
+            <h3 class="font-serif text-2xl font-semibold text-purpleTheme-900">Simpan ke Kalendar</h3>
+            <p class="text-xs text-purpleTheme-800/70 font-light">Pilih platform kalendar pilihan anda:</p>
           </div>
 
           <div class="space-y-2.5 pt-2">
-            <button type="button" id="cal-apple-btn" class="w-full py-3 px-4 rounded-xl themed-surface hover:opacity-80 themed-text-main text-xs font-semibold flex items-center justify-center gap-3 transition-all border cursor-pointer">
-              <i class="fab fa-apple text-base themed-primary"></i> Apple Calendar
+            <button type="button" id="cal-apple-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
+              <i class="fab fa-apple text-base text-purpleTheme-700"></i> Apple Calendar
             </button>
 
-            <button type="button" id="cal-google-btn" class="w-full py-3 px-4 rounded-xl themed-surface hover:opacity-80 themed-text-main text-xs font-semibold flex items-center justify-center gap-3 transition-all border cursor-pointer">
-              <i class="fab fa-google text-base themed-primary"></i> Google Calendar
+            <button type="button" id="cal-google-btn" class="w-full py-3 px-4 rounded-xl bg-purpleTheme-50 hover:bg-purpleTheme-100 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-purpleTheme-200 cursor-pointer">
+              <i class="fab fa-google text-base text-purpleTheme-700"></i> Google Calendar
             </button>
 
-            <button type="button" id="cal-download-btn" class="w-full py-3 px-4 rounded-xl themed-btn-primary text-xs font-semibold flex items-center justify-center gap-3 transition-all border cursor-pointer">
-              <i class="fas fa-download text-base"></i> Muat Turun Fail (.ics)
+            <button type="button" id="cal-download-btn" class="w-full py-3 px-4 rounded-xl bg-butter-200 hover:bg-butter-300 text-purpleTheme-900 text-xs font-semibold flex items-center justify-center gap-3 transition-all border border-butter-300 cursor-pointer">
+              <i class="fas fa-download text-base text-purpleTheme-700"></i> Muat Turun Fail (.ics)
             </button>
           </div>
         </div>
@@ -936,6 +936,7 @@ END:VCALENDAR`;
     });
   };
   
+			 
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -971,13 +972,13 @@ END:VCALENDAR`;
     if (isAlertOnly) {
       if (dialogCancelBtn) dialogCancelBtn.classList.add('hidden');
       if (dialogYesBtn) {
-        dialogYesBtn.className = "w-full py-3.5 rounded-xl themed-btn-primary text-xs font-semibold uppercase cursor-pointer border";
+        dialogYesBtn.className = "w-full py-3.5 rounded-xl bg-purpleTheme-900 text-butter-100 text-xs font-semibold uppercase cursor-pointer";
         dialogYesBtn.innerText = "FAHAM";
       }
     } else {
       if (dialogCancelBtn) dialogCancelBtn.classList.remove('hidden');
       if (dialogYesBtn) {
-        dialogYesBtn.className = "w-1/2 py-3.5 rounded-xl themed-btn-primary text-xs font-semibold uppercase cursor-pointer border";
+        dialogYesBtn.className = "w-1/2 py-3.5 rounded-xl bg-purpleTheme-900 text-butter-100 text-xs font-semibold uppercase cursor-pointer";
         dialogYesBtn.innerText = "YA, PASTI";
       }
     }
@@ -987,7 +988,7 @@ END:VCALENDAR`;
         modalIconBox.className = "w-14 h-14 rounded-full bg-red-100 text-red-600 mx-auto flex items-center justify-center text-2xl mb-1 shadow-sm";
         modalIconClass.className = "fas fa-times animate-pulse";
       } else {
-        modalIconBox.className = "w-14 h-14 rounded-full themed-surface border themed-primary mx-auto flex items-center justify-center text-xl mb-1 shadow-sm";
+        modalIconBox.className = "w-14 h-14 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-xl mb-1 shadow-sm";
         modalIconClass.className = "fas fa-question-circle";
       }
     }
@@ -1059,6 +1060,7 @@ END:VCALENDAR`;
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup buat masa kini.`;
               alertBox.classList.remove('hidden');
               setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
+
             }
             return;
           }
@@ -1082,7 +1084,7 @@ END:VCALENDAR`;
               .then(response => response.json())
               .then(data => {
                 if (alertBox) {
-                  alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle themed-primary text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
+                  alertBox.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Terima kasih! RSVP berjaya disimpan.`;
                   alertBox.classList.remove('hidden');
                   setTimeout(() => alertBox.classList.add('hidden'), 5000);
                   
@@ -1172,6 +1174,7 @@ END:VCALENDAR`;
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Muat naik foto ditutup buat masa kini.`;
               galleryAlert.classList.remove('hidden');
               setTimeout(() => { galleryAlert.classList.add('hidden'); }, 5000);
+
             }
             return;
           }
@@ -1283,10 +1286,10 @@ END:VCALENDAR`;
     try {
       let myUploads = JSON.parse(localStorage.getItem('my_wedding_uploads') || '[]');
       if (myUploads.length === 0) {
-        myPhotosGrid.innerHTML = `<div class="col-span-full py-8 text-center text-xs themed-text-muted italic">Tiada rekod gambar dimuat naik dari peranti ini.</div>`;
+        myPhotosGrid.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-purpleTheme-800/70 italic">Tiada rekod gambar dimuat naik dari peranti ini.</div>`;
       } else {
         myPhotosGrid.innerHTML = myUploads.map((item) => `
-          <div class="relative group rounded-xl overflow-hidden aspect-square themed-surface border shadow-sm cursor-pointer my-photo-item" data-url="${item.url}" data-caption="${item.caption}">
+          <div class="relative group rounded-xl overflow-hidden aspect-square bg-purpleTheme-50 border border-purpleTheme-100 shadow-sm cursor-pointer my-photo-item" data-url="${item.url}" data-caption="${item.caption}">
             <img src="${item.url}" alt="My Upload" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2 text-white">
               <p class="text-[10px] truncate font-light">${item.caption}</p>
@@ -1301,7 +1304,9 @@ END:VCALENDAR`;
             
             if (lightboxImg && lightboxModal) {
               lightboxImg.src = imgUrl;
+		 
               if (lightboxCaption) lightboxCaption.innerText = imgCaption;
+	  
               lightboxModal.classList.remove('hidden');
               lightboxModal.classList.add('flex');
             }
@@ -1334,7 +1339,7 @@ END:VCALENDAR`;
         setButtonCooldown(btnUploadGallery, window.galleryCd, "Memuat Naik");
         const galleryAlert = document.getElementById('gallery-alert');
         if (galleryAlert) {
-          galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin themed-primary text-lg mr-2"></i> Sedang memproses gambar...`;
+          galleryAlert.innerHTML = `<i class="fas fa-spinner fa-spin text-purpleTheme-700 text-lg mr-2"></i> Sedang memproses gambar...`;
           galleryAlert.classList.remove('hidden');
         }
 
@@ -1361,7 +1366,7 @@ END:VCALENDAR`;
               .then(res => res.json())
               .then(data => {
                 if (galleryAlert) {
-                  galleryAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle themed-primary text-lg mr-2"></i> Berjaya! Terima Kasih.`;
+                  galleryAlert.innerHTML = data.status === "error" ? `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> ${data.message}` : `<i class="fas fa-check-circle text-purpleTheme-700 text-lg mr-2"></i> Berjaya! Terima Kasih.`;
                   setTimeout(() => galleryAlert.classList.add('hidden'), 5000);
                 }
                 if (data.status !== "error" && data.url) {
@@ -1393,24 +1398,25 @@ END:VCALENDAR`;
 
     if (!defaultWishes || defaultWishes.length === 0) {
       container.innerHTML = `
-        <div class="themed-card rounded-2xl p-6 text-center border shadow-sm space-y-2">
-          <div class="w-10 h-10 rounded-full themed-surface border themed-primary mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
+        <div class="bg-white/85 backdrop-blur-sm rounded-2xl p-6 text-center border border-purpleTheme-100 shadow-sm space-y-2">
+          <div class="w-10 h-10 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
             <i class="fas fa-heart"></i>
           </div>
-          <h4 class="font-serif font-semibold themed-text-main text-sm sm:text-base">${window.systemWishEmptyTitle}</h4>
-          <p class="text-xs themed-text-muted font-light">${window.systemWishInfoMsg}</p>
+					 
+          <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${window.systemWishEmptyTitle}</h4>
+          <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg}</p>
         </div>
       `;
       return;
     }
 
     container.innerHTML = defaultWishes.map(w => `
-      <div class="themed-card rounded-2xl p-4 border shadow-sm space-y-1.5 transition-all">
-        <div class="flex items-center justify-between border-b themed-border pb-1.5">
-          <h4 class="font-serif font-semibold themed-text-main text-sm sm:text-base">${w.name}</h4>
-          <span class="text-[10px] themed-text-muted font-light">${formatSubmitTime(w.timestamp)}</span>
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-purpleTheme-100 shadow-sm space-y-1.5 transition-all">
+        <div class="flex items-center justify-between border-b border-purpleTheme-50 pb-1.5">
+          <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${w.name}</h4>
+          <span class="text-[10px] text-purpleTheme-700/60 font-light">${formatSubmitTime(w.timestamp)}</span>
         </div>
-        <p class="text-xs sm:text-sm themed-text-main leading-relaxed font-light whitespace-pre-line break-words">${w.message}</p>
+        <p class="text-xs sm:text-sm text-purpleTheme-800/90 leading-relaxed font-light whitespace-pre-line break-words">${w.message}</p>
       </div>
     `).join('');
   }
@@ -1489,6 +1495,7 @@ END:VCALENDAR`;
               wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan ditutup buat masa kini.`;
               wishAlert.classList.remove('hidden');
               setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+
             }
             return;
           }
@@ -1600,6 +1607,7 @@ END:VCALENDAR`;
         rsvpBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400', 'pointer-events-none');
         rsvpBtn.innerText = "RSVP DITUTUP";
       }
+	
       ['rsvp-name', 'rsvp-phone', 'rsvp-status', 'rsvp-pax'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -1651,7 +1659,9 @@ END:VCALENDAR`;
       
       if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
         lightboxImg.src = slideImg.src;
+			 
         if (lightboxCaption && slideCaption) lightboxCaption.innerText = slideCaption.innerText;
+   
         lightboxModal.classList.remove('hidden');
       }
     });

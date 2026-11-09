@@ -1,76 +1,79 @@
-/* ==========================================================
-   CLEAN DYNAMIC THEME ARCHITECTURE (0 FALLBACK)
-   ========================================================== */
-
+/* Tetapan Asas & Fallback Warna Dinamik */
 :root {
-  --theme-bg: #0c0c0c;
-  --theme-surface: rgba(255, 255, 255, 0.05);
-  --theme-text-primary: #ffffff;
-  --theme-text-secondary: rgba(255, 255, 255, 0.7);
-  --theme-btn-primary: #ffffff;
-  --theme-btn-secondary: transparent;
+  --theme-primary: #261042;
+  --theme-secondary: #583083;
+  --theme-accent: #FFF9D6;
+  --theme-bg: #FAF8F5;
 }
 
-/* 1. Body & Background Utama */
-html, body, .theme-body {
-  background-color: var(--theme-bg) !important;
-  color: var(--theme-text-primary) !important;
-  font-family: 'Montserrat', sans-serif;
+/* Smooth Scrolling Global */
+html {
   scroll-behavior: smooth;
+  background-color: var(--theme-bg) !important;
 }
 
-/* 2. Pemetaan Warna Teks Dinamik */
-.theme-text-main {
-  color: var(--theme-text-primary) !important;
+body {
+  background-color: var(--theme-bg) !important;
+  background-image: none !important;
+  color: var(--theme-primary) !important;
 }
 
-.theme-text-muted {
-  color: var(--theme-text-secondary) !important;
+/* Custom Scrollbar Mengikut Tema Dinamik */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--theme-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--theme-secondary);
+  opacity: 0.5;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-primary);
 }
 
-/* 3. Kad Kaca (Glassmorphism Surface) */
-.themed-card, .themed-surface {
-  background-color: var(--theme-surface) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* 4. Butang Utama (Primary Button) */
-.themed-btn-primary {
-  background-color: var(--theme-btn-primary) !important;
-  color: var(--theme-bg) !important;
-  transition: all 0.3s ease;
+/* Kemas kini Glass Card supaya sokong tema gelap/cerah secara dinamik */
+.glass-card {
+  background: var(--theme-accent, rgba(255, 255, 255, 0.9)) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--theme-secondary);
+  border-opacity: 0.2;
 }
 
-.themed-btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 5. Butang Sekunder / Alternatif (Secondary Button) */
-.themed-btn-secondary {
-  background-color: var(--theme-btn-secondary) !important;
-  color: var(--theme-text-primary) !important;
-  border-color: var(--theme-text-primary) !important;
-  transition: all 0.3s ease;
+.custom-shadow {
+  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
 }
 
-.themed-btn-secondary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+/* Responsif Menu (Desktop vs Mobile) */
+@media (min-width: 769px) {
+  .menu-item-collapse {
+    display: flex !important;
+  }
+  #more-menu-container {
+    display: none !important;
+  }
 }
 
-/* 6. Aksen & Garisan Sempadan Halus */
-.theme-primary {
-  color: var(--theme-btn-primary) !important;
-}
-
-.theme-border, .theme-border-line {
-  border-color: rgba(0, 0, 0, 0.1) !important;
-  background-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-.theme-badge {
-  background-color: var(--theme-surface) !important;
-  color: var(--theme-text-primary) !important;
+@media (max-width: 768px) {
+  .menu-item-collapse {
+    display: none !important;
+  }
+  #more-menu-container {
+    display: block !important;
+  }
 }
