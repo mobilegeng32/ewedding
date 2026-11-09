@@ -1,9 +1,14 @@
-/* Tetapan Asas & Fallback Warna Dinamik */
+/* ==========================================================
+   DINAMIK COLOR THEME - 0 FALLBACK ARCHITECTURE
+   ================================================---------- */
+
 :root {
-  --theme-primary: #261042;
-  --theme-secondary: #583083;
-  --theme-accent: #FFF9D6;
-  --theme-bg: #FAF8F5;
+  --theme-bg: transparent;
+  --theme-surface: transparent;
+  --theme-text-main: inherit;
+  --theme-text-muted: inherit;
+  --theme-primary: transparent;
+  --theme-border: transparent;
 }
 
 /* Smooth Scrolling Global */
@@ -12,13 +17,13 @@ html {
   background-color: var(--theme-bg) !important;
 }
 
-body {
+body.theme-body {
   background-color: var(--theme-bg) !important;
+  color: var(--theme-text-main) !important;
   background-image: none !important;
-  color: var(--theme-primary) !important;
 }
 
-/* Custom Scrollbar Mengikut Tema Dinamik */
+/* Custom Scrollbar Mengikut Warna Database */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -26,7 +31,7 @@ body {
   background: var(--theme-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--theme-secondary);
+  background: var(--theme-primary);
   opacity: 0.5;
   border-radius: 3px;
 }
@@ -34,7 +39,7 @@ body {
   background: var(--theme-primary);
 }
 
-/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+/* Utility Class untuk Hilangkan Scrollbar tetapi Kekalkan Fungsi Skrol */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -43,12 +48,50 @@ body {
   scrollbar-width: none;
 }
 
-/* Kemas kini Glass Card supaya sokong tema gelap/cerah secara dinamik */
-.glass-card {
-  background: var(--theme-accent, rgba(255, 255, 255, 0.9)) !important;
+/* Semantic Classes (Mengambil nilai terus dari CSS Variables --theme-*) */
+.themed-card {
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-border) !important;
+  color: var(--theme-text-main) !important;
   backdrop-filter: blur(10px);
-  border: 1px solid var(--theme-secondary);
-  border-opacity: 0.2;
+}
+
+.themed-surface {
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-border) !important;
+  color: var(--theme-text-main) !important;
+}
+
+.themed-text-main {
+  color: var(--theme-text-main) !important;
+}
+
+.themed-text-muted {
+  color: var(--theme-text-muted) !important;
+}
+
+.themed-primary {
+  color: var(--theme-primary) !important;
+}
+
+.themed-border {
+  border-color: var(--theme-border) !important;
+}
+
+.themed-border-line {
+  background-color: var(--theme-primary) !important;
+}
+
+.themed-badge {
+  background-color: var(--theme-surface) !important;
+  color: var(--theme-primary) !important;
+  border-color: var(--theme-border) !important;
+}
+
+.themed-btn-primary {
+  background-color: var(--theme-primary) !important;
+  color: var(--theme-bg) !important;
+  border-color: var(--theme-border) !important;
 }
 
 .smooth-transition {
@@ -56,10 +99,10 @@ body {
 }
 
 .custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsif Menu (Desktop vs Mobile) */
+/* Responsive Menu (Desktop vs Mobile) */
 @media (min-width: 769px) {
   .menu-item-collapse {
     display: flex !important;
