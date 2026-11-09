@@ -112,22 +112,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- FUNGSI UTAMA: MENGAMBIL & MENYUNTIK TEMA WARNA SECARA DINAMIK (0 FALLBACK) ---
   function applyDynamicThemeFromGViz(config) {
-	  const themeKeys = [
-		'theme_bg',
-		'theme_surface',
-		'theme_text_main',
-		'theme_text_muted',
-		'theme_primary',
-		'theme_border'
-	  ];
+    if (!config) return;
 
-	  themeKeys.forEach(key => {
-		if (config[key]) {
-		  // Terus suntik nilai mentah ke pembolehubah CSS tanpa sebarang fallback
-		  document.documentElement.style.setProperty(`--${key.replace('_', '-')}`, config[key]);
-		}
-	  });
-	}
+    const themeKeys = [
+      'theme_bg',
+      'theme_surface',
+      'theme_text_main',
+      'theme_text_muted',
+      'theme_primary',
+      'theme_border'
+    ];
+
+    themeKeys.forEach(key => {
+      if (config[key]) {
+        // Suntik terus pembolehubah ke CSS Root
+        document.documentElement.style.setProperty(`--${key.replace('_', '-')}`, config[key]);
+      }
+    });
+
+    // Paksa warna teks body mengikut theme_text_main dari DB
+    if (config.theme_text_main) {
+      document.body.style.color = config.theme_text_main;
+    }
+    if (config.theme_bg) {
+      document.body.style.backgroundColor = config.theme_bg;
+    }
+  }
   
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
