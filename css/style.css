@@ -1,5 +1,5 @@
 /* ==========================================================
-   PURE 0-FALLBACK THEME ARCHITECTURE (DIRECT FROM GVIZ DB)
+   PURE 0-FALLBACK THEME ARCHITECTURE
    ========================================================== */
 
 :root {
@@ -11,56 +11,30 @@
   --theme-border: ;
 }
 
-/* Global Base Reset */
+/* Base Style */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
 }
 
-body.theme-body {
+body, body.theme-body {
   background-color: var(--theme-bg) !important;
   color: var(--theme-text-main) !important;
-  background-image: none !important;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--theme-bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--theme-primary);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-primary);
-}
-
-/* Utility Classes */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Dynamic Semantic Classes */
-.themed-card {
+/* Pastikan Kad & Teks mendapat warna dari DB */
+.themed-card, .glass-card {
   background-color: var(--theme-surface) !important;
-  border-color: var(--theme-border) !important;
+  border: 1px solid var(--theme-border) !important;
   color: var(--theme-text-main) !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
 }
 
-.themed-surface {
-  background-color: var(--theme-surface) !important;
-  border-color: var(--theme-border) !important;
+.themed-text-main, .text-theme-primary {
   color: var(--theme-text-main) !important;
 }
 
-.themed-text-main {
-  color: var(--theme-text-main) !important;
-}
-
-.themed-text-muted {
+.themed-text-muted, .text-theme-secondary {
   color: var(--theme-text-muted) !important;
 }
 
@@ -72,28 +46,19 @@ body.theme-body {
   border-color: var(--theme-border) !important;
 }
 
-.themed-border-line {
-  background-color: var(--theme-primary) !important;
+/* Teks Bergradien Emas (Fallback dinamik ke warna teks utama DB jika gradient tak disokong) */
+.gold-gradient-text {
+  color: var(--theme-text-main) !important;
+  background: linear-gradient(135deg, #FFFDF0 0%, var(--theme-primary) 50%, #997509 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.themed-badge {
-  background-color: var(--theme-surface) !important;
-  color: var(--theme-primary) !important;
-  border-color: var(--theme-border) !important;
-}
-
-.themed-btn-primary {
-  background-color: var(--theme-primary) !important;
+/* Butang Utama */
+.btn-gold-gradient, .themed-btn-primary {
+  background: linear-gradient(135deg, var(--theme-primary) 0%, #AA820A 100%) !important;
   color: var(--theme-bg) !important;
-  border-color: var(--theme-border) !important;
-}
-
-.smooth-transition {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.custom-shadow {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--theme-border) !important;
 }
 
 /* Responsive Menu */
