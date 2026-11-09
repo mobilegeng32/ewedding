@@ -1,29 +1,27 @@
 /* ==========================================================
-   LUXURY DARK GOLD DYNAMIC THEME (0 FALLBACK ARCHITECTURE)
+   BUTTER & PURPLE DYNAMIC THEME ARCHITECTURE
    ========================================================== */
 
 :root {
-  --theme-bg: ;
-  --theme-primary: ;
-  --theme-secondary: ;
-  --theme-accent: ;
-  --theme-accent-border: ;
+  --theme-bg: #FAF8F5;
+  --theme-surface: #FFFFFF;
+  --theme-text-main: #261042;
+  --theme-text-muted: #583083;
+  --theme-primary: #583083;
+  --theme-border: #E6D7F6;
 }
 
-/* Global Base Reset & Dynamic Styles */
+/* Global Base Reset */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
 }
 
-body {
+body, body.theme-body {
   background-color: var(--theme-bg) !important;
-  color: var(--theme-primary) !important;
+  color: var(--theme-text-main) !important;
   font-family: 'Montserrat', sans-serif;
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
-    radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
-  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 /* Custom Scrollbar */
@@ -34,95 +32,54 @@ body {
   background: var(--theme-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #AA820A, #D4AF37, #AA820A);
+  background: var(--theme-primary);
+  opacity: 0.7;
   border-radius: 3px;
 }
 
-/* Utility classes */
+/* Utility Classes */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Luxury Glassmorphic Card Container */
-.glass-card {
-  background: var(--theme-accent) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--theme-accent-border);
-  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.05);
-  position: relative;
+/* Semantik Card & Glassmorphism yang Solid (Tidak Telus / Transparent) */
+.glass-card, .themed-card {
+  background-color: var(--theme-surface) !important;
+  border: 1px solid var(--theme-border) !important;
+  color: var(--theme-text-main) !important;
+  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
+  backdrop-filter: blur(10px);
 }
 
-/* Vector Corner Ornaments (Seri Klasik Yang Hilang) */
-.corner-ornament-tl {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 16px;
-  height: 16px;
-  border-top: 2px solid var(--theme-secondary);
-  border-left: 2px solid var(--theme-secondary);
-  pointer-events: none;
-  opacity: 0.6;
-}
-.corner-ornament-br {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  width: 16px;
-  height: 16px;
-  border-bottom: 2px solid var(--theme-secondary);
-  border-right: 2px solid var(--theme-secondary);
-  pointer-events: none;
-  opacity: 0.6;
+.themed-surface {
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-border) !important;
+  color: var(--theme-text-main) !important;
 }
 
-/* Metallic Gold Text Effect (Menaikkan Seri Teks) */
-.gold-gradient-text {
-  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, #D4AF37 70%, #997509 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.themed-text-main {
+  color: var(--theme-text-main) !important;
 }
 
-/* Gold Metallic Button */
-.btn-gold-gradient {
-  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%);
-  color: #0c0c0c;
-  transition: all 0.3s ease;
-  border: 1px solid #F3E5AB;
-}
-.btn-gold-gradient:hover {
-  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-  transform: translateY(-1px);
+.themed-text-muted {
+  color: var(--theme-text-muted) !important;
 }
 
-/* Gold Outline Button */
-.btn-gold-outline {
-  border: 1px solid var(--theme-secondary);
-  color: var(--theme-primary);
-  background: rgba(212, 175, 55, 0.05);
-  transition: all 0.3s ease;
-}
-.btn-gold-outline:hover {
-  background: var(--theme-secondary);
-  color: #0c0c0c;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+.themed-primary {
+  color: var(--theme-primary) !important;
 }
 
-/* Metallic Separator Divider */
-.gold-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--theme-secondary), transparent);
-  opacity: 0.5;
+.themed-border {
+  border-color: var(--theme-border) !important;
 }
 
-/* Keyframe Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Butang Utama */
+.themed-btn-primary {
+  background-color: var(--theme-text-main) !important;
+  color: #FFF9D6 !important;
+  border: 1px solid var(--theme-border) !important;
 }
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+.themed-btn-primary:hover {
+  background-color: var(--theme-text-muted) !important;
 }
 
 /* Desktop vs Mobile Fab Menu logic */
