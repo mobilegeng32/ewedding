@@ -114,51 +114,30 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyDynamicThemeFromGViz(config) {
   if (!config) return;
 
-	  // 1. Array kunci asal dari Google Sheets
-	  const themeKeys = [
-		'theme_bg',
-		'theme_surface',
-		'theme_text_main',
-		'theme_text_muted',
-		'theme_primary',
-		'theme_border'
-	  ];
+  const themeMapping = [
+    'theme_bg',
+    'theme_surface',
+    'theme_text_primary',
+    'theme_text_secondary',
+    'theme_btn_primary',
+    'theme_btn_secondary'
+  ];
 
-	  // 2. Suntik pembolehubah standard (--theme-bg, --theme-surface, dll.)
-	  themeKeys.forEach(key => {
-		if (config[key]) {
-		  document.documentElement.style.setProperty(`--${key.replace('_', '-')}`, config[key]);
-		}
-	  });
+  themeMapping.forEach(key => {
+    if (config[key]) {
+      // Menimpa (override) pembolehubah CSS dari data Google Sheets
+      document.documentElement.style.setProperty(`--${key.replace(/_/g, '-')}`, config[key]);
+    }
+  });
 
-	  // 3. PEMETAAN DINAMIK KE PEMBOLEHUBAH STYLING MEWAH (0 FALLBACK)
-	  // Ini menyuntik rujukan warna ke kelas .gold-gradient-text, .btn-gold-gradient, & .glass-card
-	  if (config.theme_bg) {
-		document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
-		document.body.style.backgroundColor = config.theme_bg;
-	  }
-	  
-	  if (config.theme_surface) {
-		// Dipakai oleh .glass-card background
-		document.documentElement.style.setProperty('--theme-accent', config.theme_surface);
-	  }
-
-	  if (config.theme_text_main) {
-		// Dipakai oleh .text-theme-primary & warna teks global
-		document.documentElement.style.setProperty('--theme-primary', config.theme_text_main);
-		document.body.style.color = config.theme_text_main;
-	  }
-
-	  if (config.theme_primary) {
-		// Dipakai oleh .gold-gradient-text, .btn-gold-gradient, & .gold-divider
-		document.documentElement.style.setProperty('--theme-secondary', config.theme_primary);
-	  }
-
-	  if (config.theme_border) {
-		// Dipakai oleh sempadan .glass-card
-		document.documentElement.style.setProperty('--theme-accent-border', config.theme_border);
-	  }
-	}
+  // Memastikan warna latar & teks utama body mengikut pembolehubah terkini
+  if (config.theme_bg) {
+    document.body.style.backgroundColor = config.theme_bg;
+  }
+  if (config.theme_text_primary) {
+    document.body.style.color = config.theme_text_primary;
+  }
+}
   
   function fetchSiteConfig() {
     if (!SPREADSHEET_ID) return;
