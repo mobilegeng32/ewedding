@@ -1,43 +1,24 @@
-/* ==========================================================
-   PURE DYNAMIC CSS TOKENS (100% DATABASE DRIVEN & ZERO FALLBACK)
-   ========================================================== */
+/* Tetapan Asas & Fallback Warna Dinamik */
 :root {
-  --theme-bg: ;
-  --theme-surface: ;
-  --theme-text-main: ;
-  --theme-text-muted: ;
-  --theme-primary: ;
-  --theme-border: ;
+  --theme-primary: #261042;
+  --theme-secondary: #583083;
+  --theme-accent: #FFF9D6;
+  --theme-bg: #FAF8F5;
 }
 
-/* Global Base Reset & Dynamic Center Lighting Background */
+/* Smooth Scrolling Global */
 html {
   scroll-behavior: smooth;
-  background-color: var(--theme-bg);
+  background-color: var(--theme-bg) !important;
 }
 
 body {
-  background-color: var(--theme-bg);
-  color: var(--theme-text-main);
-  font-family: 'Montserrat', sans-serif;
-  min-height: 100vh;
-  margin: 0;
-  
-  /* Kesan Cahaya Lampu di Tengah (Radial Spotlight & Background Gradient) */
-  background-image: 
-    radial-gradient(circle at 50% 0%, var(--theme-border) 0%, transparent 60%),
-    radial-gradient(circle at 50% 50%, var(--theme-primary) 0%, transparent 80%),
-    radial-gradient(circle at 50% 100%, var(--theme-border) 0%, transparent 70%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  background-color: var(--theme-bg) !important;
+  background-image: none !important;
+  color: var(--theme-primary) !important;
 }
 
-/* Typography Helpers */
-.font-serif { font-family: 'Cormorant Garamond', serif; }
-.font-arabic { font-family: 'Amiri', serif; }
-
-/* Custom Scrollbar */
+/* Custom Scrollbar Mengikut Tema Dinamik */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -45,106 +26,54 @@ body {
   background: var(--theme-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--theme-primary);
+  background: var(--theme-secondary);
+  opacity: 0.5;
   border-radius: 3px;
 }
-
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Luxury Glassmorphic Card Container */
-.glass-card {
-  background-color: var(--theme-surface) !important;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--theme-border) !important;
-  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
-  position: relative;
-}
-
-/* Vector Corner Ornaments */
-.corner-ornament-tl {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 16px;
-  height: 16px;
-  border-top: 2px solid var(--theme-primary);
-  border-left: 2px solid var(--theme-primary);
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-.corner-ornament-br {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  width: 16px;
-  height: 16px;
-  border-bottom: 2px solid var(--theme-primary);
-  border-right: 2px solid var(--theme-primary);
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-/* Dynamic Metallic Text & Utilities */
-.dyn-text-main { color: var(--theme-text-main) !important; }
-.dyn-text-muted { color: var(--theme-text-muted) !important; }
-.dyn-primary { color: var(--theme-primary) !important; }
-
-/* Metallic Separator Divider */
-.dyn-divider {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--theme-primary), transparent);
-  opacity: 0.6;
-}
-
-/* Dynamic Primary Button */
-.btn-dyn-primary {
-  background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-text-muted) 100%);
-  color: var(--theme-bg);
-  border: 1px solid var(--theme-text-main);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.btn-dyn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-  box-shadow: 0 0 20px var(--theme-border);
-}
-
-/* Dynamic Outline Button */
-.btn-dyn-outline {
-  border: 1px solid var(--theme-primary);
-  color: var(--theme-text-main);
-  background: rgba(212, 175, 55, 0.05);
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.btn-dyn-outline:hover {
+::-webkit-scrollbar-thumb:hover {
   background: var(--theme-primary);
-  color: var(--theme-bg);
 }
 
-/* Keyframe Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Hilangkan scrollbar tetapi kekalkan fungsi skrol */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+/* Kemas kini Glass Card supaya sokong tema gelap/cerah secara dinamik */
+.glass-card {
+  background: var(--theme-accent, rgba(255, 255, 255, 0.9)) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--theme-secondary);
+  border-opacity: 0.2;
 }
 
-/* Desktop vs Mobile Fab Menu Responsive Rules */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-shadow {
+  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
+}
+
+/* Responsif Menu (Desktop vs Mobile) */
 @media (min-width: 769px) {
-  .menu-item-collapse { display: flex !important; }
-  #more-menu-container { display: none !important; }
+  .menu-item-collapse {
+    display: flex !important;
+  }
+  #more-menu-container {
+    display: none !important;
+  }
 }
 
 @media (max-width: 768px) {
-  .menu-item-collapse { display: none !important; }
-  #more-menu-container { display: block !important; }
+  .menu-item-collapse {
+    display: none !important;
+  }
+  #more-menu-container {
+    display: block !important;
+  }
 }

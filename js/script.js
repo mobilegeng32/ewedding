@@ -5,6 +5,7 @@ window.addEventListener('load', () => {
   window.scrollTo(0, 0);
 });		
 	
+ 
 document.addEventListener('DOMContentLoaded', () => {
 
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC0NCpQLF2bq629RZsFuIiddVUWCQlG-jknzv3zLCwYPIIrv_lhiKNeabYte7azNFc/exec';
@@ -142,6 +143,19 @@ document.addEventListener('DOMContentLoaded', () => {
             config[k.trim()] = v;
           }
         });
+		
+        if (config.theme_primary) {
+          document.documentElement.style.setProperty('--theme-primary', config.theme_primary);
+        }
+        if (config.theme_secondary) {
+          document.documentElement.style.setProperty('--theme-secondary', config.theme_secondary);
+        }
+        if (config.theme_accent) {
+          document.documentElement.style.setProperty('--theme-accent', config.theme_accent);
+        }
+        if (config.theme_bg) {
+          document.documentElement.style.setProperty('--theme-bg', config.theme_bg);
+        }
 		
         if (config.hero_badge_text && document.getElementById('dyn-hero-badge')) 
           document.getElementById('dyn-hero-badge').innerText = config.hero_badge_text;
@@ -322,16 +336,21 @@ document.addEventListener('DOMContentLoaded', () => {
           if (!isNaN(parsedTime)) {
             weddingDate = parsedTime;
           } else {
+				 
             showCountdownError();
           }
         } else {
+  
+		
           showCountdownError();
         }
 		
         if (config.rsvp_deadline && document.getElementById('dyn-rsvp-deadline')) {
           document.getElementById('dyn-rsvp-deadline').innerText = config.rsvp_deadline;
+					 
           document.getElementById('dyn-rsvp-deadline').classList.add('font-bold');
         } else {
+					
           const deadlineEl = document.getElementById('dyn-rsvp-deadline');
           if (deadlineEl) {
             deadlineEl.innerText = "Date Missing";
@@ -685,7 +704,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroOpenBtn) {
     heroOpenBtn.addEventListener('click', (e) => {
       e.preventDefault();
+					   
       if (!isPlaying) playAudioTrack();
+	   
       hasInteracted = true;
       const target = document.querySelector('#invitation-section');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -696,11 +717,15 @@ document.addEventListener('DOMContentLoaded', () => {
     dockMusicBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       e.preventDefault();
+	  
       isPlaying ? pauseAudioTrack() : playAudioTrack();
       hasInteracted = true;
+	  
       if (closeTimer) clearTimeout(closeTimer);
       isOpen = true;
+	  
       resetCloseTimer();
+	   
     });
   }
   
@@ -709,10 +734,13 @@ document.addEventListener('DOMContentLoaded', () => {
       event.stopPropagation();
       event.preventDefault();
     }
+
     isPlaying ? pauseAudioTrack() : playAudioTrack();
     hasInteracted = true;
+
     if (closeTimer) clearTimeout(closeTimer);
     isOpen = true;
+
     resetCloseTimer();
   };
   
@@ -908,6 +936,7 @@ END:VCALENDAR`;
     });
   };
   
+			 
   const confirmModal = document.getElementById('custom-confirm-modal');
   const confirmTitle = document.getElementById('custom-modal-title');
   const confirmDesc = document.getElementById('custom-modal-desc');
@@ -1031,6 +1060,7 @@ END:VCALENDAR`;
               alertBox.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Pengesahan RSVP telah ditutup buat masa kini.`;
               alertBox.classList.remove('hidden');
               setTimeout(() => { alertBox.classList.add('hidden'); }, 5000);
+
             }
             return;
           }
@@ -1144,6 +1174,7 @@ END:VCALENDAR`;
               galleryAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Muat naik foto ditutup buat masa kini.`;
               galleryAlert.classList.remove('hidden');
               setTimeout(() => { galleryAlert.classList.add('hidden'); }, 5000);
+
             }
             return;
           }
@@ -1273,7 +1304,9 @@ END:VCALENDAR`;
             
             if (lightboxImg && lightboxModal) {
               lightboxImg.src = imgUrl;
+		 
               if (lightboxCaption) lightboxCaption.innerText = imgCaption;
+	  
               lightboxModal.classList.remove('hidden');
               lightboxModal.classList.add('flex');
             }
@@ -1369,6 +1402,7 @@ END:VCALENDAR`;
           <div class="w-10 h-10 rounded-full bg-butter-200 text-purpleTheme-700 mx-auto flex items-center justify-center text-sm mb-1 shadow-sm">
             <i class="fas fa-heart"></i>
           </div>
+					 
           <h4 class="font-serif font-semibold text-purpleTheme-900 text-sm sm:text-base">${window.systemWishEmptyTitle}</h4>
           <p class="text-xs text-purpleTheme-800/70 font-light">${window.systemWishInfoMsg}</p>
         </div>
@@ -1461,6 +1495,7 @@ END:VCALENDAR`;
               wishAlert.innerHTML = `<i class="fas fa-exclamation-circle text-red-600 text-lg mr-2"></i> Ruangan ucapan ditutup buat masa kini.`;
               wishAlert.classList.remove('hidden');
               setTimeout(() => { wishAlert.classList.add('hidden'); }, 5000);
+
             }
             return;
           }
@@ -1503,17 +1538,6 @@ END:VCALENDAR`;
   }
 
   function applySiteConfig(config) {
-    if (!config) return;
-
-    // Menetapkan CSS Custom Properties secara langsung dari Google Sheets (Zero Fallback)
-    const root = document.documentElement;
-    if (config.theme_bg) root.style.setProperty('--theme-bg', config.theme_bg);
-    if (config.theme_surface) root.style.setProperty('--theme-surface', config.theme_surface);
-    if (config.theme_text_main) root.style.setProperty('--theme-text-main', config.theme_text_main);
-    if (config.theme_text_muted) root.style.setProperty('--theme-text-muted', config.theme_text_muted);
-    if (config.theme_primary) root.style.setProperty('--theme-primary', config.theme_primary);
-    if (config.theme_border) root.style.setProperty('--theme-border', config.theme_border);
-
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
     if (dockGiftBtnEl) {
@@ -1635,7 +1659,9 @@ END:VCALENDAR`;
       
       if (slideImg && slideImg.src && !slideImg.src.includes('Coming-Soon.jpg')) {
         lightboxImg.src = slideImg.src;
+			 
         if (lightboxCaption && slideCaption) lightboxCaption.innerText = slideCaption.innerText;
+   
         lightboxModal.classList.remove('hidden');
       }
     });
