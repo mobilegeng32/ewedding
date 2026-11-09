@@ -1,5 +1,5 @@
 /* ==========================================================
-   BUTTER & PURPLE DYNAMIC THEME ARCHITECTURE
+   DEFAULT BASE THEME (BLACK, WHITE, TRANSPARENT FALLBACK)
    ========================================================== */
 
 :root {
@@ -11,83 +11,60 @@
   --theme-btn-secondary: transparent;
 }
 
-/* Global Base Reset */
+/* Base Styles */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
 }
 
-body, body.theme-body {
+body {
   background-color: var(--theme-bg) !important;
-  color: var(--theme-text-main) !important;
+  color: var(--theme-text-primary) !important;
   font-family: 'Montserrat', sans-serif;
   min-height: 100vh;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--theme-bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--theme-primary);
-  opacity: 0.7;
-  border-radius: 3px;
-}
-
-/* Utility Classes */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Semantik Card & Glassmorphism yang Solid (Tidak Telus / Transparent) */
-.glass-card, .themed-card {
+/* Glassmorphism Card Canvas */
+.glass-card {
   background-color: var(--theme-surface) !important;
-  border: 1px solid var(--theme-border) !important;
-  color: var(--theme-text-main) !important;
-  box-shadow: 0 10px 30px -10px rgba(38, 16, 66, 0.08);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 1.5rem;
 }
 
-.themed-surface {
-  background-color: var(--theme-surface) !important;
-  border-color: var(--theme-border) !important;
-  color: var(--theme-text-main) !important;
+/* Hierarchy Text Styling */
+.text-primary, h1, h2, h3, .title-text {
+  color: var(--theme-text-primary) !important;
 }
 
-.themed-text-main {
-  color: var(--theme-text-main) !important;
+.text-secondary, p, span, label, .subtitle-text {
+  color: var(--theme-text-secondary) !important;
 }
 
-.themed-text-muted {
-  color: var(--theme-text-muted) !important;
+/* Primary Button (Solid Fill) */
+.btn-primary {
+  background-color: var(--theme-btn-primary) !important;
+  color: var(--theme-bg) !important;
+  transition: all 0.3s ease;
 }
 
-.themed-primary {
-  color: var(--theme-primary) !important;
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
-.themed-border {
-  border-color: var(--theme-border) !important;
+/* Secondary Button (Outline / Fill-in on Hover) */
+.btn-secondary {
+  background-color: var(--theme-btn-secondary) !important;
+  color: var(--theme-text-primary) !important;
+  border: 1px solid var(--theme-text-primary) !important;
+  transition: all 0.3s ease;
 }
 
-/* Butang Utama */
-.themed-btn-primary {
-  background-color: var(--theme-text-main) !important;
-  color: #FFF9D6 !important;
-  border: 1px solid var(--theme-border) !important;
-}
-.themed-btn-primary:hover {
-  background-color: var(--theme-text-muted) !important;
-}
-
-/* Desktop vs Mobile Fab Menu logic */
-@media (min-width: 769px) {
-  .menu-item-collapse { display: flex !important; }
-  #more-menu-container { display: none !important; }
-}
-@media (max-width: 768px) {
-  .menu-item-collapse { display: none !important; }
-  #more-menu-container { display: block !important; }
+.btn-secondary:hover {
+  background-color: var(--theme-text-primary) !important;
+  color: var(--theme-bg) !important;
+  transform: translateY(-2px);
 }
