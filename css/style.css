@@ -1,72 +1,135 @@
 /* ==========================================================
-   PURE 0-FALLBACK THEME ARCHITECTURE
+   LUXURY DARK GOLD DYNAMIC THEME (0 FALLBACK ARCHITECTURE)
    ========================================================== */
 
 :root {
   --theme-bg: ;
-  --theme-surface: ;
-  --theme-text-main: ;
-  --theme-text-muted: ;
   --theme-primary: ;
-  --theme-border: ;
+  --theme-secondary: ;
+  --theme-accent: ;
+  --theme-accent-border: ;
 }
 
-/* Base Style */
+/* Global Base Reset & Dynamic Styles */
 html {
   scroll-behavior: smooth;
   background-color: var(--theme-bg) !important;
 }
 
-body, body.theme-body {
+body {
   background-color: var(--theme-bg) !important;
-  color: var(--theme-text-main) !important;
-}
-
-/* Pastikan Kad & Teks mendapat warna dari DB */
-.themed-card, .glass-card {
-  background-color: var(--theme-surface) !important;
-  border: 1px solid var(--theme-border) !important;
-  color: var(--theme-text-main) !important;
-  backdrop-filter: blur(12px);
-}
-
-.themed-text-main, .text-theme-primary {
-  color: var(--theme-text-main) !important;
-}
-
-.themed-text-muted, .text-theme-secondary {
-  color: var(--theme-text-muted) !important;
-}
-
-.themed-primary {
   color: var(--theme-primary) !important;
+  font-family: 'Montserrat', sans-serif;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+  background-attachment: fixed;
 }
 
-.themed-border {
-  border-color: var(--theme-border) !important;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--theme-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #AA820A, #D4AF37, #AA820A);
+  border-radius: 3px;
 }
 
-/* Teks Bergradien Emas (Fallback dinamik ke warna teks utama DB jika gradient tak disokong) */
+/* Utility classes */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Luxury Glassmorphic Card Container */
+.glass-card {
+  background: var(--theme-accent) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--theme-accent-border);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 175, 55, 0.05);
+  position: relative;
+}
+
+/* Vector Corner Ornaments (Seri Klasik Yang Hilang) */
+.corner-ornament-tl {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid var(--theme-secondary);
+  border-left: 2px solid var(--theme-secondary);
+  pointer-events: none;
+  opacity: 0.6;
+}
+.corner-ornament-br {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 16px;
+  height: 16px;
+  border-bottom: 2px solid var(--theme-secondary);
+  border-right: 2px solid var(--theme-secondary);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Metallic Gold Text Effect (Menaikkan Seri Teks) */
 .gold-gradient-text {
-  color: var(--theme-text-main) !important;
-  background: linear-gradient(135deg, #FFFDF0 0%, var(--theme-primary) 50%, #997509 100%);
+  background: linear-gradient(135deg, #FFFDF0 0%, #E6CA65 35%, #D4AF37 70%, #997509 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Butang Utama */
-.btn-gold-gradient, .themed-btn-primary {
-  background: linear-gradient(135deg, var(--theme-primary) 0%, #AA820A 100%) !important;
-  color: var(--theme-bg) !important;
-  border: 1px solid var(--theme-border) !important;
+/* Gold Metallic Button */
+.btn-gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%);
+  color: #0c0c0c;
+  transition: all 0.3s ease;
+  border: 1px solid #F3E5AB;
+}
+.btn-gold-gradient:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 100%);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-1px);
 }
 
-/* Responsive Menu */
+/* Gold Outline Button */
+.btn-gold-outline {
+  border: 1px solid var(--theme-secondary);
+  color: var(--theme-primary);
+  background: rgba(212, 175, 55, 0.05);
+  transition: all 0.3s ease;
+}
+.btn-gold-outline:hover {
+  background: var(--theme-secondary);
+  color: #0c0c0c;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Metallic Separator Divider */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--theme-secondary), transparent);
+  opacity: 0.5;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Desktop vs Mobile Fab Menu logic */
 @media (min-width: 769px) {
   .menu-item-collapse { display: flex !important; }
   #more-menu-container { display: none !important; }
 }
-
 @media (max-width: 768px) {
   .menu-item-collapse { display: none !important; }
   #more-menu-container { display: block !important; }
