@@ -1,5 +1,5 @@
 /* ==========================================================
-   DEFAULT BASE THEME (BLACK, WHITE, TRANSPARENT FALLBACK)
+   DYNAMIC THEME ARCHITECTURE (0 FALLBACK)
    ========================================================== */
 
 :root {
@@ -17,7 +17,7 @@ html {
   background-color: var(--theme-bg) !important;
 }
 
-body {
+.theme-body, body {
   background-color: var(--theme-bg) !important;
   color: var(--theme-text-primary) !important;
   font-family: 'Montserrat', sans-serif;
@@ -25,45 +25,67 @@ body {
 }
 
 /* Glassmorphism Card Canvas */
-.glass-card {
+.glass-card, .themed-card {
   background-color: var(--theme-surface) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--theme-text-secondary) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   border-radius: 1.5rem;
 }
 
-/* Hierarchy Text Styling */
-.text-primary, h1, h2, h3, .title-text {
+.themed-surface {
+  background-color: var(--theme-surface) !important;
+  border-color: var(--theme-text-secondary) !important;
+}
+
+/* Text Hierarchy Mappings */
+.theme-text-main, .text-primary, h1, h2, h3, .title-text {
   color: var(--theme-text-primary) !important;
 }
 
-.text-secondary, p, span, label, .subtitle-text {
+.theme-text-muted, .text-secondary, p, span, label, .subtitle-text {
   color: var(--theme-text-secondary) !important;
 }
 
-/* Primary Button (Solid Fill) */
-.btn-primary {
+/* Accent & Borders */
+.theme-primary {
+  color: var(--theme-btn-primary) !important;
+}
+
+.theme-border, .theme-border-line {
+  border-color: var(--theme-text-secondary) !important;
+  background-color: var(--theme-text-secondary) !important;
+}
+
+.theme-badge {
+  background-color: var(--theme-surface) !important;
+  color: var(--theme-text-primary) !important;
+  border-color: var(--theme-text-secondary) !important;
+}
+
+/* Primary Button */
+.btn-primary, .themed-btn-primary {
   background-color: var(--theme-btn-primary) !important;
   color: var(--theme-bg) !important;
+  border-color: var(--theme-btn-primary) !important;
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .themed-btn-primary:hover {
   opacity: 0.9;
   transform: translateY(-2px);
 }
 
-/* Secondary Button (Outline / Fill-in on Hover) */
-.btn-secondary {
+/* Secondary Button */
+.btn-secondary, .themed-btn-secondary {
   background-color: var(--theme-btn-secondary) !important;
   color: var(--theme-text-primary) !important;
   border: 1px solid var(--theme-text-primary) !important;
   transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover, .themed-btn-secondary:hover {
   background-color: var(--theme-text-primary) !important;
   color: var(--theme-bg) !important;
   transform: translateY(-2px);
