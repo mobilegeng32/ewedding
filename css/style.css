@@ -1,5 +1,5 @@
 /* ==========================================================
-   DYNAMIC THEME ARCHITECTURE (0 FALLBACK)
+   CLEAN DYNAMIC THEME ARCHITECTURE (0 FALLBACK)
    ========================================================== */
 
 :root {
@@ -11,81 +11,66 @@
   --theme-btn-secondary: transparent;
 }
 
-/* Base Styles */
-html {
-  scroll-behavior: smooth;
-  background-color: var(--theme-bg) !important;
-}
-
-.theme-body, body {
+/* 1. Body & Background Utama */
+html, body, .theme-body {
   background-color: var(--theme-bg) !important;
   color: var(--theme-text-primary) !important;
   font-family: 'Montserrat', sans-serif;
-  min-height: 100vh;
+  scroll-behavior: smooth;
 }
 
-/* Glassmorphism Card Canvas */
-.glass-card, .themed-card {
-  background-color: var(--theme-surface) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--theme-text-secondary) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  border-radius: 1.5rem;
-}
-
-.themed-surface {
-  background-color: var(--theme-surface) !important;
-  border-color: var(--theme-text-secondary) !important;
-}
-
-/* Text Hierarchy Mappings */
-.theme-text-main, .text-primary, h1, h2, h3, .title-text {
+/* 2. Pemetaan Warna Teks Dinamik */
+.theme-text-main {
   color: var(--theme-text-primary) !important;
 }
 
-.theme-text-muted, .text-secondary, p, span, label, .subtitle-text {
+.theme-text-muted {
   color: var(--theme-text-secondary) !important;
 }
 
-/* Accent & Borders */
+/* 3. Kad Kaca (Glassmorphism Surface) */
+.themed-card, .themed-surface {
+  background-color: var(--theme-surface) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 4. Butang Utama (Primary Button) */
+.themed-btn-primary {
+  background-color: var(--theme-btn-primary) !important;
+  color: var(--theme-bg) !important;
+  transition: all 0.3s ease;
+}
+
+.themed-btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* 5. Butang Sekunder / Alternatif (Secondary Button) */
+.themed-btn-secondary {
+  background-color: var(--theme-btn-secondary) !important;
+  color: var(--theme-text-primary) !important;
+  border-color: var(--theme-text-primary) !important;
+  transition: all 0.3s ease;
+}
+
+.themed-btn-secondary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* 6. Aksen & Garisan Sempadan Halus */
 .theme-primary {
   color: var(--theme-btn-primary) !important;
 }
 
 .theme-border, .theme-border-line {
-  border-color: var(--theme-text-secondary) !important;
-  background-color: var(--theme-text-secondary) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 .theme-badge {
   background-color: var(--theme-surface) !important;
   color: var(--theme-text-primary) !important;
-  border-color: var(--theme-text-secondary) !important;
-}
-
-/* Primary Button */
-.btn-primary, .themed-btn-primary {
-  background-color: var(--theme-btn-primary) !important;
-  color: var(--theme-bg) !important;
-  border-color: var(--theme-btn-primary) !important;
-  transition: all 0.3s ease;
-}
-
-.btn-primary:hover, .themed-btn-primary:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-/* Secondary Button (Butter Yellow / Outline) */
-.btn-secondary, .themed-btn-secondary {
-  background-color: var(--theme-btn-secondary) !important;
-  color: var(--theme-text-main) !important;
-  border: 1px solid var(--theme-text-primary) !important;
-  transition: all 0.3s ease;
-}
-
-.btn-secondary:hover, .themed-btn-secondary:hover {
-  opacity: 0.85;
-  transform: translateY(-2px);
 }
