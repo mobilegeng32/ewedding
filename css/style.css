@@ -77,16 +77,15 @@ html {
   transform: translateY(-2px);
 }
 
-/* Secondary Button */
+/* Secondary Button (Butter Yellow / Outline) */
 .btn-secondary, .themed-btn-secondary {
   background-color: var(--theme-btn-secondary) !important;
-  color: var(--theme-text-primary) !important;
+  color: var(--theme-text-main) !important;
   border: 1px solid var(--theme-text-primary) !important;
   transition: all 0.3s ease;
 }
 
 .btn-secondary:hover, .themed-btn-secondary:hover {
-  background-color: var(--theme-text-primary) !important;
-  color: var(--theme-bg) !important;
+  opacity: 0.85;
   transform: translateY(-2px);
 }
