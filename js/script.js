@@ -1534,6 +1534,17 @@ END:VCALENDAR`;
   }
 
   function applySiteConfig(config) {
+    if (!config) return;
+
+    // Menetapkkan CSS Custom Properties secara langsung dari Google Sheets (Zero Fallback)
+    const root = document.documentElement;
+    if (config.theme_bg) root.style.setProperty('--theme-bg', config.theme_bg);
+    if (config.theme_surface) root.style.setProperty('--theme-surface', config.theme_surface);
+    if (config.theme_text_main) root.style.setProperty('--theme-text-main', config.theme_text_main);
+    if (config.theme_text_muted) root.style.setProperty('--theme-text-muted', config.theme_text_muted);
+    if (config.theme_primary) root.style.setProperty('--theme-primary', config.theme_primary);
+    if (config.theme_border) root.style.setProperty('--theme-border', config.theme_border);
+
     const giftControl = config.control_gift;
     const dockGiftBtnEl = document.getElementById('dock-gift-btn');
     if (dockGiftBtnEl) {
